@@ -1,9 +1,12 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
-body {
+
+*{
+    max-width: 100%;
+    max-height: 100%;
     margin: 0;
     padding: 0;
-    font-family: "Montserrat", sans-serif;
     font-family: "Montserrat Alternates", sans-serif;
 }
 
@@ -17,4 +20,22 @@ body {
     --cor-cinza:#D9D9D9;
     --cor-branco:#F1F1F1;
     --cor-preto:#000000;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header img{
+    width: 15%;
+}
+
+.titulos {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 2rem;
+    padding-right: 20rem;
+    font-weight: 600;
 }
