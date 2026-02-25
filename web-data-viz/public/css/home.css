@@ -1,13 +1,15 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 
-*{
-    max-width: 100%;
-    max-height: 100%;
+*, body{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: "Montserrat Alternates", sans-serif;
+}
+
+body{
+    min-height: 100vh;
 }
 
 :root{
@@ -22,10 +24,12 @@
     --cor-preto:#000000;
 }
 
+
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 1rem 4rem;
 }
 
 header img{
@@ -34,8 +38,187 @@ header img{
 
 .titulos {
     display: flex;
-    justify-content: space-evenly;
+    align-items: center;
     gap: 2rem;
-    padding-right: 20rem;
+}
+
+.titulos a:not(.cadastro):not(.barra) {
     font-weight: 600;
+    text-decoration: none;
+    color:var(--cor-preto);
+    font-family: var(--font-titulos);
+    font-size: 1.3rem;
+}
+
+.page {
+  position: relative;
+  display: inline-block; 
+  text-decoration: none; 
+}
+
+.page::after{
+    content: "";
+    position: absolute;
+    bottom: -0.2rem ;
+    left: 50%; 
+    transform: translateX(-50%); 
+    width: 80%; 
+    height: 3px; 
+    background-color: var(--cor-azul-medio);
+    border-radius: 2px; 
+}
+
+.titulos a:not(.page):not(.cadastro):not(.barra) {
+  position: relative;
+  display: inline-block;
+}
+
+.titulos a:not(.page):not(.cadastro):not(.barra)::after {
+  content: "";
+  position: absolute;
+  bottom: -0.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0%;
+  height: 3px;
+  background-color: var(--cor-azul-medio);
+  border-radius: 2px;
+  transition: 0.3s ease;
+}
+
+.titulos a:not(.page):not(.cadastro):not(.barra):hover::after {
+  width: 80%;
+}
+
+.cadastro{
+    background-color: var(--cor-azul-medio);
+    color: var(--cor-branco);
+    font-weight: bold;
+    text-decoration: none;
+    font-family: var(--font-titulos);
+    font-size: 1rem;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+}
+
+.cadastro:hover{
+    background-color: var(--cor-azul-claro);
+    color: var(--cor-cinza);
+    transition: 0.3s ease;
+}
+
+.barra{
+    font-size: 2.5rem;
+    color: var(--cor-cinza);
+    text-decoration: none;
+    cursor: default;
+}
+
+
+.conteudo {
+    min-height: 60vh;
+}
+
+.sec1 {
+    background-color: var(--cor-azul-escuro);
+    width: 100%;
+    padding: 3rem 0;
+}
+
+.sec1 img {
+    width: 100%;
+}
+
+
+footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: #263238;
+    color: var(--cor-branco);
+    padding: 2rem 6rem;
+    gap: 12rem;
+}
+
+.logo{
+    width: 30%;
+}
+
+.logo img {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.logo p {
+    position: absolute;
+    top: 100%;          
+    font-size: 0.6rem;
+    left: 15%;
+    margin-top: 15px;    
+}
+
+.abas {
+    display: flex;
+    gap: 4rem;
+    margin-left: 5rem;
+}
+
+.empresa,
+.suporte {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.empresa p,
+.suporte p {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.empresa a,
+.suporte a {
+    text-decoration: none;
+    color: var(--cor-branco);
+    font-size: 0.95rem;
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.empresa a:hover,
+.suporte a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.nexus {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-left: 8rem;
+}
+
+.nexus p {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.icons img {
+    width: 28px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.icons img:hover {
+    transform: scale(1.1);
 }
