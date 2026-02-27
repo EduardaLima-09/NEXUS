@@ -7,6 +7,7 @@
     --cor-azul-escuro: #012340;
     --cor-azul-medio: #164773;
     --cor-azul-claro: #4681A6;
+    --cor-fundo-input: #F2F2F2;
     --cor-verde: #8AB4A1;
     --cor-cinza: #D9D9D9;
     --cor-cinza-escuro: #545454;
@@ -22,18 +23,24 @@ body {
     font-family: "Montserrat Alternates", sans-serif;
 }
 
-
-.navbar {
+.login_container {
+    flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 30px;
+}
+
+/* Lado esquerdo -----------------------------------------------------------------------------------------------------------------------------*/
+
+.lado-esquerdo {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 .grupo_voltar {
     gap: 12px;
     display: flex;
-    align-items: center;
+    margin: 20px 0 0 10px;
 }
 
 .botao_de_voltar {
@@ -53,12 +60,13 @@ body {
 }
 
 .seta {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: var(--cor-branco);
 }
 
 .voltar {
+    margin-top: 6%;
     font-size: 20px;
     font-weight: 700;
     letter-spacing: 4%;
@@ -66,6 +74,126 @@ body {
     font-family: var(--font-titulos);
 }
 
+.lado-esquerdo img {
+    width: 70%;
+}
+
+.triangulo_esquerda {
+    position: absolute;
+    left: 0;
+    top: 10%;
+    width: 150px;
+    height: 190px;
+    background-color: var(--cor-azul-claro);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+
+/* Lado direito ---------------------------------------------------------------------------------------------------------------------------- */
+
+.lado-direito {
+    flex: 1;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--cor-azul-claro);
+}
+
 .logo {
     height: 40px;
+    margin-top: 2%;
+    margin-left: 70%;
+}
+
+.lado-direito h1 {
+    font-size: 40px;
+    margin-bottom: 2px;
+    color: var(--cor-branco);
+    font-family: var(--font-titulos);
+}
+
+.lado-direito p {
+    font-size: 16px;
+    margin-bottom: 30px;
+    color: var(--cor-branco);
+    font-family: var(--font-textos);
+}
+
+.card-login {
+    width: 370px;
+    padding: 30px;
+    display: flex;
+    border-radius: 20px;
+    flex-direction: column;
+    background-color: #f2f6f84d;
+}
+
+.card-login label {
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: 500;
+    font-family: var(--font-titulos);
+    color: var(--cor-azul-escuro);
+}
+
+.card-login input {
+    border: none;
+    padding: 14px;
+    margin-top: 5px;
+    border-radius: 10px;
+    background-color: #f2f2f2b6;
+    border: 3px solid var(--cor-azul-escuro);
+    box-shadow: 0 3px 9px rgb(0, 0, 0, 0.7);
+}
+
+/* BOTÃO */
+
+.card-login button {
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: var(--cor-azul-escuro);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.card-login button:hover {
+    background: #0e2a4d;
+}
+
+/* ERRO */
+
+#cardErro {
+    margin-top: 10px;
+    color: #ffb3b3;
+    font-size: 14px;
+}
+
+/* CADASTRO */
+
+.cadastro {
+    margin-top: 20px;
+    color: var(--cor-branco);
+    font-size: 14px;
+}
+
+.cadastro a {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.triangulo_direita {
+    position: absolute;
+    bottom: 0;
+    left: 40%;
+    width: 200px;
+    height: 200px;
+    background-color: var(--cor-azul-claro);
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
 }
