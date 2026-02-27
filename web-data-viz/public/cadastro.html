@@ -16,64 +16,71 @@
 </head>
 
 <body onload="listar()">
-  <div class="alerta_erro">
-    <div class="card_erro" id="cardErro">
-      <span id="mensagem_erro"></span>
-    </div>
-  </div>
   <main class="cadastro_container">
     <!--Lado do formulário-->
     <div class="lado_esquerdo">
+
       <div class="grupo_voltar">
         <a href="./index.html" class="botao_de_voltar">
           <span class="seta">
             <i class="fa-solid fa-arrow-left"></i>
           </span>
         </a>
-        <span class="voltar">Voltar</span>
+        <span class="voltar"><a href="./index.html">Voltar</a></span>
       </div>
+
       <!--Formulário-->
       <h1>CADASTRE-SE</h1>
       <p>Conecte-se a novas oportunidades com a Nexus</p>
+
+
       <div class="card-login">
 
-        <label>Nome</label>
-        <input type="text" id="nome_input" placeholder="Seu nome">
+        <div class="linha-dupla">
+          <div class="campo">
+            <label>Nome</label>
+            <input type="text" id="nome_input" placeholder="Seu nome">
+          </div>
 
-        <label>E-mail</label>
-        <input type="email" id="email_input" placeholder="meuemail@provedor.com">
+          <div class="campo">
+            <label>Email</label>
+            <input type="email" id="email_input" placeholder="meuemail@provedor.com">
+          </div>
+        </div>
 
-        <label>CNPJ</label>
-        <input type="text" id="cnpj_input" placeholder="00.000.000/0000-00">
+        <div class="linha-dupla">
+          <div class="campo">
+            <label>CNPJ</label>
+            <input type="text" id="cnpj_input" placeholder="00.000.000/0000-00">
+          </div>
 
-        <label>Telefone</label>
-        <input type="tel" id="telefone_input" placeholder="(11) 99999-9999">
+          <div class="campo">
+            <label>Telefone</label>
+            <input type="tel" id="telefone_input" placeholder="(11) 99999-9999">
+          </div>
+        </div>
 
-        <label>Senha</label>
-        <input type="password" id="senha_input" placeholder="**********">
+        <div class="linha-dupla">
+          <div class="campo">
+            <label>Senha</label>
+            <input type="password" id="senha_input" placeholder="**********">
+          </div>
 
-        <label>Confirmação da Senha</label>
-        <input type="password" id="confirmacao_senha_input" placeholder="**********">
+          <div class="campo">
+            <label>Confirmar senha</label>
+            <input type="password" id="confirmacao_senha_input" placeholder="**********">
+          </div>
+        </div>
 
         <button onclick="cadastrar()">Cadastrar</button>
 
-        <div id="cardErro" style="display: none;">
-          <span id="mensagem_erro"></span>
-        </div>
-
-        <span class="cadastro">
-          Já possui conta? <a href="login.html">Entrar</a>
+        <span class="login">
+          Já possui conta? <a href="./login.html">Login</a>
         </span>
 
       </div>
 
-      <button class="botao" onclick="cadastrar()">Cadastrar</button>
       <div id="div_erros_login"></div>
-
-
-      <div id="div_aguardar" class="loading-div">
-        <img src="./assets/circle-loading.gif" id="loading-gif" />
-      </div>
     </div>
 
 
