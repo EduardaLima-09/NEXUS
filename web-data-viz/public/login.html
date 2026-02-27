@@ -1,3 +1,4 @@
+<!--LOGIN-->
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -7,25 +8,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="css/login.css">
-    <link rel="icon" href="./assets/icon/favicon2.ico">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <title>Nexus | Login</title>
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="grupo_voltar">
-            <a href="./index.html" class="botao_de_voltar">
-                <span class="seta">←</span>
-            </a>
+    <main class="login_container">
+        <!-- Triângulos decorativos -->
+        <div class="triangulo_esquerda"></div>
+        <div class="triangulo_direita"></div>
 
-            <span class="voltar">Voltar</span>
+        <!--Lado 01 - Imagem com os triângulos-->
+        <div class="lado-esquerdo">
+            <div class="grupo_voltar">
+                <a href="./index.html" class="botao_de_voltar">
+                    <span class="seta">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </span>
+                </a>
+                <span class="voltar">Voltar</span>
+            </div>
+            <img src="assets/Login.png" alt="Ilustração de login">
         </div>
 
-        <img src="assets/logobrancoNexus.png" alt="Logo da Nexus" class="logo">
-    </nav>
+        <!--Lado 02 - Formulário de login-->
+        <div class="lado-direito">
+
+            <!--Logo da Nexus-->
+            <img src="assets/logobrancoNexus.png" alt="Logo da Nexus" class="logo">
+
+            <h1>BEM VINDO!</h1>
+            <p>Conecte-se à sua conta</p>
+            <div class="card-login">
+                <label>CNPJ ou Email</label>
+                <input type="text" id="email_input" placeholder="00.000.000/0000-00">
+
+                <label>Senha</label>
+                <input type="password" id="senha_input" placeholder="**********">
+
+                <button onclick="entrar()">Login</button>
+
+                <div id="cardErro" style="display: none;">
+                    <span id="mensagem_erro"></span>
+                </div>
+
+                <span class="cadastro">
+                    Não possui conta? <a href="#">Cadastre-se</a>
+                </span>
+            </div>
+        </div>
+    </main>
 </body>
 
 </html>
