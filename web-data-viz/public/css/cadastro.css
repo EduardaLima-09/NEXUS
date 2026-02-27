@@ -27,3 +27,93 @@ body {
     flex: 1;
     display: flex;
 }
+
+.lado_esquerdo {
+    flex: 1;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--cor-azul-claro);
+}
+
+.grupo_voltar {
+    gap: 12px;
+    display: flex;
+    margin: 20px 0 0 10px;
+}
+
+.botao_de_voltar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    border-radius: 50%;
+    align-items: center;
+    transition: 0.2s ease;
+    text-decoration: none;
+    justify-content: center;
+    background-color: var(--cor-azul-escuro);
+}
+
+.botao_de_voltar:hover {
+    background-color: var(--cor-azul-claro);
+}
+
+.seta {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--cor-branco);
+}
+
+.voltar {
+    margin-top: 6%;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 4%;
+    color: var(--cor-azul-escuro);
+    font-family: var(--font-titulos);
+}
+
+.card-login {
+    width: 370px;
+    padding: 30px;
+    display: flex;
+    border-radius: 20px;
+    flex-direction: column;
+    background-color: #f2f6f84d;
+}
+
+.card-login label {
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: 500;
+    font-family: var(--font-titulos);
+    color: var(--cor-azul-escuro);
+}
+
+.card-login input {
+    border: none;
+    padding: 14px;
+    margin-top: 5px;
+    border-radius: 10px;
+    background-color: #f2f2f2b6;
+    border: 3px solid var(--cor-azul-escuro);
+    box-shadow: 0 3px 9px rgb(0, 0, 0, 0.7);
+}
+
+.card-login button {
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: var(--cor-azul-escuro);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.card-login button:hover {
+    background: #0e2a4d;
+}
