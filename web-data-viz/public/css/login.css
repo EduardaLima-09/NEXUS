@@ -6,15 +6,21 @@
 :root {
     --font-titulos: "Montserrat", sans-serif;
     --font-textos: "Montserrat Alternates", sans-serif;
+    --font-subtitulos: "Poppins", sans-serif;
     --cor-azul-escuro: #012340;
     --cor-azul-medio: #164773;
     --cor-azul-claro: #4681A6;
     --cor-fundo-input: #F2F2F2;
     --cor-verde: #8AB4A1;
     --cor-cinza: #D9D9D9;
-    --cor-cinza-escuro: #545454;
+    --cor-cinza-escuro: #3f3f3f;
     --cor-branco: #F1F1F1;
     --cor-preto: #000000;
+}
+
+html,
+body {
+    height: 100%;
 }
 
 body {
@@ -26,128 +32,147 @@ body {
 }
 
 .login_container {
-    flex: 1;
     display: flex;
+    min-height: 100vh;
 }
 
-/* Lado esquerdo -----------------------------------------------------------------------------------------------------------------------------*/
-
-.lado-esquerdo {
+.lado_esquerdo {
     flex: 1;
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    flex-direction: column; /* 🔥 ESSA LINHA resolve */
+    align-items: center;
 }
+
+/* Botão que volta para a index.html */
 
 .grupo_voltar {
-    gap: 12px;
     display: flex;
-    margin: 20px 0 0 10px;
+    gap: 8px;
+    align-items: center;
+    align-self: flex-start;
+    margin: 20px;
 }
 
 .botao_de_voltar {
-    width: 40px;
-    height: 40px;
-    display: flex;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
+    display: flex;
     align-items: center;
-    transition: 0.2s ease;
-    text-decoration: none;
     justify-content: center;
     background-color: var(--cor-azul-escuro);
+    transition: 0.5s ease;
 }
 
 .botao_de_voltar:hover {
-    background-color: var(--cor-azul-claro);
+    background-color: var(--cor-azul-medio);
 }
 
 .seta {
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 14px;
     color: var(--cor-branco);
 }
 
-.voltar {
-    margin-top: 6%;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 4%;
+.voltar a {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
     color: var(--cor-azul-escuro);
-    font-family: var(--font-titulos);
+    font-family: var(--font-subtitulos);
 }
 
-.lado-esquerdo img {
+/* Acaba o botão */
+
+.imagem {
     width: 70%;
+    height: auto;
+    margin-top: 1%;
 }
 
 .triangulo_esquerda {
     position: absolute;
     left: 0;
     top: 10%;
-    width: 150px;
-    height: 190px;
+    width: 140px;
+    height: 290px;
     background-color: var(--cor-azul-claro);
     clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
 
-
-/* Lado direito ---------------------------------------------------------------------------------------------------------------------------- */
-
-.lado-direito {
+.lado_direito {
     flex: 1;
     height: 100vh;
     display: flex;
-    align-items: center;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
     background-color: var(--cor-azul-claro);
 }
 
 .logo {
-    height: 40px;
-    margin-top: 2%;
-    margin-left: 70%;
+    width: 80px;
+    align-self: flex-end;
+    margin: 20px 20px 0 0;
 }
 
-.lado-direito h1 {
+.lado_direito h1 {
+    color: white;
     font-size: 40px;
-    margin-bottom: 2px;
-    color: var(--cor-branco);
+    margin-top: auto;
+    font-weight: 900;
+    line-height: 0.2;
+    text-align: center;
+    letter-spacing: 2px;
     font-family: var(--font-titulos);
 }
 
-.lado-direito p {
+.lado_direito p {
+    color: white;
     font-size: 16px;
-    margin-bottom: 30px;
-    color: var(--cor-branco);
-    font-family: var(--font-textos);
+    font-weight: 400;
+    margin: 0px 0 0 0;
+    font-family: var(--font-subtitulos);
 }
 
 .card-login {
-    width: 370px;
-    padding: 30px;
-    display: flex;
-    border-radius: 20px;
-    flex-direction: column;
+    width: 400px;
+    padding: 25px;
+    margin-top: 3%;
+    margin-bottom: auto;
+    border-radius: 30px;
     background-color: #f2f6f84d;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.17);
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .card-login label {
     font-size: 16px;
-    margin-top: 10px;
+    margin-top: 8px;
     font-weight: 500;
     font-family: var(--font-titulos);
     color: var(--cor-azul-escuro);
 }
 
 .card-login input {
-    border: none;
-    padding: 14px;
-    margin-top: 5px;
-    border-radius: 10px;
-    background-color: #f2f2f2b6;
+    width: 100%;
+    padding: 16px;
+    font-size: 14px;
+    box-sizing: border-box;
+    border-radius: 12px;
     border: 3px solid var(--cor-azul-escuro);
-    box-shadow: 0 3px 9px rgb(0, 0, 0, 0.7);
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-login input:focus {
+    outline: none;
+    border-color: var(--cor-azul-escuro);
+    box-shadow: 0 0 0 4px rgba(1, 35, 64, 0.15);
+    background-color: rgba(255, 255, 255, 0.6);
 }
 
 .card-login button {
@@ -162,7 +187,8 @@ body {
     border: none;
     padding: 14px;
     cursor: pointer;
-    margin-top: 25px;
+    margin-top: 27px;
+    margin-bottom: 4%;
     border-radius: 12px;
     transition: all 0.3s ease;
     background-color: var(--cor-azul-escuro);
@@ -175,27 +201,24 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 
-
-/* CADASTRO */
-
 .cadastro {
-    margin-top: 20px;
-    color: var(--cor-branco);
-    font-size: 14px;
+    margin-left: 20%;
+    color: var(--cor-cinza-escuro);
+    font-size: 16px;
 }
 
 .cadastro a {
-    color: #ffffff;
     font-weight: bold;
     text-decoration: none;
+    color: var(--cor-azul-escuro);
 }
 
 .triangulo_direita {
-    position: absolute;
     bottom: 0;
     left: 40%;
     width: 200px;
-    height: 200px;
+    height: 400px;
+    position: absolute;
     background-color: var(--cor-azul-claro);
     clip-path: polygon(100% 0, 0 50%, 100% 100%);
 }
