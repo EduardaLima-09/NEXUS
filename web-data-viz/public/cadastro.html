@@ -19,7 +19,6 @@
   <main class="cadastro_container">
     <!--Lado do formulário-->
     <div class="lado_esquerdo">
-
       <div class="grupo_voltar">
         <a href="./index.html" class="botao_de_voltar">
           <span class="seta">
@@ -28,152 +27,206 @@
         </a>
         <span class="voltar"><a href="./index.html">Voltar</a></span>
       </div>
-
       <!--Formulário-->
       <h1>CADASTRE-SE</h1>
       <p>Conecte-se a novas oportunidades com a Nexus</p>
-
-
       <div class="card-login">
-
         <div class="linha-dupla">
           <div class="campo">
             <label>Nome</label>
             <input type="text" id="nome_input" placeholder="Seu nome">
           </div>
-
           <div class="campo">
             <label>Email</label>
             <input type="email" id="email_input" placeholder="meuemail@provedor.com">
           </div>
         </div>
-
         <div class="linha-dupla">
           <div class="campo">
             <label>CNPJ</label>
             <input type="text" id="cnpj_input" placeholder="00.000.000/0000-00">
           </div>
-
           <div class="campo">
             <label>Telefone</label>
             <input type="tel" id="telefone_input" placeholder="(11) 99999-9999">
           </div>
         </div>
-
         <div class="linha-dupla">
           <div class="campo">
             <label>Senha</label>
             <input type="password" id="senha_input" placeholder="**********">
           </div>
-
           <div class="campo">
             <label>Confirmar senha</label>
             <input type="password" id="confirmacao_senha_input" placeholder="**********">
           </div>
         </div>
-
         <button onclick="cadastrar()">Cadastrar</button>
-
         <span class="login">
           Já possui conta? <a href="./login.html">Login</a>
         </span>
-
-        <div id="cardErro" style="display:none; color:red; margin-top:10px;">
-          <span id="mensagem_erro"></span>
-        </div>
-
+        <!--Mensagem de erro de senha-->
+        <div id="erro_senha" class="mensagem_senha"></div>
+        <div id="erro_confirmacao" class="mensagem_senha"></div>
       </div>
     </div>
-
-
     <!--Lado Direito-->
     <div class="lado_direito">
       <!--Logo da Nexus-->
       <img src="assets/logobrancoNexus.png" alt="Logo da Nexus" class="logo">
-
       <!-- Triângulos decorativos -->
       <div class="triangulo_esquerda"></div>
       <div class="triangulo_direita"></div>
-
       <img src="assets/Cadastro.svg" alt="Ilustração de login" class="img">
     </div>
   </main>
 </body>
 
 </html>
+<!--Máscaras para os inputs, pode melhorar, precisa fazer as retrições também, um sistema bem ferrado :)-->
 <script>
-  function cadastrar() {
-    // Pegando os valores do formulário
-    var nomeVar = document.getElementById("nome_input").value;
-    var emailVar = document.getElementById("email_input").value;
-    var senhaVar = document.getElementById("senha_input").value;
-    var confirmacaoSenhaVar = document.getElementById("confirmacao_senha_input").value;
-    var cnpjVar = document.getElementById("cnpj_input").value;
-    var telefoneVar = document.getElementById("telefone_input").value;
+  const cnpjInput = document.getElementById("cnpj_input");
 
-    // Selecionando elementos de mensagem de erro
-    var cardErro = document.getElementById("cardErro");
-    var mensagem_erro = document.getElementById("mensagem_erro");
+  cnpjInput.addEventListener("input", function () {
 
-    // Verificando se algum campo está vazio
-    if (nomeVar == "" || emailVar == "" || senhaVar == "" || confirmacaoSenhaVar == "" || cnpjVar == "" || telefoneVar == "") {
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML = "Preencha todos os campos!";
-      setTimeout(function () { cardErro.style.display = "none"; }, 5000);
-      return false;
+    let valor = cnpjInput.value;
+    let somenteNumeros = "";
+
+    for (let i = 0; i < valor.length; i++) {
+      if (valor[i] >= "0" && valor[i] <= "9") {
+        somenteNumeros += valor[i];
+      }
     }
 
-    // Verificando se as senhas são iguais
-    if (senhaVar != confirmacaoSenhaVar) {
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML = "As senhas não coincidem!";
-      setTimeout(function () { cardErro.style.display = "none"; }, 5000);
-      return false;
+    // limita a 14 números 
+    if (somenteNumeros.length > 14) {
+      let limite = "";
+      for (let i = 0; i < 14; i++) {
+        limite += somenteNumeros[i];
+      }
+      somenteNumeros = limite;
     }
 
-    // Enviando os dados para o backend
-    fetch("/usuarios/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        nomeServer: nomeVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-        cnpjServer: cnpjVar,
-        telefoneServer: telefoneVar
-      })
-    })
-      .then(function (resposta) {
-        if (resposta.ok) {
-          cardErro.style.display = "block";
-          mensagem_erro.innerHTML = "Cadastro realizado com sucesso! Redirecionando...";
-          setTimeout(function () { window.location = "login.html"; }, 2000);
-          limparFormulario();
-        } else {
-          cardErro.style.display = "block";
-          mensagem_erro.innerHTML = "Erro ao cadastrar!";
-          setTimeout(function () { cardErro.style.display = "none"; }, 5000);
-        }
-      })
-      .catch(function (erro) {
-        console.log("ERRO:", erro);
-        cardErro.style.display = "block";
-        mensagem_erro.innerHTML = "Erro na conexão com o servidor!";
-        setTimeout(function () { cardErro.style.display = "none"; }, 5000);
-      });
+    let formatado = "";
 
-    return false;
-  }
+    for (let i = 0; i < somenteNumeros.length; i++) {
 
-  // Função para limpar o formulário
-  function limparFormulario() {
-    document.getElementById("nome_input").value = "";
-    document.getElementById("email_input").value = "";
-    document.getElementById("senha_input").value = "";
-    document.getElementById("confirmacao_senha_input").value = "";
-    document.getElementById("cnpj_input").value = "";
-    document.getElementById("telefone_input").value = "";
-  }
+      if (i == 2 || i == 5) {
+        formatado += ".";
+      }
+
+      if (i == 8) {
+        formatado += "/";
+      }
+
+      if (i == 12) {
+        formatado += "-";
+      }
+
+      formatado += somenteNumeros[i];
+    }
+
+    cnpjInput.value = formatado;
+  });
+</script>
+
+<script>
+  const telefoneInput = document.getElementById("telefone_input");
+
+  telefoneInput.addEventListener("input", function () {
+
+    let valor = telefoneInput.value;
+    let somenteNumeros = "";
+
+    // pega só números
+    for (let i = 0; i < valor.length; i++) {
+      if (valor[i] >= "0" && valor[i] <= "9") {
+        somenteNumeros += valor[i];
+      }
+    }
+
+    // 🔒 limita a 11 números (DDD + 9 dígitos)
+    if (somenteNumeros.length > 11) {
+      let limite = "";
+      for (let i = 0; i < 11; i++) {
+        limite += somenteNumeros[i];
+      }
+      somenteNumeros = limite;
+    }
+
+    // monta máscara manualmente
+    let formatado = "";
+
+    for (let i = 0; i < somenteNumeros.length; i++) {
+
+      if (i == 0) {
+        formatado += "(";
+      }
+
+      if (i == 2) {
+        formatado += ") ";
+      }
+
+      if (i == 7) {
+        formatado += "-";
+      }
+
+      formatado += somenteNumeros[i];
+    }
+
+    telefoneInput.value = formatado;
+  });
+</script>
+<script>
+  const senhaInput = document.getElementById("senha_input");
+  const erroSenha = document.getElementById("erro_senha");
+
+  senhaInput.addEventListener("input", function () {
+
+    let senha = senhaInput.value;
+
+    let temMaiuscula = false;
+    let temNumero = false;
+    let temEspecial = false;
+
+    // verifica caractere por caractere
+    for (let i = 0; i < senha.length; i++) {
+
+      let caractere = senha[i];
+
+      if (caractere >= "A" && caractere <= "Z") {
+        temMaiuscula = true;
+      }
+
+      if (caractere >= "0" && caractere <= "9") {
+        temNumero = true;
+      }
+
+      if (
+        caractere == "!" ||
+        caractere == "@" ||
+        caractere == "#" ||
+        caractere == "$" ||
+        caractere == "%" ||
+        caractere == "&" ||
+        caractere == "*"
+      ) {
+        temEspecial = true;
+      }
+    }
+
+    if (senha.length < 8) {
+      erroSenha.innerHTML = "A senha deve ter no mínimo 8 caracteres.";
+    } else if (!temMaiuscula) {
+      erroSenha.innerHTML = "A senha precisa ter pelo menos 1 letra maiúscula.";
+    } else if (!temNumero) {
+      erroSenha.innerHTML = "A senha precisa ter pelo menos 1 número.";
+    } else if (!temEspecial) {
+      erroSenha.innerHTML = "A senha precisa ter 1 caractere especial (!@#$%&*).";
+    } else {
+      erroSenha.innerHTML = "Senha válida!";
+      erroSenha.style.color = "green";
+    }
+
+  });
 </script>
