@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 
+html {
+    scroll-behavior: smooth;
+}
+
 *, body{
     margin: 0;
     padding: 0;
@@ -120,7 +124,7 @@ header img{
 }
 
 .sec1 {
-    background-image: url(/public/assets/fundoSec1.png);
+    background-image: url("../assets/fundoSec1.png");
     width: 100%;
     height: 70vh;
     
@@ -608,4 +612,173 @@ footer {
 
 .icons img:hover {
     transform: scale(1.1);
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: column;
+        padding: 1rem 2rem;
+        gap: 1rem;
+    }
+
+    header img {
+        width: 40%;
+    }
+
+    .titulos {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .titulos a:not(.cadastro):not(.barra) {
+        font-size: 0.8rem;
+    }
+
+    .cadastro {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .barra {
+        display: none;
+    }
+
+    .sec1 {
+        height: auto;
+        padding: 3rem 1.5rem;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .textos {
+        width: 100%;
+        margin-left: 0;
+        align-items: center;
+    }
+
+    .textos h1 {
+        font-size: 1.8rem;
+    }
+
+    .textos p {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+    .textos button {
+        font-size: 1rem;
+    }
+
+    .sec2 {
+        height: auto;
+        padding: 3rem 1.5rem;
+    }
+
+    .titulo h1 {
+        font-size: 2rem;
+    }
+
+    .cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .valor {
+        width: 90%;
+        height: auto;
+    }
+
+    .sec3 {
+        flex-direction: column;
+        height: auto;
+        padding: 3rem 1.5rem;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .sec3 img {
+        width: 80%;
+    }
+
+    .textos2 {
+        width: 100%;
+        text-align: center;
+    }
+
+    .textos2 p {
+        width: 100%;
+    }
+
+    .sec4 {
+        height: auto;
+        padding: 3rem 1.5rem;
+    }
+
+    .linha1,
+    .linha2 {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .integrantes {
+        width: 90%;
+    }
+
+    .sec4::before,
+    .sec4::after {
+        display: none;
+    }
+
+    .sec5 {
+        flex-direction: column;
+        height: auto;
+        padding: 3rem 1.5rem;
+        gap: 2rem;
+    }
+
+    .formulario,
+    .box-info {
+        width: 100%;
+    }
+
+    .box-info {
+        padding: 2rem;
+    }
+
+    footer {
+        flex-direction: column;
+        padding: 3rem 2rem;
+        gap: 3rem;
+    }
+
+    .logo {
+        width: 100%;
+        text-align: center;
+    }
+
+    .logo img {
+        width: 60%;
+    }
+
+    .logo p {
+        position: static;
+        transform: none;
+        margin-top: 0.5rem;
+    }
+
+    .abas {
+        flex-direction: column;
+        margin-left: 0;
+        gap: 2rem;
+    }
+
+    .nexus {
+        width: 100%;
+        margin-left: 0;
+        text-align: center;
+        align-items: center;
+    }
 }
