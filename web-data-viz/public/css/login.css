@@ -222,3 +222,61 @@ body {
     background-color: var(--cor-azul-claro);
     clip-path: polygon(100% 0, 0 50%, 100% 100%);
 }
+
+@media screen and (max-width: 768px) {
+    .login_container {
+        flex-direction: column;
+    }
+
+    .lado_esquerdo {
+        display: none;
+    }
+
+    .lado_direito {
+        width: 100%;
+        height: auto;
+        padding: 2rem 1.5rem;
+    }
+
+    .logo {
+        align-self: center;
+        margin: 0 0 1rem 0;
+    }
+
+    .lado_direito h1 {
+        font-size: 2rem;
+        margin-top: 1rem;
+    }
+
+    .lado_direito p {
+        font-size: 0.9rem;
+    }
+
+    .card-login {
+        width: 100%;
+        padding: 1.5rem;
+        border-radius: 20px;
+    }
+
+    .card-login input {
+        padding: 0.9rem;
+        font-size: 0.9rem;
+    }
+
+    .card-login button {
+        font-size: 1rem;
+        padding: 0.9rem;
+    }
+
+    .cadastro {
+        margin-left: 0;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    .triangulo_esquerda,
+    .triangulo_direita {
+        display: none;
+    }
+
+}
