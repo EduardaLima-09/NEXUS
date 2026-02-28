@@ -166,7 +166,8 @@ body {
     border: none;
     padding: 14px;
     cursor: pointer;
-    margin-top: 25px;
+    margin-top: 27px;
+    margin-bottom: 4%;
     border-radius: 12px;
     transition: all 0.3s ease;
     background-color: var(--cor-azul-escuro);
@@ -180,7 +181,6 @@ body {
 }
 
 .login {
-    margin-top: 800vh;
     margin-left: 30%;
     color: var(--cor-cinza-escuro);
     font-size: 16px;
@@ -192,28 +192,38 @@ body {
     text-decoration: none;
 }
 
-.triangulo_direita {
-    position: absolute;
-    bottom: 0;
-    left: 40%;
-    width: 200px;
-    height: 200px;
-    background-color: var(--cor-azul-claro);
-    clip-path: polygon(100% 0, 0 50%, 100% 100%);
-}
+
 
 .triangulo_esquerda {
     position: absolute;
     left: 0;
     top: 10%;
     width: 150px;
-    height: 190px;
+    height: 200px;
     background-color: var(--cor-azul-claro);
     clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
 
+.img {
+    width: 85%;
+    margin-top: 0%;
+    height: auto;
+}
 
+.logo {
+    width: 80px;
+    margin-left: 80%;
+}
 
+.triangulo_direita {
+    position: absolute;
+    bottom: 0;
+    left: 72%;
+    width: 200px;
+    height: 250px;
+    background-color: var(--cor-azul-claro);
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+}
 
 .lado_direito {
     flex: 1;
@@ -224,14 +234,4 @@ body {
     flex-direction: column;
     position: relative;
     overflow: hidden;
-}
-
-.lado_direito img {
-    max-width: 80%;
-    height: auto;
-}
-
-.logo {
-    width: 180px;
-    margin-bottom: 30px;
 }
