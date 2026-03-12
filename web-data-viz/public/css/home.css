@@ -168,7 +168,7 @@ header img {
 
 .textos p {
     width: 90%;
-    opacity: 0.7;
+    opacity: 0.6;
     font-size: 1rem;
     color: var(--cor-branco);
     font: var(--font-subtitulos);
