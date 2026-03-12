@@ -13,8 +13,9 @@
     --cor-fundo-input: #F2F2F2;
     --cor-verde: #8AB4A1;
     --cor-cinza: #D9D9D9;
-    --cor-cinza-escuro: #3f3f3f;
+    --cor-cinza-escuro: #808080;
     --cor-branco: #F1F1F1;
+    --cor-bem-branco: #ffffff;
     --cor-preto: #000000;
 }
 
@@ -102,61 +103,75 @@ header img {
 
 .cadastro {
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 900;
     border-radius: 6px;
     padding: 0.7rem 1rem;
     text-decoration: none;
-    color: var(--cor-branco);
+    color: var(--cor-bem-branco);
     font-family: var(--font-titulos);
     background-color: var(--cor-azul-medio);
-    box-shadow: 4px 4px 6px rgba(0,0,0,0.50);
+    box-shadow: 4px 4px 6px rgba(0,0,0,0.20);
 }
 
 .cadastro:hover {
     transition: 0.3s ease;
-    color: var(--cor-branco);
+    color: var(--cor-bem-branco);
     background-color: var(--cor-azul-claro);
 }
 
+
+/* Aqui acaba o conteúdo do header */
 
 .conteudo {
     min-height: 100vh;
 }
 
 .sec1 {
-    background-image: url(/assets/fundo-notebook.svg);
     width: 100%;
-    height: 80vh;
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    height: 90vh;
 
     display: flex;
     align-items: center;
+    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(/assets/fundo-notebook.svg);
 }
 
 .textos {
+    width: 40%;
+    gap: 1.2rem;
+    margin-left: 8rem;
+
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    width: 35%;
-    margin-left: 8rem;
-    gap: 1.2rem;
 }
 
 .textos h1 {
-    font-size: 2.5rem;
-    color: var(--cor-branco);
+    font-size: 3.4rem;
+    color: var(--cor-bem-branco);
+}
+
+#titulo::after{
+  content: "|";
+  animation: piscar 0.8s infinite;
+}
+
+@keyframes piscar{
+  0%{opacity:1}
+  50%{opacity:0}
+  100%{opacity:1}
 }
 
 .textos p {
-    opacity: 0.7;
-    font: var(--font-titulos);
-    font-size: 1rem;
     width: 90%;
+    opacity: 0.7;
+    font-size: 1rem;
     color: var(--cor-branco);
+    font: var(--font-subtitulos);
 }
 
 .textos button {
