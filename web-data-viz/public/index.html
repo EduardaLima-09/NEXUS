@@ -270,39 +270,7 @@
 </body>
 
 </html>
-<script>
-  const texto = "Inteligência de Dados para Reduzir a Evasão no Ensino Superior";
-  const titulo = document.getElementById("titulo");
 
-  let i = 0;
-  let apagando = false;
-
-  function escrever() {
-
-    if (!apagando) {
-      titulo.innerHTML = texto.substring(0, i + 1);
-      i++;
-
-      if (i === texto.length) {
-        apagando = true;
-        setTimeout(escrever, 1500); 
-        return;
-      }
-
-    } else {
-      titulo.innerHTML = texto.substring(0, i - 1);
-      i--;
-
-      if (i === 0) {
-        apagando = false;
-      }
-    }
-
-    setTimeout(escrever, apagando ? 40 : 60);
-  }
-
-  escrever();
-</script>
 
 <script>
   const header = document.querySelector("header");
