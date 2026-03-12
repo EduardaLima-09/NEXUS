@@ -1,118 +1,121 @@
+/* Fontes importadas */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-*, body{
+:root {
+    --font-titulos: "Montserrat", sans-serif;
+    --font-textos: "Montserrat Alternates", sans-serif;
+    --font-subtitulos: "Poppins", sans-serif;
+    --cor-azul-escuro: #012340;
+    --cor-azul-medio: #164773;
+    --cor-azul-claro: #4681A6;
+    --cor-fundo-input: #F2F2F2;
+    --cor-verde: #8AB4A1;
+    --cor-cinza: #D9D9D9;
+    --cor-cinza-escuro: #3f3f3f;
+    --cor-branco: #F1F1F1;
+    --cor-preto: #000000;
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Montserrat Alternates", sans-serif;
 }
 
-body{
+body {
     min-height: 100vh;
+    font-family: "Montserrat", sans-serif;
 }
-
-:root{
-    --font-titulos: "Montserrat", sans-serif;
-    --font-textos: "Montserrat Alternates", sans-serif;
-    --cor-azul-escuro: #012340;
-    --cor-azul-medio:#164773;
-    --cor-azul-claro:#4681A6;
-    --cor-verde:#8AB4A1;
-    --cor-cinza:#959595;
-    --cor-branco:#F1F1F1;
-    --cor-preto:#000000;
-}
-
 
 header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 1rem 4rem;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 40px 20px rgba(0, 0, 0, 0.55);
 }
 
-header img{
-    width: 15%;
+header img {
+    width: 12%;
 }
 
 .titulos {
+    gap: 2rem;
     display: flex;
     align-items: center;
-    gap: 2rem;
 }
 
 .titulos a:not(.cadastro):not(.barra) {
+    font-size: 1.2rem;
     font-weight: 600;
     text-decoration: none;
-    color:var(--cor-preto);
+    color: var(--cor-preto);
     font-family: var(--font-titulos);
-    font-size: 1.3rem;
 }
 
-
-
-.active::after{
+.active::after {
     content: "";
-    position: absolute;
-    bottom: -0.2rem;
     left: 50%;
-    transform: translateX(-50%);
     width: 80%;
-    height: 3px;
-    background-color: var(--cor-azul-medio);
+    height: 2px;
+    bottom: -0.2rem;
+    position: absolute;
     border-radius: 2px;
+    transform: translateX(-50%);
+    background-color: var(--cor-azul-medio);
 }
 
-.active::after{
-  width: 80% !important;
+.active::after {
+    width: 80% !important;
 }
 
 .titulos a:not(.cadastro):not(.barra) {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .titulos a:not(.cadastro):not(.barra)::after {
-  content: "";
-  position: absolute;
-  bottom: -0.2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0%;
-  height: 3px;
-  background-color: var(--cor-azul-medio);
-  border-radius: 2px;
-  transition: 0.3s ease;
+    content: "";
+    left: 50%;
+    width: 0%;
+    height: 3px;
+    bottom: -0.2rem;
+    position: absolute;
+    border-radius: 2px;
+    transition: 0.3s ease;
+    transform: translateX(-50%);
+    background-color: var(--cor-azul-medio);
 }
 
-.titulos a:not(.cadastro):not(.barra):hover::after{
-  width: 80%;
+.titulos a:not(.cadastro):not(.barra):hover::after {
+    width: 80%;
 }
 
-
-.barra{
+.barra {
     cursor: default;
     font-size: 4.0rem;
     text-decoration: none;
     color: var(--cor-cinza);
 }
 
-.cadastro{
-    background-color: var(--cor-azul-medio);
-    color: var(--cor-branco);
+.cadastro {
+    font-size: 20px;
     font-weight: bold;
+    border-radius: 6px;
+    padding: 0.7rem 1rem;
     text-decoration: none;
+    color: var(--cor-branco);
     font-family: var(--font-titulos);
-    font-size: 1rem;
-    border-radius: 4px;
-    padding: 0.5rem 1rem;
+    background-color: var(--cor-azul-medio);
+    box-shadow: 4px 4px 6px rgba(0,0,0,0.50);
 }
 
-.cadastro:hover{
-    background-color: var(--cor-azul-claro);
-    color: var(--cor-cinza);
+.cadastro:hover {
     transition: 0.3s ease;
+    color: var(--cor-branco);
+    background-color: var(--cor-azul-claro);
 }
 
 
@@ -124,11 +127,11 @@ header img{
     background-image: url(/assets/fundo-notebook.svg);
     width: 100%;
     height: 80vh;
-    
+
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    
+
     display: flex;
     align-items: center;
 }
@@ -165,7 +168,7 @@ header img{
     padding: 0.5rem 1.7rem;
     text-align: center;
     cursor: pointer;
-    transition: 0.4s ease;  
+    transition: 0.4s ease;
     border: 0;
     margin-top: 1rem;
 }
@@ -191,17 +194,17 @@ header img{
     color: var(--cor-azul-escuro);
     display: flex;
     flex-direction: column;
-    align-items: center; 
+    align-items: center;
     text-align: center;
 }
 
-.titulo h1{
+.titulo h1 {
     font-size: 3rem;
     font-weight: 900;
     margin-bottom: 0.5rem;
 }
 
-.titulo p{
+.titulo p {
     font-size: 1rem;
     opacity: 0.8;
 }
@@ -209,7 +212,7 @@ header img{
 .cards {
     display: flex;
     justify-content: center;
-    align-items: stretch; 
+    align-items: stretch;
     gap: 3rem;
     margin-top: 3rem;
 }
@@ -240,13 +243,13 @@ header img{
 .valor h3 {
     font-weight: 900;
     width: 85%;
-    min-height: 60px; 
+    min-height: 60px;
 }
 
 .valor p {
     opacity: 0.8;
     width: 85%;
-    text-align: justify;   
+    text-align: justify;
     line-height: 1.4;
 }
 
@@ -257,7 +260,7 @@ header img{
     height: 55vh;
 
     justify-content: center;
-    align-items: flex-start; 
+    align-items: flex-start;
     gap: 5rem;
     padding: 4rem 6rem;
 }
@@ -270,10 +273,10 @@ header img{
 .textos2 {
     display: flex;
     flex-direction: column;
-    align-items: center;  
+    align-items: center;
     color: var(--cor-branco);
     text-align: justify;
-    width: 50%;               
+    width: 50%;
     gap: 1.5rem;
     margin-top: 20px;
 }
@@ -298,8 +301,8 @@ header img{
     align-items: center;
     text-align: center;
     justify-content: center;
-    position: relative; 
-    overflow: hidden;  
+    position: relative;
+    overflow: hidden;
 }
 
 .sec4::before,
@@ -367,8 +370,8 @@ header img{
 .linha1,
 .linha2 {
     display: flex;
-    justify-content: center;  
-    gap: 3rem;                
+    justify-content: center;
+    gap: 3rem;
     margin-bottom: 3rem;
     width: 100%;
 }
@@ -380,34 +383,35 @@ header img{
     justify-content: space-between;
 
     width: 275px;
-    height: 300px; 
+    height: 300px;
 
     background-color: var(--cor-cinza);
     padding: 2.5rem;
     border-radius: 8px;
     color: var(--cor-azul-medio);
 
-    box-shadow: 2px 4px 5px rgba(14, 13, 13, 0.636);;
+    box-shadow: 2px 4px 5px rgba(14, 13, 13, 0.636);
+    ;
 }
 
-.integrantes > img:first-child {
+.integrantes>img:first-child {
     width: 130px;
     height: 130px;
 
-    border-radius: 50%;   
-    object-fit: cover;    
+    border-radius: 50%;
+    object-fit: cover;
 
     border: 4px solid var(--cor-azul-medio);
 }
 
 .integrantes h3 {
-    width: 100%; 
-    font-size:1.1rem;
+    width: 100%;
+    font-size: 1.1rem;
     font-weight: 800;
 }
 
 .integrantes p {
-    font-size: 0.7rem; 
+    font-size: 0.7rem;
     opacity: 0.7;
 }
 
@@ -415,7 +419,7 @@ header img{
     text-decoration: none;
 }
 
-.icons2 img{
+.icons2 img {
     width: 15%;
 }
 
@@ -524,7 +528,7 @@ footer {
     gap: 12rem;
 }
 
-.logo{
+.logo {
     width: 30%;
     position: relative;
 }
@@ -536,13 +540,13 @@ footer {
 
 .logo p {
     position: absolute;
-    top: 62%;               
+    top: 62%;
     left: 64%;
     transform: translateX(-50%);
     font-size: 0.6rem;
     margin-top: 8px;
     text-align: center;
-    width: 100%;   
+    width: 100%;
 }
 
 .abas {
@@ -610,5 +614,3 @@ footer {
 .icons img:hover {
     transform: scale(1.1);
 }
-
-
