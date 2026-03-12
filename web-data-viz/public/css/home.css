@@ -19,7 +19,7 @@ body{
     --cor-azul-medio:#164773;
     --cor-azul-claro:#4681A6;
     --cor-verde:#8AB4A1;
-    --cor-cinza:#D9D9D9;
+    --cor-cinza:#959595;
     --cor-branco:#F1F1F1;
     --cor-preto:#000000;
 }
@@ -50,30 +50,30 @@ header img{
     font-size: 1.3rem;
 }
 
-.page {
-  position: relative;
-  display: inline-block; 
-  text-decoration: none; 
-}
 
-.page::after{
+
+.active::after{
     content: "";
     position: absolute;
-    bottom: -0.2rem ;
-    left: 50%; 
-    transform: translateX(-50%); 
-    width: 80%; 
-    height: 3px; 
+    bottom: -0.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 3px;
     background-color: var(--cor-azul-medio);
-    border-radius: 2px; 
+    border-radius: 2px;
 }
 
-.titulos a:not(.page):not(.cadastro):not(.barra) {
+.active::after{
+  width: 80% !important;
+}
+
+.titulos a:not(.cadastro):not(.barra) {
   position: relative;
   display: inline-block;
 }
 
-.titulos a:not(.page):not(.cadastro):not(.barra)::after {
+.titulos a:not(.cadastro):not(.barra)::after {
   content: "";
   position: absolute;
   bottom: -0.2rem;
@@ -86,8 +86,16 @@ header img{
   transition: 0.3s ease;
 }
 
-.titulos a:not(.page):not(.cadastro):not(.barra):hover::after {
+.titulos a:not(.cadastro):not(.barra):hover::after{
   width: 80%;
+}
+
+
+.barra{
+    cursor: default;
+    font-size: 4.0rem;
+    text-decoration: none;
+    color: var(--cor-cinza);
 }
 
 .cadastro{
@@ -105,13 +113,6 @@ header img{
     background-color: var(--cor-azul-claro);
     color: var(--cor-cinza);
     transition: 0.3s ease;
-}
-
-.barra{
-    font-size: 2.5rem;
-    color: var(--cor-cinza);
-    text-decoration: none;
-    cursor: default;
 }
 
 

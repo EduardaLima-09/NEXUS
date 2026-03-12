@@ -19,7 +19,7 @@
   <header>
     <img src="./assets/logobranco - Editado 2.png" alt="logo">
     <div class="titulos">
-      <a href="./index.html" class="page">Home</a>
+      <a href="#home">Home</a>
       <a href="#sobre">Sobre</a>
       <a href="#servicos">Serviços</a>
       <a href="#equipe">Equipe</a>
@@ -30,7 +30,7 @@
   </header>
 
   <div class="conteudo">
-    <div class="sec1">
+    <div class="sec1" id="home">
       <div class="textos">
         <h1>Inteligência de Dados para Reduzir a Evasão no Ensino Superior</h1>
         <p>A Nexus transforma dados acadêmicos em decisões estratégicas para faculdades
@@ -300,4 +300,41 @@
     }
 
   });
+</script>
+
+
+<script>
+
+  const sections = document.querySelectorAll("#home, #sobre, #servicos, #equipe, #contato");
+  const navLinks = document.querySelectorAll(".titulos a:not(.cadastro):not(.barra)");
+
+  function setActiveLink() {
+
+    let current = "home"; // garante que home seja padrão
+
+    sections.forEach(section => {
+
+      const sectionTop = section.offsetTop - 200;
+
+      if (window.scrollY >= sectionTop) {
+        current = section.getAttribute("id");
+      }
+
+    });
+
+    navLinks.forEach(link => {
+
+      link.classList.remove("active");
+
+      if (link.getAttribute("href") === "#" + current) {
+        link.classList.add("active");
+      }
+
+    });
+
+  }
+
+  window.addEventListener("scroll", setActiveLink);
+  window.addEventListener("load", setActiveLink);
+
 </script>
