@@ -1,0 +1,224 @@
+/* Fontes importadas */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --font-titulos: "Montserrat", sans-serif;
+    --font-textos: "Montserrat Alternates", sans-serif;
+    --font-subtitulos: "Poppins", sans-serif;
+    --cor-azul-escuro: #012340;
+    --cor-azul-medio: #164773;
+    --cor-azul-claro: #4681A6;
+    --cor-fundo-input: #F2F2F2;
+    --cor-verde: #8AB4A1;
+    --cor-cinza: #D9D9D9;
+    --cor-cinza-escuro: #3f3f3f;
+    --cor-branco: #F1F1F1;
+    --cor-preto: #000000;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--cor-branco);
+    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat Alternates", sans-serif;
+}
+
+.login_container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.lado_esquerdo {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* 🔥 ESSA LINHA resolve */
+    align-items: center;
+}
+
+/* Botão que volta para a index.html */
+
+.grupo_voltar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    align-self: flex-start;
+    margin: 20px;
+}
+
+.botao_de_voltar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-azul-escuro);
+    transition: 0.5s ease;
+}
+
+.botao_de_voltar:hover {
+    background-color: var(--cor-azul-medio);
+}
+
+.seta {
+    font-size: 14px;
+    color: var(--cor-branco);
+}
+
+.voltar a {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: var(--cor-azul-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+/* Acaba o botão */
+
+.imagem {
+    width: 70%;
+    height: auto;
+    margin-top: 1%;
+}
+
+.triangulo_esquerda {
+    position: absolute;
+    left: 0;
+    top: 10%;
+    width: 140px;
+    height: 290px;
+    background-color: var(--cor-azul-claro);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.lado_direito {
+    flex: 1;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--cor-azul-claro);
+}
+
+.logo {
+    width: 80px;
+    align-self: flex-end;
+    margin: 20px 20px 0 0;
+}
+
+.lado_direito h1 {
+    color: white;
+    font-size: 40px;
+    margin-top: auto;
+    font-weight: 900;
+    line-height: 0.2;
+    text-align: center;
+    letter-spacing: 2px;
+    font-family: var(--font-titulos);
+}
+
+.lado_direito p {
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0px 0 0 0;
+    font-family: var(--font-subtitulos);
+}
+
+.card-login {
+    width: 400px;
+    padding: 25px;
+    margin-top: 3%;
+    margin-bottom: auto;
+    border-radius: 30px;
+    background-color: #f2f6f84d;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.17);
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.card-login label {
+    font-size: 16px;
+    margin-top: 8px;
+    font-weight: 500;
+    font-family: var(--font-titulos);
+    color: var(--cor-azul-escuro);
+}
+
+.card-login input {
+    width: 100%;
+    padding: 16px;
+    font-size: 14px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    border: 3px solid var(--cor-azul-escuro);
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-login input:focus {
+    outline: none;
+    border-color: var(--cor-azul-escuro);
+    box-shadow: 0 0 0 4px rgba(1, 35, 64, 0.15);
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.card-login button {
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: var(--font-titulos);
+
+
+    width: 100%;
+    border: none;
+    padding: 14px;
+    cursor: pointer;
+    margin-top: 27px;
+    margin-bottom: 4%;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background-color: var(--cor-azul-escuro);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.card-login button:hover {
+    transform: translateY(-2px);
+    background-color: var(--cor-azul-claro);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.cadastro {
+    margin-left: 20%;
+    color: var(--cor-cinza-escuro);
+    font-size: 16px;
+}
+
+.cadastro a {
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--cor-azul-escuro);
+}
+
+.triangulo_direita {
+    bottom: 0;
+    left: 40%;
+    width: 200px;
+    height: 400px;
+    position: absolute;
+    background-color: var(--cor-azul-claro);
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+}

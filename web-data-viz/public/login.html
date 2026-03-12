@@ -1,3 +1,4 @@
+<!--LOGIN-->
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -6,80 +7,58 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AquaTech | Login</title>
-
-    <script src="./js/sessao.js"></script>
-
-    <link rel="stylesheet" href="./css/estilo.css">
-    <link rel="icon" href="./assets/icon/favicon2.ico">
+    <link rel="stylesheet" href="css/login.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <title>Nexus | Login</title>
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
+    <main class="login_container">
+        <!-- Triângulos decorativos -->
+        <div class="triangulo_esquerda"></div>
+        <div class="triangulo_direita"></div>
 
-    <!--Header-->
+        <!--Lado 01 - Imagem com os triângulos-->
+        <div class="lado_esquerdo">
+            <div class="grupo_voltar">
+                <a href="./index.html" class="botao_de_voltar">
+                    <span class="seta">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </span>
+                </a>
+                <span class="voltar"><a href="./index.html">Voltar</a></span>
+            </div>
 
-    <div class="header">
-        <div class="container">
-            <h1 class="titulo">AquaTech</h1>
-            <ul class="navbar">
-                <li>
-                    <a href="index.html">Inicial</a>
-                </li>
-                <li>
-                    <a href="simulador.html">Simulador</a>
-                </li>
-                <li>|</li>
-                <li class="agora">
-                    <a href="#">Login</a>
-                </li>
-                <li>
-                    <a href="cadastro.html">Cadastro</a>
-                </li>
-            </ul>
+            <img src="assets/Login.svg" alt="Ilustração de login" class="imagem">
         </div>
-    </div>
 
+        <!--Lado 02 - Formulário de login-->
+        <div class="lado_direito">
 
-    <div class="login">
-        <div class="alerta_erro">
-            <div class="card_erro" id="cardErro">
-                <span id="mensagem_erro"></span>
+            <!--Logo da Nexus-->
+            <img src="assets/logobrancoNexus.png" alt="Logo da Nexus" class="logo">
+
+            <h1>BEM VINDO!</h1>
+            <p>Conecte-se à sua conta</p>
+
+            <div class="card-login">
+                <label>CNPJ ou Email</label>
+                <input type="text" id="email_input" placeholder="00.000.000/0000-00">
+
+                <label>Senha</label>
+                <input type="password" id="senha_input" placeholder="**********">
+
+                <button onclick="entrar()">Login</button>
+
+                <span class="cadastro">
+                    Não possui conta? <a href="./cadastro.html">Cadastre-se</a>
+                </span>
             </div>
         </div>
-        <div class="container">
-            <div class="card card-login">
-                <h2>Olá de volta!</h2>
-                <div class="formulario">
-                    <div class="campo">
-                        <span>E-mail:</span>
-                        <input id="email_input" type="text" placeholder="Login">
-                    </div>
-                    <div class="campo">
-                        <span>Senha:</span>
-                        <input id="senha_input" type="password" placeholder="******">
-                    </div>
-                    <button class="botao" onclick="entrar()">Entrar</button>
-                </div>
-
-                <div id="div_aguardar" class="loading-div">
-                    <img src="./assets/circle-loading.gif" id="loading-gif">
-                </div>
-
-                <div id="div_erros_login"></div>
-            </div>
-        </div>
-    </div>
-
-    <!--footer inicio-->
-    <div class="footer">
-        <div class="container">
-            <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
-            <span class="version">v1.0.0</span>
-        </div>
-    </div>
-    <!--footer fim-->
-
+    </main>
 </body>
 
 </html>
@@ -157,3 +136,4 @@
     }
 
 </script>
+<script src="./js/sessao.js"></script>
