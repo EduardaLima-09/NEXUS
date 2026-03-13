@@ -30,16 +30,20 @@
   </header>
 
   <div class="conteudo">
+    <!--Sessão 01-->
     <div class="sec1" id="home">
       <div class="textos">
         <h1 id="titulo">Inteligência de Dados para Reduzir a Evasão <br> no Ensino Superior</h1>
         <p>A Nexus transforma dados acadêmicos em decisões estratégicas para faculdades
           privadas aumentarem retenção e performance.
         </p>
-        <button>Saiba Mais</button>
+        <button onclick="window.location.href='#servicos'">
+          Saiba Mais <i class="fa-solid fa-arrow-right"></i>
+        </button>
       </div>
     </div>
-
+    <br>
+    <!--Sessão 02-->
     <div class="sec2" id="sobre">
       <div class="titulo">
         <h1>Nossos Valores</h1>
@@ -66,6 +70,8 @@
         </div>
       </div>
     </div>
+
+    <br>
 
     <div class="sec3" id="servicos">
       <img src="./assets/Imagens NEXUS 1.png" alt="">
@@ -312,7 +318,7 @@
 
   function setActiveLink() {
 
-    let current = "home"; 
+    let current = "home";
 
     sections.forEach(section => {
 
