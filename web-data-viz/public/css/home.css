@@ -137,7 +137,7 @@ header img {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url(/assets/fundo-notebook.svg);
+    background-image: url(/public/assets/fundoSec1.png);
 }
 
 .textos {
@@ -729,6 +729,8 @@ footer {
         padding: 3rem 1.5rem;
         height: auto;
         gap: 2rem;
+        align-items: center;
+        justify-content: center;
     }
 
     .formulario,
@@ -736,8 +738,15 @@ footer {
         width: 100%;
     }
 
+    .formulario{
+        margin-left: 0;
+    }
+
     .box-info {
+        width: 100%;
         padding: 2rem;
+        text-align: center;
+        align-items: center;
     }
 
     .input-box input,
