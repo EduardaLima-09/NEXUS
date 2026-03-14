@@ -52,10 +52,10 @@ header img {
 
 .titulos a:not(.cadastro):not(.barra) {
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 400;
     text-decoration: none;
     color: var(--cor-preto);
-    font-family: var(--font-titulos);
+    font-family: var(--font-subtitulos);
 }
 
 .active::after {
@@ -104,19 +104,18 @@ header img {
 }
 
 .cadastro {
-    font-size: 20px;
-    font-weight: 900;
+    font-size: 18px;
+    font-weight: 600;
     border-radius: 6px;
     padding: 0.7rem 1rem;
     text-decoration: none;
-    color: var(--cor-bem-branco);
-    font-family: var(--font-titulos);
-    background-color: var(--cor-azul-medio);
-    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.20);
+    color: var(--cor-azul-claro);
+    font-family: var(--font-subtitulos);
+    border: 3px solid var(--cor-azul-claro);
 }
 
 .cadastro:hover {
-    transition: 0.3s ease;
+    transition: 0.4s ease;
     color: var(--cor-bem-branco);
     background-color: var(--cor-azul-claro);
 }
