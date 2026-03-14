@@ -608,3 +608,183 @@ footer {
     color: #ffffff;
     transform: scale(1.1);
 }
+
+/* Responsividade dos meninos */
+
+@media screen and (max-width: 768px) {
+
+    header {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    header img {
+        width: 40%;
+    }
+
+    .titulos {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+
+    .titulos a:not(.cadastro):not(.barra) {
+        font-size: 0.9rem;
+    }
+
+    .barra {
+        display: none;
+    }
+
+    .cadastro {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+
+    .sec1 {
+        height: auto;
+        padding: 3rem 1.5rem;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .textos {
+        width: 100%;
+        margin-left: 0;
+        align-items: center;
+    }
+
+    .textos h1 {
+        font-size: 1.9rem;
+    }
+
+    .textos p {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+    .textos button {
+        font-size: 1rem;
+    }
+
+
+    .container-valores {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .titulo {
+        width: 100%;
+        text-align: center;
+    }
+
+    .titulo h1 {
+        font-size: 2rem;
+    }
+
+    .cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .valor {
+        width: 90%;
+    }
+
+
+    .conteudo-servicos {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    .imagem-servico img {
+        width: 80%;
+        margin-left: 0;
+    }
+
+    .textos2 h1 {
+        margin-left: 0;
+        font-size: 1.8rem;
+    }
+
+    .textos2 p {
+        margin-left: 0;
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+
+    .t1,
+    .t2 {
+        display: none;
+    }
+
+
+    .sec4 {
+        flex-direction: column;
+        padding: 3rem 1.5rem;
+        height: auto;
+        gap: 2rem;
+    }
+
+    .formulario,
+    .box-info {
+        width: 100%;
+    }
+
+    .box-info {
+        padding: 2rem;
+    }
+
+    .input-box input,
+    .input-box textarea {
+        padding: 0.7rem 2.5rem 0.7rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .textarea textarea {
+        height: 80px;
+    }
+
+    .btn-enviar {
+        width: 100%;
+    }
+
+    footer {
+        flex-direction: column;
+        padding: 3rem 2rem;
+        gap: 2rem;
+    }
+
+    .logo {
+        width: 100%;
+        text-align: center;
+    }
+
+    .logo img {
+        width: 60%;
+    }
+
+    .logo p {
+        position: static;
+        transform: none;
+    }
+
+    .abas {
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-left: 0;
+    }
+
+    .nexus {
+        width: 100%;
+        margin-left: 0;
+        text-align: center;
+        align-items: center;
+    }
+
+}

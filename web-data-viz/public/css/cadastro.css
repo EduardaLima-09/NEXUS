@@ -246,3 +246,59 @@ body {
     font-family: var(--font-subtitulos);
 }
 
+@media screen and (max-width: 768px) {
+    .cadastro_container {
+        flex-direction: column;
+    }
+
+    .lado_direito {
+        display: none;
+    }
+
+    .lado_esquerdo {
+        height: auto;
+        padding: 2rem 1.5rem;
+    }
+
+    .lado_esquerdo h1 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .lado_esquerdo p {
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    .card-login {
+        width: 100%;
+        padding: 1.5rem;
+        border-radius: 20px;
+    }
+
+    .linha-dupla {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .card-login input {
+        padding: 0.9rem;
+        font-size: 0.9rem;
+    }
+
+    .card-login button {
+        font-size: 1rem;
+        padding: 0.9rem;
+    }
+
+    .login {
+        margin-left: 0;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    .grupo_voltar {
+        margin: 0 0 1rem 0;
+    }
+
+}
