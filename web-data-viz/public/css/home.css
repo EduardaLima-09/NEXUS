@@ -291,7 +291,6 @@ header img {
     font-family: var(--font-subtitulos);
 }
 
-
 /* Aqui acaba o conteúdo da sessão 02 */
 
 .sec3 {
@@ -342,282 +341,157 @@ header img {
 /* triângulo 1 vindo de cima */
 
 .t1 {
-    position: absolute;
-
-    border-left: 420px solid transparent;
-    border-right: 420px solid transparent;
-    border-bottom: 520px solid rgba(60, 120, 255, 0.12);
 
     top: -200px;
     left: -180px;
-
+    position: absolute;
     transform: rotate(-15deg);
+    border-left: 420px solid transparent;
+    border-right: 420px solid transparent;
+    border-bottom: 520px solid rgba(60, 120, 255, 0.12);
 }
 
 /* triângulo 2 */
 
 .t2 {
-    position: absolute;
-
-    border-left: 420px solid transparent;
-    border-right: 420px solid transparent;
-    border-top: 520px solid rgba(60, 120, 255, 0.08);
 
     bottom: -200px;
     right: -180px;
-
+    position: absolute;
     transform: rotate(-15deg);
+    border-left: 420px solid transparent;
+    border-right: 420px solid transparent;
+    border-top: 520px solid rgba(60, 120, 255, 0.08);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* Aqui acaba o conteúdo da sessão 03 */
 
 .sec4 {
     width: 100%;
-    height: 110vh;
+    height: 70vh;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.sec4::before,
-.sec4::after {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 0;
-}
-
-.sec4::before {
-    content: "";
-    position: absolute;
-
-    top: 18%;
-    left: 0;
-    transform: translateY(-50%);
-
-    width: 0;
-    height: 0;
-
-    border-top: 100px solid transparent;
-    border-bottom: 100px solid transparent;
-    border-left: 100px solid var(--cor-azul-medio);
-}
-
-.sec4::after {
-    content: "";
-    position: absolute;
-
-    top: 68%;
-    right: 0;
-    transform: translateY(-50%);
-
-    width: 0;
-    height: 0;
-
-    border-top: 100px solid transparent;
-    border-bottom: 100px solid transparent;
-    border-right: 100px solid var(--cor-azul-medio);
-}
-
-.titulo2 {
-    color: var(--cor-azul-medio);
-    margin-top: 1rem;
-}
-
-.titulo2 h1 {
-    font-weight: 900;
-    font-size: 3rem;
-}
-
-.titulo2 h4 {
-    font-size: 0.7rem;
-    opacity: 0.8;
-}
-
-.equipe {
-    display: flex;
-    flex-direction: column;
-    margin-top: 4rem;
-
-}
-
-.linha1,
-.linha2 {
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
-    margin-bottom: 3rem;
-    width: 100%;
-}
-
-.integrantes {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-
-    width: 275px;
-    height: 300px;
-
-    background-color: var(--cor-cinza);
-    padding: 2.5rem;
-    border-radius: 8px;
-    color: var(--cor-azul-medio);
-
-    box-shadow: 2px 4px 5px rgba(14, 13, 13, 0.636);
-    ;
-}
-
-.integrantes>img:first-child {
-    width: 130px;
-    height: 130px;
-
-    border-radius: 50%;
-    object-fit: cover;
-
-    border: 4px solid var(--cor-azul-medio);
-}
-
-.integrantes h3 {
-    width: 100%;
-    font-size: 1.1rem;
-    font-weight: 800;
-}
-
-.integrantes p {
-    font-size: 0.7rem;
-    opacity: 0.7;
-}
-
-.icons2 a {
-    text-decoration: none;
-}
-
-.icons2 img {
-    width: 15%;
-}
-
-.icons2 img:hover {
-    width: 17%;
-    transition: 0.4s ease;
-}
-
-.sec5 {
-    background-color: var(--cor-azul-claro);
-    width: 100%;
-    height: 80vh;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
     padding: 5rem 8rem;
     margin-bottom: 3rem;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--cor-branco);
 }
 
 .formulario {
-    width: 45%;
+    gap: 1rem;
+    width: 40%;
     display: flex;
+    margin-left: 4rem;
     flex-direction: column;
-    gap: 2rem;
 }
 
 .campo {
+    gap: 0.6rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
 }
 
 .campo label {
-    font-weight: 600;
+    opacity: 0.9;
+    font-size: 1.2rem;
+    font-weight: 700;
     color: var(--cor-azul-escuro);
+    font-family: var(--font-subtitulos);
 }
 
 .input-box {
-    position: relative;
     width: 100%;
+    position: relative;
 }
 
 .input-box input,
 .input-box textarea {
     width: 100%;
-    padding: 0.9rem 3rem 0.9rem 1rem;
-    border-radius: 8px;
     border: none;
     outline: none;
-
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    padding: 1.2rem 3rem 1.2rem 1.2rem;
     background-color: var(--cor-cinza);
+    font-family: var(--font-subtitulos);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .input-box input:focus,
 .input-box textarea:focus {
-    border: 2px solid var(--cor-azul-escuro);
-}
-
-.input-box img {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
+    border: 3px solid var(--cor-azul-escuro);
+    box-shadow: 0 2px 8px rgba(1, 48, 105, 0.528);
 }
 
 .textarea textarea {
-    height: 150px;
     resize: none;
+    height: 100px;
 }
 
 .box-info {
     width: 40%;
-    background-color: var(--cor-azul-escuro);
-    color: var(--cor-branco);
-
+    gap: 1.7rem;
     padding: 3rem;
-    border-radius: 20px;
-
     display: flex;
+    border-radius: 20px;
     flex-direction: column;
-    gap: 1.5rem;
+    color: var(--cor-branco);
+    background-color: var(--cor-azul-escuro);
 }
 
 .box-info h2 {
-    font-size: 1.6rem;
     font-weight: 800;
+    font-size: 1.7rem;
+    font-family: var(--font-titulos);
 }
 
 .box-info p {
-    font-size: 0.95rem;
-    line-height: 1.6;
     opacity: 0.9;
+    line-height: 1.7;
+    font-size: 0.94rem;
+    text-align: justify;
+    font-family: var(--font-subtitulos);
 }
+
+.input-box i {
+    top: 50%;
+    right: 1rem;
+    font-size: 1rem;
+    position: absolute;
+    pointer-events: none;
+    transform: translateY(-50%);
+    color: var(--cor-azul-escuro);
+}
+
+.btn-enviar {
+    gap: 0.5rem;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 1rem 1.8rem;
+
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    color: var(--cor-branco);
+    font-family: var(--font-titulos);
+    background-color: var(--cor-azul-escuro);
+
+    box-shadow: 0 5px 12px rgba(60, 120, 255, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+
+.btn-enviar:hover,
+.btn-enviar:focus {
+    transform: translateY(-2px);
+    background-color: var(--cor-azul-claro);
+    box-shadow: 0 8px 18px rgba(60, 120, 255, 0.4);
+}
+
+/* Aqui acaba o conteúdo da sessão 04 */
 
 footer {
     display: flex;

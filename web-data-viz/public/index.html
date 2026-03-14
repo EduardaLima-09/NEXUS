@@ -22,7 +22,6 @@
       <a href="#home">Home</a>
       <a href="#sobre">Sobre</a>
       <a href="#servicos">Serviços</a>
-      <a href="#equipe">Equipe</a>
       <a href="#contato">Contato</a>
       <a href="" class="barra">|</a>
       <a href="./cadastro.html" class="cadastro">Cadastre-se</a>
@@ -42,9 +41,9 @@
         </button>
       </div>
     </div>
-    <br>
+    <br><br><br><br>
     <!--Sessão 02-->
-    <div class="cards">
+    <div class="cards" id="sobre">
       <div class="container-valores">
         <div class="titulo">
           <h1>Nossos Valores</h1>
@@ -82,7 +81,7 @@
         </div>
       </div>
     </div>
-    <br><br><br>
+    <br><br><br><br>
     <!--Sessão 03-->
     <div class="sec3" id="servicos">
       <div class="background-tech">
@@ -107,113 +106,15 @@
         </div>
       </div>
     </div>
+    <br><br>
     <!--Sessão 04-->
-    <div class="sec4" id="equipe">
-      <div class="titulo2">
-        <h1>Nossa Equipe</h1>
-        <h4>Conheça nossa equipe.</h4>
-      </div>
-
-      <div class="equipe">
-        <div class="linha1">
-          <div class="integrantes">
-            <img src="./assets/user.png" alt="">
-            <h3>Cesar Vequiato</h3>
-            <p>tal cargo</p>
-            <div class="icons2">
-              <a href="">
-                <img src="./assets/github.svg" alt="">
-              </a>
-              <a href="">
-                <img src="./assets/Linkendin.svg" alt="">
-              </a>
-            </div>
-          </div>
-          <div class="integrantes">
-            <img src="./assets/user.png" alt="">
-            <h3>Daner Quispe</h3>
-            <p>tal cargo</p>
-            <div class="icons2">
-
-              <a href="">
-                <img src="./assets/github.svg" alt="">
-              </a>
-              <a href="">
-                <img src="./assets/Linkendin.svg" alt="">
-              </a>
-            </div>
-          </div>
-          <div class="integrantes">
-            <img src="./assets/user.png" alt="">
-            <h3>Leonardo Scavazza</h3>
-            <p>tal cargo</p>
-            <div class="icons2">
-              <a href="">
-                <img src="./assets/github.svg" alt="">
-              </a>
-              <a href="">
-                <img src="./assets/Linkendin.svg" alt="">
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="linha2">
-          <div class="integrantes">
-            <img src="./assets/user.png" alt="">
-            <h3>Maria Eduarda Lima</h3>
-            <p>tal cargo</p>
-            <div class="icons2">
-
-              <a href="">
-                <img src="./assets/github.svg" alt="">
-              </a>
-              <a href="">
-                <img src="./assets/Linkendin.svg" alt="">
-              </a>
-            </div>
-          </div>
-          <div class="integrantes">
-            <img src="./assets/user.png" alt="">
-            <h3>Matheus Pereira</h3>
-            <p>tal cargo</p>
-            <div class="icons2">
-
-              <a href="">
-                <img src="./assets/github.svg" alt="">
-              </a>
-              <a href="">
-                <img src="./assets/Linkendin.svg" alt="">
-              </a>
-            </div>
-          </div>
-          <div class="integrantes">
-            <img src="./assets/user.png" alt="">
-            <h3>Juan Sanchez</h3>
-            <p>tal cargo</p>
-            <div class="icons2">
-
-              <a href="">
-                <img src="./assets/github.svg" alt="">
-              </a>
-              <a href="">
-                <img src="./assets/Linkendin.svg" alt="">
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sec5" id="contato">
-
+    <div class="sec4" id="contato">
       <div class="formulario">
-
         <div class="campo">
           <label>E-mail:</label>
           <div class="input-box">
             <input type="email" placeholder="seuemail@email.com">
-            <img src="./assets/email (1).png" alt="">
+            <i class="fa-solid fa-envelope"></i>
           </div>
         </div>
 
@@ -221,18 +122,23 @@
           <label>Telefone:</label>
           <div class="input-box">
             <input type="text" placeholder="(11) 11111-1111">
-            <img src="./assets/calling.png" alt="">
+            <i class="fa-solid fa-phone"></i>
           </div>
         </div>
 
         <div class="campo">
           <label>Mensagem:</label>
           <div class="input-box textarea">
-            <textarea placeholder="Olá, me interessei no serviço..."></textarea>
-            <img src="./assets/comment.png" alt="">
+            <textarea placeholder="Olá, me interessei no serviço, gostaria de saber mais..."></textarea>
+            <i class="fa-solid fa-comment"></i>
           </div>
         </div>
 
+        <div class="campo">
+          <button type="submit" class="btn-enviar">
+            Enviar
+          </button>
+        </div>
       </div>
 
       <div class="box-info">
@@ -243,59 +149,56 @@
           e estratégica.
         </p>
       </div>
-
     </div>
 
-  </div>
+    <footer>
 
-  <footer>
-
-    <div class="logo">
-      <img src="./assets/logobranco - Editado 2.png" alt="">
-      <p>Conexão que gera permanência.</p>
-    </div>
-
-    <div class="abas">
-
-      <div class="empresa">
-        <p>Empresa</p>
-        <a href="#">
-          Home
-        </a>
-        <a href="#">
-          Sobre
-        </a>
-        <a href="#">
-          Serviços
-        </a>
-        <a href="#">
-          Equipe
-        </a>
+      <div class="logo">
+        <img src="./assets/logobranco - Editado 2.png" alt="">
+        <p>Conexão que gera permanência.</p>
       </div>
 
-      <div class="suporte">
-        <p>Suporte</p>
-        <a href="#">
-          Contato
-        </a>
-        <a href="#">
-          Cadastre-se
-        </a>
-        <a href="#">
-          Login
-        </a>
-      </div>
-    </div>
+      <div class="abas">
 
-    <div class="nexus">
-      <p>Todos os direitos Reservados</p>
-      <p>Nexus © 2026</p>
-      <div class="icons">
-        <img src="./assets/social.png" alt="">
-        <img src="./assets/envelope.png" alt="">
+        <div class="empresa">
+          <p>Empresa</p>
+          <a href="#">
+            Home
+          </a>
+          <a href="#">
+            Sobre
+          </a>
+          <a href="#">
+            Serviços
+          </a>
+          <a href="#">
+            Equipe
+          </a>
+        </div>
+
+        <div class="suporte">
+          <p>Suporte</p>
+          <a href="#">
+            Contato
+          </a>
+          <a href="#">
+            Cadastre-se
+          </a>
+          <a href="#">
+            Login
+          </a>
+        </div>
       </div>
-    </div>
-  </footer>
+
+      <div class="nexus">
+        <p>Todos os direitos Reservados</p>
+        <p>Nexus © 2026</p>
+        <div class="icons">
+          <img src="./assets/social.png" alt="">
+          <img src="./assets/envelope.png" alt="">
+        </div>
+      </div>
+    </footer>
 
 </body>
 
