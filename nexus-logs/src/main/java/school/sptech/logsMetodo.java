@@ -1,10 +1,9 @@
-package sptech.school;
+package school.sptech;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class logsMetodo {
-
     String formatarData(LocalDateTime data) {
         DateTimeFormatter formatar = DateTimeFormatter.ofPattern( "'['dd/MM/yyyy HH:mm:ss']'" );
 

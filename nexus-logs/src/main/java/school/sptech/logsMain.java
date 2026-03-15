@@ -1,4 +1,4 @@
-package sptech.school;
+package school.sptech;
 
 import java.time.LocalDateTime;
 
@@ -15,22 +15,22 @@ public class logsMain {
 
         logsMetodo log = new logsMetodo();
 
-        LocalDateTime novaData = LocalDateTime.of(2026, 3, 6, 10, 30, 4);
+        LocalDateTime novaData = LocalDateTime.of(2026, 3, 16, 16, 38, 13);
         System.out.println(log.cadastroUsuario(nome[0], id[0], novaData));
 
-        novaData = LocalDateTime.of(2026,3, 6, 10, 32, 9);
+        novaData = LocalDateTime.of(2026,3, 16, 16, 40, 49);
         System.out.println(log.cadastroAluno(id[0], nomeAluno[0], idAluno[0], novaData));
 
-        novaData = LocalDateTime.of(2026,3, 6, 10, 33, 27);
+        novaData = LocalDateTime.of(2026,3, 16, 16, 42, 23);
         System.out.println(log.cadastroCurso(id[0], nomeCurso[0], idCurso[0], novaData));
 
-        novaData = LocalDateTime.of(2026,3, 6, 10, 34, 11);
+        novaData = LocalDateTime.of(2026,3, 16, 16, 44, 2);
         System.out.println(log.erroCadastroAluno(idAluno[1], novaData));
 
-        novaData = LocalDateTime.of(2026,3, 6, 10, 34, 31);
+        novaData = LocalDateTime.of(2026,3, 16, 16, 45, 37);
         System.out.println(log.erroUsuario(nome[1], id[1], novaData));
 
-        novaData = LocalDateTime.of(2026,3, 6, 10, 36, 3);
+        novaData = LocalDateTime.now();
         System.out.println(log.cadastroUsuario(nome[1], id[1], novaData));
     }
 }

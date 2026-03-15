@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c07fa724-c1d4-4287-80a8-56831febc8d5" name="Changes" comment="" />
+    <list default="true" id="feef984e-2e78-4ce6-b94f-294cc68b1912" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,48 +17,33 @@
       </list>
     </option>
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 5
-}</component>
-  <component name="ProjectId" id="3AUpdc166w2vz4wG96VCtxO8lOz" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="3B03XHhZww9jXnDzydxZF313Rbl" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.log.executor": "Run",
     "Application.logsMain.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "feature/backend",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/daner/backupLog/nexus-logs",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "SDKs",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "vue.rearranger.settings.migration": "true"
+    "project.structure.side.proportion": "0.0"
   }
 }]]></component>
   <component name="RunManager">
     <configuration name="logsMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="sptech.school.logsMain" />
+      <option name="MAIN_CLASS_NAME" value="school.sptech.logsMain" />
       <module name="nexus-logs" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="sptech.school.*" />
+          <option name="PATTERN" value="school.sptech.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -81,19 +66,12 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c07fa724-c1d4-4287-80a8-56831febc8d5" name="Changes" comment="" />
-      <created>1772657094307</created>
+      <changelist id="feef984e-2e78-4ce6-b94f-294cc68b1912" name="Changes" comment="" />
+      <created>1773612200656</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1772657094307</updated>
-      <workItem from="1772657095733" duration="4824000" />
-      <workItem from="1772832508575" duration="12667000" />
-      <workItem from="1773097831348" duration="4863000" />
-      <workItem from="1773170702689" duration="1089000" />
+      <updated>1773612200656</updated>
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
 </project>
