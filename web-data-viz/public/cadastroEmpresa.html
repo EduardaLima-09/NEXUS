@@ -82,4 +82,28 @@
         </div>
     </main>
 </body>
+<script>
+    // CNPJ - máximo 14 dígitos
+    const cnpj = document.getElementById('cnpj_input');
+    cnpj.addEventListener('input', function() {
+        let v = this.value.replace(/\D/g,''); 
+        v = v.slice(0,14); 
+        v = v.replace(/^(\d{2})(\d)/,'$1.$2');
+        v = v.replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3');
+        v = v.replace(/\.(\d{3})(\d)/,'.$1/$2');
+        v = v.replace(/(\d{4})(\d)/,'$1-$2');
+        this.value = v;
+    });
+
+    // Telefone - máximo 11 dígitos
+    const telefone = document.getElementById('telefone_input');
+    telefone.addEventListener('input', function() {
+        let v = this.value.replace(/\D/g,''); 
+        v = v.slice(0,11);
+        v = v.replace(/^(\d{2})(\d)/,'($1) $2');
+        v = v.replace(/(\d{5})(\d{4})$/,'$1-$2');
+        this.value = v;
+    });
+</script>
+
 </html>
