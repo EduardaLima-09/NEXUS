@@ -302,4 +302,10 @@ body {
         margin: 0 0 1rem 0;
     }
 
+    .mensagem_senha {
+        font-size: 11px;
+        text-align: left;
+        margin-top: 5px;
+    }
+
 }
