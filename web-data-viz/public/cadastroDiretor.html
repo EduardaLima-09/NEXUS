@@ -27,7 +27,7 @@
         </a>
         <span class="voltar"><a href="./index.html">Voltar</a></span>
       </div>
-      <!--Formulário-->
+
       <h1>CADASTRE-SE</h1>
       <p>Conecte-se a novas oportunidades com a Nexus</p>
       <div class="card-login">
@@ -37,18 +37,18 @@
             <input type="text" id="nome_input" placeholder="Seu nome">
           </div>
           <div class="campo">
-            <label>Email</label>
-            <input type="email" id="email_input" placeholder="meuemail@provedor.com">
+            <label>Sobrenome</label>
+            <input type="text" id="sobrenome_input" placeholder="Seu sobrenome">
           </div>
         </div>
         <div class="linha-dupla">
           <div class="campo">
-            <label>CNPJ</label>
-            <input type="text" id="cnpj_input" placeholder="00.000.000/0000-00">
+            <label>Email</label>
+            <input type="email" id="email_input" placeholder="empresa@email.com">
           </div>
           <div class="campo">
-            <label>Telefone</label>
-            <input type="tel" id="telefone_input" placeholder="(11) 99999-9999">
+            <label>Token</label>
+            <input type="text" id="token_input" placeholder="******">
           </div>
         </div>
         <div class="linha-dupla">
@@ -65,16 +65,12 @@
         <span class="login">
           Já possui conta? <a href="./login.html">Login</a>
         </span>
-        <!--Mensagem de erro de senha-->
         <div id="erro_senha" class="mensagem_senha"></div>
         <div id="erro_confirmacao" class="mensagem_senha"></div>
       </div>
     </div>
-    <!--Lado Direito-->
     <div class="lado_direito">
-      <!--Logo da Nexus-->
       <img src="assets/logobrancoNexus.png" alt="Logo da Nexus" class="logo">
-      <!-- Triângulos decorativos -->
       <div class="triangulo_esquerda"></div>
       <div class="triangulo_direita"></div>
       <img src="assets/Cadastro.svg" alt="Ilustração de login" class="img">
@@ -83,22 +79,18 @@
 </body>
 
 </html>
-<!--Máscaras para os inputs, pode melhorar, precisa fazer as retrições também, um sistema bem ferrado :)-->
+
+<!-- ================= MÁSCARA CNPJ ================= -->
 <script>
   const cnpjInput = document.getElementById("cnpj_input");
-
   cnpjInput.addEventListener("input", function () {
-
     let valor = cnpjInput.value;
     let somenteNumeros = "";
-
     for (let i = 0; i < valor.length; i++) {
       if (valor[i] >= "0" && valor[i] <= "9") {
         somenteNumeros += valor[i];
       }
     }
-
-    // limita a 14 números 
     if (somenteNumeros.length > 14) {
       let limite = "";
       for (let i = 0; i < 14; i++) {
@@ -106,46 +98,28 @@
       }
       somenteNumeros = limite;
     }
-
     let formatado = "";
-
     for (let i = 0; i < somenteNumeros.length; i++) {
-
-      if (i == 2 || i == 5) {
-        formatado += ".";
-      }
-
-      if (i == 8) {
-        formatado += "/";
-      }
-
-      if (i == 12) {
-        formatado += "-";
-      }
-
+      if (i == 2 || i == 5) formatado += ".";
+      if (i == 8) formatado += "/";
+      if (i == 12) formatado += "-";
       formatado += somenteNumeros[i];
     }
-
     cnpjInput.value = formatado;
   });
 </script>
 
+<!-- ================= MÁSCARA TELEFONE ================= -->
 <script>
   const telefoneInput = document.getElementById("telefone_input");
-
   telefoneInput.addEventListener("input", function () {
-
     let valor = telefoneInput.value;
     let somenteNumeros = "";
-
-    // pega só números
     for (let i = 0; i < valor.length; i++) {
       if (valor[i] >= "0" && valor[i] <= "9") {
         somenteNumeros += valor[i];
       }
     }
-
-    // 🔒 limita a 11 números (DDD + 9 dígitos)
     if (somenteNumeros.length > 11) {
       let limite = "";
       for (let i = 0; i < 11; i++) {
@@ -153,80 +127,152 @@
       }
       somenteNumeros = limite;
     }
-
-    // monta máscara manualmente
     let formatado = "";
-
     for (let i = 0; i < somenteNumeros.length; i++) {
-
-      if (i == 0) {
-        formatado += "(";
-      }
-
-      if (i == 2) {
-        formatado += ") ";
-      }
-
-      if (i == 7) {
-        formatado += "-";
-      }
-
+      if (i == 0) formatado += "(";
+      if (i == 2) formatado += ") ";
+      if (i == 7) formatado += "-";
       formatado += somenteNumeros[i];
     }
-
     telefoneInput.value = formatado;
   });
 </script>
+
+<!-- ================= VALIDAÇÃO SENHA ================= -->
 <script>
   const senhaInput = document.getElementById("senha_input");
   const erroSenha = document.getElementById("erro_senha");
 
   senhaInput.addEventListener("input", function () {
-
     let senha = senhaInput.value;
-
     let temMaiuscula = false;
     let temNumero = false;
     let temEspecial = false;
 
-    // verifica caractere por caractere
     for (let i = 0; i < senha.length; i++) {
-
       let caractere = senha[i];
-
-      if (caractere >= "A" && caractere <= "Z") {
-        temMaiuscula = true;
-      }
-
-      if (caractere >= "0" && caractere <= "9") {
-        temNumero = true;
-      }
-
+      if (caractere >= "A" && caractere <= "Z") temMaiuscula = true;
+      if (caractere >= "0" && caractere <= "9") temNumero = true;
       if (
-        caractere == "!" ||
-        caractere == "@" ||
-        caractere == "#" ||
-        caractere == "$" ||
-        caractere == "%" ||
-        caractere == "&" ||
+        caractere == "!" || caractere == "@" || caractere == "#" ||
+        caractere == "$" || caractere == "%" || caractere == "&" ||
         caractere == "*"
-      ) {
-        temEspecial = true;
-      }
+      ) temEspecial = true;
     }
 
     if (senha.length < 8) {
+      erroSenha.style.color = "red";
       erroSenha.innerHTML = "A senha deve ter no mínimo 8 caracteres.";
     } else if (!temMaiuscula) {
+      erroSenha.style.color = "red";
       erroSenha.innerHTML = "A senha precisa ter pelo menos 1 letra maiúscula.";
     } else if (!temNumero) {
+      erroSenha.style.color = "red";
       erroSenha.innerHTML = "A senha precisa ter pelo menos 1 número.";
     } else if (!temEspecial) {
+      erroSenha.style.color = "red";
       erroSenha.innerHTML = "A senha precisa ter 1 caractere especial (!@#$%&*).";
     } else {
-      erroSenha.innerHTML = "Senha válida!";
       erroSenha.style.color = "green";
+      erroSenha.innerHTML = "Senha válida!";
+    }
+  });
+</script>
+
+<!-- ================= CADASTRAR ================= -->
+<script>
+  // Preenche o token automaticamente se vier da tela anterior
+  window.onload = function () {
+    const tokenSalvo = sessionStorage.getItem("tokenUniversidade");
+    if (tokenSalvo) {
+      document.getElementById("token_input").value = tokenSalvo;
+    }
+  };
+
+  async function cadastrar() {
+    const nomeInput = document.getElementById("nome_input");
+    const sobrenomeInput = document.getElementById("sobrenome_input");
+    const emailInput = document.getElementById("email_input");
+    const tokenInput = document.getElementById("token_input");
+    const confirmacaoInput = document.getElementById("confirmacao_senha_input");
+    const erroConfirmacao = document.getElementById("erro_confirmacao");
+
+    let valido = true;
+
+    // Validação nome
+    if (nomeInput.value.trim() === "") {
+      valido = false;
+      alert("Digite seu nome.");
     }
 
-  });
+    // Validação sobrenome
+    if (sobrenomeInput.value.trim() === "") {
+      valido = false;
+      alert("Digite seu sobrenome.");
+    }
+
+    // Validação email
+    if (!emailInput.value.includes("@")) {
+      valido = false;
+      alert("Email inválido.");
+    }
+
+    // Validação token
+    if (tokenInput.value.trim().length !== 6) {
+      valido = false;
+      alert("Token deve ter 6 caracteres.");
+    }
+
+    // Validação confirmação de senha
+    if (confirmacaoInput.value !== senhaInput.value) {
+      valido = false;
+      erroConfirmacao.style.color = "red";
+      erroConfirmacao.innerHTML = "As senhas não coincidem.";
+    } else {
+      erroConfirmacao.innerHTML = "";
+    }
+
+    // Validação da senha (garante que está válida antes de enviar)
+    let senha = senhaInput.value;
+    let temMaiuscula = false, temNumero = false, temEspecial = false;
+    for (let i = 0; i < senha.length; i++) {
+      let c = senha[i];
+      if (c >= "A" && c <= "Z") temMaiuscula = true;
+      if (c >= "0" && c <= "9") temNumero = true;
+      if ("!@#$%&*".includes(c)) temEspecial = true;
+    }
+    if (senha.length < 8 || !temMaiuscula || !temNumero || !temEspecial) {
+      valido = false;
+    }
+
+    if (valido) {
+      try {
+        const resposta = await fetch("http://localhost:3333/diretoria/cadastrar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nomeServer: nomeInput.value.trim(),
+            sobrenomeServer: sobrenomeInput.value.trim(),
+            emailServer: emailInput.value.trim(),
+            tokenServer: tokenInput.value.trim().toUpperCase(),
+            senhaServer: senhaInput.value
+          })
+        });
+
+        if (resposta.status === 201) {
+          sessionStorage.removeItem("tokenUniversidade");
+          alert("Cadastro realizado com sucesso!");
+          window.location.href = "login.html";
+        } else if (resposta.status === 404) {
+          alert("Token inválido! Verifique o token da sua instituição.");
+        } else {
+          const msg = await resposta.text();
+          alert("Erro ao cadastrar: " + msg);
+        }
+      } catch (erro) {
+        console.error(erro);
+        alert("Não foi possível conectar ao servidor.");
+      }
+    }
+  }
 </script>
