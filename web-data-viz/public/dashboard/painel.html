@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <title>Nexus | Dashboard</title>
+  <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+
+    <div class="tela">
+        <div class="dash">
+            <div class="barra">
+                <div class="logo">
+                    <img src="../assets/logobranco - Editado 2.png" alt="">
+                </div>
+                <div class="menu">
+                    <div class="titulo">
+                        <h1>Menu</h1>
+                    </div>
+                    <div class="botoes">
+                        <button onclick="goDash()">Home</button>
+                        <button onclick="goAlunos()">Alunos</button>
+                        <button onclick="goCursos()">Cursos</button>
+                        <button onclick="goPainel()">Painel Admin</button>
+                    </div>
+                </div>
+                <div class="sair">
+                    <div class="usuario">
+                        <img src="../assets/user.png" alt="">
+                        <div class="nome">
+                            <h1>Admin</h1>
+                            <p>Usuário * Nexus</p>
+                        </div>
+                    </div>
+                    <button onclick="goHome()">Sair</button>
+                </div>
+            </div>
+            <div class="conteudo">
+                <div class="tituloDash">
+                    <h1>Painel Administrativo</h1>
+                    <p>Instituição privada</p>
+                </div>
+                
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+
+    function goDash() {
+        window.location.href = "dashboard.html";
+    }
+
+    function goAlunos() {
+        window.location.href = "alunos.html";
+    }
+    function goCursos() {
+        window.location.href = "cursos.html";
+    }
+    function goPainel() {
+        window.location.href = "painel.html";
+    }
+    function goHome() {
+        window.location.href = "../index.html";
+    }
+
+</script>
