@@ -17,11 +17,10 @@
 
 <body>
     <main class="login_container">
-        <!-- Triângulos decorativos -->
+
         <div class="triangulo_esquerda"></div>
         <div class="triangulo_direita"></div>
 
-        <!--Lado 01 - Imagem com os triângulos-->
         <div class="lado_esquerdo">
             <div class="grupo_voltar">
                 <a href="./index.html" class="botao_de_voltar">
@@ -38,7 +37,6 @@
         <!--Lado 02 - Formulário de login-->
         <div class="lado_direito">
 
-            <!--Logo da Nexus-->
             <img src="assets/logobrancoNexus.png" alt="Logo da Nexus" class="logo">
 
             <h1>BEM VINDO!</h1>
@@ -64,76 +62,48 @@
 </html>
 
 <script>
+    const emailInput = document.getElementById("email_input");
+    const senhaInput = document.getElementById("senha_input");
 
+    async function entrar() {
+        let email = emailInput.value.trim();
+        let senha = senhaInput.value;
 
-    function entrar() {
-        aguardar();
-
-        var emailVar = email_input.value;
-        var senhaVar = senha_input.value;
-
-        if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            finalizarAguardar();
-            return false;
-        }
-        else {
-            setInterval(sumirMensagem, 5000)
+        if (email === "" || senha === "") {
+            alert("Preencha o email e a senha.");
+            return;
         }
 
-        console.log("FORM LOGIN: ", emailVar);
-        console.log("FORM SENHA: ", senhaVar);
+        try {
+            const resposta = await fetch("http://localhost:3333/diretoria/autenticar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    emailServer: email,
+                    senhaServer: senha
+                })
+            });
 
-        fetch("/usuarios/autenticar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                emailServer: emailVar,
-                senhaServer: senhaVar
-            })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
+            if (resposta.status === 200) {
+                const dados = await resposta.json();
 
-            if (resposta.ok) {
-                console.log(resposta);
+                sessionStorage.setItem("ID_DIRETOR",      dados.id);
+                sessionStorage.setItem("NOME_DIRETOR",    dados.nome);
+                sessionStorage.setItem("EMAIL_DIRETOR",   dados.email);
+                sessionStorage.setItem("FK_UNIVERSIDADE", dados.universidade);
 
-                resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-                    sessionStorage.EMAIL_USUARIO = json.email;
-                    sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
+                window.location.href = "./dashboard/cards.html";
 
-                    setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
-                    }, 1000); // apenas para exibir o loading
-
-                });
-
+            } else if (resposta.status === 401) {
+                alert("Email e/ou senha inválidos.");
             } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-                    finalizarAguardar(texto);
-                });
+                const msg = await resposta.text();
+                alert("Erro ao fazer login: " + msg);
             }
 
-        }).catch(function (erro) {
-            console.log(erro);
-        })
-
-        return false;
+        } catch (erro) {
+            console.error(erro);
+            alert("Não foi possível conectar ao servidor.");
+        }
     }
-
-    function sumirMensagem() {
-        cardErro.style.display = "none"
-    }
-
 </script>
-<script src="./js/sessao.js"></script>

@@ -1,94 +1,68 @@
 <!--CADASTRO EMPRESA-->
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="css/cadastroEmpresa.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <title>Nexus | Cadastro Instituição</title>
-    <link rel="shortcut icon" href="assets/favicon (3).ico" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/cadastroEmpresa.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>Nexus | Cadastro Instituição</title>
+  <link rel="shortcut icon" href="assets/favicon (3).ico" type="image/x-icon">
 </head>
-
 <body>
-    <main class="cadastro_container">
-        <!-- LADO ESQUERDO -->
-        <div class="lado_esquerdo">
-            <div class="grupo_voltar">
-                <a href="./index.html" class="botao_de_voltar">
-                    <span class="seta">
-                        <i class="fa-solid fa-arrow-left"></i>
-                    </span>
-                </a>
-                <span class="voltar"><a href="./index.html">Voltar</a></span>
-            </div>
-
-            <h1>CADASTRE SUA INSTITUIÇÃO</h1>
-            <p>Conecte sua instituição à Nexus</p>
-
-            <div class="card-login">
-                <div class="linha-dupla">
-                    <div class="campo">
-                        <label>Nome Fantasia</label>
-                        <input type="text" id="nome_input" placeholder="Nome da empresa">
-                    </div>
-                    <div class="campo">
-                        <label>Razão Social</label>
-                        <input type="text" id="razao_input" placeholder="Razão social completa">
-                    </div>
-                </div>
-                <div class="linha-dupla">
-                    <div class="campo">
-                        <label>Email Institucional</label>
-                        <input type="email" id="email_input" placeholder="empresa@email.com">
-                    </div>
-
-                    <div class="campo">
-                        <label>CNPJ</label>
-                        <input type="text" id="cnpj_input" placeholder="00.000.000/0000-00">
-                    </div>
-                </div>
-                <div class="linha-dupla">
-                    <div class="campo">
-                        <label>Senha</label>
-                        <input type="password" id="senha_input" placeholder="**********">
-                    </div>
-                    <div class="campo">
-                        <label>Confirmar senha</label>
-                        <input type="password" id="confirmacao_senha_input" placeholder="**********">
-                    </div>
-                </div>
-
-                <button onclick="cadastrar()">Cadastrar</button>
-
-                <span class="login">
-                    Já possui conta? <a href="./login.html">Login</a>
-                </span>
-
-                <div id="erro" class="mensagem_senha"></div>
-
-            </div>
+  <main class="cadastro_container">
+    <div class="lado_esquerdo">
+      <div class="grupo_voltar">
+        <a href="./index.html" class="botao_de_voltar">
+          <span class="seta"><i class="fa-solid fa-arrow-left"></i></span>
+        </a>
+        <span class="voltar"><a href="./index.html">Voltar</a></span>
+      </div>
+      <h1>CADASTRE SUA INSTITUIÇÃO</h1>
+      <p>Conecte sua instituição à Nexus</p>
+      <div class="card-login">
+        <div class="linha-dupla">
+          <div class="campo">
+            <label>Nome Fantasia</label>
+            <input type="text" id="nome_input" placeholder="Nome da empresa">
+          </div>
+          <div class="campo">
+            <label>Razão Social</label>
+            <input type="text" id="razao_input" placeholder="Razão social completa">
+          </div>
         </div>
-        <div class="lado_direito">
-            <img src="assets/logobrancoNexus.png" class="logo">
-            <div class="triangulo_esquerda"></div>
-            <div class="triangulo_direita"></div>
-            <img src="assets/Cadastro.svg" class="img">
+        <div class="linha-dupla">
+          <div class="campo">
+            <label>Email de Contato</label>
+            <input type="email" id="email_input" placeholder="empresa@email.com">
+          </div>
+          <div class="campo">
+            <label>CNPJ</label>
+            <input type="text" id="cnpj_input" placeholder="00.000.000/0000-00">
+          </div>
         </div>
-    </main>
+        <button onclick="cadastrar()">Cadastrar</button>
+        <span class="login">
+          Já possui conta? <a href="./login.html">Login</a>
+        </span>
+        <div id="erro" class="mensagem_senha"></div>
+      </div>
+    </div>
+    <div class="lado_direito">
+      <img src="assets/logobrancoNexus.png" class="logo">
+      <div class="triangulo_esquerda"></div>
+      <div class="triangulo_direita"></div>
+      <img src="assets/Cadastro.svg" class="img">
+    </div>
+  </main>
 </body>
 <script>
-  const nomeInput = document.getElementById("nome_input");
+  const nomeInput  = document.getElementById("nome_input");
   const razaoInput = document.getElementById("razao_input");
   const emailInput = document.getElementById("email_input");
-  const cnpjInput = document.getElementById("cnpj_input");
-  const senhaInput = document.getElementById("senha_input");
-  const confirmacaoInput = document.getElementById("confirmacao_senha_input");
+  const cnpjInput  = document.getElementById("cnpj_input");
 
   function criarErro(input) {
     let erro = document.createElement("div");
@@ -99,77 +73,24 @@
     return erro;
   }
 
-  const erroNome = criarErro(nomeInput);
+  const erroNome  = criarErro(nomeInput);
   const erroRazao = criarErro(razaoInput);
   const erroEmail = criarErro(emailInput);
-  const erroCnpj = criarErro(cnpjInput);
-  const erroSenha = criarErro(senhaInput);
-  const erroConfirmacao = criarErro(confirmacaoInput);
+  const erroCnpj  = criarErro(cnpjInput);
 
   // ================= CNPJ =================
   cnpjInput.addEventListener("input", function () {
     let v = this.value.replace(/\D/g, "");
     v = v.slice(0, 14);
-
     v = v.replace(/^(\d{2})(\d)/, "$1.$2");
     v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
     v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
     v = v.replace(/(\d{4})(\d)/, "$1-$2");
-
     this.value = v;
   });
 
-  // ================= SENHA =================
-  function validarSenha() {
-    let senha = senhaInput.value;
-
-    let temMaiuscula = false;
-    let temMinuscula = false;
-    let temNumero = false;
-
-    for (let i = 0; i < senha.length; i++) {
-      let c = senha[i];
-
-      if (c >= "A" && c <= "Z") temMaiuscula = true;
-      if (c >= "a" && c <= "z") temMinuscula = true;
-      if (c >= "0" && c <= "9") temNumero = true;
-    }
-
-    if (senha.length < 8) {
-      erroSenha.innerHTML = "Mínimo de 8 caracteres.";
-      return false;
-    } else if (!temMaiuscula) {
-      erroSenha.innerHTML = "Precisa de letra maiúscula.";
-      return false;
-    } else if (!temMinuscula) {
-      erroSenha.innerHTML = "Precisa de letra minúscula.";
-      return false;
-    } else if (!temNumero) {
-      erroSenha.innerHTML = "Precisa de número.";
-      return false;
-    } else {
-      erroSenha.innerHTML = "";
-      return true;
-    }
-  }
-
-  senhaInput.addEventListener("input", validarSenha);
-
-  // ================= CONFIRMAÇÃO =================
-  function validarConfirmacao() {
-    if (confirmacaoInput.value !== senhaInput.value) {
-      erroConfirmacao.innerHTML = "As senhas não coincidem.";
-      return false;
-    } else {
-      erroConfirmacao.innerHTML = "";
-      return true;
-    }
-  }
-
-  confirmacaoInput.addEventListener("input", validarConfirmacao);
-
   // ================= CADASTRAR =================
-  function cadastrar() {
+  async function cadastrar() {
     let valido = true;
 
     if (nomeInput.value.trim() === "") {
@@ -193,19 +114,38 @@
       valido = false;
     } else erroCnpj.innerHTML = "";
 
-    if (!validarSenha()) {
-      valido = false;
-    }
-
-    if (!validarConfirmacao()) {
-      valido = false;
-    }
-
     if (valido) {
-      alert("Cadastro realizado com sucesso!");
-      window.location.href = "cadastro.html";
+      try {
+        const resposta = await fetch("http://localhost:3333/universidades/cadastrar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nomeFantasiaServer: nomeInput.value.trim(),
+            razaoSocialServer:  razaoInput.value.trim(),
+            emailServer:        emailInput.value.trim(),
+            cnpjServer:         cnpjInput.value.trim()
+          })
+        });
+
+        if (resposta.status === 201) {
+          const dados = await resposta.json();
+          alert(`Instituição cadastrada com sucesso!\nSeu token é: ${dados.token}\nGuarde-o para o cadastro do diretor.`);
+          window.location.href = "cadastroDiretor.html";
+        } else {
+          const msg = await resposta.text();
+          if (msg.includes("emailUniversidade")) {
+            alert("Este email já está cadastrado.");
+          } else if (msg.includes("cnpj")) {
+            alert("Este CNPJ já está cadastrado.");
+          } else {
+            alert("Erro ao cadastrar: " + msg);
+          }
+        }
+      } catch (erro) {
+        console.error(erro);
+        alert("Não foi possível conectar ao servidor.");
+      }
     }
   }
 </script>
-
 </html>

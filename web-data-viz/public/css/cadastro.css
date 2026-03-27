@@ -301,10 +301,13 @@ body {
         margin: 0 0 1rem 0;
     }
 
+<<<<<<< HEAD
     .mensagem_senha {
         font-size: 11px;
         text-align: left;
         margin-top: 6px;
     }
 
+=======
+>>>>>>> feature/nova-tela-cadastro
 }

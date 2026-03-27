@@ -1,0 +1,212 @@
+<!--CADASTRO DIRETOR-->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/cadastro.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>Nexus | Cadastro</title>
+  <link rel="shortcut icon" href="assets/favicon (3).ico" type="image/x-icon">
+</head>
+<body>
+  <main class="cadastro_container">
+    <div class="lado_esquerdo">
+      <div class="grupo_voltar">
+        <a href="./index.html" class="botao_de_voltar">
+          <span class="seta"><i class="fa-solid fa-arrow-left"></i></span>
+        </a>
+        <span class="voltar"><a href="./index.html">Voltar</a></span>
+      </div>
+      <h1>CADASTRE-SE</h1>
+      <p>Conecte-se a novas oportunidades com a Nexus</p>
+      <div class="card-login">
+        <div class="linha-dupla">
+          <div class="campo">
+            <label>Nome</label>
+            <input type="text" id="nome_input" placeholder="Seu nome">
+          </div>
+          <div class="campo">
+            <label>Sobrenome</label>
+            <input type="text" id="sobrenome_input" placeholder="Seu sobrenome">
+          </div>
+        </div>
+        <div class="linha-dupla">
+          <div class="campo">
+            <label>Email</label>
+            <input type="email" id="email_input" placeholder="empresa@email.com">
+          </div>
+          <div class="campo">
+            <label>Token</label>
+            <input type="text" id="token_input" placeholder="******" maxlength="6">
+          </div>
+        </div>
+        <div class="linha-dupla">
+          <div class="campo">
+            <label>Senha</label>
+            <input type="password" id="senha_input" placeholder="**********">
+          </div>
+          <div class="campo">
+            <label>Confirmar senha</label>
+            <input type="password" id="confirmacao_senha_input" placeholder="**********">
+          </div>
+        </div>
+        <button onclick="cadastrar()">Cadastrar</button>
+        <span class="login">
+          Já possui conta? <a href="./login.html">Login</a>
+        </span>
+        <div id="erro_senha" class="mensagem_senha"></div>
+        <div id="erro_confirmacao" class="mensagem_senha"></div>
+      </div>
+    </div>
+    <div class="lado_direito">
+      <img src="assets/logobrancoNexus.png" alt="Logo da Nexus" class="logo">
+      <div class="triangulo_esquerda"></div>
+      <div class="triangulo_direita"></div>
+      <img src="assets/Cadastro.svg" alt="Ilustração de login" class="img">
+    </div>
+  </main>
+</body>
+<script>
+  const nomeInput        = document.getElementById("nome_input");
+  const sobrenomeInput   = document.getElementById("sobrenome_input");
+  const emailInput       = document.getElementById("email_input");
+  const tokenInput       = document.getElementById("token_input");
+  const senhaInput       = document.getElementById("senha_input");
+  const confirmacaoInput = document.getElementById("confirmacao_senha_input");
+
+  function criarErro(input) {
+    let erro = document.createElement("div");
+    erro.className = "mensagem_senha";
+    erro.style.color = "red";
+    erro.style.fontSize = "12px";
+    input.parentNode.appendChild(erro);
+    return erro;
+  }
+
+  const erroNome        = criarErro(nomeInput);
+  const erroSobrenome   = criarErro(sobrenomeInput);
+  const erroEmail       = criarErro(emailInput);
+  const erroToken       = criarErro(tokenInput);
+  const erroSenha       = criarErro(senhaInput);
+  const erroConfirmacao = criarErro(confirmacaoInput);
+
+  // ================= TOKEN =================
+  tokenInput.addEventListener("input", function () {
+    // Permite letras e números, limita a 6 caracteres
+    this.value = this.value.replace(/[^a-zA-Z0-9]/g, "").slice(0, 6).toUpperCase();
+  });
+
+  // ================= VALIDAÇÃO SENHA =================
+  function validarSenha() {
+    let senha = senhaInput.value;
+    let temMaiuscula = false;
+    let temNumero    = false;
+    let temEspecial  = false;
+
+    for (let i = 0; i < senha.length; i++) {
+      let c = senha[i];
+      if (c >= "A" && c <= "Z") temMaiuscula = true;
+      if (c >= "0" && c <= "9") temNumero = true;
+      if ("!@#$%&*".includes(c)) temEspecial = true;
+    }
+
+    if (senha.length < 8) {
+      erroSenha.style.color = "red";
+      erroSenha.innerHTML = "A senha deve ter no mínimo 8 caracteres.";
+      return false;
+    } else if (!temMaiuscula) {
+      erroSenha.style.color = "red";
+      erroSenha.innerHTML = "A senha precisa ter pelo menos 1 letra maiúscula.";
+      return false;
+    } else if (!temNumero) {
+      erroSenha.style.color = "red";
+      erroSenha.innerHTML = "A senha precisa ter pelo menos 1 número.";
+      return false;
+    } else if (!temEspecial) {
+      erroSenha.style.color = "red";
+      erroSenha.innerHTML = "A senha precisa ter 1 caractere especial (!@#$%&*).";
+      return false;
+    } else {
+      erroSenha.style.color = "green";
+      erroSenha.innerHTML = "Senha válida!";
+      return true;
+    }
+  }
+
+  // ================= VALIDAÇÃO CONFIRMAÇÃO =================
+  function validarConfirmacao() {
+    if (confirmacaoInput.value !== senhaInput.value) {
+      erroConfirmacao.style.color = "red";
+      erroConfirmacao.innerHTML = "As senhas não coincidem.";
+      return false;
+    } else {
+      erroConfirmacao.innerHTML = "";
+      return true;
+    }
+  }
+
+  senhaInput.addEventListener("input", validarSenha);
+  confirmacaoInput.addEventListener("input", validarConfirmacao);
+
+  // ================= CADASTRAR =================
+  async function cadastrar() {
+    let valido = true;
+
+    if (nomeInput.value.trim() === "") {
+      erroNome.innerHTML = "Digite seu nome.";
+      valido = false;
+    } else erroNome.innerHTML = "";
+
+    if (sobrenomeInput.value.trim() === "") {
+      erroSobrenome.innerHTML = "Digite seu sobrenome.";
+      valido = false;
+    } else erroSobrenome.innerHTML = "";
+
+    if (!emailInput.value.includes("@")) {
+      erroEmail.innerHTML = "Email inválido.";
+      valido = false;
+    } else erroEmail.innerHTML = "";
+
+    if (tokenInput.value.trim().length !== 6) {
+      erroToken.innerHTML = "Token deve ter 6 caracteres.";
+      valido = false;
+    } else erroToken.innerHTML = "";
+
+    if (!validarSenha())       valido = false;
+    if (!validarConfirmacao()) valido = false;
+
+    if (valido) {
+      try {
+        const resposta = await fetch("http://localhost:3333/diretoria/cadastrar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nomeServer:      nomeInput.value.trim(),
+            sobrenomeServer: sobrenomeInput.value.trim(),
+            emailServer:     emailInput.value.trim(),
+            tokenServer:     tokenInput.value.trim().toUpperCase(),
+            senhaServer:     senhaInput.value
+          })
+        });
+
+        if (resposta.status === 201) {
+          alert("Cadastro realizado com sucesso!");
+          window.location.href = "login.html";
+        } else if (resposta.status === 404) {
+          erroToken.style.color = "red";
+          erroToken.innerHTML = "Token inválido! Verifique o token da sua instituição.";
+        } else {
+          const msg = await resposta.text();
+          alert("Erro ao cadastrar: " + msg);
+        }
+      } catch (erro) {
+        console.error(erro);
+        alert("Não foi possível conectar ao servidor.");
+      }
+    }
+  }
+</script>
+</html>
