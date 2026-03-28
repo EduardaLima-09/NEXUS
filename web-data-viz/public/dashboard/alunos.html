@@ -1,54 +1,59 @@
+<!--ALUNOS-->
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="../css/alunos.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <title>Nexus | Dashboard</title>
-    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+    <title>Nexus | Alunos</title>
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
-
     <div class="tela">
         <div class="dash">
             <div class="barra">
                 <div class="logo">
-                    <img src="../assets/logobranco - Editado 2.png" alt="">
+                    <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
                 </div>
                 <div class="menu">
                     <div class="titulo">
-                        <h1>Menu</h1>
+                        <h1>Menu Principal</h1>
                     </div>
                     <div class="botoes">
-                        <button onclick="goDash()">Home</button>
+                        <button onclick="goDash()">Início</button>
                         <button onclick="goAlunos()">Alunos</button>
                         <button onclick="goCursos()">Cursos</button>
-                        <button onclick="goPainel()">Painel Admin</button>
+                        <button onclick="goPainel()">Administração</button>
                     </div>
                 </div>
                 <div class="sair">
                     <div class="usuario">
-                        <img src="../assets/user.png" alt="">
                         <div class="nome">
-                            <h1>Admin</h1>
+                            <div class="titulo-usuario">
+                                <span class="material-icons icone-user">account_circle</span>
+                                <h1>Administrador</h1>
+                            </div>
                             <p>Usuário * Nexus</p>
                         </div>
                     </div>
                     <button onclick="goHome()">Sair</button>
                 </div>
             </div>
+            <!--COMEÇA O CONTEÚDO De ALUNOS-->
             <div class="conteudo">
                 <div class="tituloDash">
-                    <h1>Evasão por alunos - Dashboard</h1>
-                    <p>Instituição privada</p>
+                    <div class="texto">
+                        <h1>Alunos</h1>
+                        <p>Visão geral e gerenciamento</p>
+                    </div>
                 </div>
                 <div class="conteudo2">
                     <div class="insights">
@@ -79,10 +84,8 @@
                     </div>
                     <div class="conteudo3">
                         <div class="tabela">
-                            <div class="titulo2">
-                                <h1>Lista de Alunos</h1>
-                            </div>
                             <div class="topo-tabela">
+                                <h1>Lista de Alunos</h1>
                                 <select id="filtroRisco">
                                     <option value="">Todos os riscos</option>
                                     <option value="Alto">Alto</option>
@@ -188,9 +191,9 @@
                         <div class="metade2">
                             <div class="graficoDonut">
                                 <h3>Distribuição de Risco</h3>
-                            <div class="chart-container">
-                                <canvas id="mychart1"></canvas>
-                            </div>
+                                <div class="chart-container">
+                                    <canvas id="mychart1"></canvas>
+                                </div>
                             </div>
                             <div class="graficoBarra">
                                 <h3>Motivos de Risco - Top 4</h3>
@@ -198,12 +201,12 @@
                                     <canvas id="mychart2"></canvas>
                                 </div>
                             </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 </body>
@@ -230,114 +233,115 @@
     }
 
     const filtro = document.getElementById('filtroRisco');
-const tabela = document.getElementById('tabelaAlunos').getElementsByTagName('tbody')[0];
+    const tabela = document.getElementById('tabelaAlunos').getElementsByTagName('tbody')[0];
 
-function filtrarTabela() {
-    const filtroValor = filtro.value.toLowerCase();
-    const linhas = tabela.getElementsByTagName('tr');
+    function filtrarTabela() {
+        const filtroValor = filtro.value.toLowerCase();
+        const linhas = tabela.getElementsByTagName('tr');
 
-    for (let i = 0; i < linhas.length; i++) {
-        const linha = linhas[i];
-        const risco = linha.cells[5].innerText.toLowerCase();
+        for (let i = 0; i < linhas.length; i++) {
+            const linha = linhas[i];
+            const risco = linha.cells[5].innerText.toLowerCase();
 
-        if (filtroValor === "" || risco === filtroValor) {
-            linha.style.display = "";
-        } else {
-            linha.style.display = "none";
+            if (filtroValor === "" || risco === filtroValor) {
+                linha.style.display = "";
+            } else {
+                linha.style.display = "none";
+            }
         }
     }
-}
 
-filtro.addEventListener('change', filtrarTabela);
+    filtro.addEventListener('change', filtrarTabela);
 
 
-const ctx1 = document.getElementById('mychart1');
+    const ctx1 = document.getElementById('mychart1');
 
-new Chart(ctx1, {
-    type: 'doughnut',
-    data: {
-        labels: ['Alto', 'Médio', 'Baixo'],
-        datasets: [{
-            data: [13, 27, 60],
-            backgroundColor: [
-                'red',
-                'yellow',
-                'green'
-            ],
-            borderColor: '#00000',
-            borderWidth: 5
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '60%',
+    new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+            labels: ['Alto', 'Médio', 'Baixo'],
+            datasets: [{
+                data: [13, 27, 60],
+                backgroundColor: [
+                    'red',
+                    'yellow',
+                    'green'
+                ],
+                borderColor: '#ffffff',
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '60%',
 
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: {
-                    generateLabels: function(chart) {
-                        const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
-                        const labels = original(chart);
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        generateLabels: function (chart) {
+                            const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
+                            const labels = original(chart);
 
-                        labels.forEach(label => {
-                            label.lineWidth = 0; 
-                        });
+                            labels.forEach(label => {
+                                label.lineWidth = 0;
+                            });
 
-                        return labels;
+                            return labels;
+                        }
                     }
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.label}: ${context.raw}%`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const ctx2 = document.getElementById('mychart2');
+
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['Inadimplência', 'Faltas Excessivas', 'Baixo Desempenho', 'Solicitou o Trancamento'],
+            datasets: [{
+                label: 'Alunos',
+                data: [30, 50, 20, 40],
+                backgroundColor: ['#164773'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+
+            plugins: {
+                legend: {
+                    display: true
                 }
             },
 
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        return `${context.label}: ${context.raw}%`;
+            scales: {
+                x: {
+                    min: 0,
+                    max: 100,
+
+                    ticks: {
+                        stepSize: 25,
+                        callback: function (value) {
+                            return value + '%';
+                        }
                     }
                 }
             }
         }
-    }
-});
-
-const ctx2 = document.getElementById('mychart2');
-
-new Chart(ctx2, {
-    type: 'bar',
-    data: {
-        labels: ['Inadimplência', 'Faltas Excessivas', 'Baixo Desempenho', 'Solicitou o Trancamento'],
-        datasets: [{
-            label: 'Alunos',
-            data: [30, 50, 20, 40],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        indexAxis: 'y', 
-
-        plugins: {
-            legend: {
-                display: true
-            }
-        },
-
-        scales: {
-            x: { 
-                min: 0,
-                max: 100,
-
-                ticks: {
-                    stepSize: 25,
-                    callback: function(value) {
-                        return value + '%'; 
-                    }
-                }
-            }
-        }
-    }
-});
+    });
 
 </script>
