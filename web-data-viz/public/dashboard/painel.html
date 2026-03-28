@@ -1,44 +1,46 @@
+<!--PAINEL ADMINISTRATIVO-->
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="../css/painel.css">
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/painel.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <title>Nexus | Dashboard</title>
-  <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <title>Nexus | Painel Administrativo</title>
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
-
     <div class="tela">
         <div class="dash">
             <div class="barra">
                 <div class="logo">
-                    <img src="../assets/logobranco - Editado 2.png" alt="">
+                    <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
                 </div>
                 <div class="menu">
                     <div class="titulo">
-                        <h1>Menu</h1>
+                        <h1>Menu Principal</h1>
                     </div>
                     <div class="botoes">
-                        <button onclick="goDash()">Home</button>
+                        <button onclick="goDash()">Início</button>
                         <button onclick="goAlunos()">Alunos</button>
                         <button onclick="goCursos()">Cursos</button>
-                        <button onclick="goPainel()">Painel Admin</button>
+                        <button onclick="goPainel()">Administração</button>
                     </div>
                 </div>
                 <div class="sair">
                     <div class="usuario">
-                        <img src="../assets/user.png" alt="">
                         <div class="nome">
-                            <h1>Admin</h1>
+                            <div class="titulo-usuario">
+                                <span class="material-icons icone-user">account_circle</span>
+                                <h1>Administrador</h1>
+                            </div>
                             <p>Usuário * Nexus</p>
                         </div>
                     </div>
@@ -47,131 +49,128 @@
             </div>
             <div class="conteudo">
                 <div class="tituloDash">
-                    <h1>Painel Administrativo</h1>
-                    <p>Instituição privada</p>
+                    <div class="texto">
+                        <h1>Painel Administrativo</h1>
+                        <p>Controle e visualização de usuários da instituição</p>
+                    </div>
                 </div>
                 <div class="conteudo2">
                     <div class="painel-admin">
+                        <h1>Gerenciamento de Usuários</h1>
+                        <button class="btn-add" onclick="abrirModal()">+ Adicionar Usuário</button>
+                        <table class="tabela-admin">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Senha</th>
+                                    <th>Email</th>
+                                    <th>Token</th>
+                                    <th>Editar</th>
+                                    <th>Excluir</th>
+                                </tr>
+                            </thead>
 
-    <h1>Gerenciamento de Usuários</h1>
+                            <tbody>
+                                <tr>
+                                    <td>Admin Principal</td>
+                                    <td>••••••••</td>
+                                    <td>admin@nexus.com</td>
+                                    <td>AX9K2L</td>
+                                    <td><button class="btn-editar">Editar</button></td>
+                                    <td><button class="btn-excluir">Excluir</button></td>
+                                </tr>
 
-    <button class="btn-add" onclick="abrirModal()">+ Adicionar Usuário</button>
-    <table class="tabela-admin">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Senha</th>
-                <th>Email</th>
-                <th>Token</th>
-                <th>Editar</th>
-                <th>Excluir</th>
-            </tr>
-        </thead>
+                                <tr>
+                                    <td>Maria Souza</td>
+                                    <td>••••••••</td>
+                                    <td>maria@nexus.com</td>
+                                    <td>QW8P1Z</td>
+                                    <td><button class="btn-editar">Editar</button></td>
+                                    <td><button class="btn-excluir">Excluir</button></td>
+                                </tr>
 
-        <tbody>
-            <tr>
-                <td>Admin Principal</td>
-                <td>••••••••</td>
-                <td>admin@nexus.com</td>
-                <td>AX9K2L</td>
-                <td><button class="btn-editar">Editar</button></td>
-                <td><button class="btn-excluir">Excluir</button></td>
-            </tr>
+                                <tr>
+                                    <td>João Silva</td>
+                                    <td>••••••••</td>
+                                    <td>joao@nexus.com</td>
+                                    <td>LM2X9A</td>
+                                    <td><button class="btn-editar">Editar</button></td>
+                                    <td><button class="btn-excluir">Excluir</button></td>
+                                </tr>
 
-            <tr>
-                <td>Maria Souza</td>
-                <td>••••••••</td>
-                <td>maria@nexus.com</td>
-                <td>QW8P1Z</td>
-                <td><button class="btn-editar">Editar</button></td>
-                <td><button class="btn-excluir">Excluir</button></td>
-            </tr>
+                                <tr>
+                                    <td>Ana Costa</td>
+                                    <td>••••••••</td>
+                                    <td>ana@nexus.com</td>
+                                    <td>TR5Y8B</td>
+                                    <td><button class="btn-editar">Editar</button></td>
+                                    <td><button class="btn-excluir">Excluir</button></td>
+                                </tr>
 
-            <tr>
-                <td>João Silva</td>
-                <td>••••••••</td>
-                <td>joao@nexus.com</td>
-                <td>LM2X9A</td>
-                <td><button class="btn-editar">Editar</button></td>
-                <td><button class="btn-excluir">Excluir</button></td>
-            </tr>
+                                <tr>
+                                    <td>Lucas Rocha</td>
+                                    <td>••••••••</td>
+                                    <td>lucas@nexus.com</td>
+                                    <td>ZX7Q3M</td>
+                                    <td><button class="btn-editar">Editar</button></td>
+                                    <td><button class="btn-excluir">Excluir</button></td>
+                                </tr>
 
-            <tr>
-                <td>Ana Costa</td>
-                <td>••••••••</td>
-                <td>ana@nexus.com</td>
-                <td>TR5Y8B</td>
-                <td><button class="btn-editar">Editar</button></td>
-                <td><button class="btn-excluir">Excluir</button></td>
-            </tr>
+                                <tr>
+                                    <td>Fernanda Lopes</td>
+                                    <td>••••••••</td>
+                                    <td>fernanda@nexus.com</td>
+                                    <td>YU4T9C</td>
+                                    <td><button class="btn-editar">Editar</button></td>
+                                    <td><button class="btn-excluir">Excluir</button></td>
+                                </tr>
 
-            <tr>
-                <td>Lucas Rocha</td>
-                <td>••••••••</td>
-                <td>lucas@nexus.com</td>
-                <td>ZX7Q3M</td>
-                <td><button class="btn-editar">Editar</button></td>
-                <td><button class="btn-excluir">Excluir</button></td>
-            </tr>
+                                <tr>
+                                    <td>Bruno Martins</td>
+                                    <td>••••••••</td>
+                                    <td>bruno@nexus.com</td>
+                                    <td>PL6K2D</td>
+                                    <td><button class="btn-editar">Editar</button></td>
+                                    <td><button class="btn-excluir">Excluir</button></td>
+                                </tr>
 
-            <tr>
-                <td>Fernanda Lopes</td>
-                <td>••••••••</td>
-                <td>fernanda@nexus.com</td>
-                <td>YU4T9C</td>
-                <td><button class="btn-editar">Editar</button></td>
-                <td><button class="btn-excluir">Excluir</button></td>
-            </tr>
+                                <tr>
+                                    <td>Carla Mendes</td>
+                                    <td>••••••••</td>
+                                    <td>carla@nexus.com</td>
+                                    <td>WE1R5F</td>
+                                    <td><button class="btn-editar">Editar</button></td>
+                                    <td><button class="btn-excluir">Excluir</button></td>
+                                </tr>
 
-            <tr>
-                <td>Bruno Martins</td>
-                <td>••••••••</td>
-                <td>bruno@nexus.com</td>
-                <td>PL6K2D</td>
-                <td><button class="btn-editar">Editar</button></td>
-                <td><button class="btn-excluir">Excluir</button></td>
-            </tr>
+                                <tr>
+                                    <td>Rafael Alves</td>
+                                    <td>••••••••</td>
+                                    <td>rafael@nexus.com</td>
+                                    <td>BN3M8G</td>
+                                    <td><button class="btn-editar">Editar</button></td>
+                                    <td><button class="btn-excluir">Excluir</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div id="modalUsuario" class="modal">
+                            <div class="modal-content">
+                                <h2>Adicionar Usuário</h2>
+                                <input type="text" placeholder="Nome">
+                                <input type="password" placeholder="Senha">
+                                <input type="email" placeholder="Email">
+                                <input type="text" placeholder="Token">
+                                <div class="botoes-modal">
+                                    <button class="btn-salvar">Salvar</button>
+                                    <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
 
-            <tr>
-                <td>Carla Mendes</td>
-                <td>••••••••</td>
-                <td>carla@nexus.com</td>
-                <td>WE1R5F</td>
-                <td><button class="btn-editar">Editar</button></td>
-                <td><button class="btn-excluir">Excluir</button></td>
-            </tr>
-
-            <tr>
-                <td>Rafael Alves</td>
-                <td>••••••••</td>
-                <td>rafael@nexus.com</td>
-                <td>BN3M8G</td>
-                <td><button class="btn-editar">Editar</button></td>
-                <td><button class="btn-excluir">Excluir</button></td>
-            </tr>
-        </tbody>
-    </table>
-    <div id="modalUsuario" class="modal">
-    <div class="modal-content">
-        <h2>Novo Usuário</h2>
-
-        <input type="text" placeholder="Nome">
-        <input type="password" placeholder="Senha">
-        <input type="email" placeholder="Email">
-        <input type="text" placeholder="Token">
-
-        <div class="botoes-modal">
-            <button class="btn-salvar">Salvar</button>
-            <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
-        </div>
-    </div>
-</div>
-
-</div>
+                    </div>
                 </div>
+            </div>
         </div>
-    </div>
-
 </body>
 
 </html>
@@ -181,7 +180,6 @@
     function goDash() {
         window.location.href = "dashboard.html";
     }
-
     function goAlunos() {
         window.location.href = "alunos.html";
     }
@@ -194,13 +192,11 @@
     function goHome() {
         window.location.href = "../index.html";
     }
-
     function abrirModal() {
-    document.getElementById('modalUsuario').style.display = 'flex';
-}
-
-function fecharModal() {
-    document.getElementById('modalUsuario').style.display = 'none';
-}
+        document.getElementById('modalUsuario').style.display = 'flex';
+    }
+    function fecharModal() {
+        document.getElementById('modalUsuario').style.display = 'none';
+    }
 
 </script>
