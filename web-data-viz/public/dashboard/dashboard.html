@@ -1,3 +1,4 @@
+<!--DASHBOARD-->
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -46,8 +47,7 @@
                     <button onclick="goHome()">Sair</button>
                 </div>
             </div>
-
-
+            <!--COMEÇA O CONTEÚDO DA DASHBOARD-->
             <div class="conteudo">
                 <div class="tituloDash">
                     <div class="texto">
@@ -99,7 +99,7 @@
                         </div>
                         <div class="metade2">
                             <h3>Motivos de Evasão</h3>
-                            <div class="chart-container g3">
+                            <div class="chart-container g3" id="graficoPizza">
                                 <canvas id="mychart3"></canvas>
                             </div>
                         </div>
@@ -118,7 +118,6 @@
     function goDash() {
         window.location.href = "dashboard.html";
     }
-
     function goAlunos() {
         window.location.href = "alunos.html";
     }
@@ -141,8 +140,13 @@
             datasets: [{
                 label: 'Taxa da evasão de alunos',
                 data: [12, 19, 3, 5, 2, 10],
+                borderColor: '#111827', // cor da linha
+                backgroundColor: 'rgba(70, 129, 166, 0.3)', // leve preenchimento
+                pointBackgroundColor: '#164773', // bolinhas
+                pointBorderColor: '##012340',
+
                 borderWidth: 2,
-                fill: false,
+                fill: true,
                 tension: 0.3
             }]
         },
@@ -181,6 +185,7 @@
             datasets: [{
                 label: 'Alunos',
                 data: [30, 50, 20, 40, 15],
+                backgroundColor: ['#164773'],
                 borderWidth: 1
             }]
         },
@@ -224,16 +229,16 @@
                     '#4681A6',
                     '#8AB4A1',
                     '#3f3f3f',
-                    '#fE5E06'
+                    '#164773'
                 ],
-                borderColor: '#00000',
-                borderWidth: 5
+                borderColor: '#ffffff',
+                borderWidth: 3
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '60%',
+            cutout: '50%',
 
             plugins: {
                 legend: {

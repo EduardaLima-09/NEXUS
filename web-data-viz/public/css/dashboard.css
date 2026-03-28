@@ -16,6 +16,7 @@
     --cor-cinza: #D9D9D9;
     --cor-cinza-escuro: #3f3f3f;
     --cor-branco: #F1F1F1;
+    --cor-branco-puro: #FFFFFF;
     --cor-preto: #000000;
 }
 
@@ -140,157 +141,131 @@ body {
     background: #dc2626;
 }
 
-/* CONTEÚDO */
+/* COMEÇA O CONTEÚDO */
 
 .conteudo {
     flex: 1;
-    padding: 20px;
+    padding: 18px;
     height: 100vh;
-    overflow-y: auto; /* scroll só aqui */
+    overflow-y: hidden;
 }
 
 /* HEADER */
+
 .tituloDash {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
+    justify-content: space-between;
 }
 
 .tituloDash h1 {
     font-size: 24px;
-    color: #111827;
+    color: var(--cor--sidebar);
+    font-family: var(--font-titulos);
 }
 
 .tituloDash p {
-    font-size: 13px;
-    color: #6b7280;
+    font-size: 14px;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
 }
 
 #nomeUsuario {
-    color: #4f46e5;
+    color: var(--cor-azul-medio);
+    font-family: var(--font-subtitulos);
 }
 
-.tituloDash img {
-    width: 90px;
-}
+/* começa os cards */
 
-/* CARDS */
 .insights {
+    gap: 16px;
     display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .cards {
     flex: 1;
-    background: #fff;
     padding: 15px;
     border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.07);
 }
 
 .cards h3 {
-    font-size: 13px;
-    color: #6b7280;
+    font-size: 14px;
+    color: var(--cor-azul-escuro);
+    font-family: var(--font-titulos);
 }
 
 .cards h1 {
-    font-size: 22px;
-    margin: 8px 0;
+    margin: 6px 0;
+    font-size: 24px;
+    font-family: var(--font-subtitulos);
 }
 
 .porcentagem {
+    gap: 6px;
     display: flex;
     align-items: center;
-    gap: 5px;
 }
 
 .porcentagem img {
-    width: 14px;
+    width: 16px;
 }
 
-/* GRÁFICOS */
+/* Eita olha os GRÁFICOS */
+
 .graficos {
+    gap: 18px;
     display: flex;
-    gap: 15px;
-    height: calc(100vh - 220px); /* controla altura total */
+    height: calc(100vh - 220px);
 }
 
-/* COLUNA ESQUERDA */
 .metade1 {
     flex: 2;
+    gap: 10px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
 }
 
-/* COLUNA DIREITA */
 .metade2 {
     flex: 1;
-    background: #fff;
     padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
     display: flex;
+    border-radius: 12px;
     flex-direction: column;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.07);
 }
 
-/* GRÁFICOS BOX */
 .graficoLinha,
 .graficoBarra {
-    background: #fff;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
     flex: 1;
     display: flex;
+    padding: 15px;
+    border-radius: 12px;
     flex-direction: column;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.07);
 }
 
-/* TITULOS */
 .graficoLinha h3,
 .graficoBarra h3,
 .metade2 h3 {
-    font-size: 13px;
-    margin-bottom: 8px;
+    font-size: 14px;
+    margin-bottom: 4px;
+    font-family: var(--font-subtitulos);
 }
 
-/* CONTAINER DOS GRÁFICOS */
 .chart-container {
-    position: relative;
     flex: 1;
     width: 100%;
+    position: relative;
 }
 
-/* RESPONSIVO */
-@media (max-width: 1024px) {
-    .graficos {
-        flex-direction: column;
-        height: auto;
-    }
-
-    .insights {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 768px) {
-    body {
-        overflow: auto;
-    }
-
-    .barra {
-        width: 200px;
-    }
-
-    .tituloDash {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .tituloDash img {
-        width: 70px;
-    }
+#graficoPizza {
+    height: 200px; 
+    max-width: 300px;
+    margin: 0 auto; 
 }
