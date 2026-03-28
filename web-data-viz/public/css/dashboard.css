@@ -32,7 +32,7 @@ body {
 .tela {
     height: 100%;
     width: 100%;
-    border: 3px solid green;
+    border: 1px solid gray;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -41,7 +41,7 @@ body {
 .dash {
     height: 95%;
     width: 95%;
-    border: 3px solid blue;
+    border: 1px solid gray;
     display: flex;
     flex-direction: row;
 }
@@ -49,7 +49,7 @@ body {
 .barra{
     height: 100%;
     width: 18%;
-    border: 3px solid blueviolet;
+    border: 1px solid gray;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -62,7 +62,7 @@ body {
     justify-content: center;
     align-items: center;
     display: flex;
-    border: 2px solid gray;
+    border: 1px solid gray;
 }
 
 .logo img {
@@ -74,7 +74,7 @@ body {
     flex-direction: column;
     width: 100%;
     height: 30%;
-    border: 3px solid gold;
+    border: 1px solid gray;
     justify-content: center;
     gap: 10px;
     align-items: center;
@@ -91,7 +91,6 @@ body {
     
     width: 110px;
     font-size: 1rem;
-    border: 0;
     text-align: start;
 }
 
@@ -109,7 +108,7 @@ body {
 .sair {
     width: 100%;
     height: 25%;
-    border: 3px solid greenyellow;
+    border: 1px solid gray;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -130,7 +129,7 @@ body {
 .conteudo {
     height: 100%;
     width: 82%;
-    border: 3px solid brown;
+    border: 1px solid gray;
     display: flex;
     flex-direction: column;
 }
@@ -138,7 +137,7 @@ body {
 .tituloDash {
     width: 100%;
     height: 12%;
-    border: 3px solid goldenrod;
+    border: 1px solid gray;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -147,13 +146,13 @@ body {
 .conteudo2 {
     width: 100%;
     height: 88%;
-    border: 3px solid cadetblue;
+    border: 1px solid gray;
 }
 
 .insights{
     width: 100%;
     height: 20%;
-    border: 3px solid chartreuse;
+    border: 1px solid gray;
     display: flex;
     justify-content: space-evenly;
 }
@@ -163,7 +162,7 @@ body {
     flex-direction: column;
     height: 100%;
     width: 25%;
-    border: 3px solid rebeccapurple;
+    border: 1px solid gray;
     text-align: center;
     align-items: center;
     justify-content: space-evenly;
@@ -181,14 +180,14 @@ body {
 .graficos {
     width: 100%;
     height: 80%;
-    border: 3px solid fuchsia;
+    border: 1px solid gray;
     display: flex;
 }
 
 .metade1 {
     width: 70%;
     height: 100%;
-    border: 3px solid aqua;
+    border: 1px solid gray;
     display: flex;
     flex-direction: column;
 }
@@ -196,7 +195,7 @@ body {
 .graficoLinha {
     width: 100%;
     height: 50%;
-    border: 3px solid aquamarine;
+    border: 1px solid gray;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -210,7 +209,7 @@ body {
 .graficoBarra {
     width: 100%;
     height: 50%;
-    border: 3px solid lawngreen;
+    border: 1px solid gray;
 }
 
 .graficoBarra .chart-container {
@@ -225,7 +224,7 @@ body {
 .metade2 {
     width: 30%;
     height: 100%;
-    border: 3px solid black;
+    border: 1px solid gray;
     justify-content: center;
     align-items: center;
 }

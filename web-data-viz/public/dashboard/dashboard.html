@@ -53,7 +53,7 @@
                 <div class="conteudo2">
                     <div class="insights">
                         <div class="cards">
-                            <h3>KPI 1</h3>
+                            <h3>Taxa de Evasão</h3>
                             <h1>10,5%</h1>
                             <div class="porcentagem">
                                 <img src="../assets/down-arrow.png" alt="">
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                         <div class="cards">
-                            <h3>KPI 2</h3>
+                            <h3>Alunos em Risco</h3>
                             <h1>30,3%</h1>
                             <div class="porcentagem">
                                 <img src="../assets/up-arrow.png" alt="">
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <div class="cards">
-                            <h3>KPI 3</h3>
+                            <h3>Evasões no Semestre</h3>
                             <h1>50,7%</h1>
                             <div class="porcentagem">
                                 <img src="../assets/up-arrow.png" alt="">
@@ -80,20 +80,20 @@
                     <div class="graficos">
                         <div class="metade1">
                             <div class="graficoLinha">
-                                <h3>Gráfico 1</h3>
+                                <h3>Evolução da Taxa de Evasão - Últimos 6 semestres</h3>
                                 <div class="chart-container">
                                     <canvas id="mychart1"></canvas>
                                 </div>
                             </div>
                             <div class="graficoBarra">
-                                <h3>Gráfico 2</h3>
+                                <h3>Evasão por curso - Top 5</h3>
                                 <div class="chart-container">
                                     <canvas id="mychart2"></canvas>
                                 </div>
                             </div>
                         </div>
                         <div class="metade2">
-                            <h3>Gráfico 3</h3>
+                            <h3>Motivos de Evasão</h3>
                             <div class="chart-container g3">
                                 <canvas id="mychart3"></canvas>
                             </div>
@@ -132,9 +132,9 @@ const ctx = document.getElementById('mychart1');
 new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+        labels: ['2022.2', '2023.1', '2023.2', '2024.1', '2024.2', '2025.1'],
         datasets: [{
-            label: 'Vendas',
+            label: 'Taxa da evasão de alunos',
             data: [12, 19, 3, 5, 2, 10],
             borderWidth: 2,
             fill: false,
@@ -144,9 +144,24 @@ new Chart(ctx, {
     options: {
         responsive: true,
         maintainAspectRatio: false,
+
         plugins: {
             legend: {
                 display: true
+            }
+        },
+
+        scales: {
+            y: {
+                min: 0,
+                max: 100,
+
+                ticks: {
+                    stepSize: 20, 
+                    callback: function(value) {
+                        return value + '%'; 
+                    }
+                }
             }
         }
     }
@@ -157,17 +172,37 @@ const ctx2 = document.getElementById('mychart2');
 new Chart(ctx2, {
     type: 'bar',
     data: {
-        labels: ['Curso A', 'Curso B', 'Curso C', 'Curso D'],
+        labels: ['Medicina', 'Ciência da Computação', 'Enfermagem', 'Advocacia', 'Sistemas da Informação'],
         datasets: [{
             label: 'Alunos',
-            data: [30, 50, 20, 40],
+            data: [30, 50, 20, 40, 15],
             borderWidth: 1
         }]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
-        indexAxis: 'y'
+        indexAxis: 'y', 
+
+        plugins: {
+            legend: {
+                display: true
+            }
+        },
+
+        scales: {
+            x: { 
+                min: 0,
+                max: 100,
+
+                ticks: {
+                    stepSize: 25,
+                    callback: function(value) {
+                        return value + '%'; 
+                    }
+                }
+            }
+        }
     }
 });
 
@@ -176,13 +211,15 @@ const ctx3 = document.getElementById('mychart3');
 new Chart(ctx3, {
     type: 'doughnut',
     data: {
-        labels: ['Evasão', 'Ativos', 'Concluídos'],
+        labels: ['Financeiro', 'Pessoal', 'Acadêmico', 'Trabalho', 'Outros'],
         datasets: [{
-            data: [15, 60, 25],
+            data: [10, 30, 20, 5, 35],
             backgroundColor: [
                 '#012340',
                 '#4681A6',
-                '#8AB4A1'
+                '#8AB4A1',
+                '#3f3f3f',
+                '#fE5E06'
             ],
             borderColor: '#00000',
             borderWidth: 5
@@ -202,10 +239,18 @@ new Chart(ctx3, {
                         const labels = original(chart);
 
                         labels.forEach(label => {
-                            label.lineWidth = 0; // 👈 remove borda só da legenda
+                            label.lineWidth = 0; 
                         });
 
                         return labels;
+                    }
+                }
+            },
+
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return `${context.label}: ${context.raw}%`;
                     }
                 }
             }
