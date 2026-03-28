@@ -1,60 +1,65 @@
+<!--CURSOS-->
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="../css/cursos.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <title>Nexus | Dashboard</title>
-    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+    <title>Nexus | Cursos</title>
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
-
     <div class="tela">
         <div class="dash">
             <div class="barra">
                 <div class="logo">
-                    <img src="../assets/logobranco - Editado 2.png" alt="">
+                    <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
                 </div>
                 <div class="menu">
                     <div class="titulo">
-                        <h1>Menu</h1>
+                        <h1>Menu Principal</h1>
                     </div>
                     <div class="botoes">
-                        <button onclick="goDash()">Home</button>
+                        <button onclick="goDash()">Início</button>
                         <button onclick="goAlunos()">Alunos</button>
                         <button onclick="goCursos()">Cursos</button>
-                        <button onclick="goPainel()">Painel Admin</button>
+                        <button onclick="goPainel()">Administração</button>
                     </div>
                 </div>
                 <div class="sair">
                     <div class="usuario">
-                        <img src="../assets/user.png" alt="">
                         <div class="nome">
-                            <h1>Admin</h1>
+                            <div class="titulo-usuario">
+                                <span class="material-icons icone-user">account_circle</span>
+                                <h1>Administrador</h1>
+                            </div>
                             <p>Usuário * Nexus</p>
                         </div>
                     </div>
                     <button onclick="goHome()">Sair</button>
                 </div>
             </div>
+            <!--COMEÇA O CONTEÚDO DO CURSOS-->
             <div class="conteudo">
                 <div class="tituloDash">
-                    <h1>Evasão por cursos - Dashboard</h1>
-                    <p>Instituição privada</p>
+                    <div class="texto">
+                        <h1>Evasão por Curso</h1>
+                        <p>Análise e monitoramento por curso</p>
+                    </div>
                 </div>
                 <div class="conteudo2">
                     <div class="insights">
                         <div class="cards">
                             <h3>Cursos Ativos</h3>
-                            <h1>10</h1>
+                            <h1 id="numero">10</h1>
                         </div>
                         <div class="cards">
                             <h3>Curso com mais risco de Evasão</h3>
@@ -81,11 +86,8 @@
                         <div class="detalhes">
                             <div class="card-crescimento">
                                 <h3>Maior Crescimento de Risco</h3>
-
                                 <h1>Engenharia</h1>
-
-                                <p class="taxa crescimento">+8% no último semestre</p>
-
+                                <p class="taxa-crescimento">+8% no último semestre</p>
                                 <div class="info-extra">
                                     <p>Principal causa: Inadimplência</p>
                                     <p>Alunos em risco: 40</p>
@@ -93,11 +95,8 @@
                             </div>
                             <div class="card-positivo">
                                 <h3>Curso Destaque</h3>
-
                                 <h1>Medicina</h1>
-
-                                <p class="taxa baixo">9,8% de evasão</p>
-
+                                <p class="taxa-baixo">9,8% de evasão</p>
                                 <div class="info-extra">
                                     <p>Principal causa: Pessoal</p>
                                     <p>Alunos em risco: 30</p>
@@ -142,6 +141,7 @@
             datasets: [{
                 label: 'Alunos',
                 data: [25, 18, 9, 22, 15, 19, 12, 16, 10, 14],
+                backgroundColor: ['#164773'],
                 borderWidth: 1
             }]
         },

@@ -171,11 +171,6 @@ body {
     font-family: var(--font-subtitulos);
 }
 
-#nomeUsuario {
-    color: var(--cor-azul-medio);
-    font-family: var(--font-subtitulos);
-}
-
 /* começa os cards */
 
 .insights {

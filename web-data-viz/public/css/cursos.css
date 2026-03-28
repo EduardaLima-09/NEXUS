@@ -1,11 +1,13 @@
+/* Fontes importadas */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
     --font-titulos: "Montserrat", sans-serif;
-    --font-textos: "Montserrat Alternates", sans-serif;
     --font-subtitulos: "Poppins", sans-serif;
+    --font-textos: "Montserrat Alternates", sans-serif;
+    --cor--sidebar: #111827;
     --cor-azul-escuro: #012340;
     --cor-azul-medio: #164773;
     --cor-azul-claro: #4681A6;
@@ -14,247 +16,269 @@
     --cor-cinza: #D9D9D9;
     --cor-cinza-escuro: #3f3f3f;
     --cor-branco: #F1F1F1;
+    --cor-branco-puro: #FFFFFF;
     --cor-preto: #000000;
 }
 
-html,
-body {
-    height: 100%;
-}
-
-*,body {
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    overflow: hidden;
     background-color: var(--cor-branco);
-    font-family: "Montserrat", sans-serif;
 }
 
 .tela {
-    height: 100%;
     width: 100%;
-    border: 1px solid gray;
-    justify-content: center;
-    align-items: center;
-    display: flex;
+    height: 100vh;
 }
 
 .dash {
-    height: 95%;
-    width: 95%;
-    border: 1px solid gray;
     display: flex;
-    flex-direction: row;
+    height: 100vh;
 }
 
-.barra{
+/* Começa o SIDEBAR */
+
+.barra {
+    width: 220px;
     height: 100%;
-    width: 18%;
-    border: 1px solid gray;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding: 30px;
     flex-direction: column;
-}
-
-.logo{
-    width: 100%;
-    height: 10%;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    border: 1px solid gray;
+    justify-content: space-between;
+    background-color: var(--cor--sidebar);
 }
 
 .logo img {
-    width: 50%;
+    width: 140px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
-.menu {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 30%;
-    border: 1px solid gray;
-    justify-content: center;
-    gap: 10px;
-    align-items: center;
+/* Começa o MENU */
+
+.menu .titulo h1 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: var(--cor-branco);
+    font-family: var(--font-titulos);
 }
 
 .botoes {
+    gap: 8px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    text-align: start;
 }
 
 .botoes button {
-    
-    width: 110px;
-    font-size: 1rem;
-    border: 0;
-    text-align: start;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+    text-align: left;
+    border-radius: 8px;
+    color: var(--cor-branco);
+    background-color: transparent;
+    font-family: var(--font-subtitulos);
 }
 
-.titulo {
+.botoes button:hover {
+    color: var(--cor-branco);
+    transform: translateX(3px);
+    background: var(--cor-azul-escuro);
+}
+
+/* Parte do Usuário */
+
+.titulo-usuario {
+    gap: 8px;
     display: flex;
-    align-items: start;
-    width: 100%;
-    margin-left: 60px;
-}
-
-.titulo h1 {
-    font-size: 1.5rem;
-}
-
-.sair {
-    width: 100%;
-    height: 25%;
-    border: 1px solid gray;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
 }
+
+.icone-user {
+    font-size: 28px;
+    color: var(--cor-branco);
+}
+
+.nome h1 {
+    font-size: 16px;
+    color: var(--cor-branco);
+    font-family: var(--font-titulos);
+}
+
+.nome p {
+    font-size: 12px;
+    margin-left: 30px;
+    color: var(--cor-cinza);
+}
+
+/* botão de sair */
 
 .sair button {
-    font-size: 1.5rem;
-    font-weight: bold;
+    border: none;
+    padding: 8px;
+    width: 60px;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-left: 40px;
+    border-radius: 6px;
+    background-color: #ef4444;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cor-branco);
+    font-family: var(--font-subtitulos);
 }
 
-.usuario {
-    display: flex;
-    width: 100%;
-    justify-content: center;
+.sair button:hover {
+    background: #dc2626;
 }
+
+/* COMEÇA O CONTEÚDO */
 
 .conteudo {
-    height: 100%;
-    width: 82%;
-    border: 1px solid gray;
-    display: flex;
-    flex-direction: column;
+    flex: 1;
+    padding: 18px;
+    height: 100vh;
+    overflow-y: hidden;
 }
 
 .tituloDash {
-    width: 100%;
-    height: 12%;
-    border: 1px solid gray;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.conteudo2 {
-    height: 88%;
-    width: 100%;
-    border: 1px solid gray;
-}
-
-.insights{
-    width: 100%;
-    height: 20%;
-    border: 1px solid gray;
-    display: flex;
-    justify-content: space-evenly;
-}
-.cards {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 25%;
-    border: 1px solid gray;
-    text-align: center;
+    margin-bottom: 8px;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
+}
+
+.tituloDash h1 {
+    font-size: 24px;
+    color: var(--cor--sidebar);
+    font-family: var(--font-titulos);
+}
+
+.tituloDash p {
+    font-size: 14px;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+/* começa os cards */
+
+.insights {
+    gap: 16px;
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.cards {
+    flex: 1;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
+}
+
+.cards h3 {
+    font-size: 16px;
+    color: var(--cor-azul-escuro);
+    font-family: var(--font-titulos);
+}
+
+.cards h1 {
+    margin: 6px 0;
+    font-size: 26px;
+    font-family: var(--font-subtitulos);
+}
+
+#numero {
+    margin: 6px 0;
+    font-size: 40px;
+    text-align: center;
+    font-family: var(--font-subtitulos);
 }
 
 .porcentagem {
+    gap: 6px;
     display: flex;
     align-items: center;
 }
 
 .porcentagem img {
-    width: 10%;
+    width: 16px;
 }
 
 .conteudo3 {
-    width: 100%;
-    height: 80%;
-    border: 1px solid gray;
-    justify-content: center;
-    align-items: center;
+    gap: 20px;
     display: flex;
+    height: calc(100vh - 230px);
 }
 
 .graficoBarra {
-    height: 100%;
-    width: 50%;
-    border: 1px solid gray;
+    flex: 3;
+    padding: 24px;
     display: flex;
+    border-radius: 14px;
     flex-direction: column;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.07);
 }
 
-.graficoBarra .chart-container {
+.graficoBarra h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-family: var(--font-titulos);
+}
+
+.chart-container {
     flex: 1;
+    height: 100%;
     position: relative;
-    min-height: 0;
-}
-
-.graficoBarra h3{
-    margin-top: 10px 0;
 }
 
 .detalhes {
-    width: 50%;
-    height: 100%;
-    border: 1px solid gray;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.card-crescimento {
-    width: 94%;
-    height: 50%;
-    padding: 20px;  
-    border: 1px solid gray;
+    flex: 1;
+    gap: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
-.card-crescimento h3 {
-    font-size: 1.2rem;
-    opacity: 0.8;
-}
-
-.card-crescimento h1 {
-    font-size: 2rem;
-    margin: 10px 0;
-}
-
-.card-crescimento .taxa {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.info-extra {
-    font-size: 0.9rem;
-    opacity: 0.9;
-}
-
-.taxa {
-    font-size: 1.4rem;
-    font-weight: bold;
-}
-
+.card-crescimento,
 .card-positivo {
-    width: 94%;
-    height: 50%;
-    padding: 20px;  
-    border: 1px solid gray;
+    flex: 1;
+    padding: 20px;
+    border-radius: 14px;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.07);
+
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+}
+
+.card-crescimento h3,
+.card-positivo h3 {
+    font-size: 16px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.card-crescimento h1,
+.card-positivo h1 {
+    margin: 8px 0;
+    font-size: 26px;
+    font-weight: 800;
+    text-align: center;
+    color: var(--cor-azul-claro);
+}
+
+.info-extra p, .taxa-crescimento, .taxa-baixo {
+    font-size: 16px;
+    text-align: center;
 }
