@@ -2,53 +2,58 @@
 <html lang="pt-br">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="../css/dashboard.css">
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <title>Nexus | Dashboard</title>
-  <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+    <title>Nexus | Dashboard</title>
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
-
     <div class="tela">
         <div class="dash">
             <div class="barra">
                 <div class="logo">
-                    <img src="../assets/logobranco - Editado 2.png" alt="">
+                    <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
                 </div>
                 <div class="menu">
                     <div class="titulo">
-                        <h1>Menu</h1>
+                        <h1>Menu Principal</h1>
                     </div>
                     <div class="botoes">
-                        <button onclick="goDash()">Home</button>
+                        <button onclick="goDash()">Início</button>
                         <button onclick="goAlunos()">Alunos</button>
                         <button onclick="goCursos()">Cursos</button>
-                        <button onclick="goPainel()">Painel Admin</button>
+                        <button onclick="goPainel()">Administração</button>
                     </div>
                 </div>
                 <div class="sair">
                     <div class="usuario">
-                        <img src="../assets/user.png" alt="">
                         <div class="nome">
-                            <h1>Admin</h1>
+                            <div class="titulo-usuario">
+                                <span class="material-icons icone-user">account_circle</span>
+                                <h1>Administrador</h1>
+                            </div>
                             <p>Usuário * Nexus</p>
                         </div>
                     </div>
                     <button onclick="goHome()">Sair</button>
                 </div>
             </div>
+
+
             <div class="conteudo">
                 <div class="tituloDash">
-                    <h1>Visão Geral - Dashboard</h1>
-                    <p>Instituição privada</p>
+                    <div class="texto">
+                        <h1>Bem-vindo(a), <span id="nomeUsuario"></span></h1>
+                        <p>Visão geral da sua instituição</p>
+                    </div>
                 </div>
                 <div class="conteudo2">
                     <div class="insights">
@@ -127,135 +132,142 @@
         window.location.href = "../index.html";
     }
 
-const ctx = document.getElementById('mychart1');
+    const ctx = document.getElementById('mychart1');
 
-new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ['2022.2', '2023.1', '2023.2', '2024.1', '2024.2', '2025.1'],
-        datasets: [{
-            label: 'Taxa da evasão de alunos',
-            data: [12, 19, 3, 5, 2, 10],
-            borderWidth: 2,
-            fill: false,
-            tension: 0.3
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-
-        plugins: {
-            legend: {
-                display: true
-            }
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['2022.2', '2023.1', '2023.2', '2024.1', '2024.2', '2025.1'],
+            datasets: [{
+                label: 'Taxa da evasão de alunos',
+                data: [12, 19, 3, 5, 2, 10],
+                borderWidth: 2,
+                fill: false,
+                tension: 0.3
+            }]
         },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
 
-        scales: {
-            y: {
-                min: 0,
-                max: 100,
-
-                ticks: {
-                    stepSize: 20, 
-                    callback: function(value) {
-                        return value + '%'; 
-                    }
-                }
-            }
-        }
-    }
-});
-
-const ctx2 = document.getElementById('mychart2');
-
-new Chart(ctx2, {
-    type: 'bar',
-    data: {
-        labels: ['Medicina', 'Ciência da Computação', 'Enfermagem', 'Advocacia', 'Sistemas da Informação'],
-        datasets: [{
-            label: 'Alunos',
-            data: [30, 50, 20, 40, 15],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        indexAxis: 'y', 
-
-        plugins: {
-            legend: {
-                display: true
-            }
-        },
-
-        scales: {
-            x: { 
-                min: 0,
-                max: 100,
-
-                ticks: {
-                    stepSize: 25,
-                    callback: function(value) {
-                        return value + '%'; 
-                    }
-                }
-            }
-        }
-    }
-});
-
-const ctx3 = document.getElementById('mychart3');
-
-new Chart(ctx3, {
-    type: 'doughnut',
-    data: {
-        labels: ['Financeiro', 'Pessoal', 'Acadêmico', 'Trabalho', 'Outros'],
-        datasets: [{
-            data: [10, 30, 20, 5, 35],
-            backgroundColor: [
-                '#012340',
-                '#4681A6',
-                '#8AB4A1',
-                '#3f3f3f',
-                '#fE5E06'
-            ],
-            borderColor: '#00000',
-            borderWidth: 5
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '60%',
-
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: {
-                    generateLabels: function(chart) {
-                        const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
-                        const labels = original(chart);
-
-                        labels.forEach(label => {
-                            label.lineWidth = 0; 
-                        });
-
-                        return labels;
-                    }
+            plugins: {
+                legend: {
+                    display: true
                 }
             },
 
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        return `${context.label}: ${context.raw}%`;
+            scales: {
+                y: {
+                    min: 0,
+                    max: 100,
+
+                    ticks: {
+                        stepSize: 20,
+                        callback: function (value) {
+                            return value + '%';
+                        }
                     }
                 }
             }
         }
-    }
-});
+    });
 
+    const ctx2 = document.getElementById('mychart2');
+
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['Medicina', 'Ciência da Computação', 'Enfermagem', 'Advocacia', 'Sistemas da Informação'],
+            datasets: [{
+                label: 'Alunos',
+                data: [30, 50, 20, 40, 15],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+
+            scales: {
+                x: {
+                    min: 0,
+                    max: 100,
+
+                    ticks: {
+                        stepSize: 25,
+                        callback: function (value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const ctx3 = document.getElementById('mychart3');
+
+    new Chart(ctx3, {
+        type: 'doughnut',
+        data: {
+            labels: ['Financeiro', 'Pessoal', 'Acadêmico', 'Trabalho', 'Outros'],
+            datasets: [{
+                data: [10, 30, 20, 5, 35],
+                backgroundColor: [
+                    '#012340',
+                    '#4681A6',
+                    '#8AB4A1',
+                    '#3f3f3f',
+                    '#fE5E06'
+                ],
+                borderColor: '#00000',
+                borderWidth: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '60%',
+
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        generateLabels: function (chart) {
+                            const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
+                            const labels = original(chart);
+
+                            labels.forEach(label => {
+                                label.lineWidth = 0;
+                            });
+
+                            return labels;
+                        }
+                    }
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.label}: ${context.raw}%`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+</script>
+
+<script>
+    // Simulando nome vindo do sistema, está estático
+    const nome = "Maria Eduarda";
+
+    document.getElementById("nomeUsuario").innerText = nome;
 </script>
