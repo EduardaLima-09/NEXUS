@@ -1,0 +1,271 @@
+/* Fontes importadas */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --font-titulos: "Montserrat", sans-serif;
+    --font-subtitulos: "Poppins", sans-serif;
+    --font-textos: "Montserrat Alternates", sans-serif;
+    --cor--sidebar: #111827;
+    --cor-azul-escuro: #012340;
+    --cor-azul-medio: #164773;
+    --cor-azul-claro: #4681A6;
+    --cor-fundo-input: #F2F2F2;
+    --cor-verde: #8AB4A1;
+    --cor-cinza: #D9D9D9;
+    --cor-cinza-escuro: #3f3f3f;
+    --cor-branco: #F1F1F1;
+    --cor-branco-puro: #FFFFFF;
+    --cor-preto: #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    overflow: hidden;
+    background-color: var(--cor-branco);
+}
+
+.tela {
+    width: 100%;
+    height: 100vh;
+}
+
+.dash {
+    display: flex;
+    height: 100vh;
+}
+
+/* Começa o SIDEBAR */
+
+.barra {
+    width: 220px;
+    height: 100%;
+    display: flex;
+    padding: 30px;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--cor--sidebar);
+}
+
+.logo img {
+    width: 140px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Começa o MENU */
+
+.menu .titulo h1 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: var(--cor-branco);
+    font-family: var(--font-titulos);
+}
+
+.botoes {
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.botoes button {
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+    text-align: left;
+    border-radius: 8px;
+    color: var(--cor-branco);
+    background-color: transparent;
+    font-family: var(--font-subtitulos);
+}
+
+.botoes button:hover {
+    color: var(--cor-branco);
+    transform: translateX(3px);
+    background: var(--cor-azul-escuro);
+}
+
+/* Parte do Usuário */
+
+.titulo-usuario {
+    gap: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.icone-user {
+    font-size: 28px;
+    color: var(--cor-branco);
+}
+
+.nome h1 {
+    font-size: 16px;
+    color: var(--cor-branco);
+    font-family: var(--font-titulos);
+}
+
+.nome p {
+    font-size: 12px;
+    margin-left: 30px;
+    color: var(--cor-cinza);
+}
+
+/* botão de sair */
+
+.sair button {
+    border: none;
+    padding: 8px;
+    width: 60px;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-left: 40px;
+    border-radius: 6px;
+    background-color: #ef4444;
+    
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cor-branco);
+    font-family: var(--font-subtitulos);
+}
+
+.sair button:hover {
+    background: #dc2626;
+}
+
+/* COMEÇA O CONTEÚDO */
+
+.conteudo {
+    flex: 1;
+    padding: 18px;
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+/* HEADER */
+
+.tituloDash {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    justify-content: space-between;
+}
+
+.tituloDash h1 {
+    font-size: 24px;
+    color: var(--cor--sidebar);
+    font-family: var(--font-titulos);
+}
+
+.tituloDash p {
+    font-size: 14px;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+#nomeUsuario {
+    color: var(--cor-azul-medio);
+    font-family: var(--font-subtitulos);
+}
+
+/* começa os cards */
+
+.insights {
+    gap: 16px;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.cards {
+    flex: 1;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.07);
+}
+
+.cards h3 {
+    font-size: 14px;
+    color: var(--cor-azul-escuro);
+    font-family: var(--font-titulos);
+}
+
+.cards h1 {
+    margin: 6px 0;
+    font-size: 24px;
+    font-family: var(--font-subtitulos);
+}
+
+.porcentagem {
+    gap: 6px;
+    display: flex;
+    align-items: center;
+}
+
+.porcentagem img {
+    width: 16px;
+}
+
+/* Eita olha os GRÁFICOS */
+
+.graficos {
+    gap: 18px;
+    display: flex;
+    height: calc(100vh - 220px);
+}
+
+.metade1 {
+    flex: 2;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.metade2 {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    border-radius: 12px;
+    flex-direction: column;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.07);
+}
+
+.graficoLinha,
+.graficoBarra {
+    flex: 1;
+    display: flex;
+    padding: 15px;
+    border-radius: 12px;
+    flex-direction: column;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.07);
+}
+
+.graficoLinha h3,
+.graficoBarra h3,
+.metade2 h3 {
+    font-size: 14px;
+    margin-bottom: 4px;
+    font-family: var(--font-subtitulos);
+}
+
+.chart-container {
+    flex: 1;
+    width: 100%;
+    position: relative;
+}
+
+#graficoPizza {
+    height: 200px; 
+    max-width: 300px;
+    margin: 0 auto; 
+}
