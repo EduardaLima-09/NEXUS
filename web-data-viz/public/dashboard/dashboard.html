@@ -1,0 +1,278 @@
+<!--DASHBOARD-->
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <title>Nexus | Dashboard</title>
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div class="tela">
+        <div class="dash">
+            <div class="barra">
+                <div class="logo">
+                    <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
+                </div>
+                <div class="menu">
+                    <div class="titulo">
+                        <h1>Menu Principal</h1>
+                    </div>
+                    <div class="botoes">
+                        <button onclick="goDash()">Início</button>
+                        <button onclick="goAlunos()">Alunos</button>
+                        <button onclick="goCursos()">Cursos</button>
+                        <button onclick="goPainel()">Administração</button>
+                    </div>
+                </div>
+                <div class="sair">
+                    <div class="usuario">
+                        <div class="nome">
+                            <div class="titulo-usuario">
+                                <span class="material-icons icone-user">account_circle</span>
+                                <h1>Administrador</h1>
+                            </div>
+                            <p>Usuário * Nexus</p>
+                        </div>
+                    </div>
+                    <button onclick="goHome()">Sair</button>
+                </div>
+            </div>
+            <!--COMEÇA O CONTEÚDO DA DASHBOARD-->
+            <div class="conteudo">
+                <div class="tituloDash">
+                    <div class="texto">
+                        <h1>Bem-vindo(a), <span id="nomeUsuario"></span></h1>
+                        <p>Visão geral da sua instituição</p>
+                    </div>
+                </div>
+                <div class="conteudo2">
+                    <div class="insights">
+                        <div class="cards">
+                            <h3>Taxa de Evasão</h3>
+                            <h1>10,5%</h1>
+                            <div class="porcentagem">
+                                <img src="../assets/down-arrow.png" alt="">
+                                <p>5% abaixo do semestre anterior</p>
+                            </div>
+                        </div>
+                        <div class="cards">
+                            <h3>Alunos em Risco</h3>
+                            <h1>30,3%</h1>
+                            <div class="porcentagem">
+                                <img src="../assets/up-arrow.png" alt="">
+                                <p>5% acima do semestre anterior</p>
+                            </div>
+                        </div>
+                        <div class="cards">
+                            <h3>Evasões no Semestre</h3>
+                            <h1>50,7%</h1>
+                            <div class="porcentagem">
+                                <img src="../assets/up-arrow.png" alt="">
+                                <p>10% acima do semestre anterior</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="graficos">
+                        <div class="metade1">
+                            <div class="graficoLinha">
+                                <h3>Evolução da Taxa de Evasão - Últimos 6 semestres</h3>
+                                <div class="chart-container">
+                                    <canvas id="mychart1"></canvas>
+                                </div>
+                            </div>
+                            <div class="graficoBarra">
+                                <h3>Evasão por curso - Top 5</h3>
+                                <div class="chart-container">
+                                    <canvas id="mychart2"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="metade2">
+                            <h3>Motivos de Evasão</h3>
+                            <div class="chart-container g3" id="graficoPizza">
+                                <canvas id="mychart3"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+
+    function goDash() {
+        window.location.href = "dashboard.html";
+    }
+    function goAlunos() {
+        window.location.href = "alunos.html";
+    }
+    function goCursos() {
+        window.location.href = "cursos.html";
+    }
+    function goPainel() {
+        window.location.href = "painel.html";
+    }
+    function goHome() {
+        window.location.href = "../index.html";
+    }
+
+    const ctx = document.getElementById('mychart1');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['2022.2', '2023.1', '2023.2', '2024.1', '2024.2', '2025.1'],
+            datasets: [{
+                label: 'Taxa da evasão de alunos',
+                data: [12, 19, 3, 5, 2, 10],
+                borderColor: '#111827', // cor da linha
+                backgroundColor: 'rgba(70, 129, 166, 0.3)', // leve preenchimento
+                pointBackgroundColor: '#164773', // bolinhas
+                pointBorderColor: '##012340',
+
+                borderWidth: 2,
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+
+            scales: {
+                y: {
+                    min: 0,
+                    max: 100,
+
+                    ticks: {
+                        stepSize: 20,
+                        callback: function (value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const ctx2 = document.getElementById('mychart2');
+
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['Medicina', 'Ciência da Computação', 'Enfermagem', 'Advocacia', 'Sistemas da Informação'],
+            datasets: [{
+                label: 'Alunos',
+                data: [30, 50, 20, 40, 15],
+                backgroundColor: ['#164773'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+
+            scales: {
+                x: {
+                    min: 0,
+                    max: 100,
+
+                    ticks: {
+                        stepSize: 25,
+                        callback: function (value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    const ctx3 = document.getElementById('mychart3');
+
+    new Chart(ctx3, {
+        type: 'doughnut',
+        data: {
+            labels: ['Financeiro', 'Pessoal', 'Acadêmico', 'Trabalho', 'Outros'],
+            datasets: [{
+                data: [10, 30, 20, 5, 35],
+                backgroundColor: [
+                    '#012340',
+                    '#4681A6',
+                    '#8AB4A1',
+                    '#3f3f3f',
+                    '#164773'
+                ],
+                borderColor: '#ffffff',
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '50%',
+
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        generateLabels: function (chart) {
+                            const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
+                            const labels = original(chart);
+
+                            labels.forEach(label => {
+                                label.lineWidth = 0;
+                            });
+
+                            return labels;
+                        }
+                    }
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.label}: ${context.raw}%`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+</script>
+
+<script>
+    // Simulando nome vindo do sistema, está estático
+    const nome = "Maria Eduarda";
+
+    document.getElementById("nomeUsuario").innerText = nome;
+</script>
