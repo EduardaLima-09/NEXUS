@@ -43,8 +43,8 @@
             <p>Conecte-se à sua conta</p>
 
             <div class="card-login">
-                <label>CNPJ ou Email</label>
-                <input type="text" id="email_input" placeholder="00.000.000/0000-00">
+                <label>Email</label>
+                <input type="text" id="email_input" placeholder="empresa@email.com">
 
                 <label>Senha</label>
                 <input type="password" id="senha_input" placeholder="**********">
@@ -92,7 +92,7 @@
                 sessionStorage.setItem("EMAIL_DIRETOR",   dados.email);
                 sessionStorage.setItem("FK_UNIVERSIDADE", dados.universidade);
 
-                window.location.href = ".dash-home.html";
+                window.location.href = "/dashboard/dashboard.html";
 
             } else if (resposta.status === 401) {
                 alert("Email e/ou senha inválidos.");
