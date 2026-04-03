@@ -1,28 +1,41 @@
 <!--CADASTRO EMPRESA-->
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="css/cadastroEmpresa.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
   <title>Nexus | Cadastro Instituição</title>
   <link rel="shortcut icon" href="assets/favicon (3).ico" type="image/x-icon">
 </head>
+
 <body>
   <main class="cadastro_container">
     <div class="lado_esquerdo">
+      <div class="conteudo_esquerda">
+        <img src="assets/LogoBranca.png" class="logo">
+        <h1>Bem-vindo,</h1>
+        <p>Sua instituição conectada em poucos passos.</p>
+        <span class="descricao">
+          Cadastre sua instituição e tenha acesso a uma plataforma completa para gestão e inovação educacional.
+        </span>
+      </div>
+    </div>
+    <!--LADO DIREITO-->
+    <div class="lado_direito">
       <div class="grupo_voltar">
         <a href="./index.html" class="botao_de_voltar">
-          <span class="seta"><i class="fa-solid fa-arrow-left"></i></span>
+          <i class="fa-solid fa-arrow-left"></i>
         </a>
-        <span class="voltar"><a href="./index.html">Voltar</a></span>
       </div>
-      <h1>CADASTRE SUA INSTITUIÇÃO</h1>
-      <p>Conecte sua instituição à Nexus</p>
       <div class="card-login">
+        <h2>Cadastre-se</h2>
         <div class="linha-dupla">
           <div class="campo">
             <label>Nome Fantasia</label>
@@ -32,10 +45,8 @@
             <label>Razão Social</label>
             <input type="text" id="razao_input" placeholder="Razão social completa">
           </div>
-        </div>
-        <div class="linha-dupla">
           <div class="campo">
-            <label>Email de Contato</label>
+            <label>Email</label>
             <input type="email" id="email_input" placeholder="empresa@email.com">
           </div>
           <div class="campo">
@@ -43,26 +54,19 @@
             <input type="text" id="cnpj_input" placeholder="00.000.000/0000-00">
           </div>
         </div>
-        <button onclick="cadastrar()">Cadastrar</button>
-        <span class="login">
-          Já possui conta? <a href="./login.html">Login</a>
-        </span>
+
+        <button onclick="cadastrar()">Cadastrar instituição</button>
+        <span class="sub">Já tem uma conta? <a href="./login.html">Entre aqui</a></span>
         <div id="erro" class="mensagem_senha"></div>
       </div>
-    </div>
-    <div class="lado_direito">
-      <img src="assets/logobrancoNexus.png" class="logo">
-      <div class="triangulo_esquerda"></div>
-      <div class="triangulo_direita"></div>
-      <img src="assets/Cadastro.svg" class="img">
     </div>
   </main>
 </body>
 <script>
-  const nomeInput  = document.getElementById("nome_input");
+  const nomeInput = document.getElementById("nome_input");
   const razaoInput = document.getElementById("razao_input");
   const emailInput = document.getElementById("email_input");
-  const cnpjInput  = document.getElementById("cnpj_input");
+  const cnpjInput = document.getElementById("cnpj_input");
 
   function criarErro(input) {
     let erro = document.createElement("div");
@@ -73,10 +77,10 @@
     return erro;
   }
 
-  const erroNome  = criarErro(nomeInput);
+  const erroNome = criarErro(nomeInput);
   const erroRazao = criarErro(razaoInput);
   const erroEmail = criarErro(emailInput);
-  const erroCnpj  = criarErro(cnpjInput);
+  const erroCnpj = criarErro(cnpjInput);
 
   // ================= CNPJ =================
   cnpjInput.addEventListener("input", function () {
@@ -121,9 +125,9 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             nomeFantasiaServer: nomeInput.value.trim(),
-            razaoSocialServer:  razaoInput.value.trim(),
-            emailServer:        emailInput.value.trim(),
-            cnpjServer:         cnpjInput.value.trim()
+            razaoSocialServer: razaoInput.value.trim(),
+            emailServer: emailInput.value.trim(),
+            cnpjServer: cnpjInput.value.trim()
           })
         });
 
@@ -148,4 +152,5 @@
     }
   }
 </script>
+
 </html>
