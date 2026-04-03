@@ -1,5 +1,6 @@
 /* Leonardo arrumar a responsividade por favor, confere se está tudo OK */
 
+
 /* Fontes importadas */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
@@ -47,8 +48,8 @@ body {
 }
 
 .lado_esquerdo {
-    width: 40%;
-    min-height: 100vh;
+    width: 50%;
+    height: 100%;
     color: var(--cor-branco-puro);
 
     display: flex;
@@ -98,13 +99,13 @@ body {
 
 .descricao {
     opacity: 0.95;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--cor-branco-puro);
     font-family: var(--font-subtitulos);
 }
 
 .lado_direito {
-    width: 60%;
+    width: 50%;
     display: flex;
     position: relative;
     align-items: center;
@@ -126,9 +127,9 @@ body {
 }
 
 .card-login {
-    width: 70%;
-    padding: 40px;
-    max-width: 460px;
+    width: 80%;
+    padding: 35px;
+    max-width: 400px;
     border-radius: 14px;
     background-color: var(--cor-branco-puro);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
@@ -136,15 +137,14 @@ body {
 
 .card-login h2 {
     font-size: 24px;
-    margin-bottom: 6px;
     color: var(--cor--sidebar);
     font-family: var(--font-titulos);
 }
 
 .linha-dupla {
-    gap: 10px;
+    gap: 4px;
     display: flex;
-    margin-top: 25px;
+    margin-top: 10px;
     flex-direction: column;
 }
 
@@ -156,13 +156,13 @@ body {
 .campo label {
     font-size: 13px;
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 2px;
     color: var(--cor-azul-escuro);
     font-family: var(--font-subtitulos);
 }
 
 .campo input {
-    padding: 12px;
+    padding: 10px;
     outline: none;
     border-radius: 8px;
     transition: all 0.25s ease;
@@ -176,17 +176,36 @@ body {
     box-shadow: 0 0 0 3px rgba(12, 6, 78, 0.685);
 }
 
+.input-com-icone {
+    position: relative;
+    width: 100%;
+}
+
+.input-com-icone input {
+    width: 100%;
+    padding-right: 20px;
+}
+
+.input-com-icone i {
+    position: absolute;
+    top: 37%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: var(--cor-azul-escuro);
+    font-size: 16px;
+}
+
 button {
     width: 100%;
     border: none;
     padding: 14px;
     font-size: 15px;
     cursor: pointer;
-    margin-top: 30px;
+    margin-top: 20px;
     transition: 0.3s;
     font-weight: bold;
     border-radius: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     color: var(--cor-branco-puro);
     font-family: var(--font-subtitulos);
     background-image: linear-gradient(135deg, var(--cor-azul-escuro), var(--cor-azul-medio));
@@ -199,7 +218,7 @@ button:hover {
 .sub {
     font-size: 14px;
     margin-bottom: 20px;
-    margin-left: 80px;
+    margin-left: 70px;
     align-items: center;
     justify-content: center;
     color: var(--cor-cinza-escuro);
@@ -216,7 +235,7 @@ button:hover {
 .login {
     display: block;
     font-size: 14px;
-    margin-top: 15px;
+    margin-top: 10px;
     color: var(--cor-cinza-escuro);
     font-family: var(--font-subtitulos);
 }
@@ -231,8 +250,218 @@ button:hover {
 /* Mensagem de Erro de input */
 
 .mensagem_senha {
-    font-size: 14px;
-    margin-top: 5px;
+    font-size: 8px;
+    margin-top: 4px;
+    font-weight: 600;
     color: #e63946;
-    font-family: var(--font-subtitulos);
+    font-family: var(--font-titulos);
+}
+
+
+/* Tablets e telas médias (992px ou menos) */
+
+@media (max-width: 992px) {
+    .cadastro_container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        padding: 20px;
+    }
+
+    .lado_esquerdo,
+    .lado_direito {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .lado_esquerdo h1 {
+        font-size: clamp(22px, 4vw, 32px);
+        margin-bottom: 10px;
+    }
+
+    .lado_esquerdo p,
+    .descricao {
+        font-size: clamp(12px, 2.5vw, 16px);
+        margin: 0 auto 15px;
+    }
+
+    .logo {
+        width: clamp(80px, 15%, 120px);
+        margin-bottom: 15px;
+    }
+
+    .card-login {
+        width: 90%;
+        max-width: 400px;
+        padding: 25px;
+        margin: 20px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .linha-dupla {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .campo {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .campo label,
+    .campo input {
+        width: 100%;
+        text-align: left;
+    }
+
+    .input-com-icone input {
+        font-size: clamp(12px, 2.5vw, 14px);
+        padding-right: 35px;
+    }
+
+    .input-com-icone i {
+        font-size: clamp(12px, 2.5vw, 14px);
+        right: 10px;
+    }
+
+    button {
+        width: 100%;
+        font-size: 15px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .sub,
+    .login {
+        margin: 10px 0 0 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .mensagem_senha {
+        width: 100%;
+        text-align: left;
+        max-height: 60px;
+        overflow-y: auto;
+        margin-top: 4px;
+    }
+
+    .botao_de_voltar {
+        font-size: 24px;
+        top: 20px;
+        left: 20px;
+    }
+}
+
+/* Celulares e telas pequenas (576px ou menos) */
+
+@media (max-width: 576px) {
+    .cadastro_container {
+        padding: 10px;
+        height: auto;
+    }
+
+    .lado_esquerdo,
+    .lado_direito {
+        padding: 15px;
+        align-items: center;
+        justify-content: flex-start;
+        text-align: center;
+    }
+
+    .lado_esquerdo h1 {
+        font-size: clamp(10px, 6vw, 18px);
+        margin-top: 60px;
+    }
+
+    .lado_esquerdo p,
+    .descricao {
+        font-size: clamp(10px, 3vw, 14px);
+        margin: 0 auto 12px;
+    }
+
+    .logo {
+        width: clamp(60px, 20%, 100px);
+        margin-bottom: 10px;
+    }
+
+    .card-login {
+        width: 95%;
+        padding: 16px;
+        margin: 15px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .linha-dupla {
+        flex-direction: column;
+        gap: 2px;
+        width: 100%;
+        align-items: center;
+    }
+
+    .campo {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .campo label,
+    .campo input {
+        width: 100%;
+        text-align: left;
+    }
+
+    .input-com-icone input {
+        font-size: clamp(10px, 3vw, 12px);
+        padding-right: 35px;
+    }
+
+    .input-com-icone i {
+        font-size: clamp(12px, 4vw, 14px);
+        right: 8px;
+    }
+
+    button {
+        width: 100%;
+        font-size: clamp(12px, 3vw, 14px);
+        padding: 12px;
+    }
+
+    .sub,
+    .login {
+        margin: 8px 0 0 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .mensagem_senha {
+        font-size: clamp(7px, 2vw, 9px);
+        max-height: 50px;
+        width: 100%;
+        text-align: left;
+        overflow-y: auto;
+    }
+
+    .botao_de_voltar {
+        font-size: clamp(18px, 5vw, 24px);
+        top: 15px;
+        left: 15px;
+    }
 }
