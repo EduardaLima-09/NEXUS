@@ -282,3 +282,56 @@ body {
     font-size: 16px;
     text-align: center;
 }
+
+.lista-cursos {
+    height: 100%;
+    padding: 14px;
+    overflow-y: auto;
+    border-radius: 14px;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.07);
+}
+
+.lista-cursos h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    text-align: center;
+    color: var(--cor-azul-escuro);
+}
+
+.curso-item {
+    padding: 10px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    background-color: #f8fafc;
+    border: 1px solid #e5e7eb;
+    transition: 0.2s;
+}
+
+.curso-item:hover {
+    background-color: #eef4ff;
+}
+
+.curso-nome {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cor-azul-escuro);
+}
+
+.curso-info {
+    display: none;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #d1d5db;
+}
+
+.curso-info p {
+    font-size: 12px;
+    margin-bottom: 4px;
+    color: var(--cor-cinza-escuro);
+}
+
+.curso-item.ativo .curso-info {
+    display: block;
+}

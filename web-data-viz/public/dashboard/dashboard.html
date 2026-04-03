@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <title>Nexus | Dashboard</title>
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
@@ -218,55 +219,67 @@
 
     const ctx3 = document.getElementById('mychart3');
 
-    new Chart(ctx3, {
-        type: 'doughnut',
-        data: {
-            labels: ['Financeiro', 'Pessoal', 'Acadêmico', 'Trabalho', 'Outros'],
-            datasets: [{
-                data: [10, 30, 20, 5, 35],
-                backgroundColor: [
-                    '#012340',
-                    '#4681A6',
-                    '#8AB4A1',
-                    '#3f3f3f',
-                    '#164773'
-                ],
-                borderColor: '#ffffff',
-                borderWidth: 3
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '50%',
+new Chart(ctx3, {
+    type: 'doughnut',
+    data: {
+        labels: ['Financeiro', 'Pessoal', 'Acadêmico', 'Trabalho', 'Outros'],
+        datasets: [{
+            data: [10, 30, 20, 5, 35],
+            backgroundColor: [
+                '#012340',
+                '#4681A6',
+                '#8AB4A1',
+                '#3f3f3f',
+                '#164773'
+            ],
+            borderColor: '#ffffff',
+            borderWidth: 3
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '50%',
 
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        generateLabels: function (chart) {
-                            const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
-                            const labels = original(chart);
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    generateLabels: function (chart) {
+                        const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
+                        const labels = original(chart);
 
-                            labels.forEach(label => {
-                                label.lineWidth = 0;
-                            });
+                        labels.forEach(label => {
+                            label.lineWidth = 0;
+                        });
 
-                            return labels;
-                        }
+                        return labels;
                     }
+                }
+            },
+
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        return `${context.label}: ${context.raw}%`;
+                    }
+                }
+            },
+
+            datalabels: {
+                color: '#ffffff',
+                font: {
+                    weight: 'bold',
+                    size: 14
                 },
-
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return `${context.label}: ${context.raw}%`;
-                        }
-                    }
+                formatter: (value) => {
+                    return value + '%';
                 }
             }
         }
-    });
+    },
+    plugins: [ChartDataLabels]
+});
 
 </script>
 

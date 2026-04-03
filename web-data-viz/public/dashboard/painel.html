@@ -23,10 +23,12 @@
                 <div class="logo">
                     <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
                 </div>
+
                 <div class="menu">
                     <div class="titulo">
                         <h1>Menu Principal</h1>
                     </div>
+
                     <div class="botoes">
                         <button onclick="goDash()">Início</button>
                         <button onclick="goAlunos()">Alunos</button>
@@ -34,6 +36,7 @@
                         <button onclick="goPainel()">Administração</button>
                     </div>
                 </div>
+
                 <div class="sair">
                     <div class="usuario">
                         <div class="nome">
@@ -47,6 +50,7 @@
                     <button onclick="goHome()">Sair</button>
                 </div>
             </div>
+
             <div class="conteudo">
                 <div class="tituloDash">
                     <div class="texto">
@@ -54,149 +58,400 @@
                         <p>Controle e visualização de usuários da instituição</p>
                     </div>
                 </div>
+
                 <div class="conteudo2">
                     <div class="painel-admin">
-                        <h1>Gerenciamento de Usuários</h1>
-                        <button class="btn-add" onclick="abrirModal()">+ Adicionar Usuário</button>
-                        <table class="tabela-admin">
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Senha</th>
-                                    <th>Email</th>
-                                    <th>Token</th>
-                                    <th>Editar</th>
-                                    <th>Excluir</th>
-                                </tr>
-                            </thead>
+                        <h1>Painel de Gerenciamento</h1>
 
-                            <tbody>
-                                <tr>
-                                    <td>Admin Principal</td>
-                                    <td>••••••••</td>
-                                    <td>admin@nexus.com</td>
-                                    <td>AX9K2L</td>
-                                    <td><button class="btn-editar">Editar</button></td>
-                                    <td><button class="btn-excluir">Excluir</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Maria Souza</td>
-                                    <td>••••••••</td>
-                                    <td>maria@nexus.com</td>
-                                    <td>QW8P1Z</td>
-                                    <td><button class="btn-editar">Editar</button></td>
-                                    <td><button class="btn-excluir">Excluir</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td>João Silva</td>
-                                    <td>••••••••</td>
-                                    <td>joao@nexus.com</td>
-                                    <td>LM2X9A</td>
-                                    <td><button class="btn-editar">Editar</button></td>
-                                    <td><button class="btn-excluir">Excluir</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Ana Costa</td>
-                                    <td>••••••••</td>
-                                    <td>ana@nexus.com</td>
-                                    <td>TR5Y8B</td>
-                                    <td><button class="btn-editar">Editar</button></td>
-                                    <td><button class="btn-excluir">Excluir</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Lucas Rocha</td>
-                                    <td>••••••••</td>
-                                    <td>lucas@nexus.com</td>
-                                    <td>ZX7Q3M</td>
-                                    <td><button class="btn-editar">Editar</button></td>
-                                    <td><button class="btn-excluir">Excluir</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Fernanda Lopes</td>
-                                    <td>••••••••</td>
-                                    <td>fernanda@nexus.com</td>
-                                    <td>YU4T9C</td>
-                                    <td><button class="btn-editar">Editar</button></td>
-                                    <td><button class="btn-excluir">Excluir</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Bruno Martins</td>
-                                    <td>••••••••</td>
-                                    <td>bruno@nexus.com</td>
-                                    <td>PL6K2D</td>
-                                    <td><button class="btn-editar">Editar</button></td>
-                                    <td><button class="btn-excluir">Excluir</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Carla Mendes</td>
-                                    <td>••••••••</td>
-                                    <td>carla@nexus.com</td>
-                                    <td>WE1R5F</td>
-                                    <td><button class="btn-editar">Editar</button></td>
-                                    <td><button class="btn-excluir">Excluir</button></td>
-                                </tr>
-
-                                <tr>
-                                    <td>Rafael Alves</td>
-                                    <td>••••••••</td>
-                                    <td>rafael@nexus.com</td>
-                                    <td>BN3M8G</td>
-                                    <td><button class="btn-editar">Editar</button></td>
-                                    <td><button class="btn-excluir">Excluir</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div id="modalUsuario" class="modal">
-                            <div class="modal-content">
-                                <h2>Adicionar Usuário</h2>
-                                <input type="text" placeholder="Nome">
-                                <input type="password" placeholder="Senha">
-                                <input type="email" placeholder="Email">
-                                <input type="text" placeholder="Token">
-                                <div class="botoes-modal">
-                                    <button class="btn-salvar">Salvar</button>
-                                    <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
-                                </div>
-                            </div>
+                        <div class="abas-gerenciamento">
+                            <button class="aba-btn ativa" onclick="mostrarTabela('usuarios', this)">Usuários</button>
+                            <button class="aba-btn" onclick="mostrarTabela('alunos', this)">Alunos</button>
+                            <button class="aba-btn" onclick="mostrarTabela('cursos', this)">Cursos</button>
                         </div>
 
+                        <button class="btn-add" onclick="abrirModal()">+ Adicionar Registro</button>
+
+                        <div id="usuarios" class="secao-tabela ativa-tabela">
+                            <table class="tabela-admin">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Senha</th>
+                                        <th>Email</th>
+                                        <th>Token</th>
+                                        <th>Editar</th>
+                                        <th>Excluir</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>Admin Principal</td>
+                                        <td>••••••••</td>
+                                        <td>admin@nexus.com</td>
+                                        <td>AX9K2L</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Maria Souza</td>
+                                        <td>••••••••</td>
+                                        <td>maria@nexus.com</td>
+                                        <td>QW8P1Z</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="alunos" class="secao-tabela">
+                            <table class="tabela-admin">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Sobrenome</th>
+                                        <th>CPF</th>
+                                        <th>Sexo</th>
+                                        <th>Email</th>
+                                        <th>Editar</th>
+                                        <th>Excluir</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+    <tr>
+        <td>João</td>
+        <td>Silva</td>
+        <td>123.456.789-10</td>
+        <td>Masculino</td>
+        <td>joao@email.com</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Maria</td>
+        <td>Souza</td>
+        <td>987.654.321-00</td>
+        <td>Feminino</td>
+        <td>maria@email.com</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Pedro</td>
+        <td>Lima</td>
+        <td>456.123.789-55</td>
+        <td>Masculino</td>
+        <td>pedro@email.com</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Ana</td>
+        <td>Costa</td>
+        <td>741.852.963-11</td>
+        <td>Feminino</td>
+        <td>ana@email.com</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Lucas</td>
+        <td>Rocha</td>
+        <td>159.357.258-44</td>
+        <td>Masculino</td>
+        <td>lucas@email.com</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Carla</td>
+        <td>Mendes</td>
+        <td>852.741.963-22</td>
+        <td>Feminino</td>
+        <td>carla@email.com</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Rafael</td>
+        <td>Alves</td>
+        <td>963.852.741-33</td>
+        <td>Masculino</td>
+        <td>rafael@email.com</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Juliana</td>
+        <td>Freitas</td>
+        <td>258.369.147-88</td>
+        <td>Feminino</td>
+        <td>juliana@email.com</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Bruno</td>
+        <td>Martins</td>
+        <td>147.258.369-77</td>
+        <td>Masculino</td>
+        <td>bruno@email.com</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Fernanda</td>
+        <td>Lopes</td>
+        <td>321.654.987-66</td>
+        <td>Feminino</td>
+        <td>fernanda@email.com</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+</tbody>
+                            </table>
+                        </div>
+
+                        <div id="cursos" class="secao-tabela">
+    <table class="tabela-admin">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Modalidade</th>
+                <th>Mensalidade</th>
+                <th>Horário</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+
+        <tbody>
+    <tr>
+        <td>ADS</td>
+        <td>Presencial</td>
+        <td>R$ 350,00</td>
+        <td>19:00 às 22:00</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Direito</td>
+        <td>Presencial</td>
+        <td>R$ 600,00</td>
+        <td>18:30 às 22:30</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Engenharia</td>
+        <td>Presencial</td>
+        <td>R$ 750,00</td>
+        <td>08:00 às 12:00</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Medicina</td>
+        <td>Integral</td>
+        <td>R$ 2.500,00</td>
+        <td>07:00 às 17:00</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+
+    <tr>
+        <td>Psicologia</td>
+        <td>Online</td>
+        <td>R$ 450,00</td>
+        <td>19:00 às 21:00</td>
+        <td><button class="btn-editar">Editar</button></td>
+        <td><button class="btn-excluir">Excluir</button></td>
+    </tr>
+</tbody>
+    </table>
+</div>
+
+<div id="modalUsuario" class="modal">
+    <div class="modal-content">
+        <h2 id="tituloModal">Adicionar Registro</h2>
+
+        <div id="camposModal"></div>
+
+        <div class="botoes-modal">
+            <button class="btn-salvar" onclick="salvarRegistro()">Salvar</button>
+            <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+        </div>
+    </div>
+</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <script>
+        function goDash() {
+            window.location.href = "dashboard.html";
+        }
+
+        function goAlunos() {
+            window.location.href = "alunos.html";
+        }
+
+        function goCursos() {
+            window.location.href = "cursos.html";
+        }
+
+        function goPainel() {
+            window.location.href = "painel.html";
+        }
+
+        function goHome() {
+            window.location.href = "../index.html";
+        }
+
+        let abaAtual = 'usuarios';
+
+        function abrirModal() {
+            const camposModal = document.getElementById('camposModal');
+            const tituloModal = document.getElementById('tituloModal');
+
+            camposModal.innerHTML = '';
+
+            if (abaAtual === 'usuarios') {
+                tituloModal.innerText = 'Adicionar Usuário';
+                camposModal.innerHTML = `
+                    <input type="text" id="nomeUsuario" placeholder="Nome">
+                    <input type="password" id="senhaUsuario" placeholder="Senha">
+                    <input type="email" id="emailUsuario" placeholder="Email">
+                    <input type="text" id="tokenUsuario" placeholder="Token">
+                `;
+            }
+
+            if (abaAtual === 'alunos') {
+                tituloModal.innerText = 'Adicionar Aluno';
+                camposModal.innerHTML = `
+                    <input type="text" id="nomeAluno" placeholder="Nome">
+                    <input type="text" id="sobrenomeAluno" placeholder="Sobrenome">
+                    <input type="text" id="cpfAluno" placeholder="CPF">
+                    <select id="sexoAluno">
+                        <option value="">Selecione o Sexo</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                    </select>
+                    <input type="email" id="emailAluno" placeholder="Email">
+                `;
+            }
+
+            if (abaAtual === 'cursos') {
+                tituloModal.innerText = 'Adicionar Curso';
+                camposModal.innerHTML = `
+                    <input type="text" id="nomeCurso" placeholder="Nome do Curso">
+                    <input type="text" id="modalidadeCurso" placeholder="Modalidade">
+                    <input type="text" id="mensalidadeCurso" placeholder="Mensalidade">
+                    <input type="text" id="horarioCurso" placeholder="Horário">
+                `;
+            }
+
+            document.getElementById('modalUsuario').style.display = 'flex';
+        }
+
+        function salvarRegistro() {
+            if (abaAtual === 'usuarios') {
+                const nome = document.getElementById('nomeUsuario').value.trim();
+                const senha = document.getElementById('senhaUsuario').value.trim();
+                const email = document.getElementById('emailUsuario').value.trim();
+                const token = document.getElementById('tokenUsuario').value.trim();
+
+                if (!nome || !senha || !email || !token) {
+                    alert('Preencha todos os campos do usuário.');
+                    return;
+                }
+
+                if (!email.includes('@') || !email.includes('.')) {
+                    alert('Digite um email válido.');
+                    return;
+                }
+            }
+
+            if (abaAtual === 'alunos') {
+                const nome = document.getElementById('nomeAluno').value.trim();
+                const sobrenome = document.getElementById('sobrenomeAluno').value.trim();
+                const cpf = document.getElementById('cpfAluno').value.trim();
+                const sexo = document.getElementById('sexoAluno').value;
+                const email = document.getElementById('emailAluno').value.trim();
+
+                const cpfLimpo = cpf.replace(/[^0-9]/g, '');
+
+                if (!nome || !sobrenome || !cpf || !sexo || !email) {
+                    alert('Preencha todos os campos do aluno.');
+                    return;
+                }
+
+                if (cpfLimpo.length !== 11) {
+                    alert('O CPF deve conter exatamente 11 números.');
+                    return;
+                }
+
+                if (!email.includes('@') || !email.includes('.')) {
+                    alert('Digite um email válido.');
+                    return;
+                }
+            }
+
+            if (abaAtual === 'cursos') {
+                const nome = document.getElementById('nomeCurso').value.trim();
+                const modalidade = document.getElementById('modalidadeCurso').value.trim();
+                const mensalidade = document.getElementById('mensalidadeCurso').value.trim();
+                const horario = document.getElementById('horarioCurso').value.trim();
+
+                if (!nome || !modalidade || !mensalidade || !horario) {
+                    alert('Preencha todos os campos do curso.');
+                    return;
+                }
+            }
+
+            alert('Registro adicionado com sucesso!');
+            fecharModal();
+        }
+
+        function fecharModal() {
+            document.getElementById('modalUsuario').style.display = 'none';
+        }
+
+        function mostrarTabela(tipo, botaoClicado) {
+            abaAtual = tipo;
+            const secoes = document.querySelectorAll('.secao-tabela');
+            secoes.forEach(secao => {
+                secao.classList.remove('ativa-tabela');
+            });
+
+            document.getElementById(tipo).classList.add('ativa-tabela');
+
+            const botoes = document.querySelectorAll('.aba-btn');
+            botoes.forEach(botao => {
+                botao.classList.remove('ativa');
+            });
+
+            botaoClicado.classList.add('ativa');
+        }
+    </script>
 </body>
 
 </html>
-
-<script>
-
-    function goDash() {
-        window.location.href = "dashboard.html";
-    }
-    function goAlunos() {
-        window.location.href = "alunos.html";
-    }
-    function goCursos() {
-        window.location.href = "cursos.html";
-    }
-    function goPainel() {
-        window.location.href = "painel.html";
-    }
-    function goHome() {
-        window.location.href = "../index.html";
-    }
-    function abrirModal() {
-        document.getElementById('modalUsuario').style.display = 'flex';
-    }
-    function fecharModal() {
-        document.getElementById('modalUsuario').style.display = 'none';
-    }
-
-</script>
