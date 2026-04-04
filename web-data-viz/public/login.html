@@ -44,10 +44,27 @@
                     Não possui conta? <a href="./cadastroEmpresa.html">Cadastre-se</a>
                 </span>
                 <div id="erro" class="mensagem_senha"></div>
-                <div id="alerta_custom" class="alerta">
-                    <div class="alerta_box">
-                        <p id="alerta_msg"></p>
-                        <button onclick="fecharAlerta()">OK</button>
+                <!-- Alert personalizado -->
+                <div id="customAlert" class="custom-alert">
+                    <div class="alert-content">
+                        <div class="alert-header">
+                            <div id="alertIcon" class="alert-icon"></div>
+                            <h3 id="alertTitle"></h3>
+                        </div>
+                        <div class="alert-message">
+                            <p id="alertMessage"></p>
+                        </div>
+                        <div class="alert-buttons">
+                            <button class="alert-btn primary" onclick="closeAlert()">OK</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loader -->
+                <div id="customLoader" class="custom-loader">
+                    <div class="loader-content">
+                        <div class="spinner"></div>
+                        <p>Autenticando...</p>
                     </div>
                 </div>
             </div>
@@ -67,11 +84,87 @@
 </html>
 
 <script>
-
-    // Função do olhinho
-    function toggleSenha() {
+    const emailInput = document.getElementById("email_input");
+    const senhaInput = document.getElementById("senha_input");
+    const erroDiv = document.getElementById("erro");
+    
+    // Funções do alert personalizado
+    function showAlert(type, title, message, redirectUrl = null) {
+        const alert = document.getElementById('customAlert');
+        const alertIcon = document.getElementById('alertIcon');
+        const alertTitle = document.getElementById('alertTitle');
+        const alertMessage = document.getElementById('alertMessage');
+        
+        // Configurar ícone baseado no tipo
+        alertIcon.innerHTML = '';
+        if (type === 'success') {
+            alertIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+            alertIcon.className = 'alert-icon success';
+        } else if (type === 'error') {
+            alertIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            alertIcon.className = 'alert-icon error';
+        } else if (type === 'warning') {
+            alertIcon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
+            alertIcon.className = 'alert-icon warning';
+        } else {
+            alertIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+            alertIcon.className = 'alert-icon info';
+        }
+        
+        alertTitle.textContent = title;
+        alertMessage.textContent = message;
+        
+        alert.classList.add('active');
+        
+        // Se tiver URL de redirecionamento, redirecionar após fechar
+        if (redirectUrl) {
+            const closeBtn = document.querySelector('#customAlert .alert-btn.primary');
+            const oldClick = closeBtn.onclick;
+            closeBtn.onclick = () => {
+                if (oldClick) oldClick();
+                window.location.href = redirectUrl;
+            };
+        }
+    }
+    
+    function showLoader() {
+        document.getElementById('customLoader').classList.add('active');
+    }
+    
+    function hideLoader() {
+        document.getElementById('customLoader').classList.remove('active');
+    }
+    
+    function closeAlert() {
+        document.getElementById('customAlert').classList.remove('active');
+        // Reset do onclick do botão para o padrão
+        const closeBtn = document.querySelector('#customAlert .alert-btn.primary');
+        closeBtn.onclick = closeAlert;
+    }
+    
+    // Fechar alert ao clicar fora
+    document.getElementById('customAlert').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeAlert();
+        }
+    });
+    
+    // Remover borda vermelha quando o usuário começar a digitar
+    emailInput.addEventListener('input', function() {
+        this.classList.remove('input-error');
+        this.style.border = "";
+        erroDiv.innerHTML = "";
+    });
+    
+    senhaInput.addEventListener('input', function() {
+        this.classList.remove('input-error');
+        this.style.border = "";
+        erroDiv.innerHTML = "";
+    });
+    
+    // Função do olhinho (corrigida)
+    function toggleSenha(icon) {
         const senha = document.getElementById('senha_input');
-        const icon = document.querySelector('.olhinho i');
         if (senha.type === 'password') {
             senha.type = 'text';
             icon.classList.remove('fa-eye');
@@ -82,42 +175,53 @@
             icon.classList.add('fa-eye');
         }
     }
-
-    function mostrarAlerta(msg) {
-        const alerta = document.getElementById("alerta_custom");
-        const texto = document.getElementById("alerta_msg");
-
-        texto.innerText = msg;
-        alerta.classList.add("ativo");
+    
+    // Função para validar email
+    function validarEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
     }
-
-    function fecharAlerta() {
-        document.getElementById("alerta_custom").classList.remove("ativo");
-    }
-
-    const emailInput = document.getElementById("email_input");
-    const senhaInput = document.getElementById("senha_input");
-    const erroDiv = document.getElementById("erro");
-
-
+    
     async function entrar() {
         let email = emailInput.value.trim();
         let senha = senhaInput.value;
-
-        if (email === "" || senha === "") {
-            mostrarAlerta("Preencha todos os campos obrigatórios.");
-
-            if (email === "") {
-                emailInput.style.border = "1px solid #e63946";
-            }
-
-            if (senha === "") {
-                senhaInput.style.border = "1px solid #e63946";
-            }
-
+        let camposInvalidos = false;
+        
+        // Limpar estilos anteriores
+        emailInput.classList.remove('input-error');
+        senhaInput.classList.remove('input-error');
+        emailInput.style.border = "";
+        senhaInput.style.border = "";
+        erroDiv.innerHTML = "";
+        
+        // Validação dos campos
+        if (email === "") {
+            emailInput.classList.add('input-error');
+            emailInput.style.border = "1px solid #f44336";
+            camposInvalidos = true;
+        }
+        
+        if (senha === "") {
+            senhaInput.classList.add('input-error');
+            senhaInput.style.border = "1px solid #f44336";
+            camposInvalidos = true;
+        }
+        
+        if (email !== "" && !validarEmail(email)) {
+            emailInput.classList.add('input-error');
+            emailInput.style.border = "1px solid #f44336";
+            showAlert('warning', 'Email Inválido', 'Por favor, digite um endereço de email válido.');
             return;
         }
-
+        
+        if (camposInvalidos) {
+            showAlert('warning', 'Campos Obrigatórios', 'Por favor, preencha todos os campos para continuar.');
+            return;
+        }
+        
+        // Mostrar loader
+        showLoader();
+        
         try {
             const resposta = await fetch("http://localhost:3333/diretoria/autenticar", {
                 method: "POST",
@@ -127,30 +231,72 @@
                     senhaServer: senha
                 })
             });
-
+            
+            // Esconder loader
+            hideLoader();
+            
             if (resposta.status === 200) {
                 const dados = await resposta.json();
-
+                
+                // Salvar dados na sessão
                 sessionStorage.setItem("ID_DIRETOR", dados.id);
                 sessionStorage.setItem("NOME_DIRETOR", dados.nome);
                 sessionStorage.setItem("EMAIL_DIRETOR", dados.email);
                 sessionStorage.setItem("FK_UNIVERSIDADE", dados.universidade);
-
-                window.location.href = "/dashboard/dashboard.html";
-
+                
+                // Mostrar alert de sucesso
+                showAlert('success', 'Login realizado!', `Bem-vindo de volta, ${dados.nome}! Redirecionando para o dashboard...`, '/dashboard/dashboard.html');
+                
+                // Redirecionar após 3 segundos (fallback)
+                setTimeout(() => {
+                    window.location.href = "/dashboard/dashboard.html";
+                }, 3000);
+                
             } else if (resposta.status === 401) {
+                showAlert('error', 'Acesso Negado', 'Email ou senha inválidos. Verifique suas credenciais e tente novamente.');
                 erroDiv.style.color = "red";
                 erroDiv.innerText = "Email ou senha inválidos.";
+                // Aplicar efeito de erro nos campos
+                emailInput.classList.add('input-error');
+                senhaInput.classList.add('input-error');
+            } else if (resposta.status === 404) {
+                showAlert('error', 'Usuário não encontrado', 'Não encontramos uma conta com este email. Por favor, verifique ou cadastre-se.');
+                erroDiv.style.color = "red";
+                erroDiv.innerText = "Usuário não encontrado.";
+                emailInput.classList.add('input-error');
             } else {
                 const msg = await resposta.text();
+                showAlert('error', 'Erro no Login', `Ocorreu um erro ao tentar fazer login: ${msg}`);
                 erroDiv.style.color = "red";
                 erroDiv.innerText = "Erro: " + msg;
             }
-
+            
         } catch (erro) {
             console.error(erro);
+            hideLoader();
+            showAlert('error', 'Erro de Conexão', 'Não foi possível conectar ao servidor. Verifique sua conexão com a internet e tente novamente.');
             erroDiv.style.color = "red";
             erroDiv.innerText = "Não foi possível conectar ao servidor.";
         }
     }
+    
+    // Permitir login com tecla Enter
+    emailInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            entrar();
+        }
+    });
+    
+    senhaInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            entrar();
+        }
+    });
+    
+    // Permitir fechar alert com ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeAlert();
+        }
+    });
 </script>

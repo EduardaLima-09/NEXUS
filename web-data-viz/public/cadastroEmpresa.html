@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="css/cadastroEmpresa.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
+
   <title>Nexus | Cadastro Instituição</title>
   <link rel="shortcut icon" href="assets/favicon (3).ico" type="image/x-icon">
 </head>
@@ -58,6 +58,30 @@
         <button onclick="cadastrar()">Cadastrar instituição</button>
         <span class="sub">Já tem uma conta? <a href="./login.html">Entre aqui</a></span>
         <div id="erro" class="mensagem_senha"></div>
+        <!-- Alert personalizado -->
+        <div id="customAlert" class="custom-alert">
+          <div class="alert-content">
+            <div class="alert-header">
+              <div id="alertIcon" class="alert-icon"></div>
+              <h3 id="alertTitle"></h3>
+            </div>
+            <div class="alert-message">
+              <p id="alertMessage"></p>
+              <div id="tokenContainer" style="display: none;"></div>
+            </div>
+            <div class="alert-buttons">
+              <button class="alert-btn primary" onclick="closeAlert()">OK</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loader -->
+        <div id="customLoader" class="custom-loader">
+          <div class="loader-content">
+            <div class="spinner"></div>
+            <p>Processando cadastro...</p>
+          </div>
+        </div>
       </div>
     </div>
   </main>
@@ -67,6 +91,69 @@
   const razaoInput = document.getElementById("razao_input");
   const emailInput = document.getElementById("email_input");
   const cnpjInput = document.getElementById("cnpj_input");
+
+  // Funções do alert personalizado
+  function showAlert(type, title, message, token = null) {
+    const alert = document.getElementById('customAlert');
+    const alertIcon = document.getElementById('alertIcon');
+    const alertTitle = document.getElementById('alertTitle');
+    const alertMessage = document.getElementById('alertMessage');
+    const tokenContainer = document.getElementById('tokenContainer');
+
+    // Configurar ícone e cor baseado no tipo
+    alertIcon.innerHTML = '';
+    if (type === 'success') {
+      alertIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+      alertIcon.className = 'alert-icon success';
+    } else if (type === 'error') {
+      alertIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      alertIcon.className = 'alert-icon error';
+    } else if (type === 'warning') {
+      alertIcon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
+      alertIcon.className = 'alert-icon warning';
+    } else {
+      alertIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+      alertIcon.className = 'alert-icon info';
+    }
+
+    alertTitle.textContent = title;
+    alertMessage.textContent = message;
+
+    // Se tiver token, mostrar em uma box especial
+    if (token) {
+      tokenContainer.style.display = 'block';
+      tokenContainer.innerHTML = `
+          <div class="token-box">
+            <strong>🔑 Token de acesso:</strong><br>
+            <code style="font-size: 13px;">${token}</code><br>
+            <small style="color: #666;">⚠️ Guarde este token para o cadastro do diretor</small>
+          </div>
+        `;
+    } else {
+      tokenContainer.style.display = 'none';
+    }
+
+    alert.classList.add('active');
+  }
+
+  function showLoader() {
+    document.getElementById('customLoader').classList.add('active');
+  }
+
+  function hideLoader() {
+    document.getElementById('customLoader').classList.remove('active');
+  }
+
+  function closeAlert() {
+    document.getElementById('customAlert').classList.remove('active');
+  }
+
+  // Fechar alert ao clicar fora
+  document.getElementById('customAlert').addEventListener('click', function (e) {
+    if (e.target === this) {
+      closeAlert();
+    }
+  });
 
   function criarErro(input) {
     let erro = document.createElement("div");
@@ -119,6 +206,8 @@
     } else erroCnpj.innerHTML = "";
 
     if (valido) {
+      showLoader(); // Mostrar loader
+
       try {
         const resposta = await fetch("http://localhost:3333/universidades/cadastrar", {
           method: "POST",
@@ -131,26 +220,49 @@
           })
         });
 
+        hideLoader(); // Esconder loader
+
         if (resposta.status === 201) {
           const dados = await resposta.json();
-          alert(`Instituição cadastrada com sucesso!\nSeu token é: ${dados.token}\nGuarde-o para o cadastro do diretor.`);
-          window.location.href = "cadastroDiretor.html";
+          // Mostrar alert de sucesso com token
+          showAlert(
+            'success',
+            'Cadastro Realizado!',
+            'Instituição cadastrada com sucesso!',
+            dados.token
+          );
+
+          // Redirecionar após 3 segundos
+          setTimeout(() => {
+            window.location.href = "cadastroDiretor.html";
+          }, 3000);
         } else {
           const msg = await resposta.text();
           if (msg.includes("emailUniversidade")) {
-            alert("Este email já está cadastrado.");
+            showAlert('error', 'Erro no Cadastro', 'Este email já está cadastrado no sistema.');
           } else if (msg.includes("cnpj")) {
-            alert("Este CNPJ já está cadastrado.");
+            showAlert('error', 'Erro no Cadastro', 'Este CNPJ já está cadastrado no sistema.');
           } else {
-            alert("Erro ao cadastrar: " + msg);
+            showAlert('error', 'Erro no Cadastro', `Erro ao cadastrar: ${msg}`);
           }
         }
       } catch (erro) {
+        hideLoader();
         console.error(erro);
-        alert("Não foi possível conectar ao servidor.");
+        showAlert('error', 'Erro de Conexão', 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
       }
+    } else {
+      // Mostrar alerta de validação
+      showAlert('warning', 'Campos Inválidos', 'Por favor, preencha todos os campos corretamente antes de continuar.');
     }
   }
+
+  // Permitir fechar alert com ESC
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      closeAlert();
+    }
+  });
 </script>
 
 </html>

@@ -91,13 +91,35 @@
 
         <div id="erro_senha" class="mensagem_senha"></div>
         <div id="erro_confirmacao" class="mensagem_senha"></div>
+        <!-- Alert personalizado -->
+        <div id="customAlert" class="custom-alert">
+          <div class="alert-content">
+            <div class="alert-header">
+              <div id="alertIcon" class="alert-icon"></div>
+              <h3 id="alertTitle"></h3>
+            </div>
+            <div class="alert-message">
+              <p id="alertMessage"></p>
+            </div>
+            <div class="alert-buttons">
+              <button class="alert-btn primary" onclick="closeAlert()">OK</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loader -->
+        <div id="customLoader" class="custom-loader">
+          <div class="loader-content">
+            <div class="spinner"></div>
+            <p>Processando cadastro...</p>
+          </div>
+        </div>
       </div>
 
     </div>
   </main>
 </body>
 <script>
-  
   const nomeInput = document.getElementById("nome_input");
   const sobrenomeInput = document.getElementById("sobrenome_input");
   const emailInput = document.getElementById("email_input");
@@ -107,6 +129,64 @@
 
   const toggleSenha = document.getElementById("toggle_senha");
   const toggleConfirmacao = document.getElementById("toggle_confirmacao");
+
+  // Funções do alert personalizado
+  function showAlert(type, title, message, redirectUrl = null) {
+    const alert = document.getElementById('customAlert');
+    const alertIcon = document.getElementById('alertIcon');
+    const alertTitle = document.getElementById('alertTitle');
+    const alertMessage = document.getElementById('alertMessage');
+
+    // Configurar ícone baseado no tipo
+    alertIcon.innerHTML = '';
+    if (type === 'success') {
+      alertIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+      alertIcon.className = 'alert-icon success';
+    } else if (type === 'error') {
+      alertIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      alertIcon.className = 'alert-icon error';
+    } else if (type === 'warning') {
+      alertIcon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
+      alertIcon.className = 'alert-icon warning';
+    } else {
+      alertIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+      alertIcon.className = 'alert-icon info';
+    }
+
+    alertTitle.textContent = title;
+    alertMessage.textContent = message;
+
+    alert.classList.add('active');
+
+    // Se tiver URL de redirecionamento, redirecionar após fechar
+    if (redirectUrl) {
+      const closeBtn = document.querySelector('#customAlert .alert-btn.primary');
+      const oldClick = closeBtn.onclick;
+      closeBtn.onclick = () => {
+        if (oldClick) oldClick();
+        window.location.href = redirectUrl;
+      };
+    }
+  }
+
+  function showLoader() {
+    document.getElementById('customLoader').classList.add('active');
+  }
+
+  function hideLoader() {
+    document.getElementById('customLoader').classList.remove('active');
+  }
+
+  function closeAlert() {
+    document.getElementById('customAlert').classList.remove('active');
+  }
+
+  // Fechar alert ao clicar fora
+  document.getElementById('customAlert').addEventListener('click', function (e) {
+    if (e.target === this) {
+      closeAlert();
+    }
+  });
 
   toggleSenha.addEventListener("click", () => {
     if (senhaInput.type === "password") {
@@ -250,6 +330,8 @@
     if (!validarConfirmacao()) valido = false;
 
     if (valido) {
+      showLoader(); // Mostrar loader
+
       try {
         const resposta = await fetch("http://localhost:3333/diretoria/cadastrar", {
           method: "POST",
@@ -263,24 +345,49 @@
           })
         });
 
+        hideLoader(); // Esconder loader
+
         if (resposta.status === 201) {
-          alert("Cadastro realizado com sucesso!");
-          window.location.href = "login.html";
+          // Mostrar alert de sucesso e redirecionar
+          showAlert('success', 'Cadastro Realizado!', 'Cadastro realizado com sucesso! Redirecionando para o login...', 'login.html');
+
+          // Redirecionar após 3 segundos caso o alert não redirecione
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 3000);
         } else if (resposta.status === 404) {
           erroToken.style.color = "red";
           erroToken.innerHTML = "Token inválido! Verifique o token da sua instituição.";
+          showAlert('error', 'Token Inválido', 'O token informado não é válido. Verifique com sua instituição e tente novamente.');
+        } else if (resposta.status === 409) {
+          const msg = await resposta.text();
+          if (msg.includes("email")) {
+            showAlert('error', 'Email já cadastrado', 'Este email já está vinculado a um diretor. Use outro email ou faça login.');
+            erroEmail.innerHTML = "Email já cadastrado";
+          } else {
+            showAlert('error', 'Erro no Cadastro', msg);
+          }
         } else {
           const msg = await resposta.text();
-          alert("Erro ao cadastrar: " + msg);
+          showAlert('error', 'Erro no Cadastro', `Erro ao cadastrar: ${msg}`);
         }
       } catch (erro) {
+        hideLoader();
         console.error(erro);
-        alert("Não foi possível conectar ao servidor.");
+        showAlert('error', 'Erro de Conexão', 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
       }
+    } else {
+      // Mostrar alerta de validação
+      showAlert('warning', 'Campos Inválidos', 'Por favor, preencha todos os campos corretamente antes de continuar.');
     }
   }
 
-
+  // Permitir fechar alert com ESC
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      closeAlert();
+    }
+  });
 </script>
 
 </html>
