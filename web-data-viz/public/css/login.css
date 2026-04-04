@@ -1,3 +1,5 @@
+/* Leonardo arrumar a responsividade por favor, confere se está tudo OK */
+
 /* Fontes importadas */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
@@ -5,8 +7,9 @@
 
 :root {
     --font-titulos: "Montserrat", sans-serif;
-    --font-textos: "Montserrat Alternates", sans-serif;
     --font-subtitulos: "Poppins", sans-serif;
+    --font-textos: "Montserrat Alternates", sans-serif;
+    --cor--sidebar: #111827;
     --cor-azul-escuro: #012340;
     --cor-azul-medio: #164773;
     --cor-azul-claro: #4681A6;
@@ -15,276 +18,681 @@
     --cor-cinza: #D9D9D9;
     --cor-cinza-escuro: #3f3f3f;
     --cor-branco: #F1F1F1;
+    --cor-branco-puro: #FFFFFF;
     --cor-preto: #000000;
 }
 
-html,
-body {
-    height: 100%;
-}
-
-body {
+* {
     margin: 0;
     padding: 0;
-    background-color: var(--cor-branco);
-    font-family: "Montserrat", sans-serif;
-    font-family: "Montserrat Alternates", sans-serif;
+    box-sizing: border-box;
 }
 
-.login_container {
-    display: flex;
-    min-height: 100vh;
-}
-
-.lado_esquerdo {
-    flex: 1;
-    display: flex;
-    flex-direction: column; /* 🔥 ESSA LINHA resolve */
-    align-items: center;
-}
-
-/* Botão que volta para a index.html */
-
-.grupo_voltar {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    align-self: flex-start;
-    margin: 20px;
-}
-
-.botao_de_voltar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+body {
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--cor-azul-escuro);
-    transition: 0.5s ease;
+    background-image: linear-gradient(135deg, var(--cor-azul-escuro), var(--cor-azul-medio));
 }
 
-.botao_de_voltar:hover {
-    background-color: var(--cor-azul-medio);
-}
-
-.seta {
-    font-size: 14px;
-    color: var(--cor-branco);
-}
-
-.voltar a {
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-decoration: none;
-    color: var(--cor-azul-escuro);
-    font-family: var(--font-subtitulos);
-}
-
-/* Acaba o botão */
-
-.imagem {
-    width: 70%;
-    height: auto;
-    margin-top: 1%;
-}
-
-.triangulo_esquerda {
-    position: absolute;
-    left: 0;
-    top: 10%;
-    width: 140px;
-    height: 290px;
-    background-color: var(--cor-azul-claro);
-    clip-path: polygon(0 0, 100% 50%, 0 100%);
+.login_container {
+    width: 90%;
+    height: 90vh;
+    display: flex;
+    overflow: hidden;
+    max-width: 1200px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.79);
 }
 
 .lado_direito {
-    flex: 1;
-    height: 100vh;
+    width: 50%;
+    height: 100%;
+    color: var(--cor-branco-puro);
+
     display: flex;
-    flex-direction: column;
     align-items: center;
-    background-color: var(--cor-azul-claro);
+    justify-content: center;
+
+    padding: 40px;
+    overflow: hidden;
+    position: relative;
 }
 
-.logo {
-    width: 80px;
-    align-self: flex-end;
-    margin: 20px 20px 0 0;
+.lado_direito::before {
+    inset: 0;
+    content: "";
+    position: absolute;
+
+    background-size: cover;
+    filter: brightness(0.4);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../assets/fundinhoII.png);
+}
+
+.lado_direito>* {
+    position: relative;
+    z-index: 1;
 }
 
 .lado_direito h1 {
-    color: white;
-    font-size: 40px;
-    margin-top: auto;
-    font-weight: 900;
-    line-height: 0.2;
-    text-align: center;
-    letter-spacing: 2px;
+    font-size: 34px;
+    margin-bottom: 10px;
     font-family: var(--font-titulos);
 }
 
 .lado_direito p {
-    color: white;
     font-size: 16px;
-    font-weight: 400;
-    margin: 0px 0 0 0;
+    margin-bottom: 20px;
     font-family: var(--font-subtitulos);
 }
 
-.card-login {
-    width: 400px;
-    padding: 25px;
-    margin-top: 3%;
-    margin-bottom: auto;
-    border-radius: 30px;
-    background-color: #f2f6f84d;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.17);
+.lado_esquerdo {
+    width: 60%;
+    display: flex;
+    padding: 50px;
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--cor-branco);
+}
 
+.botao_de_voltar {
+    top: 25px;
+    left: 25px;
+    font-size: 28px;
+    transition: 0.3s;
+    position: absolute;
+    color: var(--cor--sidebar);
+}
+
+.botao_de_voltar:hover {
+    transform: translateX(-3px);
+}
+
+.card-login {
+    width: 80%;
+    padding: 35px;
+    display: flex;
+    max-width: 400px;
+    border-radius: 14px;
+    flex-direction: column;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+.card-login h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: var(--cor--sidebar);
+    font-family: var(--font-titulos);
+}
+
+.linha-dupla {
+    gap: 15px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.campo {
+    flex: 1 1 100%;
     display: flex;
     flex-direction: column;
-    gap: 8px;
 }
 
-.card-login label {
-    font-size: 16px;
-    margin-top: 8px;
-    font-weight: 500;
-    font-family: var(--font-titulos);
+.campo label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--cor-azul-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+.campo input {
+    padding: 10px;
+    outline: none;
+    font-size: 14px;
+    transition: 0.25s;
+    border-radius: 8px;
+    border: 1px solid var(--cor-cinza);
+}
+
+.campo input:focus {
+    box-shadow: 0 0 0 3px rgba(12, 6, 78, 0.685);
+}
+
+.input-icone {
+    width: 100%;
+    position: relative;
+}
+
+.input-icone input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.input-icone i {
+    top: 50%;
+    right: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    position: absolute;
+    transform: translateY(-50%);
     color: var(--cor-azul-escuro);
 }
 
-.card-login input {
-    width: 100%;
-    padding: 16px;
-    font-size: 14px;
-    box-sizing: border-box;
-    border-radius: 12px;
-    border: 3px solid var(--cor-azul-escuro);
-    background-color: rgba(255, 255, 255, 0.6);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.card-login input:focus {
-    outline: none;
-    border-color: var(--cor-azul-escuro);
-    box-shadow: 0 0 0 4px rgba(1, 35, 64, 0.15);
-    background-color: rgba(255, 255, 255, 0.6);
-}
-
-.card-login button {
-    color: white;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    font-family: var(--font-titulos);
-
-
-    width: 100%;
-    border: none;
+button {
     padding: 14px;
+    border: none;
     cursor: pointer;
-    margin-top: 27px;
-    margin-bottom: 4%;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    background-color: var(--cor-azul-escuro);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
-}
-
-.card-login button:hover {
-    transform: translateY(-2px);
-    background-color: var(--cor-azul-claro);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
-}
-
-.cadastro {
-    margin-left: 20%;
-    color: var(--cor-cinza-escuro);
-    font-size: 16px;
-}
-
-.cadastro a {
+    font-size: 15px;
+    margin-top: 20px;
+    transition: 0.3s;
     font-weight: bold;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    color: var(--cor-branco-puro);
+    background-image: linear-gradient(135deg, var(--cor-azul-escuro), var(--cor-azul-medio));
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+.sub,
+.cadastro {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+    font-family: var(--font-subtitulos);
+}
+
+.sub a,
+.cadastro a {
+    font-weight: 600;
     text-decoration: none;
     color: var(--cor-azul-escuro);
+    font-family: var(--font-subtitulos);
 }
 
-.triangulo_direita {
-    bottom: 0;
-    left: 40%;
-    width: 200px;
-    height: 400px;
-    position: absolute;
-    background-color: var(--cor-azul-claro);
-    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+.mensagem_senha {
+    font-size: 8px;
+    margin-top: 4px;
+    font-weight: 600;
+    color: #e63946;
+    font-family: var(--font-titulos);
 }
 
-@media screen and (max-width: 768px) {
+.alerta {
+    inset: 0;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    z-index: 999;
+    transition: 0.3s;
+    pointer-events: none;
+}
+
+.alerta.ativo {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.alerta_box {
+    width: 100%;
+    max-width: 300px;
+    padding: 25px 30px;
+    text-align: center;
+    border-radius: 12px;
+    background: var(--cor-branco);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+    transform: scale(0.9);
+    transition: 0.3s;
+}
+
+.alerta.ativo .alerta_box {
+    transform: scale(1);
+}
+
+.alerta_box p {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+.alerta_box button {
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 6px;
+    color: var(--cor-branco-puro);
+    background-image: linear-gradient(135deg, var(--cor-azul-escuro), var(--cor-azul-medio));
+}
+
+/* ========== RESPONSIVIDADE ========== */
+
+/* Desktop médio (1024px - 1200px) */
+
+@media (max-width: 1200px) {
     .login_container {
-        flex-direction: column;
-        min-height: 100vh;
-        margin-left: -50px;
+        width: 95%;
+        height: 85vh;
     }
 
-    .lado_esquerdo {
-        display: none;
+    .lado_direito h1 {
+        font-size: 30px;
+    }
+
+    .card-login {
+        width: 90%;
+        padding: 30px;
+    }
+}
+
+/* Tablets paisagem e desktop pequeno (768px - 1024px) */
+
+@media (max-width: 1024px) {
+    .login_container {
+        width: 98%;
+        height: auto;
+        min-height: 90vh;
+        flex-direction: column;
     }
 
     .lado_direito {
         width: 100%;
-        min-height: 100vh;
-        padding: 2rem 1.5rem;
-        justify-content: flex-start;
-    }
-
-    .logo {
-        align-self: center;
-        margin: 0 0 1rem 0;
+        height: 280px;
+        padding: 30px;
+        text-align: center;
     }
 
     .lado_direito h1 {
-        font-size: 2rem;
-        margin-top: 1rem;
+        font-size: 28px;
     }
 
     .lado_direito p {
-        font-size: 0.9rem;
+        font-size: 14px;
+    }
+
+    .lado_esquerdo {
+        width: 100%;
+        padding: 40px 20px;
+        min-height: 500px;
     }
 
     .card-login {
         width: 100%;
-        max-width: 300px;
-        padding: 1.2rem;
-        border-radius: 20px;
+        max-width: 500px;
+        padding: 30px;
     }
 
-    .card-login input {
-        padding: 0.8rem;
-        font-size: 0.9rem;
+    .botao_de_voltar {
+        top: 15px;
+        left: 15px;
+        font-size: 24px;
+    }
+}
+
+/* Tablets retrato (600px - 768px) */
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        align-items: flex-start;
     }
 
-    .card-login button {
-        font-size: 1rem;
-        padding: 0.9rem;
-        width: 90%;
-        max-width: 350px;
-        padding: 1.2rem;
-        border-radius: 20px;
+    .login_container {
+        width: 100%;
+        border-radius: 15px;
+        margin: 10px 0;
     }
 
+    .lado_direito {
+        height: 240px;
+        padding: 20px;
+    }
+
+    .lado_direito h1 {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .lado_direito p {
+        font-size: 13px;
+        margin-bottom: 15px;
+    }
+
+    .lado_esquerdo {
+        padding: 30px 15px;
+    }
+
+    .card-login {
+        padding: 25px 20px;
+    }
+
+    .card-login h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+
+    .linha-dupla {
+        gap: 12px;
+    }
+
+    .campo label {
+        font-size: 13px;
+    }
+
+    .campo input {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 14px;
+        margin-top: 15px;
+    }
+
+    .sub,
     .cadastro {
-        margin-left: 0;
+        font-size: 12px;
+    }
+}
+
+/* Mobile grande (480px - 600px) */
+
+@media (max-width: 600px) {
+    .login_container {
+        border-radius: 12px;
+    }
+
+    .lado_direito {
+        height: 200px;
+        padding: 15px;
+    }
+
+    .lado_direito h1 {
+        font-size: 20px;
+    }
+
+    .lado_direito p {
+        font-size: 12px;
+    }
+
+    .lado_esquerdo {
+        padding: 25px 12px;
+    }
+
+    .card-login {
+        padding: 20px 15px;
+    }
+
+    .card-login h2 {
+        font-size: 20px;
         text-align: center;
-        font-size: 0.9rem;
     }
 
-    .triangulo_esquerda,
-    .triangulo_direita {
-        display: none;
+    .botao_de_voltar {
+        top: 10px;
+        left: 10px;
+        font-size: 20px;
     }
 
+    .campo label {
+        font-size: 12px;
+    }
+
+    .campo input {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .input-icone i {
+        font-size: 12px;
+        right: 10px;
+    }
+}
+
+/* Mobile pequeno (até 480px) */
+
+@media (max-width: 480px) {
+    body {
+        padding: 5px;
+    }
+
+    .login_container {
+        border-radius: 10px;
+    }
+
+    .lado_direito {
+        height: 180px;
+        padding: 12px;
+    }
+
+    .lado_direito h1 {
+        font-size: 18px;
+    }
+
+    .lado_direito p {
+        font-size: 11px;
+        margin-bottom: 10px;
+    }
+
+    .lado_esquerdo {
+        padding: 20px 10px;
+    }
+
+    .card-login {
+        padding: 15px 12px;
+    }
+
+    .card-login h2 {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    .linha-dupla {
+        gap: 10px;
+    }
+
+    .campo label {
+        font-size: 11px;
+        margin-bottom: 3px;
+    }
+
+    .campo input {
+        padding: 7px 8px;
+        font-size: 11px;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 13px;
+        margin-top: 12px;
+    }
+
+    .sub,
+    .cadastro {
+        font-size: 11px;
+        margin-top: 8px;
+    }
+
+    .botao_de_voltar {
+        top: 8px;
+        left: 8px;
+        font-size: 18px;
+    }
+
+    .alerta_box {
+        max-width: 280px;
+        padding: 20px;
+        margin: 0 15px;
+    }
+
+    .alerta_box p {
+        font-size: 14px;
+    }
+
+    .alerta_box button {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}
+
+/* Altura pequena (telas com altura reduzida) */
+
+@media (max-height: 700px) and (min-width: 769px) {
+    .login_container {
+        height: 95vh;
+    }
+
+    .lado_direito {
+        padding: 20px;
+    }
+
+    .lado_esquerdo {
+        padding: 30px;
+    }
+
+    .card-login {
+        padding: 20px;
+    }
+
+    .card-login h2 {
+        margin-bottom: 12px;
+        font-size: 22px;
+    }
+
+    .campo input {
+        padding: 7px 10px;
+    }
+
+    button {
+        padding: 10px;
+        margin-top: 12px;
+    }
+}
+
+/* Ajustes para telas muito grandes (acima de 1600px) */
+
+@media (min-width: 1600px) {
+    .login_container {
+        max-width: 1400px;
+        height: 85vh;
+    }
+
+    .lado_direito h1 {
+        font-size: 42px;
+    }
+
+    .lado_direito p {
+        font-size: 18px;
+    }
+
+    .card-login {
+        max-width: 500px;
+        padding: 45px;
+    }
+
+    .card-login h2 {
+        font-size: 32px;
+    }
+
+    .campo label {
+        font-size: 16px;
+    }
+
+    .campo input {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    button {
+        padding: 16px;
+        font-size: 16px;
+    }
+}
+
+/* Orientação paisagem em mobile */
+
+@media (max-width: 768px) and (orientation: landscape) {
+    body {
+        align-items: center;
+    }
+
+    .login_container {
+        flex-direction: row;
+        height: 90vh;
+    }
+
+    .lado_direito {
+        width: 40%;
+        height: 100%;
+        padding: 15px;
+    }
+
+    .lado_esquerdo {
+        width: 60%;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .card-login {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .lado_direito h1 {
+        font-size: 18px;
+    }
+
+    .lado_direito p {
+        font-size: 11px;
+    }
+
+    .botao_de_voltar {
+        top: 8px;
+        left: 8px;
+        font-size: 18px;
+    }
+}
+
+/* Melhorias de touch para dispositivos móveis */
+
+@media (max-width: 768px) {
+
+    button,
+    .botao_de_voltar,
+    .input-icone i,
+    .sub a,
+    .cadastro a {
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    button:active {
+        transform: translateY(0px);
+    }
+
+    .botao_de_voltar:active {
+        transform: translateX(-2px);
+    }
+
+    input,
+    button {
+        font-size: 16px;
+    }
 }
