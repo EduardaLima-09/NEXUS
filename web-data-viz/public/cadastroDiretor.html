@@ -17,8 +17,7 @@
 
 <body>
   <main class="cadastro_container">
-
-    <!-- LADO ESQUERDO (igual empresa) -->
+    <!--LADO ESQUERDO-->
     <div class="lado_esquerdo">
       <div class="conteudo_esquerda">
         <img src="assets/LogoBranca.png" class="logo">
@@ -30,42 +29,32 @@
         </span>
       </div>
     </div>
-
-    <!-- LADO DIREITO (formulário do diretor) -->
+    <!--LADO DIREITO (formulário do diretor)-->
     <div class="lado_direito">
-
-      <!-- BOTÃO VOLTAR -->
       <div class="grupo_voltar">
         <a href="./index.html" class="botao_de_voltar">
           <i class="fa-solid fa-arrow-left"></i>
         </a>
       </div>
-
-      <!-- CARD -->
       <div class="card-login">
         <h2>Cadastre-se</h2>
-
         <div class="linha-dupla">
           <div class="campo">
             <label>Nome</label>
             <input type="text" id="nome_input" placeholder="Seu nome">
           </div>
-
           <div class="campo">
             <label>Sobrenome</label>
             <input type="text" id="sobrenome_input" placeholder="Seu sobrenome">
           </div>
-
           <div class="campo">
             <label>Email</label>
             <input type="email" id="email_input" placeholder="empresa@email.com">
           </div>
-
           <div class="campo">
             <label>Token</label>
             <input type="text" id="token_input" placeholder="******" maxlength="6">
           </div>
-
           <div class="campo senha-campo">
             <label>Senha</label>
             <div class="input-com-icone">
@@ -73,7 +62,6 @@
               <i class="fa-solid fa-eye" id="toggle_senha" style="cursor:pointer;"></i>
             </div>
           </div>
-
           <div class="campo senha-campo">
             <label>Confirmar senha</label>
             <div class="input-com-icone">
@@ -82,43 +70,41 @@
             </div>
           </div>
         </div>
-
         <button onclick="cadastrar()">Cadastrar diretor</button>
-
         <span class="sub">
           Já possui conta? <a href="./login.html">Login</a>
         </span>
-
         <div id="erro_senha" class="mensagem_senha"></div>
         <div id="erro_confirmacao" class="mensagem_senha"></div>
-        <!-- Alert personalizado -->
-        <div id="customAlert" class="custom-alert">
-          <div class="alert-content">
-            <div class="alert-header">
-              <div id="alertIcon" class="alert-icon"></div>
+
+        <!-- Alert -->
+        <div id="customAlert" class="alerta">
+          <div class="alerta-container">
+            <div class="alerta-header">
+              <div id="alertIcon" class="alerta-icone"></div>
               <h3 id="alertTitle"></h3>
             </div>
-            <div class="alert-message">
+            <div class="alerta-mensagem">
               <p id="alertMessage"></p>
+              <div id="tokenContainer" style="display: none;"></div>
             </div>
-            <div class="alert-buttons">
+            <div class="alerta-butoes">
               <button class="alert-btn primary" onclick="closeAlert()">OK</button>
             </div>
           </div>
         </div>
 
-        <!-- Loader -->
-        <div id="customLoader" class="custom-loader">
-          <div class="loader-content">
-            <div class="spinner"></div>
+        <!--Carregamento-->
+        <div id="customLoader" class="carregando">
+          <div class="carregando-container">
+            <div class="parte-texto"></div>
             <p>Processando cadastro...</p>
           </div>
         </div>
       </div>
-
-    </div>
   </main>
 </body>
+
 <script>
   const nomeInput = document.getElementById("nome_input");
   const sobrenomeInput = document.getElementById("sobrenome_input");
@@ -137,20 +123,20 @@
     const alertTitle = document.getElementById('alertTitle');
     const alertMessage = document.getElementById('alertMessage');
 
-    // Configurar ícone baseado no tipo
+    // Configurar ícone e cor baseado no tipo, resolve essa parte no css também
     alertIcon.innerHTML = '';
     if (type === 'success') {
       alertIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
-      alertIcon.className = 'alert-icon success';
+      alertIcon.className = 'alerta-icone success';
     } else if (type === 'error') {
       alertIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-      alertIcon.className = 'alert-icon error';
+      alertIcon.className = 'alerta-icone error';
     } else if (type === 'warning') {
       alertIcon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
-      alertIcon.className = 'alert-icon warning';
+      alertIcon.className = 'alerta-icone warning';
     } else {
       alertIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
-      alertIcon.className = 'alert-icon info';
+      alertIcon.className = 'alerta-icone info';
     }
 
     alertTitle.textContent = title;
@@ -181,13 +167,8 @@
     document.getElementById('customAlert').classList.remove('active');
   }
 
-  // Fechar alert ao clicar fora
-  document.getElementById('customAlert').addEventListener('click', function (e) {
-    if (e.target === this) {
-      closeAlert();
-    }
-  });
 
+  // Olhinhos
   toggleSenha.addEventListener("click", () => {
     if (senhaInput.type === "password") {
       senhaInput.type = "text";
@@ -273,7 +254,7 @@
     }
   }
 
-  // ================= VALIDAÇÃO CONFIRMAÇÃO =================
+  // ================= VALIDAÇÃO CONFIRMAÇÃO ================= //
   function validarConfirmacao() {
     let senhaValida = validarSenha();
 
@@ -302,7 +283,7 @@
   senhaInput.addEventListener("input", validarSenha);
   confirmacaoInput.addEventListener("input", validarConfirmacao);
 
-  // ================= CADASTRAR =================
+  // ================= CADASTRAR ================= //
   async function cadastrar() {
     let valido = true;
 
@@ -330,7 +311,7 @@
     if (!validarConfirmacao()) valido = false;
 
     if (valido) {
-      showLoader(); // Mostrar loader
+      showLoader();
 
       try {
         const resposta = await fetch("http://localhost:3333/diretoria/cadastrar", {
@@ -345,7 +326,7 @@
           })
         });
 
-        hideLoader(); // Esconder loader
+        hideLoader();
 
         if (resposta.status === 201) {
           // Mostrar alert de sucesso e redirecionar
@@ -385,6 +366,13 @@
   // Permitir fechar alert com ESC
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
+      closeAlert();
+    }
+  });
+
+  // Fechar alert ao clicar fora
+  document.getElementById('customAlert').addEventListener('click', function (e) {
+    if (e.target === this) {
       closeAlert();
     }
   });
