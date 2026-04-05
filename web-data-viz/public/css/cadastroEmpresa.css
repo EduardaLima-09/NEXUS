@@ -238,197 +238,204 @@ button:hover {
 }
 
 
-/* Estilos para os alerts personalizados */
-    .custom-alert {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(4px);
+/* alerts personalizados */
+
+.alerta {
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 10000;
+    position: fixed;
+    visibility: hidden;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.alerta.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.alerta-container {
+    width: 90%;
+    padding: 0;
+    max-width: 400px;
+    overflow: hidden;
+    border-radius: 20px;
+    transform: scale(0.7);
+    background: var(--cor-branco);
+    transition: transform 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.alerta.active .alerta-container{
+    transform: scale(1);
+}
+
+.alerta-header {
+    text-align: center;
+    padding: 25px 25px 0 25px;
+}
+
+.alerta-icone {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    font-size: 35px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.alerta-icone.success {
+    color: var(--cor-branco);
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+}
+
+.alerta-icone.error {
+    color: var(--cor-branco);
+    background: linear-gradient(135deg, #f44336, #da190b);
+}
+
+.alerta-icone.warning {
+    color: var(--cor-branco);
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+}
+
+.alerta-icone.info {
+    color: var(--cor-branco);
+    background: linear-gradient(135deg, #2196F3, #0b7dda);
+}
+
+.alerta-header h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--cor--sidebar);
+    font-family: var(--font-titulos);
+}
+
+.alerta-mensagem {
+    text-align: center;
+    padding: 0 25px 25px 25px;
+}
+
+.alerta-mensagem p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+.token-box {
+    padding: 12px;
+    margin: 15px 0;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 8px;
+    word-break: break-all;
+    background: var(--cor-branco);
+    font-family: var(--font-subtitulos);
+    border-left: 4px solid var(--cor-azul-escuro);
+}
+
+.alerta-butoes {
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    padding: 0 25px 25px 25px;
+}
+
+.alert-btn {
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 25px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-family: var(--font-titulos);
+}
+
+.alert-btn.primary {
+    color: var(--cor-branco);
+    background: linear-gradient(135deg, var(--cor-azul-medio) , var(--cor-azul-escuro));
+}
+
+.alert-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.alert-btn.secondary {
+    background: var(--cor-cinza);
+    color: var(--cor-cinza-escuro);
+}
+
+.alert-btn.secondary:hover {
+    background: var(--cor-branco);
+}
+
+/* Textinho de carregando processo */
+
+.carregando {
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 9999;
+    position: fixed;
+    visibility: hidden;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.carregando.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.carregando-container {
+    padding: 30px;
+    min-width: 250px;
+    text-align: center;
+    border-radius: 20px;
+    background: var(--cor-branco);
+}
+
+.parte-texto {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    animation: spin 1s linear infinite;
+    border: 4px solid var(--cor-branco);
+    border-top: 4px solid var(--cor--sidebar);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
     }
-    
-    .custom-alert.active {
-      opacity: 1;
-      visibility: visible;
+
+    100% {
+        transform: rotate(360deg);
     }
-    
-    .alert-content {
-      background: white;
-      border-radius: 20px;
-      max-width: 400px;
-      width: 90%;
-      padding: 0;
-      transform: scale(0.7);
-      transition: transform 0.3s ease;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
-    }
-    
-    .custom-alert.active .alert-content {
-      transform: scale(1);
-    }
-    
-    .alert-header {
-      padding: 25px 25px 0 25px;
-      text-align: center;
-    }
-    
-    .alert-icon {
-      width: 70px;
-      height: 70px;
-      margin: 0 auto 15px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 35px;
-    }
-    
-    .alert-icon.success {
-      background: linear-gradient(135deg, #4CAF50, #45a049);
-      color: white;
-    }
-    
-    .alert-icon.error {
-      background: linear-gradient(135deg, #f44336, #da190b);
-      color: white;
-    }
-    
-    .alert-icon.warning {
-      background: linear-gradient(135deg, #ff9800, #f57c00);
-      color: white;
-    }
-    
-    .alert-icon.info {
-      background: linear-gradient(135deg, #2196F3, #0b7dda);
-      color: white;
-    }
-    
-    .alert-header h3 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      font-family: "Montserrat", sans-serif;
-      color: #111827;
-    }
-    
-    .alert-message {
-      padding: 0 25px 25px 25px;
-      text-align: center;
-    }
-    
-    .alert-message p {
-      font-size: 15px;
-      line-height: 1.5;
-      color: #555;
-      font-family: "Poppins", sans-serif;
-      margin: 0;
-    }
-    
-    .token-box {
-      background: #f0f7ff;
-      border-left: 4px solid #164773;
-      padding: 12px;
-      margin: 15px 0;
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 14px;
-      word-break: break-all;
-      text-align: center;
-    }
-    
-    .alert-buttons {
-      padding: 0 25px 25px 25px;
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-    
-    .alert-btn {
-      padding: 10px 25px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      font-family: "Poppins", sans-serif;
-    }
-    
-    .alert-btn.primary {
-      background: linear-gradient(135deg, #012340, #164773);
-      color: white;
-    }
-    
-    .alert-btn.primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-    
-    .alert-btn.secondary {
-      background: #e0e0e0;
-      color: #333;
-    }
-    
-    .alert-btn.secondary:hover {
-      background: #d0d0d0;
-    }
-    
-    /* Loader personalizado */
-    .custom-loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    
-    .custom-loader.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .loader-content {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      text-align: center;
-      min-width: 250px;
-    }
-    
-    .spinner {
-      width: 50px;
-      height: 50px;
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #164773;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 15px;
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    .loader-content p {
-      font-family: "Poppins", sans-serif;
-      color: #333;
-      margin: 0;
-    }
+}
+
+.carregando-container p {
+    margin: 0;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+}

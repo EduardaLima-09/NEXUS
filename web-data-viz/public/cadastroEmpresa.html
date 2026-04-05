@@ -58,27 +58,28 @@
         <button onclick="cadastrar()">Cadastrar instituição</button>
         <span class="sub">Já tem uma conta? <a href="./login.html">Entre aqui</a></span>
         <div id="erro" class="mensagem_senha"></div>
-        <!-- Alert personalizado -->
-        <div id="customAlert" class="custom-alert">
-          <div class="alert-content">
-            <div class="alert-header">
-              <div id="alertIcon" class="alert-icon"></div>
+
+        <!-- Alert -->
+        <div id="customAlert" class="alerta">
+          <div class="alerta-container">
+            <div class="alerta-header">
+              <div id="alertIcon" class="alerta-icone"></div>
               <h3 id="alertTitle"></h3>
             </div>
-            <div class="alert-message">
+            <div class="alerta-mensagem">
               <p id="alertMessage"></p>
               <div id="tokenContainer" style="display: none;"></div>
             </div>
-            <div class="alert-buttons">
+            <div class="alerta-butoes">
               <button class="alert-btn primary" onclick="closeAlert()">OK</button>
             </div>
           </div>
         </div>
 
-        <!-- Loader -->
-        <div id="customLoader" class="custom-loader">
-          <div class="loader-content">
-            <div class="spinner"></div>
+        <!--Carregamento-->
+        <div id="customLoader" class="carregando">
+          <div class="carregando-container">
+            <div class="parte-texto"></div>
             <p>Processando cadastro...</p>
           </div>
         </div>
@@ -86,13 +87,14 @@
     </div>
   </main>
 </body>
+
 <script>
   const nomeInput = document.getElementById("nome_input");
   const razaoInput = document.getElementById("razao_input");
   const emailInput = document.getElementById("email_input");
   const cnpjInput = document.getElementById("cnpj_input");
 
-  // Funções do alert personalizado
+  // Função do alert 
   function showAlert(type, title, message, token = null) {
     const alert = document.getElementById('customAlert');
     const alertIcon = document.getElementById('alertIcon');
@@ -100,33 +102,33 @@
     const alertMessage = document.getElementById('alertMessage');
     const tokenContainer = document.getElementById('tokenContainer');
 
-    // Configurar ícone e cor baseado no tipo
+    // Configurar ícone e cor baseado no tipo, resolve essa parte no css também
     alertIcon.innerHTML = '';
     if (type === 'success') {
       alertIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
-      alertIcon.className = 'alert-icon success';
+      alertIcon.className = 'alerta-icone success';
     } else if (type === 'error') {
       alertIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-      alertIcon.className = 'alert-icon error';
+      alertIcon.className = 'alerta-icone error';
     } else if (type === 'warning') {
       alertIcon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
-      alertIcon.className = 'alert-icon warning';
+      alertIcon.className = 'alerta-icone warning';
     } else {
       alertIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
-      alertIcon.className = 'alert-icon info';
+      alertIcon.className = 'alerta-icone info';
     }
 
     alertTitle.textContent = title;
     alertMessage.textContent = message;
 
-    // Se tiver token, mostrar em uma box especial
+    // Aqui é o alert do token também, mas não consegui testar
     if (token) {
       tokenContainer.style.display = 'block';
       tokenContainer.innerHTML = `
           <div class="token-box">
             <strong>🔑 Token de acesso:</strong><br>
             <code style="font-size: 13px;">${token}</code><br>
-            <small style="color: #666;">⚠️ Guarde este token para o cadastro do diretor</small>
+            <small style="color: #000000;">⚠️ Guarde este token para o cadastro do diretor</small>
           </div>
         `;
     } else {
@@ -139,21 +141,13 @@
   function showLoader() {
     document.getElementById('customLoader').classList.add('active');
   }
-
   function hideLoader() {
     document.getElementById('customLoader').classList.remove('active');
   }
-
   function closeAlert() {
     document.getElementById('customAlert').classList.remove('active');
   }
 
-  // Fechar alert ao clicar fora
-  document.getElementById('customAlert').addEventListener('click', function (e) {
-    if (e.target === this) {
-      closeAlert();
-    }
-  });
 
   function criarErro(input) {
     let erro = document.createElement("div");
@@ -206,7 +200,7 @@
     } else erroCnpj.innerHTML = "";
 
     if (valido) {
-      showLoader(); // Mostrar loader
+      showLoader();
 
       try {
         const resposta = await fetch("http://localhost:3333/universidades/cadastrar", {
@@ -220,7 +214,7 @@
           })
         });
 
-        hideLoader(); // Esconder loader
+        hideLoader();
 
         if (resposta.status === 201) {
           const dados = await resposta.json();
@@ -232,7 +226,7 @@
             dados.token
           );
 
-          // Redirecionar após 3 segundos
+          // Redireciona após 3 segundos
           setTimeout(() => {
             window.location.href = "cadastroDiretor.html";
           }, 3000);
@@ -252,7 +246,7 @@
         showAlert('error', 'Erro de Conexão', 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
       }
     } else {
-      // Mostrar alerta de validação
+      // alerta de validação
       showAlert('warning', 'Campos Inválidos', 'Por favor, preencha todos os campos corretamente antes de continuar.');
     }
   }
@@ -260,6 +254,13 @@
   // Permitir fechar alert com ESC
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
+      closeAlert();
+    }
+  });
+
+  // Fechar alert ao clicar fora em qualquer canto da tela
+  document.getElementById('customAlert').addEventListener('click', function (e) {
+    if (e.target === this) {
       closeAlert();
     }
   });
