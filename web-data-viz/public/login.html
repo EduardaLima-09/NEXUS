@@ -57,7 +57,7 @@
                             <div id="tokenContainer" style="display: none;"></div>
                         </div>
                         <div class="alerta-butoes">
-                            <button class="alert-btn primary" onclick="closeAlert()">OK</button>
+                            <button class="alert-btn primary" onclick="closeAlert()" href="">OK</button>
                         </div>
                     </div>
                 </div>
@@ -199,11 +199,11 @@
                 sessionStorage.setItem("FK_UNIVERSIDADE", dados.universidade);
 
                 // Mostrar alert de sucesso
-                showAlert('success', 'Login realizado!', `Bem-vindo de volta, ${dados.nome}! Redirecionando para o dashboard...`, '/dashboard/dashboard.html');
+                showAlert('success', 'Login realizado!', `Bem-vindo de volta, ${dados.nome}! Redirecionando para o dashboard...`, '../public/dashboard/dashboard.html');
 
                 // Redirecionar após 3 segundos (fallback)
                 setTimeout(() => {
-                    window.location.href = "/dashboard/dashboard.html";
+                    window.location.href = "../public/dashboard/dashboard.html";
                 }, 3000);
 
             } else if (resposta.status === 401) {
