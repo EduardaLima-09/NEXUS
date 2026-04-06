@@ -219,6 +219,7 @@
 
     const ctx3 = document.getElementById('mychart3');
 
+<<<<<<< HEAD
 new Chart(ctx3, {
     type: 'doughnut',
     data: {
@@ -280,6 +281,57 @@ new Chart(ctx3, {
     },
     plugins: [ChartDataLabels]
 });
+=======
+    new Chart(ctx3, {
+        type: 'doughnut',
+        data: {
+            labels: ['Financeiro', 'Pessoal', 'Acadêmico', 'Trabalho', 'Outros'],
+            datasets: [{
+                data: [10, 30, 20, 5, 35],
+                backgroundColor: [
+                    '#012340',
+                    '#4681A6',
+                    '#8AB4A1',
+                    '#3f3f3f',
+                    '#164773'
+                ],
+                borderColor: '#ffffff',
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '50%',
+
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        generateLabels: function (chart) {
+                            const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
+                            const labels = original(chart);
+
+                            labels.forEach(label => {
+                                label.lineWidth = 0;
+                            });
+
+                            return labels;
+                        }
+                    }
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.label}: ${context.raw}%`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+>>>>>>> 2561d574733f09d4ede3b417384055e1cc21016a
 
 </script>
 
@@ -288,4 +340,8 @@ new Chart(ctx3, {
     const nome = "Maria Eduarda";
 
     document.getElementById("nomeUsuario").innerText = nome;
+<<<<<<< HEAD
 </script>
+=======
+</script>
+>>>>>>> 2561d574733f09d4ede3b417384055e1cc21016a

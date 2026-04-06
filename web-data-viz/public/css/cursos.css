@@ -282,6 +282,7 @@ body {
     font-size: 16px;
     text-align: center;
 }
+<<<<<<< HEAD
 
 .lista-cursos {
     height: 100%;
@@ -335,3 +336,5 @@ body {
 .curso-item.ativo .curso-info {
     display: block;
 }
+=======
+>>>>>>> 2561d574733f09d4ede3b417384055e1cc21016a

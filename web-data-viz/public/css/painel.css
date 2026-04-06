@@ -301,6 +301,7 @@ body {
     color: var(--cor-branco-puro);
     background-color: var(--cor-cinza-escuro);
 }
+<<<<<<< HEAD
 
 .abas-gerenciamento {
     gap: 10px;
@@ -337,3 +338,5 @@ body {
 .ativa-tabela {
     display: block;
 }
+=======
+>>>>>>> 2561d574733f09d4ede3b417384055e1cc21016a
