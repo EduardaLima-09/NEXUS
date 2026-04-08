@@ -4,5 +4,5 @@ package-lock.json
 
 .github
 
-.env .dev
-.env.dev
+.env
+.env.*

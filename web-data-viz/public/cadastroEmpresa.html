@@ -226,10 +226,10 @@
             dados.token
           );
 
-          // Redireciona após 3 segundos
+          // Redireciona após 12 segundos
           setTimeout(() => {
             window.location.href = "cadastroDiretor.html";
-          }, 3000);
+          }, 12000);
         } else {
           const msg = await resposta.text();
           if (msg.includes("emailUniversidade")) {
