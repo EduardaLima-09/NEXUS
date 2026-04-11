@@ -1,13 +1,13 @@
 CREATE DATABASE NEXUS;
 USE NEXUS;
 
+-- TABELAS
 CREATE TABLE Universidade (
     idUniversidade       INT PRIMARY KEY AUTO_INCREMENT,
     cnpj                 VARCHAR(18)  NOT NULL UNIQUE,
     razaoSocial          VARCHAR(45)  NOT NULL,
     nomeFantasia         VARCHAR(45)  NOT NULL,
     emailUniversidade    VARCHAR(45)  NOT NULL UNIQUE,
-    telefoneUniversidade VARCHAR(20)  DEFAULT NULL,
     token                CHAR(6)      NOT NULL  -- gerado no back ao cadastrar
 );
 
@@ -34,13 +34,13 @@ CREATE TABLE Endereco (
 );
 
 CREATE TABLE Aluno (
-	idAluno INT PRIMARY KEY AUTO_INCREMENT,
+	RA INT PRIMARY KEY AUTO_INCREMENT,
     nomeAluno VARCHAR(45),
     sobrenomeAluno VARCHAR(45),
     cpfAluno VARCHAR(11),
     sexo VARCHAR(1),
     emailAluno VARCHAR(45),
-    CONSTRAINT chk_sexo CHECK (sexo IN ('F', 'M'))
+    CONSTRAINT chk_sexo CHECK (sexo IN ('F', 'M', 'O'))
 );
 
 CREATE TABLE Curso (
@@ -48,7 +48,7 @@ CREATE TABLE Curso (
     nomeCurso VARCHAR(45),
     modalidade VARCHAR(45),
     mensalidade DECIMAL(6,2),
-    horario VARCHAR(20),
+    periodo VARCHAR(20),
     fkUniversidade INT,
         FOREIGN KEY (fkUniversidade) REFERENCES Universidade (idUniversidade)
 );
@@ -67,7 +67,7 @@ CREATE TABLE Pagamento (
     valor DECIMAL(6,2),
     statusPagamento VARCHAR(45),
     fkAluno INT,
-        FOREIGN KEY (fkAluno) REFERENCES Aluno (idAluno),
+        FOREIGN KEY (fkAluno) REFERENCES Aluno (RA),
     CONSTRAINT chk_statusPagamento CHECK (statusPagamento IN ('Pago', 'Pendente', 'Atrasado'))
 );
 
@@ -77,7 +77,7 @@ CREATE TABLE IndicadorRisco (
     nivel VARCHAR(20),
     dataCalculo DATE,
     fkAluno INT,
-        FOREIGN KEY (fkAluno) REFERENCES Aluno (idAluno),
+        FOREIGN KEY (fkAluno) REFERENCES Aluno (RA),
     CONSTRAINT chk_nivel CHECK (nivel IN ('Baixo', 'Medio', 'Alto'))
 );
 
@@ -86,17 +86,18 @@ CREATE TABLE Matricula (
     fkCurso INT,
         FOREIGN KEY (fkCurso) REFERENCES Curso (idCurso),
     fkAluno INT,
-        FOREIGN KEY (fkAluno) REFERENCES Aluno (idAluno),
+        FOREIGN KEY (fkAluno) REFERENCES Aluno (RA),
     data_ingresso DATE,
-    semestre_atual VARCHAR(45),
-    statusMatricula VARCHAR(45),
-    CONSTRAINT chk_statusMatricula CHECK (statusMatricula IN ('Cursando', 'Trancada', 'Concluido'))
+    evadiu TINYINT,
+		CONSTRAINT chk_evadiu CHECK (evadiu IN (0, 1)),
+	motivoEvasao VARCHAR(45),
+    dataEvasao DATE
 );
 
 CREATE TABLE Historico (
     idHistorico INT PRIMARY KEY AUTO_INCREMENT,
     fkAluno INT,
-        FOREIGN KEY (fkAluno) REFERENCES Aluno (idAluno),
+        FOREIGN KEY (fkAluno) REFERENCES Aluno (RA),
     fkDisciplina INT,
         FOREIGN KEY (fkDisciplina) REFERENCES Disciplina (idDisciplina),
     semestre INT,
@@ -104,8 +105,8 @@ CREATE TABLE Historico (
     frequencia DECIMAL(5,2)
 );
 
-
-SHOW TABLES;
-
-select * from diretoria;
-select * from universidade;
+CREATE TABLE Logs(
+	idLogs INT PRIMARY KEY AUTO_INCREMENT,
+    mensagem VARCHAR(250),
+    dataHora DATETIME
+);

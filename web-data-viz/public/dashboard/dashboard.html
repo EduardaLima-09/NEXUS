@@ -42,7 +42,7 @@
                                 <span class="material-icons icone-user">account_circle</span>
                                 <h1>Administrador</h1>
                             </div>
-                            <p>Usuário * Nexus</p>
+                            <p><span id="nomeUsuario2">Usuário</span> * Nexus</p>
                         </div>
                     </div>
                     <button onclick="goHome()">Sair</button>
@@ -285,7 +285,8 @@ new Chart(ctx3, {
 
 <script>
     // Simulando nome vindo do sistema, está estático
-    const nome = "Maria Eduarda";
+    nomeUsuario.innerHTML = sessionStorage.NOME_DIRETOR;
+    nomeUsuario2.innerHTML = sessionStorage.NOME_DIRETOR;
 
-    document.getElementById("nomeUsuario").innerText = nome;
+    //document.getElementById("nomeUsuario").innerText = nome;
 </script>

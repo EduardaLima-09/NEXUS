@@ -179,7 +179,7 @@
         showLoader();
 
         try {
-            const resposta = await fetch("http://localhost:3333/diretoria/autenticar", {
+            const resposta = await fetch("/diretoria/autenticar", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

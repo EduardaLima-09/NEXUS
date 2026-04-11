@@ -314,7 +314,7 @@
       showLoader();
 
       try {
-        const resposta = await fetch("http://localhost:3333/diretoria/cadastrar", {
+        const resposta = await fetch("/diretoria/cadastrar", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

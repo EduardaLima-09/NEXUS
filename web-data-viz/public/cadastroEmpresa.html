@@ -203,7 +203,7 @@
       showLoader();
 
       try {
-        const resposta = await fetch("http://localhost:3333/universidades/cadastrar", {
+        const resposta = await fetch("/universidades/cadastrar", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
