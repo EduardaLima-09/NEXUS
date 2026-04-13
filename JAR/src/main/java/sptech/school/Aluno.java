@@ -8,16 +8,14 @@ public class Aluno {
     private Boolean pago;
     private Integer semestre;
     private String motivoEvasao;
-    private Curso curso;
 
-    public Aluno(Integer id, Boolean evadiram, Double mediaGeral, Double frequencia, Boolean pago, Integer semestre, Curso curso, String motivoEvasao) {
+    public Aluno(Integer id, Boolean evadiram, Double mediaGeral, Double frequencia, Boolean pago, Integer semestre, String motivoEvasao) {
         this.id = id;
         this.evadiram = evadiram;
         this.mediaGeral = mediaGeral;
         this.frequencia = frequencia;
         this.pago = pago;
         this.semestre = semestre;
-        this.curso = curso;
         this.motivoEvasao = motivoEvasao;
     }
 
@@ -69,14 +67,6 @@ public class Aluno {
         this.semestre = semestre;
     }
 
-    public Curso getCurso() {
-        return curso;
-    }
-
-    public void setCurso(Curso curso) {
-        this.curso = curso;
-    }
-
     public String getMotivoEvasao() {
         return motivoEvasao;
     }
@@ -95,7 +85,6 @@ public class Aluno {
                 ", pago=" + pago +
                 ", semestre=" + semestre +
                 ", motivoEvasao='" + motivoEvasao + '\'' +
-                ", curso=" + curso +
                 '}';
     }
 }

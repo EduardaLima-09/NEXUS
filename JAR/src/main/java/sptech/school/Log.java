@@ -30,7 +30,6 @@ public class Log {
 
     @Override
     public String toString() {
-        return "Log{" +
-                "['" + dataHora + "]" + status +": " + especificacao + ".";
+        return dataHora + status +": " + especificacao + ".";
     }
 }
