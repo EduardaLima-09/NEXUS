@@ -15,6 +15,7 @@
 
     <title>Nexus | Dashboard</title>
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+
 </head>
 
 <body>
@@ -42,7 +43,7 @@
                                 <span class="material-icons icone-user">account_circle</span>
                                 <h1>Administrador</h1>
                             </div>
-                            <p><span id="nomeUsuario2">Usuário</span> * Nexus</p>
+                            <p>Usuário * Nexus</p>
                         </div>
                     </div>
                     <button onclick="goHome()">Sair</button>
@@ -58,7 +59,7 @@
                 </div>
                 <div class="conteudo2">
                     <div class="insights">
-                        <div class="cards">
+                        <div class="cards" id="kpi-evasao">
                             <h3>Taxa de Evasão</h3>
                             <h1>10,5%</h1>
                             <div class="porcentagem">
@@ -66,7 +67,7 @@
                                 <p>5% abaixo do semestre anterior</p>
                             </div>
                         </div>
-                        <div class="cards">
+                        <div class="cards" id="kpi-risco">
                             <h3>Alunos em Risco</h3>
                             <h1>30,3%</h1>
                             <div class="porcentagem">
@@ -74,7 +75,7 @@
                                 <p>5% acima do semestre anterior</p>
                             </div>
                         </div>
-                        <div class="cards">
+                        <div class="cards" id="kpi-semestre">
                             <h3>Evasões no Semestre</h3>
                             <h1>50,7%</h1>
                             <div class="porcentagem">
@@ -85,13 +86,13 @@
                     </div>
                     <div class="graficos">
                         <div class="metade1">
-                            <div class="graficoLinha">
+                            <div class="graficoLinha" id="grafico-evolucao">
                                 <h3>Evolução da Taxa de Evasão - Últimos 6 semestres</h3>
                                 <div class="chart-container">
                                     <canvas id="mychart1"></canvas>
                                 </div>
                             </div>
-                            <div class="graficoBarra">
+                            <div class="graficoBarra" id="grafico-cursos">
                                 <h3>Evasão por curso - Top 5</h3>
                                 <div class="chart-container">
                                     <canvas id="mychart2"></canvas>
@@ -109,6 +110,159 @@
             </div>
         </div>
     </div>
+
+    <!-- Botão Chatbot Manual -->
+    <button id="btn-manual" title="Abrir Manual do Dashboard">❓</button>
+
+    <!-- Overlay -->
+    <div id="tour-overlay"></div>
+
+    <!-- Seta animada -->
+    <div id="tour-seta">⬆</div>
+
+    <!-- Card de explicação -->
+    <div id="tour-card">
+        <div class="tour-contador" id="tour-contador">Passo 1 de 6</div>
+        <h3 id="tour-titulo">Título</h3>
+        <p id="tour-descricao">Descrição aqui.</p>
+        <div class="tour-btns">
+            <button id="tour-btn-fechar">✕ Fechar</button>
+            <button id="tour-btn-anterior">← Anterior</button>
+            <button id="tour-btn-proximo">Próximo →</button>
+        </div>
+    </div>
+
+
+    <script>
+        
+        // ===== TOUR MANUAL — Nexus =====
+        const API_MANUAL = "http://localhost:4000/manual/tour";
+
+        let passos = [];
+        let passoAtual = 0;
+        let elementoAnterior = null;
+
+        const overlay = document.getElementById("tour-overlay");
+        const card = document.getElementById("tour-card");
+        const seta = document.getElementById("tour-seta");
+        const btnManual = document.getElementById("btn-manual");
+        const tourTitulo = document.getElementById("tour-titulo");
+        const tourDesc = document.getElementById("tour-descricao");
+        const tourCount = document.getElementById("tour-contador");
+        const btnProximo = document.getElementById("tour-btn-proximo");
+        const btnAnt = document.getElementById("tour-btn-anterior");
+        const btnFechar = document.getElementById("tour-btn-fechar");
+
+
+        // Busca os passos da API Python
+        async function carregarTour() {
+            try {
+                const resp = await fetch(API_MANUAL);
+                const data = await resp.json();
+                passos = data.passos;
+                passoAtual = 0;
+                iniciarTour();
+            } catch (e) {
+                alert("Erro ao conectar com o servidor Python (porta 4000). Verifique se o manual.py está rodando.");
+            }
+        }
+
+        function iniciarTour() {
+            overlay.style.display = "block";
+            card.style.display = "block";
+            mostrarPasso(0);
+        }
+
+        function mostrarPasso(index) {
+            // Remove highlight anterior
+            if (elementoAnterior) {
+                elementoAnterior.classList.remove("tour-highlight");
+            }
+
+            const passo = passos[index];
+            const el = document.querySelector(passo.target);
+
+            tourTitulo.textContent = passo.titulo;
+            tourDesc.textContent = passo.descricao;
+            tourCount.textContent = `Passo ${index + 1} de ${passos.length}`;
+
+            btnAnt.style.display = index === 0 ? "none" : "inline-block";
+            btnProximo.textContent = index === passos.length - 1 ? "✓ Concluir" : "Próximo →";
+
+            if (el) {
+                el.classList.add("tour-highlight");
+                elementoAnterior = el;
+                posicionarCard(el, passo.posicao);
+                posicionarSeta(el, passo.posicao);
+            }
+        }
+
+        function posicionarCard(el, posicao) {
+            const rect = el.getBoundingClientRect();
+            const margem = 18;
+            card.style.display = "block";
+
+            if (posicao === "bottom") {
+                card.style.top = (rect.bottom + margem) + "px";
+                card.style.left = Math.max(10, rect.left) + "px";
+            } else if (posicao === "top") {
+                card.style.top = Math.max(10, rect.top - card.offsetHeight - margem) + "px";
+                card.style.left = Math.max(10, rect.left) + "px";
+            } else if (posicao === "left") {
+                card.style.top = rect.top + "px";
+                card.style.left = Math.max(10, rect.left - 320 - margem) + "px";
+            }
+        }
+
+        function posicionarSeta(el, posicao) {
+            const rect = el.getBoundingClientRect();
+            seta.style.display = "block";
+
+            const setas = { bottom: "⬆", top: "⬇", left: "➡" };
+            seta.textContent = setas[posicao] || "⬆";
+
+            if (posicao === "bottom") {
+                seta.style.top = (rect.bottom + 2) + "px";
+                seta.style.left = (rect.left + rect.width / 2 - 15) + "px";
+            } else if (posicao === "top") {
+                seta.style.top = (rect.top - 40) + "px";
+                seta.style.left = (rect.left + rect.width / 2 - 15) + "px";
+            } else if (posicao === "left") {
+                seta.style.top = (rect.top + rect.height / 2 - 15) + "px";
+                seta.style.left = (rect.left - 45) + "px";
+            }
+        }
+
+        function fecharTour() {
+            overlay.style.display = "none";
+            card.style.display = "none";
+            seta.style.display = "none";
+            if (elementoAnterior) elementoAnterior.classList.remove("tour-highlight");
+            elementoAnterior = null;
+        }
+
+        // Eventos
+        btnManual.addEventListener("click", carregarTour);
+
+        btnProximo.addEventListener("click", () => {
+            if (passoAtual < passos.length - 1) {
+                passoAtual++;
+                mostrarPasso(passoAtual);
+            } else {
+                fecharTour();
+            }
+        });
+
+        btnAnt.addEventListener("click", () => {
+            if (passoAtual > 0) {
+                passoAtual--;
+                mostrarPasso(passoAtual);
+            }
+        });
+
+        btnFechar.addEventListener("click", fecharTour);
+        overlay.addEventListener("click", fecharTour);
+    </script>
 
 </body>
 
@@ -219,74 +373,73 @@
 
     const ctx3 = document.getElementById('mychart3');
 
-new Chart(ctx3, {
-    type: 'doughnut',
-    data: {
-        labels: ['Financeiro', 'Pessoal', 'Acadêmico', 'Trabalho', 'Outros'],
-        datasets: [{
-            data: [10, 30, 20, 5, 35],
-            backgroundColor: [
-                '#012340',
-                '#4681A6',
-                '#8AB4A1',
-                '#3f3f3f',
-                '#164773'
-            ],
-            borderColor: '#ffffff',
-            borderWidth: 3
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '50%',
+    new Chart(ctx3, {
+        type: 'doughnut',
+        data: {
+            labels: ['Financeiro', 'Pessoal', 'Acadêmico', 'Trabalho', 'Outros'],
+            datasets: [{
+                data: [10, 30, 20, 5, 35],
+                backgroundColor: [
+                    '#012340',
+                    '#4681A6',
+                    '#8AB4A1',
+                    '#3f3f3f',
+                    '#164773'
+                ],
+                borderColor: '#ffffff',
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '50%',
 
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: {
-                    generateLabels: function (chart) {
-                        const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
-                        const labels = original(chart);
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        generateLabels: function (chart) {
+                            const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
+                            const labels = original(chart);
 
-                        labels.forEach(label => {
-                            label.lineWidth = 0;
-                        });
+                            labels.forEach(label => {
+                                label.lineWidth = 0;
+                            });
 
-                        return labels;
+                            return labels;
+                        }
                     }
-                }
-            },
-
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        return `${context.label}: ${context.raw}%`;
-                    }
-                }
-            },
-
-            datalabels: {
-                color: '#ffffff',
-                font: {
-                    weight: 'bold',
-                    size: 14
                 },
-                formatter: (value) => {
-                    return value + '%';
+
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.label}: ${context.raw}%`;
+                        }
+                    }
+                },
+
+                datalabels: {
+                    color: '#ffffff',
+                    font: {
+                        weight: 'bold',
+                        size: 14
+                    },
+                    formatter: (value) => {
+                        return value + '%';
+                    }
                 }
             }
-        }
-    },
-    plugins: [ChartDataLabels]
-});
+        },
+        plugins: [ChartDataLabels]
+    });
 
 </script>
 
 <script>
     // Simulando nome vindo do sistema, está estático
-    nomeUsuario.innerHTML = sessionStorage.NOME_DIRETOR;
-    nomeUsuario2.innerHTML = sessionStorage.NOME_DIRETOR;
+    const nome = "Maria Eduarda";
 
-    //document.getElementById("nomeUsuario").innerText = nome;
+    document.getElementById("nomeUsuario").innerText = nome;
 </script>
