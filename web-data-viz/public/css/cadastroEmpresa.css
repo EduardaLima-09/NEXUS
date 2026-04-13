@@ -517,6 +517,10 @@ button:hover {
     padding: 12px;
     font-size: 14px;
   }
+
+  .sub {
+    margin: 0px 0px 0px 48px;
+  }
 }
 
 /* Mobile grande */
