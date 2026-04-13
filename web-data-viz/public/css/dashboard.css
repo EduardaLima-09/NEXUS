@@ -130,7 +130,7 @@ body {
     margin-left: 40px;
     border-radius: 6px;
     background-color: #ef4444;
-    
+
     font-size: 14px;
     font-weight: 700;
     color: var(--cor-branco);
@@ -189,7 +189,7 @@ body {
     padding: 15px;
     border-radius: 12px;
     background-color: var(--cor-branco-puro);
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.07);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
 }
 
 .cards h3 {
@@ -236,7 +236,7 @@ body {
     border-radius: 12px;
     flex-direction: column;
     background-color: var(--cor-branco-puro);
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.07);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
 }
 
 .graficoLinha,
@@ -247,7 +247,7 @@ body {
     border-radius: 12px;
     flex-direction: column;
     background-color: var(--cor-branco-puro);
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.07);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
 }
 
 .graficoLinha h3,
@@ -265,7 +265,135 @@ body {
 }
 
 #graficoPizza {
-    height: 200px; 
+    height: 200px;
     max-width: 300px;
-    margin: 0 auto; 
+    margin: 0 auto;
+}
+
+/* ===== BOTÃO CHATBOT ===== */
+#btn-manual {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 58px;
+    height: 58px;
+    background: #1a2e4a;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(26, 46, 74, 0.45);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+}
+
+#btn-manual:hover {
+    background: #e63946;
+    transform: scale(1.08);
+}
+
+/* ===== OVERLAY ESCURO ===== */
+#tour-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 10000;
+}
+
+/* ===== CARD DO TOUR ===== */
+#tour-card {
+    position: fixed;
+    background: white;
+    border-radius: 12px;
+    padding: 20px 22px;
+    max-width: 300px;
+    z-index: 10002;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    border-top: 4px solid #1a2e4a;
+    display: none;
+}
+
+#tour-card h3 {
+    margin: 0 0 8px 0;
+    color: #1a2e4a;
+    font-size: 15px;
+}
+
+#tour-card p {
+    margin: 0 0 14px 0;
+    color: #444;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+#tour-card .tour-contador {
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 12px;
+}
+
+#tour-card .tour-btns {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+#tour-card button {
+    padding: 7px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#tour-btn-anterior {
+    background: #eee;
+    color: #333;
+}
+
+#tour-btn-proximo {
+    background: #1a2e4a;
+    color: white;
+}
+
+#tour-btn-fechar {
+    background: #e63946;
+    color: white;
+}
+
+/* ===== HIGHLIGHT DO ELEMENTO ===== */
+.tour-highlight {
+    position: relative;
+    z-index: 10001 !important;
+    box-shadow: 0 0 0 4px #e63946, 0 0 0 8px rgba(230, 57, 70, 0.25) !important;
+    border-radius: 8px;
+}
+
+/* ===== SETA ===== */
+#tour-seta {
+    position: fixed;
+    font-size: 30px;
+    z-index: 10003;
+    color: #e63946;
+    display: none;
+    pointer-events: none;
+    animation: piscar 0.8s infinite alternate;
+}
+
+@keyframes piscar {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0.5;
+        transform: scale(1.15);
+    }
 }
