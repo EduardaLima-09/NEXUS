@@ -43,7 +43,7 @@
                                 <span class="material-icons icone-user">account_circle</span>
                                 <h1>Administrador</h1>
                             </div>
-                            <p>Usuário * Nexus</p>
+                            <p><span id="nomeUsuarioSidebar"></span> * Nexus</p>
                         </div>
                     </div>
                     <button onclick="goHome()">Sair</button>
@@ -441,8 +441,10 @@
 </script>
 
 <script>
-    // Simulando nome vindo do sistema, está estático
-    const nome = "Maria Eduarda";
+
+    const nome = sessionStorage.getItem("NOME_DIRETOR") || "Usuário";
 
     document.getElementById("nomeUsuario").innerText = nome;
+    document.getElementById("nomeUsuarioSidebar").innerText = nome;
+
 </script>

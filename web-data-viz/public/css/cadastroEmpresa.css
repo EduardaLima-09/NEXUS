@@ -439,3 +439,182 @@ button:hover {
     color: var(--cor-cinza-escuro);
     font-family: var(--font-subtitulos);
 }
+
+/* ===================== RESPONSIVIDADE IGUAL AO CSS2 ===================== */
+
+
+/* Tablet e telas menores */
+@media (max-width: 1024px) {
+  .cadastro_container {
+    width: 98%;
+    height: auto;
+    min-height: 90vh;
+    flex-direction: column;
+  }
+
+  .lado_esquerdo {
+    width: 100%;
+    height: 280px;
+    padding: 30px;
+    text-align: center;
+  }
+
+  .lado_direito {
+    width: 100%;
+    padding: 40px 20px;
+    min-height: 500px;
+  }
+
+  .card-login {
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+  }
+
+  .botao_de_voltar {
+    top: 15px;
+    left: 15px;
+    font-size: 24px;
+  }
+}
+
+/* Tablet retrato */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  .cadastro_container {
+    width: 100%;
+    border-radius: 15px;
+    margin: 10px 0;
+  }
+
+  .lado_esquerdo {
+    height: 240px;
+    padding: 20px;
+  }
+
+  .lado_direito {
+    padding: 30px 15px;
+  }
+
+  .card-login {
+    padding: 25px 20px;
+  }
+
+  .card-login h2 {
+    font-size: 22px;
+  }
+
+  .campo input {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  button {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .sub {
+    margin: 0px 0px 0px 48px;
+  }
+}
+
+/* Mobile grande */
+@media (max-width: 600px) {
+  .lado_esquerdo {
+    height: 200px;
+    padding: 15px;
+  }
+
+  .card-login {
+    padding: 20px 15px;
+  }
+
+  .card-login h2 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .botao_de_voltar {
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+  }
+}
+
+/* Mobile pequeno */
+@media (max-width: 480px) {
+  body {
+    padding: 5px;
+  }
+
+  .cadastro_container {
+    border-radius: 10px;
+  }
+
+  .lado_esquerdo {
+    height: 180px;
+    padding: 12px;
+  }
+
+  .card-login {
+    padding: 15px 12px;
+  }
+
+  .campo input {
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+
+  button {
+    padding: 10px;
+    font-size: 13px;
+  }
+}
+
+/* Telas baixas */
+@media (max-height: 700px) and (min-width: 769px) {
+  .cadastro_container {
+    height: 95vh;
+  }
+
+  .card-login {
+    padding: 20px;
+  }
+}
+
+/* Telas grandes */
+@media (min-width: 1600px) {
+  .cadastro_container {
+    max-width: 1400px;
+    height: 85vh;
+  }
+
+  .card-login {
+    max-width: 500px;
+    padding: 45px;
+  }
+}
+
+/* Mobile em paisagem */
+@media (max-width: 768px) and (orientation: landscape) {
+  .cadastro_container {
+    flex-direction: row;
+    height: 90vh;
+  }
+
+  .lado_esquerdo {
+    width: 40%;
+    height: 100%;
+  }
+
+  .lado_direito {
+    width: 60%;
+    padding: 20px;
+    overflow-y: auto;
+  }
+}

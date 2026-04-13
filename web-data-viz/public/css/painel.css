@@ -252,7 +252,7 @@ body {
     position: fixed;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .modal-content {
@@ -301,7 +301,15 @@ body {
     color: var(--cor-branco-puro);
     background-color: var(--cor-cinza-escuro);
 }
-<<<<<<< HEAD
+
+.btn-menu-mobile {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: var(--cor-branco);
+    cursor: pointer;
+}
 
 .abas-gerenciamento {
     gap: 10px;
@@ -338,5 +346,161 @@ body {
 .ativa-tabela {
     display: block;
 }
-=======
->>>>>>> 2561d574733f09d4ede3b417384055e1cc21016a
+
+/* Tablet */
+@media (max-width: 1024px) {
+
+    .barra {
+        width: 180px;
+        padding: 20px;
+    }
+
+    .conteudo {
+        padding: 12px;
+    }
+
+    .painel-admin {
+        padding: 15px;
+    }
+
+    .tabela-admin th,
+    .tabela-admin td {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .btn-add {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+/* Celular */
+@media (max-width: 768px) {
+
+    body {
+        overflow-y: auto;
+    }
+
+    .dash {
+        flex-direction: column;
+        height: auto;
+    }
+
+    /* Sidebar vira menu superior */
+    .barra {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px 20px;
+    }
+
+    .logo img {
+        width: 100px;
+    }
+
+    .menu {
+        display: none;
+        /* Esconde menu lateral no mobile */
+    }
+
+    .sair {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .usuario {
+        margin-right: auto;
+    }
+
+    .sair button {
+        margin: 0;
+    }
+
+    .conteudo {
+        height: auto;
+        padding: 10px;
+        overflow-y: auto;
+    }
+
+    .conteudo2 {
+        flex-direction: column;
+    }
+
+    .painel-admin {
+        width: 100%;
+        margin-top: 15px;
+        padding: 12px;
+    }
+
+    /* Tabela vira scroll horizontal */
+    .tabela-admin {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .btn-add {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Modal responsivo */
+    .modal-content {
+        width: 90%;
+    }
+
+    .btn-menu-mobile {
+        display: block;
+    }
+
+    .barra {
+        flex-wrap: wrap;
+    }
+
+    /* Menu oculto por padrão */
+    .menu {
+        display: none;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Menu visível quando aberto */
+    .menu.aberto {
+        display: block;
+    }
+
+    .botoes {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .botoes button {
+        width: 100%;
+        text-align: left;
+        background-color: var(--cor-azul-escuro);
+    }
+}
+
+/* Telas muito pequenas */
+@media (max-width: 480px) {
+
+    .tituloDash h1 {
+        font-size: 18px;
+    }
+
+    .tituloDash p {
+        font-size: 12px;
+    }
+
+    .painel-admin h1 {
+        font-size: 20px;
+    }
+
+    .aba-btn {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+}
