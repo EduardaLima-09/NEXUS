@@ -20,10 +20,12 @@
     <div class="tela">
         <div class="dash">
             <div class="barra">
+                <button class="btn-menu-mobile" onclick="toggleMenu()">☰</button>
+
                 <div class="logo">
                     <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
                 </div>
-                <div class="menu">
+                <div class="menu" id="menuLateral">
                     <div class="titulo">
                         <h1>Menu Principal</h1>
                     </div>
@@ -117,188 +119,188 @@
                                 </thead>
 
                                 <tbody>
-    <tr>
-        <td>João</td>
-        <td>Silva</td>
-        <td>123.456.789-10</td>
-        <td>Masculino</td>
-        <td>joao@email.com</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                    <tr>
+                                        <td>João</td>
+                                        <td>Silva</td>
+                                        <td>123.456.789-10</td>
+                                        <td>Masculino</td>
+                                        <td>joao@email.com</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Maria</td>
-        <td>Souza</td>
-        <td>987.654.321-00</td>
-        <td>Feminino</td>
-        <td>maria@email.com</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                    <tr>
+                                        <td>Maria</td>
+                                        <td>Souza</td>
+                                        <td>987.654.321-00</td>
+                                        <td>Feminino</td>
+                                        <td>maria@email.com</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Pedro</td>
-        <td>Lima</td>
-        <td>456.123.789-55</td>
-        <td>Masculino</td>
-        <td>pedro@email.com</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                    <tr>
+                                        <td>Pedro</td>
+                                        <td>Lima</td>
+                                        <td>456.123.789-55</td>
+                                        <td>Masculino</td>
+                                        <td>pedro@email.com</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Ana</td>
-        <td>Costa</td>
-        <td>741.852.963-11</td>
-        <td>Feminino</td>
-        <td>ana@email.com</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                    <tr>
+                                        <td>Ana</td>
+                                        <td>Costa</td>
+                                        <td>741.852.963-11</td>
+                                        <td>Feminino</td>
+                                        <td>ana@email.com</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Lucas</td>
-        <td>Rocha</td>
-        <td>159.357.258-44</td>
-        <td>Masculino</td>
-        <td>lucas@email.com</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                    <tr>
+                                        <td>Lucas</td>
+                                        <td>Rocha</td>
+                                        <td>159.357.258-44</td>
+                                        <td>Masculino</td>
+                                        <td>lucas@email.com</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Carla</td>
-        <td>Mendes</td>
-        <td>852.741.963-22</td>
-        <td>Feminino</td>
-        <td>carla@email.com</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                    <tr>
+                                        <td>Carla</td>
+                                        <td>Mendes</td>
+                                        <td>852.741.963-22</td>
+                                        <td>Feminino</td>
+                                        <td>carla@email.com</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Rafael</td>
-        <td>Alves</td>
-        <td>963.852.741-33</td>
-        <td>Masculino</td>
-        <td>rafael@email.com</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                    <tr>
+                                        <td>Rafael</td>
+                                        <td>Alves</td>
+                                        <td>963.852.741-33</td>
+                                        <td>Masculino</td>
+                                        <td>rafael@email.com</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Juliana</td>
-        <td>Freitas</td>
-        <td>258.369.147-88</td>
-        <td>Feminino</td>
-        <td>juliana@email.com</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                    <tr>
+                                        <td>Juliana</td>
+                                        <td>Freitas</td>
+                                        <td>258.369.147-88</td>
+                                        <td>Feminino</td>
+                                        <td>juliana@email.com</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Bruno</td>
-        <td>Martins</td>
-        <td>147.258.369-77</td>
-        <td>Masculino</td>
-        <td>bruno@email.com</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                    <tr>
+                                        <td>Bruno</td>
+                                        <td>Martins</td>
+                                        <td>147.258.369-77</td>
+                                        <td>Masculino</td>
+                                        <td>bruno@email.com</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Fernanda</td>
-        <td>Lopes</td>
-        <td>321.654.987-66</td>
-        <td>Feminino</td>
-        <td>fernanda@email.com</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
-</tbody>
+                                    <tr>
+                                        <td>Fernanda</td>
+                                        <td>Lopes</td>
+                                        <td>321.654.987-66</td>
+                                        <td>Feminino</td>
+                                        <td>fernanda@email.com</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
 
                         <div id="cursos" class="secao-tabela">
-    <table class="tabela-admin">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Modalidade</th>
-                <th>Mensalidade</th>
-                <th>Horário</th>
-                <th>Editar</th>
-                <th>Excluir</th>
-            </tr>
-        </thead>
+                            <table class="tabela-admin">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Modalidade</th>
+                                        <th>Mensalidade</th>
+                                        <th>Horário</th>
+                                        <th>Editar</th>
+                                        <th>Excluir</th>
+                                    </tr>
+                                </thead>
 
-        <tbody>
-    <tr>
-        <td>ADS</td>
-        <td>Presencial</td>
-        <td>R$ 350,00</td>
-        <td>19:00 às 22:00</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                <tbody>
+                                    <tr>
+                                        <td>ADS</td>
+                                        <td>Presencial</td>
+                                        <td>R$ 350,00</td>
+                                        <td>19:00 às 22:00</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Direito</td>
-        <td>Presencial</td>
-        <td>R$ 600,00</td>
-        <td>18:30 às 22:30</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                    <tr>
+                                        <td>Direito</td>
+                                        <td>Presencial</td>
+                                        <td>R$ 600,00</td>
+                                        <td>18:30 às 22:30</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Engenharia</td>
-        <td>Presencial</td>
-        <td>R$ 750,00</td>
-        <td>08:00 às 12:00</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                    <tr>
+                                        <td>Engenharia</td>
+                                        <td>Presencial</td>
+                                        <td>R$ 750,00</td>
+                                        <td>08:00 às 12:00</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Medicina</td>
-        <td>Integral</td>
-        <td>R$ 2.500,00</td>
-        <td>07:00 às 17:00</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
+                                    <tr>
+                                        <td>Medicina</td>
+                                        <td>Integral</td>
+                                        <td>R$ 2.500,00</td>
+                                        <td>07:00 às 17:00</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
 
-    <tr>
-        <td>Psicologia</td>
-        <td>Online</td>
-        <td>R$ 450,00</td>
-        <td>19:00 às 21:00</td>
-        <td><button class="btn-editar">Editar</button></td>
-        <td><button class="btn-excluir">Excluir</button></td>
-    </tr>
-</tbody>
-    </table>
-</div>
+                                    <tr>
+                                        <td>Psicologia</td>
+                                        <td>Online</td>
+                                        <td>R$ 450,00</td>
+                                        <td>19:00 às 21:00</td>
+                                        <td><button class="btn-editar">Editar</button></td>
+                                        <td><button class="btn-excluir">Excluir</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-<div id="modalUsuario" class="modal">
-    <div class="modal-content">
-        <h2 id="tituloModal">Adicionar Registro</h2>
+                        <div id="modalUsuario" class="modal">
+                            <div class="modal-content">
+                                <h2 id="tituloModal">Adicionar Registro</h2>
 
-        <div id="camposModal"></div>
+                                <div id="camposModal"></div>
 
-        <div class="botoes-modal">
-            <button class="btn-salvar" onclick="salvarRegistro()">Salvar</button>
-            <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
-        </div>
-    </div>
-</div>
+                                <div class="botoes-modal">
+                                    <button class="btn-salvar" onclick="salvarRegistro()">Salvar</button>
+                                    <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <script>
@@ -446,6 +448,11 @@
             });
 
             botaoClicado.classList.add('ativa');
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('menuLateral');
+            menu.classList.toggle('aberto');
         }
     </script>
 </body>
