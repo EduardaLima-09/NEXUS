@@ -12,7 +12,7 @@ public class ConexaoBD {
         BasicDataSource conexao = new BasicDataSource();
 
         conexao.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        conexao.setUrl("jdbc:mysql://ContainerBD:3306/Nexus");
+        conexao.setUrl("jdbc:mysql://ContainerBD:3306/NEXUS");
         conexao.setUsername("nexus");
         conexao.setPassword("N&xus12345");
 
