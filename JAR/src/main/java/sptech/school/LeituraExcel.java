@@ -17,7 +17,7 @@ public class LeituraExcel {
         List<Log> logs = new ArrayList<>();
 
         try (
-                InputStream arquivo = new FileInputStream(nomeArquivo);
+                InputStream arquivo = S3Service.getArquivo(nomeArquivo);
                 Workbook workbook = new HSSFWorkbook(arquivo)
         ) {
 
@@ -102,7 +102,7 @@ public class LeituraExcel {
         List<Log> logs = new ArrayList<>();
 
         try (
-                InputStream arquivo = new FileInputStream(nomeArquivo);
+                InputStream arquivo = S3Service.getArquivo(nomeArquivo);
                 Workbook workbook = new HSSFWorkbook(arquivo)
         ) {
 
