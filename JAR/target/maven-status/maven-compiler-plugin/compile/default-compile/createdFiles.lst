@@ -1,6 +1,7 @@
-sptech\school\ConexaoBD.class
 sptech\school\Aluno.class
-sptech\school\Curso.class
 sptech\school\LeituraExcel.class
+sptech\school\S3Service.class
+sptech\school\ConexaoBD.class
+sptech\school\Curso.class
 sptech\school\Main.class
 sptech\school\Log.class
