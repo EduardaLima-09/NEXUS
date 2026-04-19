@@ -207,9 +207,15 @@
                 );
 
                 // Redirecionar após 3 segundos (fallback)
-                setTimeout(() => {
-                    window.location.href = "/dashboard/dashboard.html";
-                }, 3000);
+                if(dados.id == 1){
+                    setTimeout(() => {
+                        window.location.href = "/dashboard/dashboard.html";
+                    }, 3000);
+                }   else{
+                    setTimeout(() => {
+                        window.location.href = "/dashboard/alunos.html";
+                    }, 3000);
+                }
 
             } else if (resposta.status === 401) {
                 showAlert('error', 'Acesso Negado', 'Email ou senha inválidos. Verifique suas credenciais e tente novamente.');
