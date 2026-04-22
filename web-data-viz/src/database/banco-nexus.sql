@@ -7,30 +7,20 @@ CREATE TABLE Universidade (
     cnpj                 VARCHAR(18)  NOT NULL UNIQUE,
     razaoSocial          VARCHAR(45)  NOT NULL,
     nomeFantasia         VARCHAR(45)  NOT NULL,
-    emailUniversidade    VARCHAR(45)  NOT NULL UNIQUE,
-    token                CHAR(6)      NOT NULL  -- gerado no back ao cadastrar
+    emailUniversidade    VARCHAR(45)  NOT NULL UNIQUE
 );
 
-CREATE TABLE Diretoria (
-    idDiretoria        INT PRIMARY KEY AUTO_INCREMENT,
-    nomeDiretoria      VARCHAR(45)  NOT NULL,
-    sobrenomeDiretoria VARCHAR(45)  DEFAULT NULL,
-    emailDiretoria     VARCHAR(45)  NOT NULL UNIQUE,
-    senha              VARCHAR(255) NOT NULL,
-    token              CHAR(6)      NOT NULL,
+CREATE TABLE Usuario (
+    idUsuario INT PRIMARY KEY AUTO_INCREMENT,
+    nomeUsuario      	VARCHAR(45)  NOT NULL,
+    sobrenomeUsuario 	VARCHAR(45)  DEFAULT NULL,
+    emailUsuario     	VARCHAR(45)  NOT NULL UNIQUE,
+    senha              	VARCHAR(255) NOT NULL,
+    token              	CHAR(6)      NOT NULL,
+    cargo 				VARCHAR(45),
+		CONSTRAINT chk_cargo CHECK (cargo IN('Diretor', 'Coordenador')),
     fkUniversidade     INT          NOT NULL,
         FOREIGN KEY (fkUniversidade) REFERENCES Universidade(idUniversidade)
-);
-
-CREATE TABLE Endereco (
-	idEndereco INT PRIMARY KEY AUTO_INCREMENT,
-    rua VARCHAR(45),
-    bairro VARCHAR(45),
-    cidade VARCHAR(45),
-    numero VARCHAR(45),
-    estado VARCHAR(45),
-    fkUniversidade INT,
-		FOREIGN KEY (fkUniversidade) REFERENCES Universidade (idUniversidade)
 );
 
 CREATE TABLE Aluno (
