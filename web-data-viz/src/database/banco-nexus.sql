@@ -20,7 +20,7 @@ CREATE TABLE Usuario (
     cargo 				VARCHAR(45),
 		CONSTRAINT chk_cargo CHECK (cargo IN('Diretor', 'Coordenador')),
     fkUniversidade     INT          NOT NULL,
-        FOREIGN KEY (fkUniversidade) REFERENCES Universidade(idUniversidade)
+        FOREIGN KEY (fkUniversidade) REFERENCES Universidade(id)
 );
 
 CREATE TABLE Aluno (
@@ -40,7 +40,7 @@ CREATE TABLE Curso (
     mensalidade DECIMAL(6,2),
     periodo VARCHAR(20),
     fkUniversidade INT,
-        FOREIGN KEY (fkUniversidade) REFERENCES Universidade (idUniversidade)
+        FOREIGN KEY (fkUniversidade) REFERENCES Universidade (id)
 );
 
 CREATE TABLE Disciplina (
@@ -48,7 +48,7 @@ CREATE TABLE Disciplina (
     nome VARCHAR(45),
     cargaHoraria VARCHAR(45),
     fkCurso INT,
-        FOREIGN KEY (fkCurso) REFERENCES Curso (idCurso)
+        FOREIGN KEY (fkCurso) REFERENCES Curso (id)
 );
 
 CREATE TABLE Pagamento (
@@ -74,7 +74,7 @@ CREATE TABLE IndicadorRisco (
 CREATE TABLE Matricula (
     id INT PRIMARY KEY AUTO_INCREMENT,
     fkCurso INT,
-        FOREIGN KEY (fkCurso) REFERENCES Curso (idCurso),
+        FOREIGN KEY (fkCurso) REFERENCES Curso (id),
     fkAluno INT,
         FOREIGN KEY (fkAluno) REFERENCES Aluno (RA),
     data_ingresso DATE,
@@ -89,7 +89,7 @@ CREATE TABLE Historico (
     fkAluno INT,
         FOREIGN KEY (fkAluno) REFERENCES Aluno (RA),
     fkDisciplina INT,
-        FOREIGN KEY (fkDisciplina) REFERENCES Disciplina (idDisciplina),
+        FOREIGN KEY (fkDisciplina) REFERENCES Disciplina (id),
     semestre INT,
     nota DECIMAL(3,2),
     frequencia DECIMAL(5,2)
