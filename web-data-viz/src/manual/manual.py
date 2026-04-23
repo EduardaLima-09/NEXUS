@@ -4,7 +4,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)  # Permite o frontend JS chamar essa API
 
-# Dados do tour — cada passo aponta para um elemento do dashboard
+# Dados do tour - cada passo aponta para um elemento do dashboard
 TOUR_STEPS = [
     {
         "id": 1,

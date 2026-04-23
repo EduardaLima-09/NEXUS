@@ -37,20 +37,20 @@
                         <div class="nome">
                             <div class="titulo-usuario">
                                 <span class="material-icons icone-user">account_circle</span>
-                                <h1>Administrador</h1>
+                                <h1 id="cargoUsuarioSidebar">Coordenador</h1>
                             </div>
-                            <p>Usuário * Nexus</p>
+                            <p id="nomeUsuarioSidebar"></p>
                         </div>
                     </div>
                     <button onclick="goHome()">Sair</button>
                 </div>
             </div>
-            <!--COMEÇA O CONTEÚDO De ALUNOS-->
+
             <div class="conteudo">
                 <div class="tituloDash">
                     <div class="texto">
-                        <h1>Alunos</h1>
-                        <p>Visão geral e gerenciamento</p>
+                        <h1>Bem-vindo(a), <span id="nomeUsuario">Usuário</span></h1>
+                        <p>Visão geral dos alunos da sua instituição</p>
                     </div>
                 </div>
                 <div class="conteudo2">
@@ -205,141 +205,145 @@
             </div>
         </div>
     </div>
-    </div>
 
+    <script>
+        function goDash() {
+            window.location.href = "dashboard.html";
+        }
+
+        function goAlunos() {
+            window.location.href = "alunos.html";
+        }
+
+        function goCursos() {
+            window.location.href = "cursos.html";
+        }
+
+        function goPainel() {
+            window.location.href = "painel.html";
+        }
+
+        function goHome() {
+            sessionStorage.clear();
+            window.location.href = "../index.html";
+        }
+
+        (function carregarCabecalho() {
+            const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+            const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
+
+            if (cargoUsuario !== "Coordenador") {
+                window.location.href = "../login.html";
+                return;
+            }
+
+            document.getElementById("nomeUsuario").innerText = nomeUsuario;
+            document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
+            document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario;
+        })();
+
+        const filtro = document.getElementById("filtroRisco");
+        const tabela = document.getElementById("tabelaAlunos").getElementsByTagName("tbody")[0];
+
+        function filtrarTabela() {
+            const filtroValor = filtro.value.toLowerCase();
+            const linhas = tabela.getElementsByTagName("tr");
+
+            for (let i = 0; i < linhas.length; i++) {
+                const linha = linhas[i];
+                const risco = linha.cells[5].innerText.toLowerCase();
+
+                if (filtroValor === "" || risco === filtroValor) {
+                    linha.style.display = "";
+                } else {
+                    linha.style.display = "none";
+                }
+            }
+        }
+
+        filtro.addEventListener("change", filtrarTabela);
+
+        const ctx1 = document.getElementById("mychart1");
+
+        new Chart(ctx1, {
+            type: "doughnut",
+            data: {
+                labels: ["Alto", "Médio", "Baixo"],
+                datasets: [{
+                    data: [13, 27, 60],
+                    backgroundColor: ["red", "yellow", "green"],
+                    borderColor: "#ffffff",
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: "60%",
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            generateLabels: function (chart) {
+                                const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
+                                const labels = original(chart);
+
+                                labels.forEach(label => {
+                                    label.lineWidth = 0;
+                                });
+
+                                return labels;
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const ctx2 = document.getElementById("mychart2");
+
+        new Chart(ctx2, {
+            type: "bar",
+            data: {
+                labels: ["Inadimplência", "Faltas Excessivas", "Baixo Desempenho", "Solicitou o Trancamento"],
+                datasets: [{
+                    label: "Alunos",
+                    data: [30, 50, 20, 40],
+                    backgroundColor: ["#164773"],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: "y",
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+                scales: {
+                    x: {
+                        min: 0,
+                        max: 100,
+                        ticks: {
+                            stepSize: 25,
+                            callback: function (value) {
+                                return value + "%";
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
-
-<script>
-
-    function goDash() {
-        window.location.href = "dashboard.html";
-    }
-
-    function goAlunos() {
-        window.location.href = "alunos.html";
-    }
-    function goCursos() {
-        window.location.href = "cursos.html";
-    }
-    function goPainel() {
-        window.location.href = "painel.html";
-    }
-    function goHome() {
-        window.location.href = "../index.html";
-    }
-
-    const filtro = document.getElementById('filtroRisco');
-    const tabela = document.getElementById('tabelaAlunos').getElementsByTagName('tbody')[0];
-
-    function filtrarTabela() {
-        const filtroValor = filtro.value.toLowerCase();
-        const linhas = tabela.getElementsByTagName('tr');
-
-        for (let i = 0; i < linhas.length; i++) {
-            const linha = linhas[i];
-            const risco = linha.cells[5].innerText.toLowerCase();
-
-            if (filtroValor === "" || risco === filtroValor) {
-                linha.style.display = "";
-            } else {
-                linha.style.display = "none";
-            }
-        }
-    }
-
-    filtro.addEventListener('change', filtrarTabela);
-
-
-    const ctx1 = document.getElementById('mychart1');
-
-    new Chart(ctx1, {
-        type: 'doughnut',
-        data: {
-            labels: ['Alto', 'Médio', 'Baixo'],
-            datasets: [{
-                data: [13, 27, 60],
-                backgroundColor: [
-                    'red',
-                    'yellow',
-                    'green'
-                ],
-                borderColor: '#ffffff',
-                borderWidth: 3
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '60%',
-
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        generateLabels: function (chart) {
-                            const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
-                            const labels = original(chart);
-
-                            labels.forEach(label => {
-                                label.lineWidth = 0;
-                            });
-
-                            return labels;
-                        }
-                    }
-                },
-
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return `${context.label}: ${context.raw}%`;
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-    const ctx2 = document.getElementById('mychart2');
-
-    new Chart(ctx2, {
-        type: 'bar',
-        data: {
-            labels: ['Inadimplência', 'Faltas Excessivas', 'Baixo Desempenho', 'Solicitou o Trancamento'],
-            datasets: [{
-                label: 'Alunos',
-                data: [30, 50, 20, 40],
-                backgroundColor: ['#164773'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            indexAxis: 'y',
-
-            plugins: {
-                legend: {
-                    display: true
-                }
-            },
-
-            scales: {
-                x: {
-                    min: 0,
-                    max: 100,
-
-                    ticks: {
-                        stepSize: 25,
-                        callback: function (value) {
-                            return value + '%';
-                        }
-                    }
-                }
-            }
-        }
-    });
-
-</script>

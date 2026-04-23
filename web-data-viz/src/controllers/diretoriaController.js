@@ -19,15 +19,20 @@ function cadastrar(req, res) {
                 return res.status(404).send("Token inválido! Verifique o token da sua instituição.");
             }
 
-            var fkUniversidade = resultado[0].idUniversidade;
+            var fkUniversidade = resultado[0].id;
 
             return diretoriaModel.cadastrar(nome, sobrenome, email, senha, token, fkUniversidade)
-                .then(function (resultadoCadastro) {
-                    res.status(201).json(resultadoCadastro);
+                .then(function () {
+                    res.status(201).json({ mensagem: "Cadastro realizado com sucesso." });
                 });
         })
         .catch(function (erro) {
-            console.log("Erro ao cadastrar diretor:", erro.sqlMessage);
+            console.log("Erro ao cadastrar usuário:", erro.sqlMessage);
+
+            if (erro.code === "ER_DUP_ENTRY") {
+                return res.status(409).send("Este email já está cadastrado no sistema.");
+            }
+
             res.status(500).json(erro.sqlMessage);
         });
 }
@@ -44,17 +49,24 @@ function autenticar(req, res) {
             if (resultado.length === 0) {
                 return res.status(401).send("Email e/ou senha inválidos.");
             }
+
             if (resultado.length > 1) {
                 return res.status(500).send("Mais de um usuário com o mesmo login.");
             }
 
-            var diretor = resultado[0];
+            var usuario = resultado[0];
+            var redirecionarPara = usuario.cargo === "Diretor"
+                ? "/dashboard/dashboard.html"
+                : "/dashboard/alunos.html";
+
             res.status(200).json({
-                id: diretor.idDiretoria,
-                nome: diretor.nomeDiretoria,
-                sobrenome: diretor.sobrenomeDiretoria,
-                email: diretor.emailDiretoria,
-                universidade: diretor.fkUniversidade
+                id: usuario.id,
+                nome: usuario.nome,
+                sobrenome: usuario.sobrenome,
+                email: usuario.email,
+                cargo: usuario.cargo,
+                universidade: usuario.fkUniversidade,
+                redirecionarPara: redirecionarPara
             });
         })
         .catch(function (erro) {
@@ -63,4 +75,41 @@ function autenticar(req, res) {
         });
 }
 
-module.exports = { cadastrar, autenticar };
+function listar(req, res) {
+    var fkUniversidade = req.query.fkUniversidade;
+
+    if (!fkUniversidade) {
+        return res.status(400).send("fkUniversidade está undefined!");
+    }
+
+    diretoriaModel.listarPorUniversidade(fkUniversidade)
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        })
+        .catch(function (erro) {
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function deletar(req, res) {
+    var id = req.params.id;
+    var fkUniversidade = req.query.fkUniversidade;
+
+    if (!fkUniversidade) {
+        return res.status(400).send("fkUniversidade está undefined!");
+    }
+
+    diretoriaModel.deletar(id, fkUniversidade)
+        .then(function (resultado) {
+            if (resultado.affectedRows === 0) {
+                return res.status(404).send("Coordenador não encontrado ou sem permissão.");
+            }
+
+            res.status(200).json({ mensagem: "Coordenador removido com sucesso." });
+        })
+        .catch(function (erro) {
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+module.exports = { cadastrar, autenticar, listar, deletar };

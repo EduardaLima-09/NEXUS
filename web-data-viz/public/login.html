@@ -17,7 +17,6 @@
 
 <body>
     <main class="login_container">
-        <!-- LADO ESQUERDO -->
         <div class="lado_esquerdo">
             <a href="./index.html" class="botao_de_voltar">
                 <i class="fa-solid fa-arrow-left"></i>
@@ -45,7 +44,6 @@
                 </span>
                 <div id="erro" class="mensagem_senha"></div>
 
-                <!-- Alert -->
                 <div id="customAlert" class="alerta">
                     <div class="alerta-container">
                         <div class="alerta-header">
@@ -54,7 +52,6 @@
                         </div>
                         <div class="alerta-mensagem">
                             <p id="alertMessage"></p>
-                            <div id="tokenContainer" style="display: none;"></div>
                         </div>
                         <div class="alerta-butoes">
                             <button class="alert-btn primary" onclick="closeAlert()">OK</button>
@@ -62,16 +59,15 @@
                     </div>
                 </div>
 
-                <!--Carregamento-->
                 <div id="customLoader" class="carregando">
                     <div class="carregando-container">
                         <div class="parte-texto"></div>
-                        <p>Processando cadastro...</p>
+                        <p>Processando login...</p>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- LADO DIREITO -->
+
         <div class="lado_direito">
             <div>
                 <img src="assets/LogoBranca.png" class="logo">
@@ -81,98 +77,86 @@
         </div>
     </main>
 </body>
+
 <script>
     const emailInput = document.getElementById("email_input");
     const senhaInput = document.getElementById("senha_input");
     const erroDiv = document.getElementById("erro");
 
-    // Funções do alert personalizado
     function showAlert(type, title, message, redirectUrl = null) {
-        const alert = document.getElementById('customAlert');
-        const alertIcon = document.getElementById('alertIcon');
-        const alertTitle = document.getElementById('alertTitle');
-        const alertMessage = document.getElementById('alertMessage');
+        const alert = document.getElementById("customAlert");
+        const alertIcon = document.getElementById("alertIcon");
+        const alertTitle = document.getElementById("alertTitle");
+        const alertMessage = document.getElementById("alertMessage");
 
-        // Configurar ícone e cor baseado no tipo, resolve essa parte no css também
-        alertIcon.innerHTML = '';
-        if (type === 'success') {
+        alertIcon.innerHTML = "";
+
+        if (type === "success") {
             alertIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
-            alertIcon.className = 'alerta-icone success';
-        } else if (type === 'error') {
+            alertIcon.className = "alerta-icone success";
+        } else if (type === "error") {
             alertIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-            alertIcon.className = 'alerta-icone error';
-        } else if (type === 'warning') {
+            alertIcon.className = "alerta-icone error";
+        } else if (type === "warning") {
             alertIcon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
-            alertIcon.className = 'alerta-icone warning';
+            alertIcon.className = "alerta-icone warning";
         } else {
             alertIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
-            alertIcon.className = 'alerta-icone info';
+            alertIcon.className = "alerta-icone info";
         }
 
         alertTitle.textContent = title;
         alertMessage.textContent = message;
+        alert.classList.add("active");
 
-        alert.classList.add('active');
+        const closeBtn = document.querySelector("#customAlert .alert-btn.primary");
+        closeBtn.onclick = closeAlert;
 
-        // Se tiver URL de redirecionamento, redirecionar após fechar
         if (redirectUrl) {
-            const closeBtn = document.querySelector('#customAlert .alert-btn.primary');
-            const oldClick = closeBtn.onclick;
-            closeBtn.onclick = () => {
-                if (oldClick) oldClick();
+            closeBtn.onclick = function () {
+                closeAlert();
                 window.location.href = redirectUrl;
             };
         }
     }
 
+    function closeAlert() {
+        document.getElementById("customAlert").classList.remove("active");
+    }
+
     function showLoader() {
-        document.getElementById('customLoader').classList.add('active');
+        document.getElementById("customLoader").classList.add("active");
     }
 
     function hideLoader() {
-        document.getElementById('customLoader').classList.remove('active');
+        document.getElementById("customLoader").classList.remove("active");
     }
 
-    // Função para validar email
     function validarEmail(email) {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(email);
     }
 
     async function entrar() {
-        let email = emailInput.value.trim();
-        let senha = senhaInput.value;
-        let camposInvalidos = false;
+        const email = emailInput.value.trim();
+        const senha = senhaInput.value;
 
-        // Limpar estilos anteriores
-        emailInput.classList.remove('input-error');
-        senhaInput.classList.remove('input-error');
+        emailInput.classList.remove("input-error");
+        senhaInput.classList.remove("input-error");
         emailInput.style.border = "";
         senhaInput.style.border = "";
         erroDiv.innerHTML = "";
 
-        // Validação dos campos
-        if (email === "") {
-            emailInput.classList.add('input-error');
-            emailInput.style.border = "1px solid #f44336";
-            camposInvalidos = true;
-        }
-
-        if (senha === "") {
-            senhaInput.classList.add('input-error');
-            senhaInput.style.border = "1px solid #f44336";
-            camposInvalidos = true;
-        }
-
-        if (email !== "" && !validarEmail(email)) {
-            emailInput.classList.add('input-error');
-            emailInput.style.border = "1px solid #f44336";
-            showAlert('warning', 'Email Inválido', 'Por favor, digite um endereço de email válido.');
+        if (!email || !senha) {
+            showAlert("warning", "Campos Obrigatórios", "Por favor, preencha email e senha.");
+            if (!email) emailInput.style.border = "1px solid #f44336";
+            if (!senha) senhaInput.style.border = "1px solid #f44336";
             return;
         }
 
-        if (camposInvalidos) {
-            showAlert('warning', 'Campos Obrigatórios', 'Por favor, preencha todos os campos para continuar.');
+        if (!validarEmail(email)) {
+            emailInput.style.border = "1px solid #f44336";
+            showAlert("warning", "Email Inválido", "Por favor, digite um endereço de email válido.");
             return;
         }
 
@@ -193,117 +177,89 @@
             if (resposta.status === 200) {
                 const dados = await resposta.json();
 
+                sessionStorage.setItem("ID_USUARIO", dados.id);
+                sessionStorage.setItem("NOME_USUARIO", dados.nome);
+                sessionStorage.setItem("EMAIL_USUARIO", dados.email);
+                sessionStorage.setItem("CARGO_USUARIO", dados.cargo);
+                sessionStorage.setItem("FK_UNIVERSIDADE", dados.universidade);
+
                 sessionStorage.setItem("ID_DIRETOR", dados.id);
                 sessionStorage.setItem("NOME_DIRETOR", dados.nome);
                 sessionStorage.setItem("EMAIL_DIRETOR", dados.email);
-                sessionStorage.setItem("FK_UNIVERSIDADE", dados.universidade);
 
-                // Mostrar alert de sucesso
                 showAlert(
-                    'success',
-                    'Login realizado!',
-                    `Bem-vindo de volta, ${dados.nome}! Redirecionando para o dashboard...`,
-                    "/dashboard/dashboard.html"
+                    "success",
+                    "Login realizado!",
+                    `Bem-vindo de volta, ${dados.nome}! Redirecionando...`,
+                    dados.redirecionarPara
                 );
 
-                // Redirecionar após 3 segundos (fallback)
-                if(dados.id == 1){
-                    setTimeout(() => {
-                        window.location.href = "/dashboard/dashboard.html";
-                    }, 3000);
-                }   else{
-                    setTimeout(() => {
-                        window.location.href = "/dashboard/alunos.html";
-                    }, 3000);
-                }
+                setTimeout(function () {
+                    window.location.href = dados.redirecionarPara;
+                }, 3000);
 
-            } else if (resposta.status === 401) {
-                showAlert('error', 'Acesso Negado', 'Email ou senha inválidos. Verifique suas credenciais e tente novamente.');
-                erroDiv.style.color = "red";
-                erroDiv.innerText = "Email ou senha inválidos.";
-                // Aplicar efeito de erro nos campos
-                emailInput.classList.add('input-error');
-                senhaInput.classList.add('input-error');
-            } else if (resposta.status === 404) {
-                showAlert('error', 'Usuário não encontrado', 'Não encontramos uma conta com este email. Por favor, verifique ou cadastre-se.');
-                erroDiv.style.color = "red";
-                erroDiv.innerText = "Usuário não encontrado.";
-                emailInput.classList.add('input-error');
-            } else {
-                const msg = await resposta.text();
-                showAlert('error', 'Erro no Login', `Ocorreu um erro ao tentar fazer login: ${msg}`);
-                erroDiv.style.color = "red";
-                erroDiv.innerText = "Erro: " + msg;
+                return;
             }
 
+            if (resposta.status === 401) {
+                showAlert("error", "Acesso Negado", "Email ou senha inválidos.");
+                erroDiv.style.color = "red";
+                erroDiv.innerText = "Email ou senha inválidos.";
+                emailInput.style.border = "1px solid #f44336";
+                senhaInput.style.border = "1px solid #f44336";
+                return;
+            }
+
+            const msg = await resposta.text();
+            showAlert("error", "Erro no Login", `Ocorreu um erro ao tentar fazer login: ${msg}`);
+            erroDiv.style.color = "red";
+            erroDiv.innerText = "Erro: " + msg;
         } catch (erro) {
             console.error(erro);
             hideLoader();
-            showAlert('error', 'Erro de Conexão', 'Não foi possível conectar ao servidor. Verifique sua conexão com a internet e tente novamente.');
+            showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
             erroDiv.style.color = "red";
             erroDiv.innerText = "Não foi possível conectar ao servidor.";
         }
     }
 
-    // Remover borda vermelha quando o usuário começar a digitar
-    emailInput.addEventListener('input', function () {
-        this.classList.remove('input-error');
+    emailInput.addEventListener("input", function () {
         this.style.border = "";
         erroDiv.innerHTML = "";
     });
 
-    senhaInput.addEventListener('input', function () {
-        this.classList.remove('input-error');
+    senhaInput.addEventListener("input", function () {
         this.style.border = "";
         erroDiv.innerHTML = "";
     });
 
-    // Função do olhinho
     function toggleSenha(icon) {
-        const senha = document.getElementById('senha_input');
-        if (senha.type === 'password') {
-            senha.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
+        const senha = document.getElementById("senha_input");
+        if (senha.type === "password") {
+            senha.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
         } else {
-            senha.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
+            senha.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
         }
     }
 
-    // Permitir login com tecla Enter
-    emailInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            entrar();
-        }
+    emailInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") entrar();
     });
 
-    senhaInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            entrar();
-        }
+    senhaInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") entrar();
     });
 
-    // Permitir fechar alert com ESC
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-            closeAlert();
-        }
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeAlert();
     });
 
-    // Reset do onclick do botão quando o alert for fechado normalmente
-    function closeAlert() {
-        document.getElementById('customAlert').classList.remove('active');
-        const closeBtn = document.querySelector('#customAlert .alert-btn.primary');
-        closeBtn.onclick = closeAlert;
-    }
-
-    // Fechar alert ao clicar fora
-    document.getElementById('customAlert').addEventListener('click', function (e) {
-        if (e.target === this) {
-            closeAlert();
-        }
+    document.getElementById("customAlert").addEventListener("click", function (e) {
+        if (e.target === this) closeAlert();
     });
 </script>
 

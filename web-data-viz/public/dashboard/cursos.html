@@ -36,9 +36,9 @@
                         <div class="nome">
                             <div class="titulo-usuario">
                                 <span class="material-icons icone-user">account_circle</span>
-                                <h1>Administrador</h1>
+                                <h1 id="cargoUsuarioSidebar">Coordenador</h1>
                             </div>
-                            <p>Usuário * Nexus</p>
+                            <p id="nomeUsuarioSidebar"></p>
                         </div>
                     </div>
                     <button onclick="goHome()">Sair</button>
@@ -205,30 +205,44 @@
         }
 
         function goHome() {
+            sessionStorage.clear();
             window.location.href = "../index.html";
         }
 
         function toggleCurso(elemento) {
-            elemento.classList.toggle('ativo');
+            elemento.classList.toggle("ativo");
         }
 
-        const ctx1 = document.getElementById('mychart1');
+        (function carregarCabecalho() {
+            const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+            const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
+
+            if (cargoUsuario !== "Coordenador") {
+                window.location.href = "../login.html";
+                return;
+            }
+
+            document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
+            document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario;
+        })();
+
+        const ctx1 = document.getElementById("mychart1");
 
         new Chart(ctx1, {
-            type: 'bar',
+            type: "bar",
             data: {
-                labels: ['ADS', 'Direito', 'Medicina', 'Engenharia', 'Psicologia', 'S.I.', 'C.C.', 'Veterinária', 'Administração', 'Biomedicina'],
+                labels: ["ADS", "Direito", "Medicina", "Engenharia", "Psicologia", "S.I.", "C.C.", "Veterinária", "Administração", "Biomedicina"],
                 datasets: [
                     {
-                        label: 'Ano Passado',
+                        label: "Ano Passado",
                         data: [22, 16, 8, 20, 13, 18, 11, 14, 24, 12],
-                        backgroundColor: '#164773',
+                        backgroundColor: "#164773",
                         borderRadius: 6
                     },
                     {
-                        label: 'Ano Retrasado',
+                        label: "Ano Retrasado",
                         data: [18, 14, 10, 15, 11, 14, 9, 12, 20, 10],
-                        backgroundColor: '#4681A6',
+                        backgroundColor: "#4681A6",
                         borderRadius: 6
                     }
                 ]
@@ -236,14 +250,12 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                indexAxis: 'x',
-
+                indexAxis: "x",
                 plugins: {
                     legend: {
                         display: true
                     }
                 },
-
                 scales: {
                     y: {
                         min: 0,
@@ -251,7 +263,7 @@
                         ticks: {
                             stepSize: 5,
                             callback: function (value) {
-                                return value + '%';
+                                return value + "%";
                             }
                         }
                     },

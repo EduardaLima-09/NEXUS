@@ -10,4 +10,12 @@ router.post("/autenticar", function (req, res) {
     diretoriaController.autenticar(req, res);
 });
 
+router.get("/listar", function (req, res) {
+    diretoriaController.listar(req, res);
+});
+
+router.delete("/deletar/:id", function (req, res) {
+    diretoriaController.deletar(req, res);
+});
+
 module.exports = router;
