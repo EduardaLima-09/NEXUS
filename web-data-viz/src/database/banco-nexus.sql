@@ -92,7 +92,7 @@ CREATE TABLE Historico (
     fkDisciplina INT,
         FOREIGN KEY (fkDisciplina) REFERENCES Disciplina (id),
     semestre INT,
-    nota DECIMAL(3,2),
+    nota DECIMAL(5,2),
     frequencia DECIMAL(5,2)
 );
 
