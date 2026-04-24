@@ -1,0 +1,349 @@
+<!--ALUNOS-->
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../css/alunos.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <title>Nexus | Alunos</title>
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <div class="tela">
+        <div class="dash">
+            <div class="barra">
+                <div class="logo">
+                    <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
+                </div>
+                <div class="menu">
+                    <div class="titulo">
+                        <h1>Menu Principal</h1>
+                    </div>
+                    <div class="botoes">
+                        <button onclick="goAlunos()">Alunos</button>
+                        <button onclick="goCursos()">Cursos</button>
+                    </div>
+                </div>
+                <div class="sair">
+                    <div class="usuario">
+                        <div class="nome">
+                            <div class="titulo-usuario">
+                                <span class="material-icons icone-user">account_circle</span>
+                                <h1 id="cargoUsuarioSidebar">Coordenador</h1>
+                            </div>
+                            <p id="nomeUsuarioSidebar"></p>
+                        </div>
+                    </div>
+                    <button onclick="goHome()">Sair</button>
+                </div>
+            </div>
+
+            <div class="conteudo">
+                <div class="tituloDash">
+                    <div class="texto">
+                        <h1>Bem-vindo(a), <span id="nomeUsuario">Usuário</span></h1>
+                        <p>Visão geral dos alunos da sua instituição</p>
+                    </div>
+                </div>
+                <div class="conteudo2">
+                    <div class="insights">
+                        <div class="cards">
+                            <h3>Total de Alunos</h3>
+                            <h1>2.500</h1>
+                            <div class="porcentagem">
+                                <img src="../assets/down-arrow.png" alt="">
+                                <p>200 vs semestre anterior</p>
+                            </div>
+                        </div>
+                        <div class="cards">
+                            <h3>Risco Alto</h3>
+                            <h1>497</h1>
+                            <div class="porcentagem">
+                                <img src="../assets/up-arrow.png" alt="">
+                                <p>19,88% vs semestre anterior</p>
+                            </div>
+                        </div>
+                        <div class="cards">
+                            <h3>Risco Médio</h3>
+                            <h1>352</h1>
+                            <div class="porcentagem">
+                                <img src="../assets/up-arrow.png" alt="">
+                                <p>14.08% vs semestre anterior</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="conteudo3">
+                        <div class="tabela">
+                            <div class="topo-tabela">
+                                <h1>Lista de Alunos</h1>
+                                <select id="filtroRisco">
+                                    <option value="">Todos os riscos</option>
+                                    <option value="Alto">Alto</option>
+                                    <option value="Médio">Médio</option>
+                                    <option value="Baixo">Baixo</option>
+                                </select>
+                            </div>
+                            <table class="tabela-alunos" id="tabelaAlunos">
+                                <thead>
+                                    <tr>
+                                        <th>Aluno</th>
+                                        <th>Curso</th>
+                                        <th>Semestre</th>
+                                        <th>Faltas</th>
+                                        <th>Financeiro</th>
+                                        <th>Risco</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>João Silva</td>
+                                        <td>ADS</td>
+                                        <td>3°</td>
+                                        <td>12%</td>
+                                        <td class="atraso">Em atraso</td>
+                                        <td>Alto</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Maria Souza</td>
+                                        <td>Direito</td>
+                                        <td>5°</td>
+                                        <td>3%</td>
+                                        <td class="regular">Regular</td>
+                                        <td>Baixo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pedro Lima</td>
+                                        <td>Engenharia</td>
+                                        <td>2°</td>
+                                        <td>18%</td>
+                                        <td class="certo">Em dia</td>
+                                        <td>Alto</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ana Costa</td>
+                                        <td>Medicina</td>
+                                        <td>6°</td>
+                                        <td>2%</td>
+                                        <td class="certo">Em dia</td>
+                                        <td>Baixo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lucas Rocha</td>
+                                        <td>ADS</td>
+                                        <td>1°</td>
+                                        <td>10%</td>
+                                        <td class="certo">Em dia</td>
+                                        <td>Médio</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Carla Mendes</td>
+                                        <td>Psicologia</td>
+                                        <td>4°</td>
+                                        <td>7%</td>
+                                        <td class="atraso">Em atraso</td>
+                                        <td>Médio</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rafael Alves</td>
+                                        <td>Direito</td>
+                                        <td>8°</td>
+                                        <td>1%</td>
+                                        <td class="atraso">Em atraso</td>
+                                        <td>Baixo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Juliana Freitas</td>
+                                        <td>ADS</td>
+                                        <td>2°</td>
+                                        <td>14%</td>
+                                        <td class="regular">Regular</td>
+                                        <td>Alto</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bruno Martins</td>
+                                        <td>Engenharia</td>
+                                        <td>3°</td>
+                                        <td>6%</td>
+                                        <td class="regular">Regular</td>
+                                        <td>Médio</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fernanda Lopes</td>
+                                        <td>Medicina</td>
+                                        <td>7°</td>
+                                        <td>4%</td>
+                                        <td class="regular">Regular</td>
+                                        <td>Baixo</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="metade2">
+                            <div class="graficoDonut">
+                                <h3>Distribuição de Risco</h3>
+                                <div class="chart-container">
+                                    <canvas id="mychart1"></canvas>
+                                </div>
+                            </div>
+                            <div class="graficoBarra">
+                                <h3>Motivos de Risco - Top 4</h3>
+                                <div class="chart-container">
+                                    <canvas id="mychart2"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goDash() {
+            window.location.href = "dashboard.html";
+        }
+
+        function goAlunos() {
+            window.location.href = "alunos.html";
+        }
+
+        function goCursos() {
+            window.location.href = "cursos.html";
+        }
+
+        function goPainel() {
+            window.location.href = "painel.html";
+        }
+
+        function goHome() {
+            sessionStorage.clear();
+            window.location.href = "../index.html";
+        }
+
+        (function carregarCabecalho() {
+            const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+            const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
+
+            if (cargoUsuario !== "Coordenador") {
+                window.location.href = "../login.html";
+                return;
+            }
+
+            document.getElementById("nomeUsuario").innerText = nomeUsuario;
+            document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
+            document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario;
+        })();
+
+        const filtro = document.getElementById("filtroRisco");
+        const tabela = document.getElementById("tabelaAlunos").getElementsByTagName("tbody")[0];
+
+        function filtrarTabela() {
+            const filtroValor = filtro.value.toLowerCase();
+            const linhas = tabela.getElementsByTagName("tr");
+
+            for (let i = 0; i < linhas.length; i++) {
+                const linha = linhas[i];
+                const risco = linha.cells[5].innerText.toLowerCase();
+
+                if (filtroValor === "" || risco === filtroValor) {
+                    linha.style.display = "";
+                } else {
+                    linha.style.display = "none";
+                }
+            }
+        }
+
+        filtro.addEventListener("change", filtrarTabela);
+
+        const ctx1 = document.getElementById("mychart1");
+
+        new Chart(ctx1, {
+            type: "doughnut",
+            data: {
+                labels: ["Alto", "Médio", "Baixo"],
+                datasets: [{
+                    data: [13, 27, 60],
+                    backgroundColor: ["red", "yellow", "green"],
+                    borderColor: "#ffffff",
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: "60%",
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            generateLabels: function (chart) {
+                                const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
+                                const labels = original(chart);
+
+                                labels.forEach(label => {
+                                    label.lineWidth = 0;
+                                });
+
+                                return labels;
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const ctx2 = document.getElementById("mychart2");
+
+        new Chart(ctx2, {
+            type: "bar",
+            data: {
+                labels: ["Inadimplência", "Faltas Excessivas", "Baixo Desempenho", "Solicitou o Trancamento"],
+                datasets: [{
+                    label: "Alunos",
+                    data: [30, 50, 20, 40],
+                    backgroundColor: ["#164773"],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: "y",
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+                scales: {
+                    x: {
+                        min: 0,
+                        max: 100,
+                        ticks: {
+                            stepSize: 25,
+                            callback: function (value) {
+                                return value + "%";
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

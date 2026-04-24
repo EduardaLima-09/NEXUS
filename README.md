@@ -8,7 +8,7 @@
 
 ---
 
-## 📌 Sobre o Projeto
+## 📌 Sobre o Projeto Nexus
 
 O **NEXUS** é uma plataforma desenvolvida com o objetivo de apoiar instituições de ensino superior privadas no monitoramento e análise de dados relacionados à evasão escolar.
 

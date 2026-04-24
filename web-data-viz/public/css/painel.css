@@ -1,0 +1,528 @@
+/* Fontes importadas */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --font-titulos: "Montserrat", sans-serif;
+    --font-subtitulos: "Poppins", sans-serif;
+    --font-textos: "Montserrat Alternates", sans-serif;
+    --cor--sidebar: #111827;
+    --cor-azul-escuro: #012340;
+    --cor-azul-medio: #164773;
+    --cor-azul-claro: #4681A6;
+    --cor-fundo-input: #F2F2F2;
+    --cor-verde: #8AB4A1;
+    --cor-cinza: #D9D9D9;
+    --cor-cinza-escuro: #3f3f3f;
+    --cor-branco: #F1F1F1;
+    --cor-branco-puro: #FFFFFF;
+    --cor-preto: #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    overflow: hidden;
+    background-color: var(--cor-branco);
+}
+
+.tela {
+    width: 100%;
+    height: 100vh;
+}
+
+.dash {
+    display: flex;
+    height: 100vh;
+}
+
+/* Começa o SIDEBAR */
+
+.barra {
+    width: 220px;
+    height: 100%;
+    display: flex;
+    padding: 30px;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--cor--sidebar);
+}
+
+.logo img {
+    width: 140px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Começa o MENU */
+
+.menu .titulo h1 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: var(--cor-branco);
+    font-family: var(--font-titulos);
+}
+
+.botoes {
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.botoes button {
+    border: none;
+        padding: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.2s;
+        text-align: left;
+        border-radius: 8px;
+        color: var(--cor-branco);
+        background-color: transparent;
+        font-family: var(--font-subtitulos);
+    }
+
+.botoes button:hover {
+    color: var(--cor-branco);
+    transform: translateX(3px);
+    background: var(--cor-azul-escuro);
+}
+
+/* Parte do Usuário */
+
+.titulo-usuario {
+    gap: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.icone-user {
+    font-size: 28px;
+    color: var(--cor-branco);
+}
+
+.nome h1 {
+    font-size: 16px;
+    color: var(--cor-branco);
+    font-family: var(--font-titulos);
+}
+
+.nome p {
+    font-size: 12px;
+    margin-left: 30px;
+    color: var(--cor-cinza);
+}
+
+/* botão de sair */
+
+.sair button {
+    border: none;
+    padding: 8px;
+    width: 60px;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-left: 40px;
+    border-radius: 6px;
+    background-color: #ef4444;
+
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--cor-branco);
+    font-family: var(--font-subtitulos);
+}
+
+.sair button:hover {
+    background: #dc2626;
+}
+
+/* COMEÇA O CONTEÚDO */
+
+.conteudo {
+    flex: 1;
+    padding: 18px;
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+.tituloDash {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    justify-content: space-between;
+}
+
+.tituloDash h1 {
+    font-size: 24px;
+    color: var(--cor--sidebar);
+    font-family: var(--font-titulos);
+}
+
+.tituloDash p {
+    font-size: 14px;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+.conteudo2 {
+    gap: 10px;
+    width: 100%;
+    display: flex;
+}
+
+.painel-admin {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    margin-top: 30px;
+    border-radius: 12px;
+    flex-direction: column;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
+}
+
+.painel-admin h1 {
+    font-size: 26px;
+    margin-top: 10px;
+    font-family: var(--font-titulos);
+}
+
+.btn-add {
+    border: none;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 6px;
+    align-self: flex-end;
+    margin: 10px 0 20px 0;
+    color: var(--cor-branco-puro);
+    background-color: var(--cor--sidebar);
+}
+
+.tabela-admin {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.tabela-admin th {
+    padding: 10px;
+    font-size: 13px;
+    color: var(--cor-branco-puro);
+    background-color: var(--cor--sidebar);
+}
+
+.tabela-admin td {
+    padding: 10px;
+    font-size: 13px;
+}
+
+.tabela-admin tr:hover {
+    background-color: var(--cor-branco);
+}
+
+.btn-editar {
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #FF9800;
+    color: var(--cor-branco-puro);
+}
+
+.btn-excluir {
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #F44336;
+    color: var(--cor-branco-puro);
+}
+
+.modal {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    width: 300px;
+    padding: 20px;
+    display: flex;
+    border-radius: 12px;
+    flex-direction: column;
+    background-color: var(--cor-azul-escuro);
+}
+
+.modal-content h2 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: var(--cor-branco-puro);
+    font-family: var(--font-titulos);
+}
+
+.modal-content input {
+    padding: 8px;
+    margin: 5px;
+    margin-left: 40px;
+    border-radius: 6px;
+    border: 1px solid var(--cor-azul-escuro);
+}
+
+#sexoAluno {
+    width: 180px;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    align-self: flex-end;
+    margin: 5px 5px 5px 40px;
+    color: var(--cor--sidebar);
+    background-color: var(--cor-branco-puro);
+}
+
+.botoes-modal {
+    gap: 10px;
+    display: flex;
+    margin-top: 10px;
+    justify-content: flex-end;
+}
+
+.btn-salvar {
+    border: none;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: var(--cor-branco-puro);
+    background-color: var(--cor-azul-claro);
+}
+
+.btn-cancelar {
+    border: none;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: var(--cor-branco-puro);
+    background-color: var(--cor-cinza-escuro);
+}
+
+.btn-menu-mobile {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: var(--cor-branco);
+    cursor: pointer;
+}
+
+.abas-gerenciamento {
+    gap: 10px;
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.aba-btn {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s;
+    color: var(--cor--sidebar);
+    background-color: var(--cor-cinza);
+}
+
+.aba-btn:hover {
+    background-color: #c9c9c9;
+}
+
+.aba-btn.ativa {
+    color: var(--cor-branco-puro);
+    background-color: var(--cor--sidebar);
+}
+
+.secao-tabela {
+    display: none;
+}
+
+.ativa-tabela {
+    display: block;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+
+    .barra {
+        width: 180px;
+        padding: 20px;
+    }
+
+    .conteudo {
+        padding: 12px;
+    }
+
+    .painel-admin {
+        padding: 15px;
+    }
+
+    .tabela-admin th,
+    .tabela-admin td {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .btn-add {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+/* Celular */
+@media (max-width: 768px) {
+
+    body {
+        overflow-y: auto;
+    }
+
+    #sexoAluno {
+        margin-left: 60px;
+    }
+    .modal-content input {
+        margin-left: 60px;
+    }
+
+    .dash {
+        flex-direction: column;
+        height: auto;
+    }
+
+    /* Sidebar vira menu superior */
+    .barra {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px 20px;
+    }
+
+    .logo img {
+        width: 100px;
+    }
+
+    .menu {
+        display: none;
+        /* Esconde menu lateral no mobile */
+    }
+
+    .sair {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .usuario {
+        margin-right: auto;
+    }
+
+    .sair button {
+        margin: 0;
+    }
+
+    .conteudo {
+        height: auto;
+        padding: 10px;
+        overflow-y: auto;
+    }
+
+    .conteudo2 {
+        flex-direction: column;
+    }
+
+    .painel-admin {
+        width: 100%;
+        margin-top: 15px;
+        padding: 12px;
+    }
+
+    /* Tabela vira scroll horizontal */
+    .tabela-admin {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .btn-add {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Modal responsivo */
+    .modal-content {
+        width: 90%;
+    }
+
+    .btn-menu-mobile {
+        display: block;
+    }
+
+    .barra {
+        flex-wrap: wrap;
+    }
+
+    /* Menu oculto por padrão */
+    .menu {
+        display: none;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Menu visível quando aberto */
+    .menu.aberto {
+        display: block;
+    }
+
+    .botoes {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .botoes button {
+        width: 100%;
+        text-align: left;
+        background-color: var(--cor-azul-escuro);
+    }
+}
+
+/* Telas muito pequenas */
+@media (max-width: 480px) {
+
+    .tituloDash h1 {
+        font-size: 18px;
+    }
+
+    .tituloDash p {
+        font-size: 12px;
+    }
+
+    .painel-admin h1 {
+        font-size: 20px;
+    }
+
+    .aba-btn {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+}

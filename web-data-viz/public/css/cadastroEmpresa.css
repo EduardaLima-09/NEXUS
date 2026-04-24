@@ -1,0 +1,620 @@
+/* Leonardo arrumar a responsividade por favor, confere se está tudo OK */
+
+/* Fontes importadas */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --font-titulos: "Montserrat", sans-serif;
+    --font-subtitulos: "Poppins", sans-serif;
+    --font-textos: "Montserrat Alternates", sans-serif;
+    --cor--sidebar: #111827;
+    --cor-azul-escuro: #012340;
+    --cor-azul-medio: #164773;
+    --cor-azul-claro: #4681A6;
+    --cor-fundo-input: #F2F2F2;
+    --cor-verde: #8AB4A1;
+    --cor-cinza: #D9D9D9;
+    --cor-cinza-escuro: #3f3f3f;
+    --cor-branco: #F1F1F1;
+    --cor-branco-puro: #FFFFFF;
+    --cor-preto: #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(135deg, var(--cor-azul-escuro), var(--cor-azul-medio));
+}
+
+.cadastro_container {
+    width: 90%;
+    height: 90vh;
+    display: flex;
+    overflow: hidden;
+    max-width: 1200px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.79);
+}
+
+.lado_esquerdo {
+    width: 40%;
+    min-height: 100vh;
+    color: var(--cor-branco-puro);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px;
+    overflow: hidden;
+    position: relative;
+}
+
+.lado_esquerdo::before {
+    inset: 0;
+    content: "";
+    position: absolute;
+
+    background-size: cover;
+    filter: brightness(0.4);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../assets/fundinhoII.png);
+}
+
+.lado_esquerdo>* {
+    position: relative;
+    z-index: 1;
+}
+
+.lado_esquerdo h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+    color: var(--cor-branco-puro);
+    font-family: var(--font-titulos);
+}
+
+.lado_esquerdo p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: var(--cor-branco-puro);
+    font-family: var(--font-subtitulos);
+}
+
+.lado_esquerdo .logo {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+.descricao {
+    opacity: 0.95;
+    font-size: 12px;
+    color: var(--cor-branco-puro);
+    font-family: var(--font-subtitulos);
+}
+
+.lado_direito {
+    width: 60%;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-branco);
+}
+
+.botao_de_voltar {
+    top: 25px;
+    left: 25px;
+    font-size: 28px;
+    transition: 0.3s;
+    position: absolute;
+    color: var(--cor--sidebar);
+}
+
+.botao_de_voltar:hover {
+    transform: translateX(-3px);
+}
+
+.card-login {
+    width: 70%;
+    padding: 40px;
+    max-width: 460px;
+    border-radius: 14px;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+.card-login h2 {
+    font-size: 24px;
+    margin-bottom: 6px;
+    color: var(--cor--sidebar);
+    font-family: var(--font-titulos);
+}
+
+.linha-dupla {
+    gap: 10px;
+    display: flex;
+    margin-top: 25px;
+    flex-direction: column;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+}
+
+.campo label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--cor-azul-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+.campo input {
+    padding: 12px;
+    outline: none;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+    background-color: var(--cor-branco);
+    border: 1px solid var(--cor-cinza);
+}
+
+.campo input:focus {
+    border-radius: 8px;
+    background-color: var(--cor-branco);
+    box-shadow: 0 0 0 3px rgba(12, 6, 78, 0.685);
+}
+
+button {
+    width: 100%;
+    border: none;
+    padding: 14px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: 0.3s;
+    font-weight: bold;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: var(--cor-branco-puro);
+    font-family: var(--font-subtitulos);
+    background-image: linear-gradient(135deg, var(--cor-azul-escuro), var(--cor-azul-medio));
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+.sub {
+    font-size: 14px;
+    margin-bottom: 20px;
+    margin-left: 80px;
+    align-items: center;
+    justify-content: center;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+.sub a {
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--cor-azul-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+.login {
+    display: block;
+    font-size: 14px;
+    margin-top: 15px;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+.login a {
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--cor-azul-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+/* Mensagem de Erro de input */
+
+.mensagem_senha {
+    font-size: 14px;
+    margin-top: 5px;
+    color: #e63946;
+    font-family: var(--font-subtitulos);
+}
+
+
+/* alerts personalizados */
+
+.alerta {
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 10000;
+    position: fixed;
+    visibility: hidden;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.alerta.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.alerta-container {
+    width: 90%;
+    padding: 0;
+    max-width: 400px;
+    overflow: hidden;
+    border-radius: 20px;
+    transform: scale(0.7);
+    background: var(--cor-branco);
+    transition: transform 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.alerta.active .alerta-container{
+    transform: scale(1);
+}
+
+.alerta-header {
+    text-align: center;
+    padding: 25px 25px 0 25px;
+}
+
+.alerta-icone {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    font-size: 35px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.alerta-icone.success {
+    color: var(--cor-branco);
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+}
+
+.alerta-icone.error {
+    color: var(--cor-branco);
+    background: linear-gradient(135deg, #f44336, #da190b);
+}
+
+.alerta-icone.warning {
+    color: var(--cor-branco);
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+}
+
+.alerta-icone.info {
+    color: var(--cor-branco);
+    background: linear-gradient(135deg, #2196F3, #0b7dda);
+}
+
+.alerta-header h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--cor--sidebar);
+    font-family: var(--font-titulos);
+}
+
+.alerta-mensagem {
+    text-align: center;
+    padding: 0 25px 25px 25px;
+}
+
+.alerta-mensagem p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+.token-box {
+    padding: 12px;
+    margin: 15px 0;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 8px;
+    word-break: break-all;
+    background: var(--cor-branco);
+    font-family: var(--font-subtitulos);
+    border-left: 4px solid var(--cor-azul-escuro);
+}
+
+.alerta-butoes {
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    padding: 0 25px 25px 25px;
+}
+
+.alert-btn {
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 25px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-family: var(--font-titulos);
+}
+
+.alert-btn.primary {
+    color: var(--cor-branco);
+    background: linear-gradient(135deg, var(--cor-azul-medio) , var(--cor-azul-escuro));
+}
+
+.alert-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.alert-btn.secondary {
+    background: var(--cor-cinza);
+    color: var(--cor-cinza-escuro);
+}
+
+.alert-btn.secondary:hover {
+    background: var(--cor-branco);
+}
+
+/* Textinho de carregando processo */
+
+.carregando {
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 9999;
+    position: fixed;
+    visibility: hidden;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.carregando.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.carregando-container {
+    padding: 30px;
+    min-width: 250px;
+    text-align: center;
+    border-radius: 20px;
+    background: var(--cor-branco);
+}
+
+.parte-texto {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    animation: spin 1s linear infinite;
+    border: 4px solid var(--cor-branco);
+    border-top: 4px solid var(--cor--sidebar);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.carregando-container p {
+    margin: 0;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+/* ===================== RESPONSIVIDADE IGUAL AO CSS2 ===================== */
+
+
+/* Tablet e telas menores */
+@media (max-width: 1024px) {
+  .cadastro_container {
+    width: 98%;
+    height: auto;
+    min-height: 90vh;
+    flex-direction: column;
+  }
+
+  .lado_esquerdo {
+    width: 100%;
+    height: 280px;
+    padding: 30px;
+    text-align: center;
+  }
+
+  .lado_direito {
+    width: 100%;
+    padding: 40px 20px;
+    min-height: 500px;
+  }
+
+  .card-login {
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+  }
+
+  .botao_de_voltar {
+    top: 15px;
+    left: 15px;
+    font-size: 24px;
+  }
+}
+
+/* Tablet retrato */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  .cadastro_container {
+    width: 100%;
+    border-radius: 15px;
+    margin: 10px 0;
+  }
+
+  .lado_esquerdo {
+    height: 240px;
+    padding: 20px;
+  }
+
+  .lado_direito {
+    padding: 30px 15px;
+  }
+
+  .card-login {
+    padding: 25px 20px;
+  }
+
+  .card-login h2 {
+    font-size: 22px;
+  }
+
+  .campo input {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  button {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .sub {
+    margin: 0px 0px 0px 48px;
+  }
+}
+
+/* Mobile grande */
+@media (max-width: 600px) {
+  .lado_esquerdo {
+    height: 200px;
+    padding: 15px;
+  }
+
+  .card-login {
+    padding: 20px 15px;
+  }
+
+  .card-login h2 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .botao_de_voltar {
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+  }
+}
+
+/* Mobile pequeno */
+@media (max-width: 480px) {
+  body {
+    padding: 5px;
+  }
+
+  .cadastro_container {
+    border-radius: 10px;
+  }
+
+  .lado_esquerdo {
+    height: 180px;
+    padding: 12px;
+  }
+
+  .card-login {
+    padding: 15px 12px;
+  }
+
+  .campo input {
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+
+  button {
+    padding: 10px;
+    font-size: 13px;
+  }
+}
+
+/* Telas baixas */
+@media (max-height: 700px) and (min-width: 769px) {
+  .cadastro_container {
+    height: 95vh;
+  }
+
+  .card-login {
+    padding: 20px;
+  }
+}
+
+/* Telas grandes */
+@media (min-width: 1600px) {
+  .cadastro_container {
+    max-width: 1400px;
+    height: 85vh;
+  }
+
+  .card-login {
+    max-width: 500px;
+    padding: 45px;
+  }
+}
+
+/* Mobile em paisagem */
+@media (max-width: 768px) and (orientation: landscape) {
+  .cadastro_container {
+    flex-direction: row;
+    height: 90vh;
+  }
+
+  .lado_esquerdo {
+    width: 40%;
+    height: 100%;
+  }
+
+  .lado_direito {
+    width: 60%;
+    padding: 20px;
+    overflow-y: auto;
+  }
+}

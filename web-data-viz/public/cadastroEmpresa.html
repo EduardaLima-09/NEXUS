@@ -1,0 +1,269 @@
+<!--CADASTRO EMPRESA-->
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="css/cadastroEmpresa.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <title>Nexus | Cadastro Instituição</title>
+  <link rel="shortcut icon" href="assets/favicon (3).ico" type="image/x-icon">
+</head>
+
+<body>
+  <main class="cadastro_container">
+    <div class="lado_esquerdo">
+      <div class="conteudo_esquerda">
+        <img src="assets/LogoBranca.png" class="logo">
+        <h1>Bem-vindo,</h1>
+        <p>Sua instituição conectada em poucos passos.</p>
+        <span class="descricao">
+          Cadastre sua instituição e tenha acesso a uma plataforma completa para gestão e inovação educacional.
+        </span>
+      </div>
+    </div>
+    <!--LADO DIREITO-->
+    <div class="lado_direito">
+      <div class="grupo_voltar">
+        <a href="./index.html" class="botao_de_voltar">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+      </div>
+      <div class="card-login">
+        <h2>Cadastre-se</h2>
+        <div class="linha-dupla">
+          <div class="campo">
+            <label>Nome Fantasia</label>
+            <input type="text" id="nome_input" placeholder="Nome da empresa">
+          </div>
+          <div class="campo">
+            <label>Razão Social</label>
+            <input type="text" id="razao_input" placeholder="Razão social completa">
+          </div>
+          <div class="campo">
+            <label>Email</label>
+            <input type="email" id="email_input" placeholder="empresa@email.com">
+          </div>
+          <div class="campo">
+            <label>CNPJ</label>
+            <input type="text" id="cnpj_input" placeholder="00.000.000/0000-00">
+          </div>
+        </div>
+
+        <button onclick="cadastrar()">Cadastrar instituição</button>
+        <span class="sub">Já tem uma conta? <a href="./login.html">Entre aqui</a></span>
+        <div id="erro" class="mensagem_senha"></div>
+
+        <!-- Alert -->
+        <div id="customAlert" class="alerta">
+          <div class="alerta-container">
+            <div class="alerta-header">
+              <div id="alertIcon" class="alerta-icone"></div>
+              <h3 id="alertTitle"></h3>
+            </div>
+            <div class="alerta-mensagem">
+              <p id="alertMessage"></p>
+              <div id="tokenContainer" style="display: none;"></div>
+            </div>
+            <div class="alerta-butoes">
+              <button class="alert-btn primary" onclick="closeAlert()">OK</button>
+            </div>
+          </div>
+        </div>
+
+        <!--Carregamento-->
+        <div id="customLoader" class="carregando">
+          <div class="carregando-container">
+            <div class="parte-texto"></div>
+            <p>Processando cadastro...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+<script>
+  const nomeInput = document.getElementById("nome_input");
+  const razaoInput = document.getElementById("razao_input");
+  const emailInput = document.getElementById("email_input");
+  const cnpjInput = document.getElementById("cnpj_input");
+
+  // Função do alert 
+  function showAlert(type, title, message, token = null) {
+    const alert = document.getElementById('customAlert');
+    const alertIcon = document.getElementById('alertIcon');
+    const alertTitle = document.getElementById('alertTitle');
+    const alertMessage = document.getElementById('alertMessage');
+    const tokenContainer = document.getElementById('tokenContainer');
+
+    // Configurar ícone e cor baseado no tipo, resolve essa parte no css também
+    alertIcon.innerHTML = '';
+    if (type === 'success') {
+      alertIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+      alertIcon.className = 'alerta-icone success';
+    } else if (type === 'error') {
+      alertIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      alertIcon.className = 'alerta-icone error';
+    } else if (type === 'warning') {
+      alertIcon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
+      alertIcon.className = 'alerta-icone warning';
+    } else {
+      alertIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+      alertIcon.className = 'alerta-icone info';
+    }
+
+    alertTitle.textContent = title;
+    alertMessage.textContent = message;
+
+    // Aqui é o alert do token também, mas não consegui testar
+    if (token) {
+      tokenContainer.style.display = 'block';
+      tokenContainer.innerHTML = `
+          <div class="token-box">
+            <strong>🔑 Token de acesso:</strong><br>
+            <code style="font-size: 13px;">${token}</code><br>
+            <small style="color: #000000;">⚠️ Guarde este token para o cadastro do diretor</small>
+          </div>
+        `;
+    } else {
+      tokenContainer.style.display = 'none';
+    }
+
+    alert.classList.add('active');
+  }
+
+  function showLoader() {
+    document.getElementById('customLoader').classList.add('active');
+  }
+  function hideLoader() {
+    document.getElementById('customLoader').classList.remove('active');
+  }
+  function closeAlert() {
+    document.getElementById('customAlert').classList.remove('active');
+  }
+
+
+  function criarErro(input) {
+    let erro = document.createElement("div");
+    erro.className = "mensagem_senha";
+    erro.style.color = "red";
+    erro.style.fontSize = "12px";
+    input.parentNode.appendChild(erro);
+    return erro;
+  }
+
+  const erroNome = criarErro(nomeInput);
+  const erroRazao = criarErro(razaoInput);
+  const erroEmail = criarErro(emailInput);
+  const erroCnpj = criarErro(cnpjInput);
+
+  // ================= CNPJ =================
+  cnpjInput.addEventListener("input", function () {
+    let v = this.value.replace(/\D/g, "");
+    v = v.slice(0, 14);
+    v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+    v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+    v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+    v = v.replace(/(\d{4})(\d)/, "$1-$2");
+    this.value = v;
+  });
+
+  // ================= CADASTRAR =================
+  async function cadastrar() {
+    let valido = true;
+
+    if (nomeInput.value.trim() === "") {
+      erroNome.innerHTML = "Digite o nome da empresa.";
+      valido = false;
+    } else erroNome.innerHTML = "";
+
+    if (razaoInput.value.trim() === "") {
+      erroRazao.innerHTML = "Digite a razão social.";
+      valido = false;
+    } else erroRazao.innerHTML = "";
+
+    if (!emailInput.value.includes("@")) {
+      erroEmail.innerHTML = "Email inválido.";
+      valido = false;
+    } else erroEmail.innerHTML = "";
+
+    let cnpjNumeros = cnpjInput.value.replace(/\D/g, "");
+    if (cnpjNumeros.length !== 14) {
+      erroCnpj.innerHTML = "CNPJ deve ter 14 números.";
+      valido = false;
+    } else erroCnpj.innerHTML = "";
+
+    if (valido) {
+      showLoader();
+
+      try {
+        const resposta = await fetch("/universidades/cadastrar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nomeFantasiaServer: nomeInput.value.trim(),
+            razaoSocialServer: razaoInput.value.trim(),
+            emailServer: emailInput.value.trim(),
+            cnpjServer: cnpjInput.value.trim()
+          })
+        });
+
+        hideLoader();
+
+        if (resposta.status === 201) {
+          const dados = await resposta.json();
+          // Mostrar alert de sucesso com token
+          showAlert(
+            'success',
+            'Cadastro Realizado!',
+            'Instituição cadastrada com sucesso!',
+            dados.token
+          );
+
+          // Redireciona após 12 segundos
+          setTimeout(() => {
+            window.location.href = "cadastroDiretor.html";
+          }, 12000);
+        } else {
+          const msg = await resposta.text();
+          if (msg.includes("emailUniversidade")) {
+            showAlert('error', 'Erro no Cadastro', 'Este email já está cadastrado no sistema.');
+          } else if (msg.includes("cnpj")) {
+            showAlert('error', 'Erro no Cadastro', 'Este CNPJ já está cadastrado no sistema.');
+          } else {
+            showAlert('error', 'Erro no Cadastro', `Erro ao cadastrar: ${msg}`);
+          }
+        }
+      } catch (erro) {
+        hideLoader();
+        console.error(erro);
+        showAlert('error', 'Erro de Conexão', 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
+      }
+    } else {
+      // alerta de validação
+      showAlert('warning', 'Campos Inválidos', 'Por favor, preencha todos os campos corretamente antes de continuar.');
+    }
+  }
+
+  // Permitir fechar alert com ESC
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      closeAlert();
+    }
+  });
+
+  // Fechar alert ao clicar fora em qualquer canto da tela
+  document.getElementById('customAlert').addEventListener('click', function (e) {
+    if (e.target === this) {
+      closeAlert();
+    }
+  });
+</script>
+
+</html>
