@@ -8,83 +8,41 @@ public class Aluno {
     private Boolean pago;
     private Integer semestre;
     private String motivoEvasao;
+    private String nome;
+    private String sobrenome;
+    private String sexo;
 
-    public Aluno(Integer id, Boolean evadiram, Double mediaGeral, Double frequencia, Boolean pago, Integer semestre, String motivoEvasao) {
+    public Aluno(Integer id, Double mediaGeral, Double frequencia, String nome, String sobrenome, String sexo) {
         this.id = id;
-        this.evadiram = evadiram;
         this.mediaGeral = mediaGeral;
         this.frequencia = frequencia;
-        this.pago = pago;
-        this.semestre = semestre;
-        this.motivoEvasao = motivoEvasao;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.sexo = sexo;
+
+        this.evadiram = false;
+        this.pago = Math.random() > 0.3;
+        this.semestre = (int) (Math.random() * 8) + 1;
+        this.motivoEvasao = null;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Boolean getEvadiram() {
-        return evadiram;
-    }
-
-    public void setEvadiram(Boolean evadiram) {
-        this.evadiram = evadiram;
-    }
-
-    public Double getMediaGeral() {
-        return mediaGeral;
-    }
-
-    public void setMediaGeral(Double mediaGeral) {
-        this.mediaGeral = mediaGeral;
-    }
-
-    public Double getFrequencia() {
-        return frequencia;
-    }
-
-    public void setFrequencia(Double frequencia) {
-        this.frequencia = frequencia;
-    }
-
-    public Boolean getPago() {
-        return pago;
-    }
-
-    public void setPago(Boolean pago) {
-        this.pago = pago;
-    }
-
-    public Integer getSemestre() {
-        return semestre;
-    }
-
-    public void setSemestre(Integer semestre) {
-        this.semestre = semestre;
-    }
-
-    public String getMotivoEvasao() {
-        return motivoEvasao;
-    }
-
-    public void setMotivoEvasao(String motivoEvasao) {
-        this.motivoEvasao = motivoEvasao;
-    }
+    public Integer getId() { return id; }
+    public Boolean getEvadiram() { return evadiram; }
+    public Double getMediaGeral() { return mediaGeral; }
+    public Double getFrequencia() { return frequencia; }
+    public Boolean getPago() { return pago; }
+    public Integer getSemestre() { return semestre; }
+    public String getMotivoEvasao() { return motivoEvasao; }
+    public String getNome() { return nome; }
+    public String getSobrenome() { return sobrenome; }
+    public String getSexo() { return sexo; }
 
     @Override
     public String toString() {
         return "Aluno{" +
                 "id=" + id +
-                ", evadiram=" + evadiram +
-                ", mediaGeral=" + mediaGeral +
-                ", frequencia=" + frequencia +
-                ", pago=" + pago +
-                ", semestre=" + semestre +
-                ", motivoEvasao='" + motivoEvasao + '\'' +
+                ", media=" + mediaGeral +
+                ", freq=" + frequencia +
                 '}';
     }
 }
