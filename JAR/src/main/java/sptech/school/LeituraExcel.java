@@ -83,7 +83,7 @@ public class LeituraExcel {
 
         try (
                 InputStream arquivo = S3Service.getArquivo(nomeArquivo);
-                Workbook workbook = new XSSFWorkbook(arquivo)
+                Workbook workbook = new XSSFWorkbook(arquivo);
         ) {
 
             Sheet sheet = workbook.getSheetAt(0);
