@@ -3,6 +3,7 @@
 </p>
 
 # NEXUS - Conectando dados, transformando trajetórias
+> Branch: Develop
 > Plataforma para gestão e integração de dados voltados à prevenção da evasão escolar.  
 > Projeto desenvolvido no segundo semestre da SPTech. 🚧 Em desenvolvimento.
 
