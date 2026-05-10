@@ -19,7 +19,7 @@ CREATE TABLE Usuario (
     senha VARCHAR(255) NOT NULL,
     token CHAR(6) NOT NULL,
     cargo VARCHAR(45),
-    CONSTRAINT chk_cargo CHECK (cargo IN('Diretor', 'Coordenador')),
+    CONSTRAINT chk_cargo CHECK (cargo IN('Coordenador', 'Professor')),
     fkUniversidade INT NOT NULL,
         FOREIGN KEY (fkUniversidade) REFERENCES Universidade(id)
 );
