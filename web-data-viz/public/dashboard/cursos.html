@@ -27,8 +27,8 @@
                         <h1>Menu Principal</h1>
                     </div>
                     <div class="botoes">
-                        <button onclick="goAlunos()">Alunos</button>
-                        <button onclick="goCursos()">Cursos</button>
+                        <button id="Alunos" onclick="goAlunos()">Alunos</button>
+                        <button id="Cursos" onclick="goCursos()">Cursos</button>
                     </div>
                 </div>
                 <div class="sair">
@@ -236,13 +236,13 @@
                     {
                         label: "Ano Passado",
                         data: [22, 16, 8, 20, 13, 18, 11, 14, 24, 12],
-                        backgroundColor: "#164773",
+                        backgroundColor: "#8AB4A1",
                         borderRadius: 6
                     },
                     {
                         label: "Ano Retrasado",
                         data: [18, 14, 10, 15, 11, 14, 9, 12, 20, 10],
-                        backgroundColor: "#4681A6",
+                        backgroundColor: "#428d69",
                         borderRadius: 6
                     }
                 ]
@@ -277,6 +277,17 @@
                 }
             }
         });
+    </script>
+    <script>
+        const paginaAtual = window.location.pathname.split("/").pop();
+
+        if (paginaAtual === "alunos.html") {
+            document.getElementById("Alunos").classList.add("ativo");
+        }
+
+        if (paginaAtual === "cursos.html") {
+            document.getElementById("Cursos").classList.add("ativo");
+        }
     </script>
 </body>
 

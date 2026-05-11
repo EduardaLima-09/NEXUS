@@ -13,6 +13,7 @@
     --cor-azul-claro: #4681A6;
     --cor-fundo-input: #F2F2F2;
     --cor-verde: #8AB4A1;
+    --cor-verde-escuro: #428d69;
     --cor-cinza: #D9D9D9;
     --cor-cinza-escuro: #3f3f3f;
     --cor-branco: #F1F1F1;
@@ -51,12 +52,12 @@ body {
     padding: 30px;
     flex-direction: column;
     justify-content: space-between;
-    background-color: var(--cor--sidebar);
+    background-color: var(--cor-verde);
 }
 
 .logo img {
     width: 140px;
-    margin-top: 20px;
+    margin-top: 70px;
     margin-bottom: 10px;
 }
 
@@ -91,7 +92,12 @@ body {
 .botoes button:hover {
     color: var(--cor-branco);
     transform: translateX(3px);
-    background: var(--cor-azul-escuro);
+    background: var(--cor-verde-escuro);
+}
+
+.botoes button.ativo {
+    background-color: var(--cor-verde-escuro);
+    color: white;
 }
 
 /* Parte do Usuário */
@@ -103,18 +109,18 @@ body {
 }
 
 .icone-user {
-    font-size: 28px;
+    font-size: 30px;
     color: var(--cor-branco);
 }
 
 .nome h1 {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--cor-branco);
     font-family: var(--font-titulos);
 }
 
 .nome p {
-    font-size: 12px;
+    font-size: 16px;
     margin-left: 30px;
     color: var(--cor-cinza);
 }
@@ -159,7 +165,7 @@ body {
 
 .tituloDash h1 {
     font-size: 24px;
-    color: var(--cor--sidebar);
+    color: var(--cor-verde-escuro);
     font-family: var(--font-titulos);
 }
 
@@ -187,7 +193,7 @@ body {
 
 .cards h3 {
     font-size: 16px;
-    color: var(--cor-azul-escuro);
+    color: var(--cor-verde-escuro);
     font-family: var(--font-titulos);
 }
 
@@ -275,14 +281,13 @@ body {
     font-size: 26px;
     font-weight: 800;
     text-align: center;
-    color: var(--cor-azul-claro);
+    color: var(--cor-verde);
 }
 
 .info-extra p, .taxa-crescimento, .taxa-baixo {
     font-size: 16px;
     text-align: center;
 }
-<<<<<<< HEAD
 
 .lista-cursos {
     height: 100%;
@@ -297,7 +302,7 @@ body {
     font-size: 16px;
     margin-bottom: 12px;
     text-align: center;
-    color: var(--cor-azul-escuro);
+    color: var(--cor-verde-escuro);
 }
 
 .curso-item {
@@ -317,7 +322,7 @@ body {
 .curso-nome {
     font-size: 14px;
     font-weight: 700;
-    color: var(--cor-azul-escuro);
+    color: var(--cor-verde-escuro);
 }
 
 .curso-info {
@@ -336,5 +341,3 @@ body {
 .curso-item.ativo .curso-info {
     display: block;
 }
-=======
->>>>>>> 2561d574733f09d4ede3b417384055e1cc21016a
