@@ -20,57 +20,37 @@ public class NotificacaoSlack extends Notificacao{
     @Override
     public void enviar() {
         try {
+            HttpClient client = HttpClient.newHttpClient();
 
-            HttpClient client =
-                    HttpClient.newHttpClient();
+            ObjectMapper mapper = new ObjectMapper();
 
-            ObjectMapper mapper =
-                    new ObjectMapper();
-
-            SlackDto dto =
-                    new SlackDto(mensagem);
+            SlackDto dto = new SlackDto(mensagem);
 
             // SERIALIZAÇÃO JSON
-            String json =
-                    mapper.writeValueAsString(dto);
+            String json = mapper.writeValueAsString(dto);
             System.out.println(json);
 
-            HttpRequest request =
-                    HttpRequest.newBuilder()
-                            .uri(URI.create(WEBHOOK_URL))
-                            .header(
-                                    "Content-Type",
-                                    "application/json"
-                            )
-                            .POST(
-                                    HttpRequest.BodyPublishers
-                                            .ofString(json)
-                            )
-                            .build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(WEBHOOK_URL)).header("Content-Type",
+                            "application/json"
+                    )
+                    .POST(
+                            HttpRequest.BodyPublishers.ofString(json)
+                    ).build();
 
-            HttpResponse<String> response =
-                    client.send(
+            HttpResponse<String> response = client.send(
                             request,
                             HttpResponse.BodyHandlers.ofString()
-                    );
-
-            System.out.println(
-                    "Slack status: "
-                            + response.statusCode()
             );
+
+            System.out.println("Slack status: " + response.statusCode());
 
         } catch (
                 IOException |
                 InterruptedException e
         ) {
-
-            System.out.println(
-                    "Erro ao enviar notificação Slack"
-            );
-
+            System.out.println("Erro ao enviar notificação Slack");
             e.printStackTrace();
         }
-
-
     }
 }

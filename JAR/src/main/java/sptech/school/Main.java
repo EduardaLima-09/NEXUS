@@ -228,7 +228,7 @@ public class Main {
             if (nivel.equals("Alto")) {
 
                 String alerta = """
-            🚨 ALERTA DE EVASÃO
+            ALERTA DE EVASÃO
             
             Aluno: %s %s
             Média: %.2f
@@ -291,35 +291,25 @@ public class Main {
         }
 
         catch (Exception e) {
-
             String erro = """
-            ❌ ERRO NO PROCESSAMENTO
+            ERRO NO PROCESSAMENTO
             
             %s
             """.formatted(e.getMessage());
 
-            Notificacao erroSlack =
-                    new NotificacaoSlack(erro);
-
+            Notificacao erroSlack = new NotificacaoSlack(erro);
             erroSlack.enviar();
 
             e.printStackTrace();
         }
 
         System.out.println("\nPROCESSO FINALIZADO!");
-        Notificacao fimSlack =
-                new NotificacaoSlack(
-                        "✅ Processo finalizado com sucesso"
-                );
 
+        Notificacao fimSlack = new NotificacaoSlack("Processo finalizado com sucesso");
         fimSlack.enviar();
 
-        Notificacao fimLog =
-                new NotificacaoLog(
-                        "Processo finalizado",
-                        conexaoBD.getJdbcTemplate()
-                );
-
+        Notificacao fimLog = new NotificacaoLog("Processo finalizado",
+                        conexaoBD.getJdbcTemplate());
         fimLog.enviar();
     }
 }
