@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import sptech.school.slack.Notificacao;
+import sptech.school.slack.NotificacaoLog;
+import sptech.school.slack.NotificacaoSlack;
 
 public class Main {
 
@@ -12,6 +15,15 @@ public class Main {
     public static void main(String[] args) {
 
         ConexaoBD conexaoBD = new ConexaoBD();
+
+        Notificacao inicioLog = new NotificacaoLog(
+                "Processo de carga iniciado", conexaoBD.getJdbcTemplate()
+                );
+        inicioLog.enviar();
+
+        Notificacao inicioSlack = new NotificacaoSlack("🚀 Processo de importação iniciado");
+        inicioSlack.enviar();
+
         LeituraExcel leituraExcel = new LeituraExcel();
 
         List<Curso> cursos = leituraExcel.extrairCursos("BaseDeDados.xlsx");
@@ -213,6 +225,41 @@ public class Main {
 
             String nivel = score < 40 ? "Baixo" : score < 70 ? "Medio" : "Alto";
 
+            if (nivel.equals("Alto")) {
+
+                String alerta = """
+            🚨 ALERTA DE EVASÃO
+            
+            Aluno: %s %s
+            Média: %.2f
+            Frequência: %.2f
+            Score de risco: %.2f
+            """
+                        .formatted(
+                                aluno.getNome(),
+                                aluno.getSobrenome(),
+                                aluno.getMediaGeral(),
+                                aluno.getFrequencia(),
+                                score
+                        );
+
+                // POLIMORFISMO
+                List<Notificacao> notificacoes =
+                        List.of(
+
+                                new NotificacaoLog(
+                                        alerta,
+                                        conexaoBD.getJdbcTemplate()
+                                ),
+
+                                new NotificacaoSlack(alerta)
+                        );
+
+                for (Notificacao n : notificacoes) {
+                    n.enviar();
+                }
+            }
+
             try {
                 conexaoBD.getJdbcTemplate().update(
                         "INSERT INTO IndicadorRisco (score, nivel, dataCalculo, fkAluno) VALUES (?, ?, ?, ?)",
@@ -243,6 +290,36 @@ public class Main {
             Thread.currentThread().interrupt();
         }
 
+        catch (Exception e) {
+
+            String erro = """
+            ❌ ERRO NO PROCESSAMENTO
+            
+            %s
+            """.formatted(e.getMessage());
+
+            Notificacao erroSlack =
+                    new NotificacaoSlack(erro);
+
+            erroSlack.enviar();
+
+            e.printStackTrace();
+        }
+
         System.out.println("\nPROCESSO FINALIZADO!");
+        Notificacao fimSlack =
+                new NotificacaoSlack(
+                        "✅ Processo finalizado com sucesso"
+                );
+
+        fimSlack.enviar();
+
+        Notificacao fimLog =
+                new NotificacaoLog(
+                        "Processo finalizado",
+                        conexaoBD.getJdbcTemplate()
+                );
+
+        fimLog.enviar();
     }
 }
