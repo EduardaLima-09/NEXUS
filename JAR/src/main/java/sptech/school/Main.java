@@ -98,8 +98,9 @@ public class Main {
 
             String sql = "INSERT INTO Aluno (nome, sobrenome, cpf, sexo, email) VALUES (?, ?, ?, ?, ?)";
 
-
             PreparedStatement stmt = conexao.prepareStatement(sql);
+
+            int contador = 0;
 
             for (Aluno aluno : alunos) {
                 String cpf = String.format("%011d", random.nextInt(999999999));
@@ -112,8 +113,13 @@ public class Main {
                 stmt.setString(5, email);
 
                 stmt.addBatch();
-                stmt.executeBatch();
-                conexao.commit();
+
+                contador++;
+
+                if (contador % 500 == 0){
+                    stmt.executeBatch();
+                    conexao.commit();
+                }
             }
 
             stmt.executeBatch();

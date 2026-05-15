@@ -1,7 +1,12 @@
 C:\Users\mathe\Downloads\NEXUS\JAR\src\main\java\sptech\school\Aluno.java
 C:\Users\mathe\Downloads\NEXUS\JAR\src\main\java\sptech\school\ConexaoBD.java
 C:\Users\mathe\Downloads\NEXUS\JAR\src\main\java\sptech\school\Curso.java
+C:\Users\mathe\Downloads\NEXUS\JAR\src\main\java\sptech\school\dto\SlackDto.java
 C:\Users\mathe\Downloads\NEXUS\JAR\src\main\java\sptech\school\LeituraExcel.java
 C:\Users\mathe\Downloads\NEXUS\JAR\src\main\java\sptech\school\Log.java
 C:\Users\mathe\Downloads\NEXUS\JAR\src\main\java\sptech\school\Main.java
 C:\Users\mathe\Downloads\NEXUS\JAR\src\main\java\sptech\school\S3Service.java
+C:\Users\mathe\Downloads\NEXUS\JAR\src\main\java\sptech\school\slack\Notificacao.java
+C:\Users\mathe\Downloads\NEXUS\JAR\src\main\java\sptech\school\slack\NotificacaoLog.java
+C:\Users\mathe\Downloads\NEXUS\JAR\src\main\java\sptech\school\slack\NotificacaoSlack.java
+C:\Users\mathe\Downloads\NEXUS\JAR\src\main\java\sptech\school\slack\TesteSlack.java
