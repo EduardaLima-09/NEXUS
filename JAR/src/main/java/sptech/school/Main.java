@@ -23,8 +23,8 @@ public class Main {
                 );
         inicioLog.enviar();
 
-        Notificacao inicioSlack = new NotificacaoSlack("🚀 Processo de importação iniciado");
-        inicioSlack.enviar();
+        //Notificacao inicioSlack = new NotificacaoSlack("🚀 Processo de importação iniciado");
+        //inicioSlack.enviar();
 
         LeituraExcel leituraExcel = new LeituraExcel();
 
@@ -266,9 +266,9 @@ public class Main {
                                 new NotificacaoLog(
                                         alerta,
                                         conexaoBD.getJdbcTemplate()
-                                ),
+                                )
 
-                                new NotificacaoSlack(alerta)
+                                //new NotificacaoSlack(alerta)
                         );
 
                 for (Notificacao n : notificacoes) {
@@ -314,7 +314,7 @@ public class Main {
             """.formatted(e.getMessage());
 
             Notificacao erroSlack = new NotificacaoSlack(erro);
-            erroSlack.enviar();
+            //erroSlack.enviar();
 
             e.printStackTrace();
         }
@@ -322,7 +322,7 @@ public class Main {
         System.out.println("\nPROCESSO FINALIZADO!");
 
         Notificacao fimSlack = new NotificacaoSlack("Processo finalizado com sucesso");
-        fimSlack.enviar();
+        //fimSlack.enviar();
 
         Notificacao fimLog = new NotificacaoLog("Processo finalizado",
                         conexaoBD.getJdbcTemplate());
