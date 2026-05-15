@@ -161,145 +161,185 @@ public class Main {
 
         String[] motivos = {"Financeiro", "Mudança", "Desempenho", "Pessoal", "Saúde", "Trabalho"};
 
-        for (int i = 0; i < alunos.size(); i++) {
+        try {
 
-            Aluno aluno = alunos.get(i);
+            Connection conexao =
+                    conexaoBD.getBasicDataSource().getConnection();
 
-            int fkAluno = i + 1;
-            int fkCurso = idsCursos.get(i % idsCursos.size());
+            conexao.setAutoCommit(false);
 
-            LocalDate dataIngresso = LocalDate.now().minusYears(random.nextInt(4) + 1);
+            PreparedStatement stmtMatricula =
+                    conexao.prepareStatement(
+                            """
+                            INSERT INTO Matricula
+                            (fkCurso, fkAluno, data_ingresso, evadiu, motivoEvasao, dataEvasao)
+                            VALUES (?, ?, ?, ?, ?, ?)
+                            """
+                    );
 
-            int[] evadiuLista = {0, 1};
-            int evadiu = evadiuLista[random.nextInt(evadiuLista.length)];
+            PreparedStatement stmtHistorico =
+                    conexao.prepareStatement(
+                            """
+                            INSERT INTO Historico
+                            (fkAluno, fkDisciplina, semestre, nota, frequencia)
+                            VALUES (?, ?, ?, ?, ?)
+                            """
+                    );
 
-            String motivoEvasao = null;
-            LocalDate dataEvasao = null;
+            PreparedStatement stmtPagamento =
+                    conexao.prepareStatement(
+                            """
+                            INSERT INTO Pagamento
+                            (mesReferencia, valor, statusPagamento, fkAluno)
+                            VALUES (?, ?, ?, ?)
+                            """
+                    );
 
-            if (evadiu == 1) {
-                motivoEvasao = motivos[random.nextInt(motivos.length)];
-                dataEvasao = dataIngresso.plusMonths(random.nextInt(24) + 1);
-            }
+            PreparedStatement stmtIndicador =
+                    conexao.prepareStatement(
+                            """
+                            INSERT INTO IndicadorRisco
+                            (score, nivel, dataCalculo, fkAluno)
+                            VALUES (?, ?, ?, ?)
+                            """
+                    );
 
-            try {
-                conexaoBD.getJdbcTemplate().update(
-                        "INSERT INTO Matricula (fkCurso, fkAluno, data_ingresso, evadiu, motivoEvasao, dataEvasao) VALUES (?, ?, ?, ?, ?, ?)",
-                        fkCurso,
-                        fkAluno,
-                        dataIngresso,
-                        evadiu,
-                        motivoEvasao,
-                        dataEvasao
-                );
+            int contador = 0;
 
-                String msg = "Matricula criada para aluno " + fkAluno;
-                System.out.println(msg);
+            String[] statusList = {
+                    "Pago",
+                    "Pendente",
+                    "Atrasado"
+            };
 
-                conexaoBD.getJdbcTemplate().update(
-                        "INSERT INTO Logs (mensagem, dataHora) VALUES (?, NOW())",
-                        msg
-                );
+            for (int i = 0; i < alunos.size(); i++) {
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                Aluno aluno = alunos.get(i);
 
-            int semestre = random.nextInt(8) + 1;
+                int fkAluno = i + 1;
+                int fkCurso = idsCursos.get(i % idsCursos.size());
 
-            try {
-                conexaoBD.getJdbcTemplate().update(
-                        "INSERT INTO Historico (fkAluno, fkDisciplina, semestre, nota, frequencia) VALUES (?, ?, ?, ?, ?)",
-                        fkAluno,
-                        1,
-                        semestre,
-                        aluno.getMediaGeral(),
-                        aluno.getFrequencia()
-                );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            String[] statusList = {"Pago", "Pendente", "Atrasado"};
-            String statusPagamento = statusList[random.nextInt(statusList.length)];
-
-            try {
-                conexaoBD.getJdbcTemplate().update(
-                        "INSERT INTO Pagamento (mesReferencia, valor, statusPagamento, fkAluno) VALUES (?, ?, ?, ?)",
-                        LocalDate.now(),
-                        500.0,
-                        statusPagamento,
-                        fkAluno
-                );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            double nota = aluno.getMediaGeral();
-            double freq = aluno.getFrequencia();
-
-            double riscoNota = nota >= 7 ? 10 : nota >= 5 ? 40 : nota >= 3 ? 70 : 90;
-            double riscoFreq = freq >= 85 ? 10 : freq >= 70 ? 40 : freq >= 50 ? 70 : 90;
-            double riscoFin = statusPagamento.equals("Pago") ? 10 : 70;
-
-            double score = (riscoNota * 0.40) + (riscoFreq * 0.35) + (riscoFin * 0.25);
-
-            String nivel = score < 40 ? "Baixo" : score < 70 ? "Medio" : "Alto";
-
-            if (nivel.equals("Alto")) {
-
-                String alerta = """
-            ALERTA DE EVASÃO
-            
-            Aluno: %s %s
-            Média: %.2f
-            Frequência: %.2f
-            Score de risco: %.2f
-            """
-                        .formatted(
-                                aluno.getNome(),
-                                aluno.getSobrenome(),
-                                aluno.getMediaGeral(),
-                                aluno.getFrequencia(),
-                                score
+                LocalDate dataIngresso =
+                        LocalDate.now().minusYears(
+                                random.nextInt(4) + 1
                         );
 
-                // POLIMORFISMO
-                List<Notificacao> notificacoes =
-                        List.of(
+                int evadiu = random.nextBoolean() ? 1 : 0;
 
-                                new NotificacaoLog(
-                                        alerta,
-                                        conexaoBD.getJdbcTemplate()
-                                )
+                String motivoEvasao = null;
+                LocalDate dataEvasao = null;
 
-                                //new NotificacaoSlack(alerta)
-                        );
+                if (evadiu == 1) {
 
-                for (Notificacao n : notificacoes) {
-                    n.enviar();
+                    motivoEvasao =
+                            motivos[random.nextInt(motivos.length)];
+
+                    dataEvasao =
+                            dataIngresso.plusMonths(
+                                    random.nextInt(24) + 1
+                            );
+                }
+
+                stmtMatricula.setInt(1, fkCurso);
+                stmtMatricula.setInt(2, fkAluno);
+                stmtMatricula.setObject(3, dataIngresso);
+                stmtMatricula.setInt(4, evadiu);
+                stmtMatricula.setString(5, motivoEvasao);
+                stmtMatricula.setObject(6, dataEvasao);
+
+                stmtMatricula.addBatch();
+
+                int semestre = random.nextInt(8) + 1;
+
+                stmtHistorico.setInt(1, fkAluno);
+                stmtHistorico.setInt(2, 1);
+                stmtHistorico.setInt(3, semestre);
+                stmtHistorico.setDouble(4, aluno.getMediaGeral());
+                stmtHistorico.setDouble(5, aluno.getFrequencia());
+
+                stmtHistorico.addBatch();
+
+                String statusPagamento =
+                        statusList[random.nextInt(statusList.length)];
+
+                stmtPagamento.setObject(1, LocalDate.now());
+                stmtPagamento.setDouble(2, 500.0);
+                stmtPagamento.setString(3, statusPagamento);
+                stmtPagamento.setInt(4, fkAluno);
+
+                stmtPagamento.addBatch();
+
+                double nota = aluno.getMediaGeral();
+                double freq = aluno.getFrequencia();
+
+                double riscoNota =
+                        nota >= 7 ? 10 :
+                                nota >= 5 ? 40 :
+                                        nota >= 3 ? 70 : 90;
+
+                double riscoFreq =
+                        freq >= 85 ? 10 :
+                                freq >= 70 ? 40 :
+                                        freq >= 50 ? 70 : 90;
+
+                double riscoFin =
+                        statusPagamento.equals("Pago") ? 10 : 70;
+
+                double score =
+                        (riscoNota * 0.40) +
+                                (riscoFreq * 0.35) +
+                                (riscoFin * 0.25);
+
+                String nivel =
+                        score < 40 ? "Baixo" :
+                                score < 70 ? "Medio" : "Alto";
+
+                stmtIndicador.setDouble(1, score);
+                stmtIndicador.setString(2, nivel);
+                stmtIndicador.setObject(3, LocalDate.now());
+                stmtIndicador.setInt(4, fkAluno);
+
+                stmtIndicador.addBatch();
+
+                contador++;
+
+                if (contador % 500 == 0) {
+
+                    stmtMatricula.executeBatch();
+                    stmtHistorico.executeBatch();
+                    stmtPagamento.executeBatch();
+                    stmtIndicador.executeBatch();
+
+                    conexao.commit();
+
+                    System.out.println(
+                            contador +
+                                    " registros processados..."
+                    );
                 }
             }
 
-            try {
-                conexaoBD.getJdbcTemplate().update(
-                        "INSERT INTO IndicadorRisco (score, nivel, dataCalculo, fkAluno) VALUES (?, ?, ?, ?)",
-                        score,
-                        nivel,
-                        LocalDate.now(),
-                        fkAluno
-                );
+            stmtMatricula.executeBatch();
+            stmtHistorico.executeBatch();
+            stmtPagamento.executeBatch();
+            stmtIndicador.executeBatch();
 
-                String msg = "Indicador gerado para aluno " + fkAluno + " | Score: " + score;
-                System.out.println(msg);
+            conexao.commit();
 
-                conexaoBD.getJdbcTemplate().update(
-                        "INSERT INTO Logs (mensagem, dataHora) VALUES (?, NOW())",
-                        msg
-                );
+            stmtMatricula.close();
+            stmtHistorico.close();
+            stmtPagamento.close();
+            stmtIndicador.close();
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            conexao.close();
+
+            System.out.println(
+                    "PROCESSAMENTO FINALIZADO!"
+            );
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
 
         carregando = false;
