@@ -119,6 +119,8 @@ public class Main {
                 if (contador % 500 == 0){
                     stmt.executeBatch();
                     conexao.commit();
+
+                    System.out.println(contador + " alunos inseridos...");
                 }
             }
 
@@ -127,6 +129,8 @@ public class Main {
 
             stmt.close();
             conexao.close();
+
+            System.out.println("Todos os alunos inseridos!");
 
         } catch (Exception e) {
 
