@@ -7,6 +7,8 @@ import java.util.Random;
 import sptech.school.slack.Notificacao;
 import sptech.school.slack.NotificacaoLog;
 import sptech.school.slack.NotificacaoSlack;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 public class Main {
 
@@ -89,32 +91,40 @@ public class Main {
 
         System.out.println("\n===== INSERINDO ALUNOS =====");
 
-        for (Aluno aluno : alunos) {
+        try {
+            Connection conexao = conexaoBD.getBasicDataSource().getConnection();
 
-            String cpf = String.format("%011d", random.nextInt(999999999));
-            String email = "aluno" + aluno.getId() + "@gmail.com";
+            conexao.setAutoCommit(false);
 
-            try {
-                conexaoBD.getJdbcTemplate().update(
-                        "INSERT INTO Aluno (nome, sobrenome, cpf, sexo, email) VALUES (?, ?, ?, ?, ?)",
-                        aluno.getNome(),
-                        aluno.getSobrenome(),
-                        cpf,
-                        aluno.getSexo(),
-                        email
-                );
+            String sql = "INSERT INTO Aluno (nome, sobrenome, cpf, sexo, email) VALUES (?, ?, ?, ?, ?)";
 
-                String msg = "Aluno inserido: " + aluno.getNome();
-                System.out.println(msg);
 
-                conexaoBD.getJdbcTemplate().update(
-                        "INSERT INTO Logs (mensagem, dataHora) VALUES (?, NOW())",
-                        msg
-                );
+            PreparedStatement stmt = conexao.prepareStatement(sql);
 
-            } catch (Exception e) {
-                e.printStackTrace();
+            for (Aluno aluno : alunos) {
+                String cpf = String.format("%011d", random.nextInt(999999999));
+                String email = "aluno" + aluno.getId() + "@gmail.com";
+
+                stmt.setString(1, aluno.getNome());
+                stmt.setString(2, aluno.getSobrenome());
+                stmt.setString(3, cpf);
+                stmt.setString(4, aluno.getSexo());
+                stmt.setString(5, email);
+
+                stmt.addBatch();
+                stmt.executeBatch();
+                conexao.commit();
             }
+
+            stmt.executeBatch();
+            conexao.commit();
+
+            stmt.close();
+            conexao.close();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
 
         System.out.println("\n===== INSERINDO DISCIPLINAS =====");
