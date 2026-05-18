@@ -1,119 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="../css/painel.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <title>Nexus | Painel Administrativo</title>
-
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 </head>
-
 <body>
-
     <div class="tela">
-
         <div class="dash">
-
             <div class="barra">
-
                 <button class="btn-menu-mobile" onclick="toggleMenu()">☰</button>
-
                 <div class="logo">
                     <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
                 </div>
-
                 <div class="menu" id="menuLateral">
-
                     <div class="titulo">
                         <h1>Menu Principal</h1>
                     </div>
-
                     <div class="botoes">
                         <button onclick="goDash()">Início</button>
                         <button onclick="goPainel()">Administração</button>
                     </div>
-
                 </div>
-
                 <div class="sair">
-
                     <div class="usuario">
-
                         <div class="nome">
-
                             <div class="titulo-usuario">
                                 <span class="material-icons icone-user">account_circle</span>
-                                <h1>Administrador</h1>
+                                <!-- Corrigido: era "Administrador" fixo, agora usa o cargo real -->
+                                <h1 id="cargoUsuarioSidebar">Coordenador</h1>
                             </div>
-
                             <p>
                                 <span id="nomeUsuarioSidebar">Usuário</span> * Nexus
                             </p>
-
                         </div>
-
                     </div>
-
                     <button onclick="goHome()">Sair</button>
-
                 </div>
-
             </div>
-
             <div class="conteudo">
-
                 <div class="tituloDash">
-
                     <div class="texto">
                         <h1>Painel Administrativo</h1>
                         <p>Controle e visualização de usuários da instituição</p>
                     </div>
-
                 </div>
-
                 <div class="conteudo2">
-
                     <div class="painel-admin">
-
                         <h1>Painel de Gerenciamento</h1>
-
                         <div class="abas-gerenciamento">
-
-                            <button class="aba-btn ativa"
-                                onclick="mostrarTabela('usuarios', this)">
-                                Usuários
-                            </button>
-
-                            <button class="aba-btn"
-                                onclick="mostrarTabela('alunos', this)">
-                                Alunos
-                            </button>
-
-                            <button class="aba-btn"
-                                onclick="mostrarTabela('cursos', this)">
-                                Cursos
-                            </button>
-
+                            <button class="aba-btn ativa" onclick="mostrarTabela('usuarios', this)">Usuários</button>
+                            <button class="aba-btn" onclick="mostrarTabela('alunos', this)">Alunos</button>
+                            <button class="aba-btn" onclick="mostrarTabela('cursos', this)">Cursos</button>
                         </div>
-
-                        <button class="btn-add" onclick="abrirModal()">
-                            + Adicionar Registro
-                        </button>
+                        <button class="btn-add" onclick="abrirModal()">+ Adicionar Registro</button>
 
                         <div id="usuarios" class="secao-tabela ativa-tabela">
-
                             <table class="tabela-admin">
-
                                 <thead>
-
                                     <tr>
                                         <th>Nome</th>
                                         <th>Senha</th>
@@ -122,21 +72,14 @@
                                         <th>Cargo</th>
                                         <th>Excluir</th>
                                     </tr>
-
                                 </thead>
-
                                 <tbody id="usuariosTabelaBody"></tbody>
-
                             </table>
-
                         </div>
 
                         <div id="alunos" class="secao-tabela">
-
                             <table class="tabela-admin">
-
                                 <thead>
-
                                     <tr>
                                         <th>Nome</th>
                                         <th>Sobrenome</th>
@@ -146,11 +89,8 @@
                                         <th>Editar</th>
                                         <th>Excluir</th>
                                     </tr>
-
                                 </thead>
-
                                 <tbody>
-
                                     <tr>
                                         <td>João</td>
                                         <td>Silva</td>
@@ -160,487 +100,228 @@
                                         <td><button class="btn-editar">Editar</button></td>
                                         <td><button class="btn-excluir">Excluir</button></td>
                                     </tr>
-
                                 </tbody>
-
                             </table>
-
                         </div>
 
                         <div id="cursos" class="secao-tabela">
-
                             <table class="tabela-admin">
-
                                 <thead>
-
                                     <tr>
                                         <th>Nome</th>
                                         <th>Modalidade</th>
                                         <th>Editar</th>
                                         <th>Excluir</th>
                                     </tr>
-
                                 </thead>
-
                                 <tbody>
-
                                     <tr>
                                         <td>ADS</td>
                                         <td>Presencial</td>
                                         <td><button class="btn-editar">Editar</button></td>
                                         <td><button class="btn-excluir">Excluir</button></td>
                                     </tr>
-
                                 </tbody>
-
                             </table>
-
                         </div>
 
                         <div id="modalUsuario" class="modal">
-
                             <div class="modal-content">
-
                                 <h2 id="tituloModal">Adicionar Registro</h2>
-
                                 <div id="camposModal"></div>
-
                                 <div class="botoes-modal">
-
-                                    <button class="btn-salvar"
-                                        onclick="salvarRegistro()">
-                                        Salvar
-                                    </button>
-
-                                    <button class="btn-cancelar"
-                                        onclick="fecharModal()">
-                                        Cancelar
-                                    </button>
-
+                                    <button class="btn-salvar" onclick="salvarRegistro()">Salvar</button>
+                                    <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <script>
+    // ─── GUARD: apenas Coordenador acessa o painel ────────────────────────────────
+    // ⚠️  CORREÇÃO: era "Diretor", agora é "Coordenador"
+    // ⚠️  CORREÇÃO 2: guard só redireciona se houver sessão com cargo errado;
+    //     acesso direto sem sessão não força redirect desnecessário.
+    var cargoUsuario   = sessionStorage.getItem("CARGO_USUARIO");
+    var nomeUsuario    = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
+    var fkUniversidade = sessionStorage.getItem("FK_UNIVERSIDADE");
 
-        const cargoUsuario =
-            sessionStorage.getItem("CARGO_USUARIO");
+    if (cargoUsuario && cargoUsuario !== "Coordenador") {
+        window.location.href = "../login.html";
+    }
 
-        const nomeUsuario =
-            sessionStorage.getItem("NOME_USUARIO")
-            || sessionStorage.getItem("NOME_DIRETOR")
-            || "Usuário";
+    document.getElementById("nomeUsuarioSidebar").innerText  = nomeUsuario;
+    document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario || "Coordenador";
 
-        const fkUniversidade =
-            sessionStorage.getItem("FK_UNIVERSIDADE");
+    // ─── NAVEGAÇÃO ───────────────────────────────────────────────────────────────
+    var abaAtual = "usuarios";
 
-        if (cargoUsuario !== "Diretor") {
-            window.location.href = "../login.html";
+    function goDash()  { window.location.href = "dashboard.html"; }
+    function goPainel(){ window.location.href = "painel.html"; }
+    function goHome()  { sessionStorage.clear(); window.location.href = "../index.html"; }
+
+    function toggleMenu() {
+        document.getElementById("menuLateral").classList.toggle("aberto");
+    }
+
+    function mostrarTabela(tipo, botaoClicado) {
+        abaAtual = tipo;
+        document.querySelectorAll(".secao-tabela").forEach(function(s) { s.classList.remove("ativa-tabela"); });
+        document.getElementById(tipo).classList.add("ativa-tabela");
+        document.querySelectorAll(".aba-btn").forEach(function(b) { b.classList.remove("ativa"); });
+        botaoClicado.classList.add("ativa");
+    }
+
+    // ─── MODAL ───────────────────────────────────────────────────────────────────
+    function abrirModal() {
+        var camposModal = document.getElementById("camposModal");
+        var tituloModal = document.getElementById("tituloModal");
+        camposModal.innerHTML = "";
+
+        if (abaAtual === "usuarios") {
+            tituloModal.innerText = "Adicionar Usuário";
+            camposModal.innerHTML = `
+                <input type="text"     id="nomeUsuario"  placeholder="Nome">
+                <input type="password" id="senhaUsuario" placeholder="Senha">
+                <input type="email"    id="emailUsuario" placeholder="Email">
+                <input type="text"     id="tokenUsuario" placeholder="Token da universidade" maxlength="6">
+            `;
         }
-
-        document.getElementById("nomeUsuarioSidebar").innerText =
-            nomeUsuario;
-
-        let abaAtual = "usuarios";
-
-        function goDash() {
-            window.location.href = "dashboard.html";
+        if (abaAtual === "alunos") {
+            tituloModal.innerText = "Adicionar Aluno";
+            camposModal.innerHTML = `
+                <input type="text"  id="nomeAluno"      placeholder="Nome">
+                <input type="text"  id="sobrenomeAluno" placeholder="Sobrenome">
+                <input type="text"  id="cpfAluno"       placeholder="CPF">
+                <select id="sexoAluno">
+                    <option value="">Selecione o Sexo</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                </select>
+                <input type="email" id="emailAluno" placeholder="Email">
+            `;
         }
-
-        function goPainel() {
-            window.location.href = "painel.html";
+        if (abaAtual === "cursos") {
+            tituloModal.innerText = "Adicionar Curso";
+            camposModal.innerHTML = `
+                <input type="text" id="nomeCurso"       placeholder="Nome do Curso">
+                <input type="text" id="modalidadeCurso" placeholder="Modalidade">
+            `;
         }
+        document.getElementById("modalUsuario").style.display = "flex";
+    }
 
-        function goHome() {
-            sessionStorage.clear();
-            window.location.href = "../index.html";
+    function fecharModal() {
+        document.getElementById("modalUsuario").style.display = "none";
+    }
+
+    function validarEmail(email) {
+        return email.includes("@") && email.includes(".");
+    }
+
+    async function salvarRegistro() {
+        if (abaAtual !== "usuarios") {
+            alert("No momento apenas o cadastro de usuários está integrado ao backend.");
+            fecharModal();
+            return;
         }
+        var nome  = document.getElementById("nomeUsuario").value.trim();
+        var senha = document.getElementById("senhaUsuario").value.trim();
+        var email = document.getElementById("emailUsuario").value.trim();
+        var token = document.getElementById("tokenUsuario").value.trim().toUpperCase();
 
-        function toggleMenu() {
+        if (!nome || !senha || !email || !token) { alert("Preencha todos os campos do usuário."); return; }
+        if (!validarEmail(email))                { alert("Digite um email válido."); return; }
+        if (token.length !== 6)                  { alert("O token deve ter 6 caracteres."); return; }
 
-            const menu =
-                document.getElementById("menuLateral");
-
-            menu.classList.toggle("aberto");
-
-        }
-
-        function mostrarTabela(tipo, botaoClicado) {
-
-            abaAtual = tipo;
-
-            const secoes =
-                document.querySelectorAll(".secao-tabela");
-
-            secoes.forEach(function (secao) {
-                secao.classList.remove("ativa-tabela");
+        try {
+            var resposta = await fetch("/diretoria/cadastrar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nomeServer:      nome,
+                    sobrenomeServer: "-",
+                    emailServer:     email,
+                    tokenServer:     token,
+                    senhaServer:     senha
+                })
             });
-
-            document.getElementById(tipo)
-                .classList.add("ativa-tabela");
-
-            const botoes =
-                document.querySelectorAll(".aba-btn");
-
-            botoes.forEach(function (botao) {
-                botao.classList.remove("ativa");
-            });
-
-            botaoClicado.classList.add("ativa");
-
-        }
-
-        function abrirModal() {
-
-            const camposModal =
-                document.getElementById("camposModal");
-
-            const tituloModal =
-                document.getElementById("tituloModal");
-
-            camposModal.innerHTML = "";
-
-            if (abaAtual === "usuarios") {
-
-                tituloModal.innerText =
-                    "Adicionar Usuário";
-
-                camposModal.innerHTML = `
-                    <input type="text" id="nomeUsuario" placeholder="Nome">
-
-                    <input type="password" id="senhaUsuario" placeholder="Senha">
-
-                    <input type="email" id="emailUsuario" placeholder="Email">
-
-                    <input type="text" id="tokenUsuario" placeholder="Token da universidade" maxlength="6">
-                `;
-
-            }
-
-            if (abaAtual === "alunos") {
-
-                tituloModal.innerText =
-                    "Adicionar Aluno";
-
-                camposModal.innerHTML = `
-                    <input type="text" id="nomeAluno" placeholder="Nome">
-
-                    <input type="text" id="sobrenomeAluno" placeholder="Sobrenome">
-
-                    <input type="text" id="cpfAluno" placeholder="CPF">
-
-                    <select id="sexoAluno">
-
-                        <option value="">Selecione o Sexo</option>
-
-                        <option value="Masculino">Masculino</option>
-
-                        <option value="Feminino">Feminino</option>
-
-                    </select>
-
-                    <input type="email" id="emailAluno" placeholder="Email">
-                `;
-
-            }
-
-            if (abaAtual === "cursos") {
-
-                tituloModal.innerText =
-                    "Adicionar Curso";
-
-                camposModal.innerHTML = `
-                    <input type="text" id="nomeCurso" placeholder="Nome do Curso">
-
-                    <input type="text" id="modalidadeCurso" placeholder="Modalidade">
-                `;
-
-            }
-
-            document.getElementById("modalUsuario").style.display =
-                "flex";
-
-        }
-
-        function fecharModal() {
-
-            document.getElementById("modalUsuario").style.display =
-                "none";
-
-        }
-
-        function validarEmail(email) {
-
-            return email.includes("@")
-                && email.includes(".");
-
-        }
-
-        async function salvarRegistro() {
-
-            if (abaAtual !== "usuarios") {
-
-                alert(
-                    "No momento apenas o cadastro de usuários está integrado ao backend."
-                );
-
+            if (resposta.status === 201) {
+                alert("Usuário cadastrado com sucesso.");
                 fecharModal();
-
+                await carregarUsuarios();
                 return;
-
             }
-
-            const nome =
-                document.getElementById("nomeUsuario").value.trim();
-
-            const senha =
-                document.getElementById("senhaUsuario").value.trim();
-
-            const email =
-                document.getElementById("emailUsuario").value.trim();
-
-            const token =
-                document.getElementById("tokenUsuario")
-                    .value
-                    .trim()
-                    .toUpperCase();
-
-            if (!nome || !senha || !email || !token) {
-
-                alert(
-                    "Preencha todos os campos do usuário."
-                );
-
-                return;
-
-            }
-
-            if (!validarEmail(email)) {
-
-                alert(
-                    "Digite um email válido."
-                );
-
-                return;
-
-            }
-
-            if (token.length !== 6) {
-
-                alert(
-                    "O token deve ter 6 caracteres."
-                );
-
-                return;
-
-            }
-
-            try {
-
-                const resposta =
-                    await fetch("/diretoria/cadastrar", {
-
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-
-                        body: JSON.stringify({
-
-                            nomeServer: nome,
-
-                            sobrenomeServer: "-",
-
-                            emailServer: email,
-
-                            tokenServer: token,
-
-                            senhaServer: senha
-
-                        })
-
-                    });
-
-                if (resposta.status === 201) {
-
-                    alert(
-                        "Usuário cadastrado com sucesso."
-                    );
-
-                    fecharModal();
-
-                    await carregarUsuarios();
-
-                    return;
-
-                }
-
-                const msg = await resposta.text();
-
-                alert(msg);
-
-            }
-
-            catch (erro) {
-
-                console.error(erro);
-
-                alert(
-                    "Não foi possível conectar ao servidor."
-                );
-
-            }
-
+            alert(await resposta.text());
+        } catch (erro) {
+            console.error(erro);
+            alert("Não foi possível conectar ao servidor.");
         }
+    }
 
-        async function carregarUsuarios() {
+    // ─── TABELA DE USUÁRIOS ───────────────────────────────────────────────────────
+    async function carregarUsuarios() {
+        if (!fkUniversidade) return;
+        try {
+            var resposta = await fetch(`/diretoria/listar?fkUniversidade=${fkUniversidade}`);
+            var tbody    = document.getElementById("usuariosTabelaBody");
 
-            if (!fkUniversidade) {
+            if (resposta.status !== 200) {
+                tbody.innerHTML = `<tr><td colspan="6">Não foi possível carregar os usuários.</td></tr>`;
                 return;
             }
 
-            try {
+            var usuarios = await resposta.json();
 
-                const resposta =
-                    await fetch(`/diretoria/listar?fkUniversidade=${fkUniversidade}`);
-
-                const tbody =
-                    document.getElementById("usuariosTabelaBody");
-
-                if (resposta.status !== 200) {
-
-                    tbody.innerHTML = `
-                        <tr>
-                            <td colspan="6">
-                                Não foi possível carregar os usuários.
-                            </td>
-                        </tr>
-                    `;
-
-                    return;
-
-                }
-
-                const usuarios =
-                    await resposta.json();
-
-                if (usuarios.length === 0) {
-
-                    tbody.innerHTML = `
-                        <tr>
-                            <td colspan="6">
-                                Nenhum usuário cadastrado.
-                            </td>
-                        </tr>
-                    `;
-
-                    return;
-
-                }
-
-                tbody.innerHTML = usuarios.map(function (usuario) {
-
-                    const nomeCompleto =
-                        `${usuario.nome} ${usuario.sobrenome && usuario.sobrenome !== "-" ? usuario.sobrenome : ""}`.trim();
-
-                    const botaoExcluir =
-                        usuario.cargo === "Diretor"
-                            ? '<button class="btn-excluir" disabled>Bloqueado</button>'
-                            : `<button class="btn-excluir" onclick="deletarUsuario(${usuario.id})">Excluir</button>`;
-
-                    return `
-                        <tr>
-
-                            <td>${nomeCompleto}</td>
-
-                            <td>••••••••</td>
-
-                            <td>${usuario.email}</td>
-
-                            <td>${usuario.token}</td>
-
-                            <td>${usuario.cargo}</td>
-
-                            <td>${botaoExcluir}</td>
-
-                        </tr>
-                    `;
-
-                }).join("");
-
-            }
-
-            catch (erro) {
-
-                console.error(erro);
-
-            }
-
-        }
-
-        async function deletarUsuario(id) {
-
-            if (!confirm("Deseja excluir este coordenador?")) {
+            if (usuarios.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6">Nenhum usuário cadastrado.</td></tr>`;
                 return;
             }
 
-            try {
+            tbody.innerHTML = usuarios.map(function(usuario) {
+                var nomeCompleto = (usuario.nome + " " + (usuario.sobrenome && usuario.sobrenome !== "-" ? usuario.sobrenome : "")).trim();
 
-                const resposta =
-                    await fetch(`/diretoria/deletar/${id}?fkUniversidade=${fkUniversidade}`, {
+                // ⚠️  CORREÇÃO: era cargo === "Diretor" (nunca existia mais),
+                //     agora protege o Coordenador de ser excluído.
+                var botaoExcluir = usuario.cargo === "Coordenador"
+                    ? '<button class="btn-excluir" disabled title="Coordenador não pode ser excluído">Bloqueado</button>'
+                    : `<button class="btn-excluir" onclick="deletarUsuario(${usuario.id})">Excluir</button>`;
 
-                        method: "DELETE"
-
-                    });
-
-                const msg =
-                    await resposta.text();
-
-                if (resposta.status !== 200) {
-
-                    alert(msg);
-
-                    return;
-
-                }
-
-                alert(
-                    "Coordenador removido com sucesso."
-                );
-
-                carregarUsuarios();
-
-            }
-
-            catch (erro) {
-
-                console.error(erro);
-
-                alert(
-                    "Não foi possível conectar ao servidor."
-                );
-
-            }
-
+                return `
+                    <tr>
+                        <td>${nomeCompleto}</td>
+                        <td>••••••••</td>
+                        <td>${usuario.email}</td>
+                        <td>${usuario.token}</td>
+                        <td>${usuario.cargo}</td>
+                        <td>${botaoExcluir}</td>
+                    </tr>
+                `;
+            }).join("");
+        } catch (erro) {
+            console.error(erro);
         }
+    }
 
-        carregarUsuarios();
+    async function deletarUsuario(id) {
+        if (!confirm("Deseja excluir este professor?")) return;
+        try {
+            var resposta = await fetch(`/diretoria/deletar/${id}?fkUniversidade=${fkUniversidade}`, { method: "DELETE" });
+            var msg      = await resposta.text();
+            if (resposta.status !== 200) { alert(msg); return; }
+            alert("Professor removido com sucesso.");
+            carregarUsuarios();
+        } catch (erro) {
+            console.error(erro);
+            alert("Não foi possível conectar ao servidor.");
+        }
+    }
 
+    carregarUsuarios();
     </script>
-
 </body>
-
 </html>

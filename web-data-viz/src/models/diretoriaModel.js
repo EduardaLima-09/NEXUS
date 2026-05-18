@@ -6,11 +6,12 @@ function buscarUniversidadePorToken(token) {
         FROM Universidade
         WHERE token = '${token}';
     `;
-
     return database.executar(instrucaoSql);
 }
 
 function cadastrar(nome, sobrenome, email, senha, token, fkUniversidade) {
+    // Primeira pessoa da universidade vira Coordenador,
+    // as demais viram Professor.
     var instrucaoSql = `
         INSERT INTO Usuario (nome, sobrenome, email, senha, token, cargo, fkUniversidade)
         SELECT
@@ -20,30 +21,27 @@ function cadastrar(nome, sobrenome, email, senha, token, fkUniversidade) {
             '${senha}',
             '${token}',
             CASE
-                WHEN contagem.qtdDiretores = 0 THEN 'Diretor'
-                ELSE 'Coordenador'
+                WHEN contagem.qtdCoordenadores = 0 THEN 'Coordenador'
+                ELSE 'Professor'
             END,
             '${fkUniversidade}'
         FROM (
-            SELECT COUNT(*) AS qtdDiretores
+            SELECT COUNT(*) AS qtdCoordenadores
             FROM Usuario
             WHERE fkUniversidade = '${fkUniversidade}'
-              AND cargo = 'Diretor'
+              AND cargo = 'Coordenador'
         ) AS contagem;
     `;
-
     return database.executar(instrucaoSql);
 }
 
 function autenticar(email, senha) {
     console.log("Autenticando usuário:", email);
-
     var instrucaoSql = `
         SELECT id, nome, sobrenome, email, cargo, fkUniversidade
         FROM Usuario
         WHERE email = '${email}' AND senha = '${senha}';
     `;
-
     console.log("Executando SQL:\n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
@@ -55,23 +53,22 @@ function listarPorUniversidade(fkUniversidade) {
         WHERE fkUniversidade = '${fkUniversidade}'
         ORDER BY
             CASE
-                WHEN cargo = 'Diretor' THEN 0
+                WHEN cargo = 'Coordenador' THEN 0
                 ELSE 1
             END,
             nome;
     `;
-
     return database.executar(instrucaoSql);
 }
 
 function deletar(id, fkUniversidade) {
+    // Coordenador só pode deletar Professores da sua universidade
     var instrucaoSql = `
         DELETE FROM Usuario
         WHERE id = '${id}'
           AND fkUniversidade = '${fkUniversidade}'
-          AND cargo = 'Coordenador';
+          AND cargo = 'Professor';
     `;
-
     return database.executar(instrucaoSql);
 }
 

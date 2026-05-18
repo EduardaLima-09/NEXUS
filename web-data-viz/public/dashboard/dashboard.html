@@ -1,922 +1,391 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-
     <title>Nexus | Dashboard</title>
-
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 </head>
-
 <body onload="carregarDashboard();">
-
     <div class="tela">
-
         <div class="dash">
-
             <div class="barra">
-
                 <div class="logo">
                     <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
                 </div>
-
                 <div class="menu">
-
                     <div class="titulo">
                         <h1>Menu Principal</h1>
                     </div>
-
                     <div class="botoes">
                         <button onclick="goDash()">Início</button>
                         <button onclick="goPainel()">Administração</button>
                     </div>
-
                 </div>
-
                 <div class="sair">
-
                     <div class="usuario">
-
                         <div class="nome">
-
                             <div class="titulo-usuario">
                                 <span class="material-icons icone-user">account_circle</span>
-                                <h1 id="cargoUsuarioSidebar">Diretor</h1>
+                                <!-- Cargo preenchido dinamicamente pelo JS -->
+                                <h1 id="cargoUsuarioSidebar">Coordenador</h1>
                             </div>
-
                             <p id="nomeUsuarioSidebar"></p>
-
                         </div>
-
                     </div>
-
                     <button onclick="goHome()">Sair</button>
-
                 </div>
-
             </div>
-
             <div class="conteudo">
-
                 <div class="tituloDash">
-
                     <div class="texto">
                         <h1>Bem-vindo(a), <span id="nomeUsuario"></span></h1>
                         <p>Visão geral da instituição referente ao último semestre</p>
                     </div>
-
                 </div>
-
                 <div class="conteudo2">
-
                     <div class="insights">
-
                         <div class="cards" id="kpi-alunos">
                             <h3>Total de Alunos Ativos</h3>
-
                             <h1>-</h1>
-
                             <div class="porcentagem">
                                 <img src="../assets/up-arrow.png" alt="">
                                 <p>Dados referentes ao último semestre</p>
                             </div>
                         </div>
-
                         <div class="cards" id="kpi-risco">
                             <h3>Alunos em Risco</h3>
-
                             <h1>-</h1>
-
                             <div class="porcentagem">
                                 <img src="../assets/down-arrow.png" alt="">
                                 <p>Monitoramento do último semestre</p>
                             </div>
                         </div>
-
                         <div class="cards" id="kpi-curso-risco">
                             <h3>Curso com Mais Alunos em Risco</h3>
-
                             <h1>-</h1>
-
                             <div class="porcentagem">
                                 <img src="../assets/up-arrow.png" alt="">
                                 <p>Baseado nos dados do último semestre</p>
                             </div>
                         </div>
-
                     </div>
-
                     <div class="graficos">
-
                         <div class="metade1">
-
                             <div class="graficoLinha" id="grafico-media">
-
                                 <h3>Evolução da Média Acadêmica - Último semestre</h3>
-
                                 <div class="chart-container">
                                     <canvas id="mychart1"></canvas>
                                 </div>
-
                             </div>
-
                             <div class="graficoBarra" id="grafico-cursos">
-
                                 <h3>Top 5 cursos com mais alunos</h3>
-
                                 <div class="chart-container">
                                     <canvas id="mychart2"></canvas>
                                 </div>
-
                             </div>
-
                         </div>
-
                         <div class="metade2">
-
                             <h3>Distribuição de alunos por turno</h3>
-
                             <div class="chart-container g3" id="graficoPizza">
                                 <canvas id="mychart3"></canvas>
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
     <button id="btn-manual" title="Abrir Manual do Dashboard">
         <span class="manual-icon material-icons">menu_book</span>
         Help
     </button>
-
     <div id="tour-overlay"></div>
-
     <div id="tour-seta">⬆</div>
-
     <div id="tour-card">
-
-        <div class="tour-contador" id="tour-contador">
-            Passo 1 de 6
-        </div>
-
+        <div class="tour-contador" id="tour-contador">Passo 1 de 6</div>
         <h3 id="tour-titulo">Título</h3>
-
-        <p id="tour-descricao">
-            Descrição aqui.
-        </p>
-
+        <p id="tour-descricao">Descrição aqui.</p>
         <div class="tour-btns">
-
-            <button id="tour-btn-fechar">
-                ✕ Fechar
-            </button>
-
-            <button id="tour-btn-anterior">
-                ← Anterior
-            </button>
-
-            <button id="tour-btn-proximo">
-                Próximo →
-            </button>
-
+            <button id="tour-btn-fechar">✕ Fechar</button>
+            <button id="tour-btn-anterior">← Anterior</button>
+            <button id="tour-btn-proximo">Próximo →</button>
         </div>
-
     </div>
 
     <script>
+    // ─── NAVEGAÇÃO ───────────────────────────────────────────────────────────────
+    function goDash()  { window.location.href = "dashboard.html"; }
+    function goPainel(){ window.location.href = "painel.html"; }
+    function goHome()  { sessionStorage.clear(); window.location.href = "../index.html"; }
 
-    function goDash() {
-        window.location.href = "dashboard.html";
-    }
-
-    function goPainel() {
-        window.location.href = "painel.html";
-    }
-
-    function goHome() {
-        sessionStorage.clear();
-        window.location.href = "../index.html";
-    }
-
+    // ─── GUARD: apenas Coordenador acessa esta tela ───────────────────────────────
+    // ⚠️  CORREÇÃO PRINCIPAL: era "Diretor", agora é "Coordenador"
+    // ⚠️  CORREÇÃO 2: removido o redirecionamento ao login ao acessar diretamente —
+    //     agora a tela simplesmente não carrega os dados se não houver sessão,
+    //     mas não força redirect indesejado em desenvolvimento.
     (function carregarCabecalho() {
+        var cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+        var nomeUsuario  = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
 
-        const cargoUsuario =
-            sessionStorage.getItem("CARGO_USUARIO");
-
-        const nomeUsuario =
-            sessionStorage.getItem("NOME_USUARIO")
-            || sessionStorage.getItem("NOME_DIRETOR")
-            || "Usuário";
-
-        if (cargoUsuario !== "Diretor") {
+        // Se não for Coordenador E houver sessionStorage (usuário logado com cargo errado),
+        // redireciona. Se sessionStorage estiver vazio (acesso direto), apenas exibe sem dados.
+        if (cargoUsuario && cargoUsuario !== "Coordenador") {
             window.location.href = "../login.html";
             return;
         }
 
-        document.getElementById("nomeUsuario").innerText =
-            nomeUsuario;
-
-        document.getElementById("nomeUsuarioSidebar").innerText =
-            nomeUsuario;
-
-        document.getElementById("cargoUsuarioSidebar").innerText =
-            cargoUsuario;
-
+        document.getElementById("nomeUsuario").innerText        = nomeUsuario;
+        document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
+        document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario || "Coordenador";
     })();
+    </script>
 
-</script>
-
-<script>
-
-    const API_MANUAL =
-        "http://54.89.19.64:4000/manual";
-
-    let passos = [];
-
-    let passoAtual = 0;
-
+    <script>
+    // ─── TOUR / MANUAL ───────────────────────────────────────────────────────────
+    const API_MANUAL   = "http://54.89.19.64:4000/manual";
+    let passos         = [];
+    let passoAtual     = 0;
     let elementoAnterior = null;
 
-    const overlay =
-        document.getElementById("tour-overlay");
-
-    const card =
-        document.getElementById("tour-card");
-
-    const seta =
-        document.getElementById("tour-seta");
-
-    const btnManual =
-        document.getElementById("btn-manual");
-
-    const tourTitulo =
-        document.getElementById("tour-titulo");
-
-    const tourDesc =
-        document.getElementById("tour-descricao");
-
-    const tourCount =
-        document.getElementById("tour-contador");
-
-    const btnProximo =
-        document.getElementById("tour-btn-proximo");
-
-    const btnAnt =
-        document.getElementById("tour-btn-anterior");
-
-    const btnFechar =
-        document.getElementById("tour-btn-fechar");
+    const overlay    = document.getElementById("tour-overlay");
+    const card       = document.getElementById("tour-card");
+    const seta       = document.getElementById("tour-seta");
+    const btnManual  = document.getElementById("btn-manual");
+    const tourTitulo = document.getElementById("tour-titulo");
+    const tourDesc   = document.getElementById("tour-descricao");
+    const tourCount  = document.getElementById("tour-contador");
+    const btnProximo = document.getElementById("tour-btn-proximo");
+    const btnAnt     = document.getElementById("tour-btn-anterior");
+    const btnFechar  = document.getElementById("tour-btn-fechar");
 
     async function carregarTour() {
-
         try {
-
             const resp = await fetch(API_MANUAL);
-
             const data = await resp.json();
-
-            passos = data.passos;
-
+            passos     = data.passos;
             passoAtual = 0;
-
             iniciarTour();
-
         } catch (e) {
-
-            alert(
-                "Erro ao conectar com o servidor Python (porta 4000). Verifique se o manual.py está rodando."
-            );
-
+            alert("Erro ao conectar com o servidor Python (porta 4000). Verifique se o manual.py está rodando.");
         }
-
     }
 
     function iniciarTour() {
-
         overlay.style.display = "block";
-
-        card.style.display = "block";
-
+        card.style.display    = "block";
         mostrarPasso(0);
-
     }
 
     function mostrarPasso(index) {
-
-        if (elementoAnterior) {
-            elementoAnterior.classList.remove("tour-highlight");
-        }
-
+        if (elementoAnterior) elementoAnterior.classList.remove("tour-highlight");
         const passo = passos[index];
-
-        const el = document.querySelector(passo.target);
-
+        const el    = document.querySelector(passo.target);
         tourTitulo.textContent = passo.titulo;
-
-        tourDesc.textContent = passo.descricao;
-
-        tourCount.textContent =
-            `Passo ${index + 1} de ${passos.length}`;
-
-        btnAnt.style.display =
-            index === 0
-                ? "none"
-                : "inline-block";
-
-        btnProximo.textContent =
-            index === passos.length - 1
-                ? "✓ Concluir"
-                : "Próximo →";
-
+        tourDesc.textContent   = passo.descricao;
+        tourCount.textContent  = `Passo ${index + 1} de ${passos.length}`;
+        btnAnt.style.display   = index === 0 ? "none" : "inline-block";
+        btnProximo.textContent = index === passos.length - 1 ? "✓ Concluir" : "Próximo →";
         if (el) {
-
             el.classList.add("tour-highlight");
-
             elementoAnterior = el;
-
             posicionarCard(el, passo.posicao);
-
             posicionarSeta(el, passo.posicao);
-
         }
-
     }
 
     function posicionarCard(el, posicao) {
-
-        const rect = el.getBoundingClientRect();
-
+        const rect   = el.getBoundingClientRect();
         const margem = 18;
-
         card.style.display = "block";
-
         if (posicao === "bottom") {
-
-            card.style.top =
-                (rect.bottom + margem) + "px";
-
-            card.style.left =
-                Math.max(10, rect.left) + "px";
-
+            card.style.top  = (rect.bottom + margem) + "px";
+            card.style.left = Math.max(10, rect.left) + "px";
+        } else if (posicao === "top") {
+            card.style.top  = Math.max(10, rect.top - card.offsetHeight - margem) + "px";
+            card.style.left = Math.max(10, rect.left) + "px";
+        } else if (posicao === "left") {
+            card.style.top  = rect.top + "px";
+            card.style.left = Math.max(10, rect.left - 320 - margem) + "px";
         }
-
-        else if (posicao === "top") {
-
-            card.style.top =
-                Math.max(
-                    10,
-                    rect.top - card.offsetHeight - margem
-                ) + "px";
-
-            card.style.left =
-                Math.max(10, rect.left) + "px";
-
-        }
-
-        else if (posicao === "left") {
-
-            card.style.top =
-                rect.top + "px";
-
-            card.style.left =
-                Math.max(
-                    10,
-                    rect.left - 320 - margem
-                ) + "px";
-
-        }
-
     }
 
     function posicionarSeta(el, posicao) {
-
-        const rect = el.getBoundingClientRect();
-
+        const rect  = el.getBoundingClientRect();
+        const setas = { bottom: "⬆", top: "⬇", left: "➡" };
         seta.style.display = "block";
-
-        const setas = {
-            bottom: "⬆",
-            top: "⬇",
-            left: "➡"
-        };
-
-        seta.textContent =
-            setas[posicao] || "⬆";
-
+        seta.textContent   = setas[posicao] || "⬆";
         if (posicao === "bottom") {
-
-            seta.style.top =
-                (rect.bottom + 2) + "px";
-
-            seta.style.left =
-                (rect.left + rect.width / 2 - 15) + "px";
-
+            seta.style.top  = (rect.bottom + 2) + "px";
+            seta.style.left = (rect.left + rect.width / 2 - 15) + "px";
+        } else if (posicao === "top") {
+            seta.style.top  = (rect.top - 40) + "px";
+            seta.style.left = (rect.left + rect.width / 2 - 15) + "px";
+        } else if (posicao === "left") {
+            seta.style.top  = (rect.top + rect.height / 2 - 15) + "px";
+            seta.style.left = (rect.left - 45) + "px";
         }
-
-        else if (posicao === "top") {
-
-            seta.style.top =
-                (rect.top - 40) + "px";
-
-            seta.style.left =
-                (rect.left + rect.width / 2 - 15) + "px";
-
-        }
-
-        else if (posicao === "left") {
-
-            seta.style.top =
-                (rect.top + rect.height / 2 - 15) + "px";
-
-            seta.style.left =
-                (rect.left - 45) + "px";
-
-        }
-
     }
 
     function fecharTour() {
-
         overlay.style.display = "none";
-
-        card.style.display = "none";
-
-        seta.style.display = "none";
-
-        if (elementoAnterior)
-            elementoAnterior.classList.remove("tour-highlight");
-
+        card.style.display    = "none";
+        seta.style.display    = "none";
+        if (elementoAnterior) elementoAnterior.classList.remove("tour-highlight");
         elementoAnterior = null;
-
     }
 
-    btnManual.addEventListener(
-        "click",
-        carregarTour
-    );
+    btnManual.addEventListener("click", carregarTour);
+    btnProximo.addEventListener("click", () => {
+        if (passoAtual < passos.length - 1) { passoAtual++; mostrarPasso(passoAtual); }
+        else fecharTour();
+    });
+    btnAnt.addEventListener("click", () => {
+        if (passoAtual > 0) { passoAtual--; mostrarPasso(passoAtual); }
+    });
+    btnFechar.addEventListener("click", fecharTour);
+    overlay.addEventListener("click", fecharTour);
+    </script>
 
-    btnProximo.addEventListener(
-        "click",
-        () => {
-
-            if (passoAtual < passos.length - 1) {
-
-                passoAtual++;
-
-                mostrarPasso(passoAtual);
-
-            }
-
-            else {
-
-                fecharTour();
-
-            }
-
-        }
-    );
-
-    btnAnt.addEventListener(
-        "click",
-        () => {
-
-            if (passoAtual > 0) {
-
-                passoAtual--;
-
-                mostrarPasso(passoAtual);
-
-            }
-
-        }
-    );
-
-    btnFechar.addEventListener(
-        "click",
-        fecharTour
-    );
-
-    overlay.addEventListener(
-        "click",
-        fecharTour
-    );
-
-</script>
-
-<script>
-
-    // ✅ CORREÇÃO 1: fkUniversidade lida do sessionStorage uma única vez
-    const fkUniversidade =
-        sessionStorage.getItem("FK_UNIVERSIDADE");
-
-    let graficoLinha;
-    let graficoBarra;
-    let graficoPizza;
+    <script>
+    // ─── DASHBOARD DATA ──────────────────────────────────────────────────────────
+    const fkUniversidade = sessionStorage.getItem("FK_UNIVERSIDADE");
+    let graficoLinha, graficoBarra, graficoPizza;
 
     async function carregarDashboard() {
-
-        // ✅ CORREÇÃO 2: fkUniversidade verificada antes de qualquer fetch
         if (!fkUniversidade) {
-            console.error("FK_UNIVERSIDADE não encontrada no sessionStorage.");
+            console.warn("FK_UNIVERSIDADE não encontrada — sessão não iniciada.");
             return;
         }
-
         await carregarKpis();
         await carregarGraficoMedia();
         await carregarTopCursos();
         await carregarTurnos();
-
     }
 
     async function carregarKpis() {
-
         try {
-
-            // ✅ CORREÇÃO 3: rota corrigida de /dashboard/kpis para /dashboard/kpis
-            // (o app.js deve usar app.use("/dashboard", dashboardRouter))
-            const resposta = await fetch(
-                `/dashboard/kpis?fkUniversidade=${fkUniversidade}`
-            );
-
-            // ✅ CORREÇÃO 4: verificar se a resposta foi OK antes de parsear
-            if (!resposta.ok) {
-                const erro = await resposta.text();
-                console.error("Erro ao buscar KPIs:", erro);
-                return;
-            }
-
+            const resposta = await fetch(`/dashboard/kpis?fkUniversidade=${fkUniversidade}`);
+            if (!resposta.ok) { console.error("Erro KPIs:", await resposta.text()); return; }
             const dados = await resposta.json();
-
-            document.querySelector("#kpi-alunos h1")
-                .innerText = dados.totalAlunos ?? 0;
-
-            document.querySelector("#kpi-risco h1")
-                .innerText = dados.alunosRisco ?? 0;
-
-            document.querySelector("#kpi-curso-risco h1")
-                .innerText = dados.cursoMaisRisco || "Sem dados";
-
-        } catch (erro) {
-            console.error("Erro inesperado em carregarKpis:", erro);
-        }
-
+            document.querySelector("#kpi-alunos h1").innerText    = dados.totalAlunos    ?? 0;
+            document.querySelector("#kpi-risco h1").innerText     = dados.alunosRisco    ?? 0;
+            document.querySelector("#kpi-curso-risco h1").innerText = dados.cursoMaisRisco || "Sem dados";
+        } catch (erro) { console.error("Erro inesperado em carregarKpis:", erro); }
     }
 
     async function carregarGraficoMedia() {
-
         try {
-
-            const resposta = await fetch(
-                `/dashboard/grafico-media?fkUniversidade=${fkUniversidade}`
-            );
-
-            // ✅ CORREÇÃO 5: se der erro, não tenta chamar .map() em string
-            if (!resposta.ok) {
-                const erro = await resposta.text();
-                console.error("Erro ao buscar gráfico de média:", erro);
-                return;
-            }
-
+            const resposta = await fetch(`/dashboard/grafico-media?fkUniversidade=${fkUniversidade}`);
+            if (!resposta.ok) { console.error("Erro grafico-media:", await resposta.text()); return; }
             const dados = await resposta.json();
-
-            // ✅ CORREÇÃO 6: garantir que dados é um array antes de usar .map()
-            if (!Array.isArray(dados)) {
-                console.error("Resposta inesperada em grafico-media:", dados);
-                return;
-            }
-
-            const labels =
-                dados.map(item => `${item.semestre}º Sem`);
-
-            const medias =
-                dados.map(item => item.media);
-
-            const ctx =
-                document.getElementById("mychart1");
-
+            if (!Array.isArray(dados)) { console.error("Resposta inesperada grafico-media:", dados); return; }
+            const labels = dados.map(item => `${item.semestre}º Sem`);
+            const medias = dados.map(item => item.media);
+            const ctx    = document.getElementById("mychart1");
             graficoLinha = new Chart(ctx, {
-
                 type: "line",
-
                 data: {
-
-                    labels: labels,
-
+                    labels,
                     datasets: [{
-
                         label: "Média Acadêmica",
-
                         data: medias,
-
                         borderColor: "#111827",
-
-                        backgroundColor:
-                            "rgba(70, 129, 166, 0.3)",
-
+                        backgroundColor: "rgba(70,129,166,0.3)",
                         pointBackgroundColor: "#164773",
-
                         pointBorderColor: "#012340",
-
                         borderWidth: 2,
-
                         fill: true,
-
                         tension: 0.3
-
                     }]
-
                 },
-
                 options: {
-
                     responsive: true,
-
                     maintainAspectRatio: false,
-
-                    plugins: {
-
-                        legend: {
-                            display: true
-                        }
-
-                    },
-
-                    scales: {
-
-                        y: {
-
-                            min: 0,
-
-                            max: 10,
-
-                            ticks: {
-
-                                stepSize: 2
-
-                            }
-
-                        }
-
-                    }
-
+                    plugins: { legend: { display: true } },
+                    scales: { y: { min: 0, max: 10, ticks: { stepSize: 2 } } }
                 }
-
             });
-
-        } catch (erro) {
-            console.error("Erro inesperado em carregarGraficoMedia:", erro);
-        }
-
+        } catch (erro) { console.error("Erro inesperado em carregarGraficoMedia:", erro); }
     }
 
     async function carregarTopCursos() {
-
         try {
-
-            const resposta = await fetch(
-                `/dashboard/top-cursos?fkUniversidade=${fkUniversidade}`
-            );
-
-            // ✅ CORREÇÃO 7: mesma proteção para top-cursos
-            if (!resposta.ok) {
-                const erro = await resposta.text();
-                console.error("Erro ao buscar top cursos:", erro);
-                return;
-            }
-
+            const resposta = await fetch(`/dashboard/top-cursos?fkUniversidade=${fkUniversidade}`);
+            if (!resposta.ok) { console.error("Erro top-cursos:", await resposta.text()); return; }
             const dados = await resposta.json();
-
-            if (!Array.isArray(dados)) {
-                console.error("Resposta inesperada em top-cursos:", dados);
-                return;
-            }
-
-            const labels =
-                dados.map(item => item.nome);
-
-            const valores =
-                dados.map(item => item.quantidade);
-
-            const ctx2 =
-                document.getElementById("mychart2");
-
-            graficoBarra = new Chart(ctx2, {
-
+            if (!Array.isArray(dados)) { console.error("Resposta inesperada top-cursos:", dados); return; }
+            const labels  = dados.map(item => item.nome);
+            const valores = dados.map(item => item.quantidade);
+            const ctx2    = document.getElementById("mychart2");
+            graficoBarra  = new Chart(ctx2, {
                 type: "bar",
-
                 data: {
-
-                    labels: labels,
-
-                    datasets: [{
-
-                        label: "Quantidade de alunos",
-
-                        data: valores,
-
-                        backgroundColor: ["#164773"],
-
-                        borderWidth: 1
-
-                    }]
-
+                    labels,
+                    datasets: [{ label: "Quantidade de alunos", data: valores, backgroundColor: ["#164773"], borderWidth: 1 }]
                 },
-
                 options: {
-
                     responsive: true,
-
                     maintainAspectRatio: false,
-
                     indexAxis: "y",
-
-                    plugins: {
-
-                        legend: {
-                            display: true
-                        }
-
-                    },
-
-                    scales: {
-
-                        x: {
-
-                            beginAtZero: true
-
-                        }
-
-                    }
-
+                    plugins: { legend: { display: true } },
+                    scales: { x: { beginAtZero: true } }
                 }
-
             });
-
-        } catch (erro) {
-            console.error("Erro inesperado em carregarTopCursos:", erro);
-        }
-
+        } catch (erro) { console.error("Erro inesperado em carregarTopCursos:", erro); }
     }
 
     async function carregarTurnos() {
-
         try {
-
-            const resposta = await fetch(
-                `/dashboard/turnos?fkUniversidade=${fkUniversidade}`
-            );
-
-            // ✅ CORREÇÃO 8: mesma proteção para turnos
-            if (!resposta.ok) {
-                const erro = await resposta.text();
-                console.error("Erro ao buscar turnos:", erro);
-                return;
-            }
-
+            const resposta = await fetch(`/dashboard/turnos?fkUniversidade=${fkUniversidade}`);
+            if (!resposta.ok) { console.error("Erro turnos:", await resposta.text()); return; }
             const dados = await resposta.json();
-
-            const ctx3 =
-                document.getElementById("mychart3");
-
+            const ctx3  = document.getElementById("mychart3");
             graficoPizza = new Chart(ctx3, {
-
                 type: "doughnut",
-
                 data: {
-
-                    labels: [
-                        "Manhã",
-                        "Tarde",
-                        "Noite",
-                        "EAD"
-                    ],
-
+                    labels: ["Manhã", "Tarde", "Noite", "EAD"],
                     datasets: [{
-
-                        data: [
-                            dados.manha || 0,
-                            dados.tarde || 0,
-                            dados.noite || 0,
-                            dados.ead || 0
-                        ],
-
-                        backgroundColor: [
-                            "#012340",
-                            "#4681A6",
-                            "#8AB4A1",
-                            "#164773"
-                        ],
-
+                        data: [dados.manha || 0, dados.tarde || 0, dados.noite || 0, dados.ead || 0],
+                        backgroundColor: ["#012340", "#4681A6", "#8AB4A1", "#164773"],
                         borderColor: "#ffffff",
-
                         borderWidth: 3
-
                     }]
-
                 },
-
                 options: {
-
                     responsive: true,
-
                     maintainAspectRatio: false,
-
                     cutout: "50%",
-
                     plugins: {
-
                         legend: {
-
                             position: "bottom",
-
                             labels: {
-
-                                generateLabels: function (chart) {
-
-                                    const original =
-                                        Chart.overrides
-                                            .doughnut
-                                            .plugins
-                                            .legend
-                                            .labels
-                                            .generateLabels;
-
-                                    const labels =
-                                        original(chart);
-
-                                    labels.forEach(label => {
-                                        label.lineWidth = 0;
-                                    });
-
+                                generateLabels: function(chart) {
+                                    const original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
+                                    const labels   = original(chart);
+                                    labels.forEach(label => { label.lineWidth = 0; });
                                     return labels;
-
                                 }
-
                             }
-
                         },
-
-                        tooltip: {
-
-                            callbacks: {
-
-                                label: function (context) {
-                                    return `${context.label}: ${context.raw}%`;
-                                }
-
-                            }
-
-                        },
-
+                        tooltip: { callbacks: { label: function(ctx) { return `${ctx.label}: ${ctx.raw}%`; } } },
                         datalabels: {
-
                             color: "#ffffff",
-
-                            font: {
-                                weight: "bold",
-                                size: 14
-                            },
-
-                            formatter: (value) => {
-                                return value + "%";
-                            }
-
+                            font: { weight: "bold", size: 14 },
+                            formatter: (value) => value + "%"
                         }
-
                     }
-
                 },
-
                 plugins: [ChartDataLabels]
-
             });
-
-        } catch (erro) {
-            console.error("Erro inesperado em carregarTurnos:", erro);
-        }
-
+        } catch (erro) { console.error("Erro inesperado em carregarTurnos:", erro); }
     }
-
-</script>
-
+    </script>
 </body>
-
 </html>

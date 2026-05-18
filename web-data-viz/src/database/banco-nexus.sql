@@ -1,4 +1,3 @@
-
 CREATE DATABASE NEXUS;
 USE NEXUS;
 
@@ -20,7 +19,7 @@ CREATE TABLE Usuario (
     senha VARCHAR(255) NOT NULL,
     token CHAR(6) NOT NULL,
     cargo VARCHAR(45),
-    CONSTRAINT chk_cargo CHECK (cargo IN('Diretor', 'Coordenador')),
+    CONSTRAINT chk_cargo CHECK (cargo IN('Coordenador', 'Professor')),
     fkUniversidade INT NOT NULL,
         FOREIGN KEY (fkUniversidade) REFERENCES Universidade(id)
 );
@@ -61,11 +60,14 @@ CREATE TABLE Historico (
     nota DECIMAL(5,2),
     frequencia DECIMAL(5,2),
     fkCurso INT,
-    FOREIGN KEY (fkCurso) REFERENCES Curso (id)
+        FOREIGN KEY (fkCurso) REFERENCES Curso (id)
 );
 
-CREATE TABLE Logs(
+CREATE TABLE Logs (
     id INT PRIMARY KEY AUTO_INCREMENT,
     mensagem VARCHAR(250),
     dataHora DATETIME
 );
+
+SELECT * FROM usuario;
+SELECT * FROM universidade;

@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="../css/alunos.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <title>Nexus | Alunos</title>
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 </head>
-
 <body>
     <div class="tela">
         <div class="dash">
@@ -22,34 +18,29 @@
                 <div class="logo">
                     <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
                 </div>
-
                 <div class="menu">
                     <div class="titulo">
                         <h1>Menu Principal</h1>
                     </div>
-
                     <div class="botoes">
                         <button id="Alunos" onclick="goAlunos()">Alunos</button>
                         <button id="Cursos" onclick="goCursos()">Cursos</button>
                     </div>
                 </div>
-
                 <div class="sair">
                     <div class="usuario">
                         <div class="nome">
                             <div class="titulo-usuario">
                                 <span class="material-icons icone-user">account_circle</span>
+                                <!-- Cargo preenchido dinamicamente -->
                                 <h1 id="cargoUsuarioSidebar">Professor</h1>
                             </div>
-
                             <p id="nomeUsuarioSidebar"></p>
                         </div>
                     </div>
-
                     <button onclick="goHome()">Sair</button>
                 </div>
             </div>
-
             <div class="conteudo">
                 <div class="tituloDash">
                     <div class="texto">
@@ -57,48 +48,39 @@
                         <p>Visão geral dos alunos acompanhados neste semestre</p>
                     </div>
                 </div>
-
                 <div class="conteudo2">
                     <div class="insights">
                         <div class="cards">
                             <h3>Alunos com Risco Baixo</h3>
-                            <h1 id="kpiBaixo">24</h1>
-
+                            <h1 id="kpiBaixo">-</h1>
                             <div class="porcentagem">
                                 <img src="../assets/down-arrow.png" alt="">
                                 <p>+4 em relação ao semestre anterior</p>
                             </div>
                         </div>
-
                         <div class="cards">
                             <h3>Alunos com Risco Alto</h3>
-                            <h1 id="kpiAlto">8</h1>
-
+                            <h1 id="kpiAlto">-</h1>
                             <div class="porcentagem">
                                 <img src="../assets/up-arrow.png" alt="">
                                 <p>+2 em relação ao semestre anterior</p>
                             </div>
                         </div>
-
                         <div class="cards">
                             <h3>Alunos com Risco Médio</h3>
-                            <h1 id="kpiMedio">13</h1>
-
+                            <h1 id="kpiMedio">-</h1>
                             <div class="porcentagem">
                                 <img src="../assets/up-arrow.png" alt="">
                                 <p>+1 em relação ao semestre anterior</p>
                             </div>
                         </div>
                     </div>
-
                     <div class="conteudo3">
                         <div class="tabela">
                             <div class="topo-tabela">
                                 <h1>Lista de Alunos</h1>
-
                                 <input type="text" id="pesquisaAluno" placeholder="Pesquisar aluno...">
                             </div>
-
                             <table class="tabela-alunos" id="tabelaAlunos">
                                 <thead>
                                     <tr>
@@ -110,123 +92,24 @@
                                         <th>Risco</th>
                                     </tr>
                                 </thead>
-
                                 <tbody>
-                                    <tr>
-                                        <td>João Silva</td>
-                                        <td>ADS</td>
-                                        <td>3°</td>
-                                        <td>12%</td>
-                                        <td>5.2</td>
-                                        <td>Alto</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Maria Souza</td>
-                                        <td>Direito</td>
-                                        <td>5°</td>
-                                        <td>3%</td>
-                                        <td>8.7</td>
-                                        <td>Baixo</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Pedro Lima</td>
-                                        <td>Engenharia</td>
-                                        <td>2°</td>
-                                        <td>18%</td>
-                                        <td>4.9</td>
-                                        <td>Alto</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Ana Costa</td>
-                                        <td>Medicina</td>
-                                        <td>6°</td>
-                                        <td>2%</td>
-                                        <td>9.1</td>
-                                        <td>Baixo</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Lucas Rocha</td>
-                                        <td>ADS</td>
-                                        <td>1°</td>
-                                        <td>10%</td>
-                                        <td>6.7</td>
-                                        <td>Médio</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Carla Mendes</td>
-                                        <td>Psicologia</td>
-                                        <td>4°</td>
-                                        <td>7%</td>
-                                        <td>6.1</td>
-                                        <td>Médio</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Rafael Alves</td>
-                                        <td>Direito</td>
-                                        <td>8°</td>
-                                        <td>1%</td>
-                                        <td>8.9</td>
-                                        <td>Baixo</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Juliana Freitas</td>
-                                        <td>ADS</td>
-                                        <td>2°</td>
-                                        <td>14%</td>
-                                        <td>5.0</td>
-                                        <td>Alto</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Bruno Martins</td>
-                                        <td>Engenharia</td>
-                                        <td>3°</td>
-                                        <td>6%</td>
-                                        <td>6.5</td>
-                                        <td>Médio</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Fernanda Lopes</td>
-                                        <td>Medicina</td>
-                                        <td>7°</td>
-                                        <td>4%</td>
-                                        <td>9.3</td>
-                                        <td>Baixo</td>
-                                    </tr>
+                                    <!-- Dados carregados via JS -->
                                 </tbody>
                             </table>
                         </div>
-
                         <div class="metade2">
                             <div class="graficoDonut">
                                 <h3>Distribuição de Risco</h3>
-
                                 <div class="chart-container">
                                     <canvas id="mychart1"></canvas>
                                 </div>
                             </div>
-
                             <div class="graficoBarra">
                                 <h3>Filtros</h3>
-
                                 <div class="filtros-box">
                                     <select id="filtroCurso" class="filtro-select">
                                         <option value="">Filtrar por Curso</option>
-                                        <option value="ADS">ADS</option>
-                                        <option value="Direito">Direito</option>
-                                        <option value="Engenharia">Engenharia</option>
-                                        <option value="Medicina">Medicina</option>
-                                        <option value="Psicologia">Psicologia</option>
                                     </select>
-
                                     <select id="filtroSemestre" class="filtro-select">
                                         <option value="">Filtrar por Semestre</option>
                                         <option value="1°">1°</option>
@@ -238,14 +121,12 @@
                                         <option value="7°">7°</option>
                                         <option value="8°">8°</option>
                                     </select>
-
                                     <select id="filtroRisco" class="filtro-select">
                                         <option value="">Filtrar por Risco</option>
                                         <option value="Alto">Alto</option>
                                         <option value="Médio">Médio</option>
                                         <option value="Baixo">Baixo</option>
                                     </select>
-
                                     <select id="filtroNota" class="filtro-select">
                                         <option value="">Filtrar por Nota</option>
                                         <option value="alta">Acima de 8</option>
@@ -262,74 +143,61 @@
     </div>
 
     <script>
-    function goDash() {
-        window.location.href = "dashboard.html";
+    // ─── GUARD: apenas Professor acessa esta tela ─────────────────────────────────
+    // ⚠️  CORREÇÃO: antes não tinha guard nenhum — qualquer um entrava.
+    //     Agora: Professor acessa. Coordenador é redirecionado para dashboard.
+    //     Sem sessão: não redireciona (permite testar em dev).
+    var cargoUsuario   = sessionStorage.getItem("CARGO_USUARIO");
+    var nomeUsuario    = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
+    var fkUniversidade = sessionStorage.getItem("FK_UNIVERSIDADE");
+
+    if (cargoUsuario && cargoUsuario !== "Professor") {
+        // Coordenador vai para o dashboard dele
+        window.location.href = cargoUsuario === "Coordenador"
+            ? "dashboard.html"
+            : "../login.html";
     }
 
-    function goAlunos() {
-        window.location.href = "alunos.html";
-    }
+    document.getElementById("nomeUsuario").innerText         = nomeUsuario;
+    document.getElementById("nomeUsuarioSidebar").innerText  = nomeUsuario;
+    document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario || "Professor";
 
-    function goCursos() {
-        window.location.href = "cursos.html";
-    }
+    // ─── NAVEGAÇÃO ───────────────────────────────────────────────────────────────
+    function goAlunos(){ window.location.href = "alunos.html"; }
+    function goCursos(){ window.location.href = "cursos.html"; }
+    function goHome()  { sessionStorage.clear(); window.location.href = "../index.html"; }
 
-    function goPainel() {
-        window.location.href = "painel.html";
-    }
+    // ─── HIGHLIGHT BOTÃO ATIVO ───────────────────────────────────────────────────
+    var paginaAtual = window.location.pathname.split("/").pop();
+    if (paginaAtual === "alunos.html") document.getElementById("Alunos").classList.add("ativo");
+    if (paginaAtual === "cursos.html") document.getElementById("Cursos").classList.add("ativo");
 
-    function goHome() {
-        sessionStorage.clear();
-        window.location.href = "../index.html";
-    }
-
-    const fkUniversidade = sessionStorage.FK_UNIVERSIDADE;
-    const nomeUsuario = sessionStorage.NOME_USUARIO || "Usuário";
-    const cargoUsuario = sessionStorage.CARGO_USUARIO || "Professor";
-
-    document.getElementById("nomeUsuario").innerText = nomeUsuario;
-    document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
-    document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario;
-
+    // ─── KPIs ────────────────────────────────────────────────────────────────────
     async function carregarKpis() {
-
         try {
-
-            const resposta = await fetch(`/alunos/kpis?fkUniversidade=${fkUniversidade}`);
-
-            const dados = await resposta.json();
-
+            var resposta = await fetch(`/alunos/kpis?fkUniversidade=${fkUniversidade}`);
+            var dados    = await resposta.json();
             document.getElementById("kpiBaixo").innerText = dados.baixo || 0;
-            document.getElementById("kpiAlto").innerText = dados.alto || 0;
+            document.getElementById("kpiAlto").innerText  = dados.alto  || 0;
             document.getElementById("kpiMedio").innerText = dados.medio || 0;
-
-        } catch (erro) {
-            console.log("Erro ao carregar KPIs:", erro);
-        }
+        } catch (erro) { console.log("Erro ao carregar KPIs:", erro); }
     }
 
+    // ─── TABELA ──────────────────────────────────────────────────────────────────
     async function carregarTabela() {
-
         try {
-
-            const pesquisa = document.getElementById("pesquisaAluno").value;
-            const curso = document.getElementById("filtroCurso").value;
-            const semestre = document.getElementById("filtroSemestre").value;
-            const risco = document.getElementById("filtroRisco").value;
-            const nota = document.getElementById("filtroNota").value;
-
-            const resposta = await fetch(
+            var pesquisa = document.getElementById("pesquisaAluno").value;
+            var curso    = document.getElementById("filtroCurso").value;
+            var semestre = document.getElementById("filtroSemestre").value;
+            var risco    = document.getElementById("filtroRisco").value;
+            var nota     = document.getElementById("filtroNota").value;
+            var resposta = await fetch(
                 `/alunos/listar?fkUniversidade=${fkUniversidade}&pesquisa=${pesquisa}&curso=${curso}&semestre=${semestre}&risco=${risco}&nota=${nota}`
             );
-
-            const dados = await resposta.json();
-
-            const tbody = document.querySelector("#tabelaAlunos tbody");
-
+            var dados = await resposta.json();
+            var tbody = document.querySelector("#tabelaAlunos tbody");
             tbody.innerHTML = "";
-
-            dados.forEach(function (aluno) {
-
+            dados.forEach(function(aluno) {
                 tbody.innerHTML += `
                     <tr>
                         <td>${aluno.aluno}</td>
@@ -341,77 +209,39 @@
                     </tr>
                 `;
             });
-
-        } catch (erro) {
-            console.log("Erro ao carregar tabela:", erro);
-        }
+        } catch (erro) { console.log("Erro ao carregar tabela:", erro); }
     }
 
+    // ─── FILTROS ─────────────────────────────────────────────────────────────────
     async function carregarFiltros() {
-
         try {
-
-            const resposta = await fetch(`/alunos/filtros?fkUniversidade=${fkUniversidade}`);
-
-            const cursos = await resposta.json();
-
-            const selectCurso = document.getElementById("filtroCurso");
-
-            cursos.forEach(function (curso) {
-
-                selectCurso.innerHTML += `
-                    <option value="${curso.nome}">
-                        ${curso.nome}
-                    </option>
-                `;
+            var resposta = await fetch(`/alunos/filtros?fkUniversidade=${fkUniversidade}`);
+            var cursos   = await resposta.json();
+            var select   = document.getElementById("filtroCurso");
+            cursos.forEach(function(curso) {
+                select.innerHTML += `<option value="${curso.nome}">${curso.nome}</option>`;
             });
-
-        } catch (erro) {
-            console.log("Erro ao carregar filtros:", erro);
-        }
+        } catch (erro) { console.log("Erro ao carregar filtros:", erro); }
     }
 
-    let graficoRisco;
-
+    // ─── GRÁFICO ─────────────────────────────────────────────────────────────────
+    var graficoRisco;
     async function carregarGrafico() {
-
         try {
-
-            const resposta = await fetch(`/alunos/distribuicao-risco?fkUniversidade=${fkUniversidade}`);
-
-            const dados = await resposta.json();
-
-            let baixo = 0;
-            let medio = 0;
-            let alto = 0;
-
-            dados.forEach(function (item) {
-
-                if (item.nivelRisco == "Baixo") {
-                    baixo = item.quantidade;
-                }
-
-                if (item.nivelRisco == "Médio") {
-                    medio = item.quantidade;
-                }
-
-                if (item.nivelRisco == "Alto") {
-                    alto = item.quantidade;
-                }
+            var resposta = await fetch(`/alunos/distribuicao-risco?fkUniversidade=${fkUniversidade}`);
+            var dados    = await resposta.json();
+            var baixo = 0, medio = 0, alto = 0;
+            dados.forEach(function(item) {
+                if (item.nivelRisco === "Baixo") baixo = item.quantidade;
+                if (item.nivelRisco === "Médio") medio = item.quantidade;
+                if (item.nivelRisco === "Alto")  alto  = item.quantidade;
             });
-
-            const ctx1 = document.getElementById("mychart1");
-
-            if (graficoRisco) {
-                graficoRisco.destroy();
-            }
-
+            var ctx1 = document.getElementById("mychart1");
+            if (graficoRisco) graficoRisco.destroy();
             graficoRisco = new Chart(ctx1, {
                 type: "doughnut",
-
                 data: {
                     labels: ["Alto", "Médio", "Baixo"],
-
                     datasets: [{
                         data: [alto, medio, baixo],
                         backgroundColor: ["red", "yellow", "green"],
@@ -419,85 +249,42 @@
                         borderWidth: 3
                     }]
                 },
-
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     cutout: "60%",
-
                     plugins: {
                         legend: {
                             position: "bottom",
-
                             labels: {
-                                generateLabels: function (chart) {
-
-                                    const original =
-                                        Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
-
-                                    const labels = original(chart);
-
-                                    labels.forEach(label => {
-                                        label.lineWidth = 0;
-                                    });
-
+                                generateLabels: function(chart) {
+                                    var original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
+                                    var labels   = original(chart);
+                                    labels.forEach(l => { l.lineWidth = 0; });
                                     return labels;
                                 }
                             }
                         },
-
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-
-                                    return `${context.label}: ${context.raw}`;
-                                }
-                            }
-                        }
+                        tooltip: { callbacks: { label: function(ctx) { return `${ctx.label}: ${ctx.raw}`; } } }
                     }
                 }
             });
-
-        } catch (erro) {
-            console.log("Erro ao carregar gráfico:", erro);
-        }
+        } catch (erro) { console.log("Erro ao carregar gráfico:", erro); }
     }
 
-    async function aplicarFiltros() {
-        await carregarTabela();
-    }
+    async function aplicarFiltros() { await carregarTabela(); }
 
-    document.getElementById("pesquisaAluno")
-        .addEventListener("keyup", aplicarFiltros);
+    document.getElementById("pesquisaAluno").addEventListener("keyup",  aplicarFiltros);
+    document.getElementById("filtroCurso").addEventListener("change",   aplicarFiltros);
+    document.getElementById("filtroSemestre").addEventListener("change", aplicarFiltros);
+    document.getElementById("filtroRisco").addEventListener("change",    aplicarFiltros);
+    document.getElementById("filtroNota").addEventListener("change",     aplicarFiltros);
 
-    document.getElementById("filtroCurso")
-        .addEventListener("change", aplicarFiltros);
-
-    document.getElementById("filtroSemestre")
-        .addEventListener("change", aplicarFiltros);
-
-    document.getElementById("filtroRisco")
-        .addEventListener("change", aplicarFiltros);
-
-    document.getElementById("filtroNota")
-        .addEventListener("change", aplicarFiltros);
-
-    const paginaAtual = window.location.pathname.split("/").pop();
-
-    if (paginaAtual === "alunos.html") {
-        document.getElementById("Alunos").classList.add("ativo");
-    }
-
-    if (paginaAtual === "cursos.html") {
-        document.getElementById("Cursos").classList.add("ativo");
-    }
-
+    // ─── INIT ────────────────────────────────────────────────────────────────────
     carregarKpis();
     carregarTabela();
     carregarFiltros();
     carregarGrafico();
-
-</script>
+    </script>
 </body>
-
 </html>
