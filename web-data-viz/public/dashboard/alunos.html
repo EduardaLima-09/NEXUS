@@ -1,4 +1,3 @@
-<!--ALUNOS-->
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -23,25 +22,30 @@
                 <div class="logo">
                     <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
                 </div>
+
                 <div class="menu">
                     <div class="titulo">
                         <h1>Menu Principal</h1>
                     </div>
+
                     <div class="botoes">
                         <button id="Alunos" onclick="goAlunos()">Alunos</button>
                         <button id="Cursos" onclick="goCursos()">Cursos</button>
                     </div>
                 </div>
+
                 <div class="sair">
                     <div class="usuario">
                         <div class="nome">
                             <div class="titulo-usuario">
                                 <span class="material-icons icone-user">account_circle</span>
-                                <h1 id="cargoUsuarioSidebar">Coordenador</h1>
+                                <h1 id="cargoUsuarioSidebar">Professor</h1>
                             </div>
+
                             <p id="nomeUsuarioSidebar"></p>
                         </div>
                     </div>
+
                     <button onclick="goHome()">Sair</button>
                 </div>
             </div>
@@ -50,47 +54,51 @@
                 <div class="tituloDash">
                     <div class="texto">
                         <h1>Bem-vindo(a), <span id="nomeUsuario">Usuário</span></h1>
-                        <p>Visão geral dos alunos da sua instituição</p>
+                        <p>Visão geral dos alunos acompanhados neste semestre</p>
                     </div>
                 </div>
+
                 <div class="conteudo2">
                     <div class="insights">
                         <div class="cards">
-                            <h3>Total de Alunos</h3>
-                            <h1>2.500</h1>
+                            <h3>Alunos com Risco Baixo</h3>
+                            <h1 id="kpiBaixo">24</h1>
+
                             <div class="porcentagem">
                                 <img src="../assets/down-arrow.png" alt="">
-                                <p>200 vs semestre anterior</p>
+                                <p>+4 em relação ao semestre anterior</p>
                             </div>
                         </div>
+
                         <div class="cards">
-                            <h3>Risco Alto</h3>
-                            <h1>497</h1>
+                            <h3>Alunos com Risco Alto</h3>
+                            <h1 id="kpiAlto">8</h1>
+
                             <div class="porcentagem">
                                 <img src="../assets/up-arrow.png" alt="">
-                                <p>19,88% vs semestre anterior</p>
+                                <p>+2 em relação ao semestre anterior</p>
                             </div>
                         </div>
+
                         <div class="cards">
-                            <h3>Risco Médio</h3>
-                            <h1>352</h1>
+                            <h3>Alunos com Risco Médio</h3>
+                            <h1 id="kpiMedio">13</h1>
+
                             <div class="porcentagem">
                                 <img src="../assets/up-arrow.png" alt="">
-                                <p>14.08% vs semestre anterior</p>
+                                <p>+1 em relação ao semestre anterior</p>
                             </div>
                         </div>
                     </div>
+
                     <div class="conteudo3">
                         <div class="tabela">
                             <div class="topo-tabela">
                                 <h1>Lista de Alunos</h1>
-                                <select id="filtroRisco">
-                                    <option value="">Todos os riscos</option>
-                                    <option value="Alto">Alto</option>
-                                    <option value="Médio">Médio</option>
-                                    <option value="Baixo">Baixo</option>
-                                </select>
+
+                                <input type="text" id="pesquisaAluno" placeholder="Pesquisar aluno...">
                             </div>
+
                             <table class="tabela-alunos" id="tabelaAlunos">
                                 <thead>
                                     <tr>
@@ -98,105 +106,152 @@
                                         <th>Curso</th>
                                         <th>Semestre</th>
                                         <th>Faltas</th>
-                                        <th>Financeiro</th>
+                                        <th>Média Atual</th>
                                         <th>Risco</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
                                     <tr>
                                         <td>João Silva</td>
                                         <td>ADS</td>
                                         <td>3°</td>
                                         <td>12%</td>
-                                        <td class="atraso">Em atraso</td>
+                                        <td>5.2</td>
                                         <td>Alto</td>
                                     </tr>
+
                                     <tr>
                                         <td>Maria Souza</td>
                                         <td>Direito</td>
                                         <td>5°</td>
                                         <td>3%</td>
-                                        <td class="regular">Regular</td>
+                                        <td>8.7</td>
                                         <td>Baixo</td>
                                     </tr>
+
                                     <tr>
                                         <td>Pedro Lima</td>
                                         <td>Engenharia</td>
                                         <td>2°</td>
                                         <td>18%</td>
-                                        <td class="certo">Em dia</td>
+                                        <td>4.9</td>
                                         <td>Alto</td>
                                     </tr>
+
                                     <tr>
                                         <td>Ana Costa</td>
                                         <td>Medicina</td>
                                         <td>6°</td>
                                         <td>2%</td>
-                                        <td class="certo">Em dia</td>
+                                        <td>9.1</td>
                                         <td>Baixo</td>
                                     </tr>
+
                                     <tr>
                                         <td>Lucas Rocha</td>
                                         <td>ADS</td>
                                         <td>1°</td>
                                         <td>10%</td>
-                                        <td class="certo">Em dia</td>
+                                        <td>6.7</td>
                                         <td>Médio</td>
                                     </tr>
+
                                     <tr>
                                         <td>Carla Mendes</td>
                                         <td>Psicologia</td>
                                         <td>4°</td>
                                         <td>7%</td>
-                                        <td class="atraso">Em atraso</td>
+                                        <td>6.1</td>
                                         <td>Médio</td>
                                     </tr>
+
                                     <tr>
                                         <td>Rafael Alves</td>
                                         <td>Direito</td>
                                         <td>8°</td>
                                         <td>1%</td>
-                                        <td class="atraso">Em atraso</td>
+                                        <td>8.9</td>
                                         <td>Baixo</td>
                                     </tr>
+
                                     <tr>
                                         <td>Juliana Freitas</td>
                                         <td>ADS</td>
                                         <td>2°</td>
                                         <td>14%</td>
-                                        <td class="regular">Regular</td>
+                                        <td>5.0</td>
                                         <td>Alto</td>
                                     </tr>
+
                                     <tr>
                                         <td>Bruno Martins</td>
                                         <td>Engenharia</td>
                                         <td>3°</td>
                                         <td>6%</td>
-                                        <td class="regular">Regular</td>
+                                        <td>6.5</td>
                                         <td>Médio</td>
                                     </tr>
+
                                     <tr>
                                         <td>Fernanda Lopes</td>
                                         <td>Medicina</td>
                                         <td>7°</td>
                                         <td>4%</td>
-                                        <td class="regular">Regular</td>
+                                        <td>9.3</td>
                                         <td>Baixo</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
+
                         <div class="metade2">
                             <div class="graficoDonut">
                                 <h3>Distribuição de Risco</h3>
+
                                 <div class="chart-container">
                                     <canvas id="mychart1"></canvas>
                                 </div>
                             </div>
+
                             <div class="graficoBarra">
-                                <h3>Motivos de Risco - Top 4</h3>
-                                <div class="chart-container">
-                                    <canvas id="mychart2"></canvas>
+                                <h3>Filtros</h3>
+
+                                <div class="filtros-box">
+                                    <select id="filtroCurso" class="filtro-select">
+                                        <option value="">Filtrar por Curso</option>
+                                        <option value="ADS">ADS</option>
+                                        <option value="Direito">Direito</option>
+                                        <option value="Engenharia">Engenharia</option>
+                                        <option value="Medicina">Medicina</option>
+                                        <option value="Psicologia">Psicologia</option>
+                                    </select>
+
+                                    <select id="filtroSemestre" class="filtro-select">
+                                        <option value="">Filtrar por Semestre</option>
+                                        <option value="1°">1°</option>
+                                        <option value="2°">2°</option>
+                                        <option value="3°">3°</option>
+                                        <option value="4°">4°</option>
+                                        <option value="5°">5°</option>
+                                        <option value="6°">6°</option>
+                                        <option value="7°">7°</option>
+                                        <option value="8°">8°</option>
+                                    </select>
+
+                                    <select id="filtroRisco" class="filtro-select">
+                                        <option value="">Filtrar por Risco</option>
+                                        <option value="Alto">Alto</option>
+                                        <option value="Médio">Médio</option>
+                                        <option value="Baixo">Baixo</option>
+                                    </select>
+
+                                    <select id="filtroNota" class="filtro-select">
+                                        <option value="">Filtrar por Nota</option>
+                                        <option value="alta">Acima de 8</option>
+                                        <option value="media">Entre 6 e 8</option>
+                                        <option value="baixa">Abaixo de 6</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -232,36 +287,72 @@
             const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
             const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
 
-            if (cargoUsuario !== "Coordenador") {
-                window.location.href = "../login.html";
-                return;
-            }
-
             document.getElementById("nomeUsuario").innerText = nomeUsuario;
             document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
-            document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario;
+            document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario || "Professor";
         })();
 
-        const filtro = document.getElementById("filtroRisco");
-        const tabela = document.getElementById("tabelaAlunos").getElementsByTagName("tbody")[0];
+        const pesquisaAluno = document.getElementById("pesquisaAluno");
+        const filtroCurso = document.getElementById("filtroCurso");
+        const filtroSemestre = document.getElementById("filtroSemestre");
+        const filtroRisco = document.getElementById("filtroRisco");
+        const filtroNota = document.getElementById("filtroNota");
 
-        function filtrarTabela() {
-            const filtroValor = filtro.value.toLowerCase();
-            const linhas = tabela.getElementsByTagName("tr");
+        function aplicarFiltros() {
+            const pesquisa = pesquisaAluno.value.toLowerCase();
+            const curso = filtroCurso.value;
+            const semestre = filtroSemestre.value;
+            const risco = filtroRisco.value;
+            const nota = filtroNota.value;
 
-            for (let i = 0; i < linhas.length; i++) {
-                const linha = linhas[i];
-                const risco = linha.cells[5].innerText.toLowerCase();
+            const linhas = document.querySelectorAll("#tabelaAlunos tbody tr");
 
-                if (filtroValor === "" || risco === filtroValor) {
-                    linha.style.display = "";
-                } else {
-                    linha.style.display = "none";
+            linhas.forEach(function (linha) {
+                const nomeAluno = linha.cells[0].innerText.toLowerCase();
+                const cursoAluno = linha.cells[1].innerText;
+                const semestreAluno = linha.cells[2].innerText;
+                const mediaAluno = parseFloat(linha.cells[4].innerText);
+                const riscoAluno = linha.cells[5].innerText;
+
+                let mostrar = true;
+
+                if (!nomeAluno.includes(pesquisa)) {
+                    mostrar = false;
                 }
-            }
+
+                if (curso && cursoAluno !== curso) {
+                    mostrar = false;
+                }
+
+                if (semestre && semestreAluno !== semestre) {
+                    mostrar = false;
+                }
+
+                if (risco && riscoAluno !== risco) {
+                    mostrar = false;
+                }
+
+                if (nota === "alta" && mediaAluno <= 8) {
+                    mostrar = false;
+                }
+
+                if (nota === "media" && (mediaAluno < 6 || mediaAluno > 8)) {
+                    mostrar = false;
+                }
+
+                if (nota === "baixa" && mediaAluno >= 6) {
+                    mostrar = false;
+                }
+
+                linha.style.display = mostrar ? "" : "none";
+            });
         }
 
-        filtro.addEventListener("change", filtrarTabela);
+        pesquisaAluno.addEventListener("keyup", aplicarFiltros);
+        filtroCurso.addEventListener("change", aplicarFiltros);
+        filtroSemestre.addEventListener("change", aplicarFiltros);
+        filtroRisco.addEventListener("change", aplicarFiltros);
+        filtroNota.addEventListener("change", aplicarFiltros);
 
         const ctx1 = document.getElementById("mychart1");
 
@@ -307,44 +398,6 @@
             }
         });
 
-        const ctx2 = document.getElementById("mychart2");
-
-        new Chart(ctx2, {
-            type: "bar",
-            data: {
-                labels: ["Inadimplência", "Faltas Excessivas", "Baixo Desempenho", "Solicitou o Trancamento"],
-                datasets: [{
-                    label: "Alunos",
-                    data: [30, 50, 20, 40],
-                    backgroundColor: ["#428d69"],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: "y",
-                plugins: {
-                    legend: {
-                        display: true
-                    }
-                },
-                scales: {
-                    x: {
-                        min: 0,
-                        max: 100,
-                        ticks: {
-                            stepSize: 25,
-                            callback: function (value) {
-                                return value + "%";
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
-    <script>
         const paginaAtual = window.location.pathname.split("/").pop();
 
         if (paginaAtual === "alunos.html") {

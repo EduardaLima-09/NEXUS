@@ -1,4 +1,3 @@
-/* Fontes importadas */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -43,8 +42,6 @@ body {
     height: 100vh;
 }
 
-/* Começa o SIDEBAR */
-
 .barra {
     width: 220px;
     height: 100%;
@@ -60,8 +57,6 @@ body {
     margin-top: 70px;
     margin-bottom: 10px;
 }
-
-/* Começa o MENU */
 
 .menu .titulo h1 {
     font-size: 18px;
@@ -100,8 +95,6 @@ body {
     color: var(--cor-branco-puro);
 }
 
-/* Parte do Usuário */
-
 .titulo-usuario {
     gap: 8px;
     display: flex;
@@ -125,8 +118,6 @@ body {
     color: var(--cor-cinza);
 }
 
-/* botão de sair */
-
 .sair button {
     border: none;
     padding: 8px;
@@ -136,7 +127,6 @@ body {
     margin-left: 40px;
     border-radius: 6px;
     background-color: #ef4444;
-
     font-size: 14px;
     font-weight: 700;
     color: var(--cor-branco);
@@ -147,16 +137,12 @@ body {
     background: #dc2626;
 }
 
-/* COMEÇA O CONTEÚDO */
-
 .conteudo {
     flex: 1;
     padding: 18px;
     height: 100vh;
     overflow-y: hidden;
 }
-
-/* HEADER */
 
 .tituloDash {
     display: flex;
@@ -176,8 +162,6 @@ body {
     color: var(--cor-cinza-escuro);
     font-family: var(--font-subtitulos);
 }
-
-/* começa os cards */
 
 .insights {
     gap: 16px;
@@ -215,7 +199,10 @@ body {
     width: 16px;
 }
 
-/* Começa a  tabela de alunos */
+.porcentagem p {
+    font-size: 12px;
+    color: var(--cor-cinza-escuro);
+}
 
 .conteudo3 {
     gap: 10px;
@@ -242,12 +229,29 @@ body {
     margin-bottom: 20px;
 }
 
-.topo-tabela select {
+.barra-pesquisa {
+    width: 260px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 2px solid transparent;
     outline: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    color: var(--cor-branco-puro);
-    background-color: var(--cor-verde-escuro);
+    font-size: 13px;
+    font-weight: 500;
+    transition: 0.2s;
+    color: var(--cor-verde-escuro);
+    background-color: #eef6f1;
+    font-family: var(--font-subtitulos);
+}
+
+.barra-pesquisa::placeholder {
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.barra-pesquisa:focus {
+    border: 2px solid var(--cor-verde-escuro);
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0px 0px 0px 4px rgba(66, 141, 105, 0.15);
 }
 
 .tabela-alunos {
@@ -272,17 +276,17 @@ body {
     background-color: #f8f8f8;
 }
 
-.atraso {
+.media-baixa {
     color: #F44336;
     font-weight: 600;
 }
 
-.regular {
+.media-media {
     color: #FF9800;
     font-weight: 600;
 }
 
-.certo {
+.media-alta {
     color: #4CAF50;
     font-weight: 600;
 }
@@ -326,10 +330,155 @@ body {
 
 .graficoBarra h3 {
     font-size: 14px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 
-.graficoBarra .chart-container {
-    flex: 1;
-    position: relative;
+.filtros {
+    gap: 12px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.filtros button {
+    border: none;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+    border-radius: 8px;
+    color: var(--cor-branco);
+    background-color: var(--cor-verde-escuro);
+    font-family: var(--font-subtitulos);
+    font-weight: 600;
+    box-shadow: 0px 3px 8px rgba(66, 141, 105, 0.25);
+}
+
+.filtros button:hover {
+    transform: translateY(-2px);
+    background-color: #367557;
+    box-shadow: 0px 5px 12px rgba(66, 141, 105, 0.35);
+}
+
+.filtros button:active {
+    transform: scale(0.97);
+}
+
+.filtros button.ativo {
+    background-color: var(--cor-azul-escuro);
+    color: var(--cor-branco-puro);
+}
+
+@media (max-width: 1024px) {
+    .barra {
+        width: 180px;
+        padding: 20px;
+    }
+
+    .conteudo {
+        padding: 12px;
+    }
+
+    .cards h1 {
+        font-size: 20px;
+    }
+
+    .tabela-alunos th,
+    .tabela-alunos td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .barra-pesquisa {
+        width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto;
+    }
+
+    .dash {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .barra {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        flex-direction: column;
+    }
+
+    .logo img {
+        margin-top: 0;
+    }
+
+    .conteudo {
+        height: auto;
+        overflow-y: auto;
+    }
+
+    .insights {
+        flex-direction: column;
+    }
+
+    .conteudo3 {
+        height: auto;
+        flex-direction: column;
+    }
+
+    .topo-tabela {
+        gap: 10px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .barra-pesquisa {
+        width: 100%;
+    }
+
+    .tabela {
+        overflow-x: auto;
+    }
+
+    .tabela-alunos {
+        min-width: 700px;
+    }
+
+    .filtros {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .filtros button {
+        width: 100%;
+    }
+
+    .sair button {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .tituloDash h1 {
+        font-size: 18px;
+    }
+
+    .tituloDash p {
+        font-size: 12px;
+    }
+
+    .cards h1 {
+        font-size: 18px;
+    }
+
+    .cards h3 {
+        font-size: 13px;
+    }
+
+    .tabela-alunos th,
+    .tabela-alunos td {
+        font-size: 11px;
+    }
 }
