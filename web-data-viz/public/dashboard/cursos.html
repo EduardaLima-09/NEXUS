@@ -79,15 +79,6 @@
                             </div>
                         </div>
 
-                        <div class="cards">
-                            <h3>Maior Chance de Evasão Futura</h3>
-                            <h1>Administração</h1>
-
-                            <div class="porcentagem">
-                                <p>27% de crescimento no risco</p>
-                            </div>
-                        </div>
-
                     </div>
 
                     <div class="conteudo3">
@@ -181,74 +172,135 @@
         </div>
     </div>
 
-    <script>
+   <script>
 
-        function goDash() {
-            window.location.href = "dashboard.html";
+    let graficoCursos;
+
+    function goDash() {
+        window.location.href = "dashboard.html";
+    }
+
+    function goAlunos() {
+        window.location.href = "alunos.html";
+    }
+
+    function goCursos() {
+        window.location.href = "cursos.html";
+    }
+
+    function goPainel() {
+        window.location.href = "painel.html";
+    }
+
+    function goHome() {
+        sessionStorage.clear();
+        window.location.href = "../index.html";
+    }
+
+    function toggleCurso(elemento) {
+        elemento.classList.toggle("ativo");
+    }
+
+    (function carregarCabecalho() {
+
+        const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+        const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
+
+        if (cargoUsuario !== "Coordenador") {
+            window.location.href = "../login.html";
+            return;
         }
 
-        function goAlunos() {
-            window.location.href = "alunos.html";
+        document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
+        document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario;
+
+        carregarDados();
+
+    })();
+
+    async function carregarDados() {
+
+        const fkUniversidade = sessionStorage.FK_UNIVERSIDADE;
+
+        await carregarKpis(fkUniversidade);
+        await carregarGrafico(fkUniversidade);
+        await carregarListaCursos(fkUniversidade);
+    }
+
+    async function carregarKpis(fkUniversidade) {
+
+        const resposta = await fetch(`/cursos/kpis?fkUniversidade=${fkUniversidade}`);
+
+        const dados = await resposta.json();
+
+        const cards = document.querySelectorAll(".cards");
+
+        cards[0].innerHTML = `
+            <h3>Curso com Maior Risco</h3>
+
+            <h1>${dados.cursoMaiorRisco || "-"}</h1>
+
+            <div class="porcentagem">
+                <p>${dados.qtdMaiorRisco || 0} alunos em risco • Último semestre</p>
+            </div>
+        `;
+
+        cards[1].innerHTML = `
+            <h3>Curso com Menor Risco</h3>
+
+            <h1>${dados.cursoMenorRisco || "-"}</h1>
+
+            <div class="porcentagem">
+                <p>${dados.qtdMenorRisco || 0} alunos em risco • Último semestre</p>
+            </div>
+        `;
+    }
+
+    async function carregarGrafico(fkUniversidade) {
+
+        const resposta = await fetch(`/cursos/grafico?fkUniversidade=${fkUniversidade}`);
+
+        const dados = await resposta.json();
+
+        const labels = dados.map(item => item.curso);
+
+        const alto = dados.map(item => item.alto);
+        const medio = dados.map(item => item.medio);
+        const baixo = dados.map(item => item.baixo);
+
+        const ctx = document.getElementById("mychart1");
+
+        if (graficoCursos) {
+            graficoCursos.destroy();
         }
 
-        function goCursos() {
-            window.location.href = "cursos.html";
-        }
+        graficoCursos = new Chart(ctx, {
 
-        function goPainel() {
-            window.location.href = "painel.html";
-        }
-
-        function goHome() {
-            sessionStorage.clear();
-            window.location.href = "../index.html";
-        }
-
-        function toggleCurso(elemento) {
-            elemento.classList.toggle("ativo");
-        }
-
-        (function carregarCabecalho() {
-
-            const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
-            const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
-
-            if (cargoUsuario !== "Coordenador") {
-                window.location.href = "../login.html";
-                return;
-            }
-
-            document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
-            document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario;
-
-        })();
-
-        const ctx1 = document.getElementById("mychart1");
-
-        new Chart(ctx1, {
             type: "bar",
 
             data: {
-                labels: ["ADS", "Direito", "Medicina", "Engenharia", "Psicologia", "Administração"],
+
+                labels: labels,
 
                 datasets: [
+
                     {
                         label: "Alto Risco",
-                        data: [18, 9, 4, 34, 16, 29],
+                        data: alto,
                         backgroundColor: "#ef4444",
                         borderRadius: 6
                     },
 
                     {
                         label: "Médio Risco",
-                        data: [22, 14, 8, 20, 19, 18],
+                        data: medio,
                         backgroundColor: "#facc15",
                         borderRadius: 6
                     },
 
                     {
                         label: "Baixo Risco",
-                        data: [60, 77, 88, 46, 65, 53],
+                        data: baixo,
                         backgroundColor: "#428d69",
                         borderRadius: 6
                     }
@@ -256,6 +308,7 @@
             },
 
             options: {
+
                 responsive: true,
                 maintainAspectRatio: false,
 
@@ -269,34 +322,75 @@
                 scales: {
                     y: {
                         beginAtZero: true
-                    },
-
-                    x: {
-                        ticks: {
-                            font: {
-                                size: 10
-                            }
-                        }
                     }
                 }
             }
         });
+    }
 
-    </script>
+    async function carregarListaCursos(fkUniversidade) {
 
-    <script>
+        const resposta = await fetch(`/cursos/lista?fkUniversidade=${fkUniversidade}`);
 
-        const paginaAtual = window.location.pathname.split("/").pop();
+        const dados = await resposta.json();
 
-        if (paginaAtual === "alunos.html") {
-            document.getElementById("Alunos").classList.add("ativo");
-        }
+        const listaCursos = document.querySelector(".lista-cursos");
 
-        if (paginaAtual === "cursos.html") {
-            document.getElementById("Cursos").classList.add("ativo");
-        }
+        listaCursos.innerHTML = `
+            <h3>Lista de Cursos</h3>
+        `;
 
-    </script>
+        dados.forEach(curso => {
+
+            listaCursos.innerHTML += `
+
+                <div class="curso-item" onclick="toggleCurso(this)">
+
+                    <div class="curso-nome">
+                        ${curso.nome}
+                    </div>
+
+                    <div class="curso-info">
+
+                        <p>
+                            <strong>Média:</strong>
+                            ${curso.media || 0}
+                        </p>
+
+                        <p>
+                            <strong>Presença:</strong>
+                            ${curso.presenca || 0}%
+                        </p>
+
+                        <p>
+                            <strong>Em risco:</strong>
+                            ${curso.emRisco || 0} alunos
+                        </p>
+
+                        <p>
+                            <strong>Semestre crítico:</strong>
+                            ${curso.semestreCritico || "-"}º semestre
+                        </p>
+
+                    </div>
+
+                </div>
+
+            `;
+        });
+    }
+
+    const paginaAtual = window.location.pathname.split("/").pop();
+
+    if (paginaAtual === "alunos.html") {
+        document.getElementById("Alunos").classList.add("ativo");
+    }
+
+    if (paginaAtual === "cursos.html") {
+        document.getElementById("Cursos").classList.add("ativo");
+    }
+
+</script>
 </body>
 
 </html>

@@ -23,10 +23,16 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 var universidadesRouter = require("./src/routes/universidade");
-var diretoriaRouter     = require("./src/routes/diretoria");
+var diretoriaRouter = require("./src/routes/diretoria");
+var alunosRouter = require("./src/routes/alunos");
+var cursosRouter = require("./src/routes/cursos");
+var dashboardRouter = require("./src/routes/dashboard");
 
 app.use("/universidades", universidadesRouter);
 app.use("/diretoria", diretoriaRouter);
+app.use("/alunos", alunosRouter);
+app.use("/cursos", cursosRouter);
+app.use("/dashboard", dashboardRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
