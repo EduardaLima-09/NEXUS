@@ -1,15 +1,14 @@
-// controllers/alunosController.js
-
 var alunosModel = require("../models/alunosModel");
 
-function buscarKpis(req, res) {
+function buscarKpisRisco(req, res) {
+
     var fkUniversidade = req.query.fkUniversidade;
 
     if (!fkUniversidade) {
         return res.status(400).send("fkUniversidade está undefined!");
     }
 
-    alunosModel.buscarKpis(fkUniversidade)
+    alunosModel.buscarKpisRisco(fkUniversidade)
         .then(function (resultado) {
             res.status(200).json(resultado[0]);
         })
@@ -17,16 +16,18 @@ function buscarKpis(req, res) {
             console.log(erro);
             res.status(500).json(erro.sqlMessage);
         });
+
 }
 
-function buscarDistribuicaoRisco(req, res) {
+function buscarAlunos(req, res) {
+
     var fkUniversidade = req.query.fkUniversidade;
 
     if (!fkUniversidade) {
         return res.status(400).send("fkUniversidade está undefined!");
     }
 
-    alunosModel.buscarDistribuicaoRisco(fkUniversidade)
+    alunosModel.buscarAlunos(fkUniversidade)
         .then(function (resultado) {
             res.status(200).json(resultado);
         })
@@ -34,29 +35,18 @@ function buscarDistribuicaoRisco(req, res) {
             console.log(erro);
             res.status(500).json(erro.sqlMessage);
         });
+
 }
 
-function listarAlunos(req, res) {
-    var fkUniversidade = req.query.fkUniversidade;
+function buscarCursosFiltro(req, res) {
 
-    var pesquisa = req.query.pesquisa || "";
-    var curso = req.query.curso || "";
-    var semestre = req.query.semestre || "";
-    var risco = req.query.risco || "";
-    var nota = req.query.nota || "";
+    var fkUniversidade = req.query.fkUniversidade;
 
     if (!fkUniversidade) {
         return res.status(400).send("fkUniversidade está undefined!");
     }
 
-    alunosModel.listarAlunos(
-        fkUniversidade,
-        pesquisa,
-        curso,
-        semestre,
-        risco,
-        nota
-    )
+    alunosModel.buscarCursosFiltro(fkUniversidade)
         .then(function (resultado) {
             res.status(200).json(resultado);
         })
@@ -64,16 +54,18 @@ function listarAlunos(req, res) {
             console.log(erro);
             res.status(500).json(erro.sqlMessage);
         });
+
 }
 
-function buscarFiltros(req, res) {
+function buscarSemestresFiltro(req, res) {
+
     var fkUniversidade = req.query.fkUniversidade;
 
     if (!fkUniversidade) {
         return res.status(400).send("fkUniversidade está undefined!");
     }
 
-    alunosModel.buscarFiltros(fkUniversidade)
+    alunosModel.buscarSemestresFiltro(fkUniversidade)
         .then(function (resultado) {
             res.status(200).json(resultado);
         })
@@ -81,11 +73,12 @@ function buscarFiltros(req, res) {
             console.log(erro);
             res.status(500).json(erro.sqlMessage);
         });
+
 }
 
 module.exports = {
-    buscarKpis,
-    buscarDistribuicaoRisco,
-    listarAlunos,
-    buscarFiltros
+    buscarKpisRisco,
+    buscarAlunos,
+    buscarCursosFiltro,
+    buscarSemestresFiltro
 };

@@ -1,24 +1,22 @@
-// routes/alunos.js
-
 var express = require("express");
 var router = express.Router();
 
 var alunosController = require("../controllers/alunosController");
 
-router.get("/kpis", function (req, res) {
-    alunosController.buscarKpis(req, res);
-});
-
-router.get("/distribuicao-risco", function (req, res) {
-    alunosController.buscarDistribuicaoRisco(req, res);
+router.get("/kpis-risco", function (req, res) {
+    alunosController.buscarKpisRisco(req, res);
 });
 
 router.get("/listar", function (req, res) {
-    alunosController.listarAlunos(req, res);
+    alunosController.buscarAlunos(req, res);
 });
 
-router.get("/filtros", function (req, res) {
-    alunosController.buscarFiltros(req, res);
+router.get("/cursos-filtro", function (req, res) {
+    alunosController.buscarCursosFiltro(req, res);
+});
+
+router.get("/semestres-filtro", function (req, res) {
+    alunosController.buscarSemestresFiltro(req, res);
 });
 
 module.exports = router;

@@ -87,7 +87,6 @@
                             <h1>-</h1>
 
                             <div class="porcentagem">
-                                <img src="../assets/up-arrow.png" alt="">
                                 <p>Dados referentes ao último semestre</p>
                             </div>
                         </div>
@@ -98,7 +97,6 @@
                             <h1>-</h1>
 
                             <div class="porcentagem">
-                                <img src="../assets/down-arrow.png" alt="">
                                 <p>Monitoramento do último semestre</p>
                             </div>
                         </div>
@@ -109,7 +107,6 @@
                             <h1>-</h1>
 
                             <div class="porcentagem">
-                                <img src="../assets/up-arrow.png" alt="">
                                 <p>Baseado nos dados do último semestre</p>
                             </div>
                         </div>
@@ -614,72 +611,63 @@
 
             graficoLinha = new Chart(ctx, {
 
-                type: "line",
+    type: "bar",
 
-                data: {
+    data: {
 
-                    labels: labels,
+        labels: labels,
 
-                    datasets: [{
+        datasets: [{
 
-                        label: "Média Acadêmica",
+            label: "Média Acadêmica",
 
-                        data: medias,
+            data: medias,
 
-                        borderColor: "#111827",
+            backgroundColor: "rgba(70, 129, 166, 0.7)",
 
-                        backgroundColor:
-                            "rgba(70, 129, 166, 0.3)",
+            borderColor: "#012340",
 
-                        pointBackgroundColor: "#164773",
+            borderWidth: 2
 
-                        pointBorderColor: "#012340",
+        }]
 
-                        borderWidth: 2,
+    },
 
-                        fill: true,
+    options: {
 
-                        tension: 0.3
+        responsive: true,
 
-                    }]
+        maintainAspectRatio: false,
 
-                },
+        plugins: {
 
-                options: {
+            legend: {
+                display: true
+            }
 
-                    responsive: true,
+        },
 
-                    maintainAspectRatio: false,
+        scales: {
 
-                    plugins: {
+            y: {
 
-                        legend: {
-                            display: true
-                        }
+                min: 0,
 
-                    },
+                max: 10,
 
-                    scales: {
+                ticks: {
 
-                        y: {
-
-                            min: 0,
-
-                            max: 10,
-
-                            ticks: {
-
-                                stepSize: 2
-
-                            }
-
-                        }
-
-                    }
+                    stepSize: 2
 
                 }
 
-            });
+            }
+
+        }
+
+    }
+
+});
 
         } catch (erro) {
             console.error("Erro inesperado em carregarGraficoMedia:", erro);

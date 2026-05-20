@@ -178,7 +178,7 @@ body {
 }
 
 .cards h3 {
-    font-size: 14px;
+    font-size: 18px;
     color: var(--cor-verde-escuro);
     font-family: var(--font-titulos);
 }
@@ -309,7 +309,7 @@ body {
 }
 
 .graficoDonut h3 {
-    font-size: 14px;
+    font-size: 18px;
     margin-bottom: 5px;
 }
 
@@ -366,6 +366,37 @@ body {
 .filtros button.ativo {
     background-color: var(--cor-azul-escuro);
     color: var(--cor-branco-puro);
+}
+
+.acoes-tabela {
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filtro-select {
+    border: none;
+    outline: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: 0.2s;
+    cursor: pointer;
+    color: var(--cor-verde-escuro);
+    background-color: #eef6f1;
+    font-family: var(--font-subtitulos);
+}
+
+.filtro-select:focus {
+    box-shadow: 0px 0px 0px 4px rgba(66, 141, 105, 0.15);
+}
+
+.metade2 {
+    flex: 1;
+    display: flex;
+    justify-content: center;
 }
 
 @media (max-width: 1024px) {
@@ -457,6 +488,16 @@ body {
 
     .sair button {
         margin-left: 0;
+    }
+
+    .acoes-tabela {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filtro-select {
+        width: 100%;
     }
 }
 

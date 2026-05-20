@@ -193,7 +193,7 @@ body {
 }
 
 .cards h3 {
-    font-size: 14px;
+    font-size: 18px;
     color: var(--cor-azul-escuro);
     font-family: var(--font-titulos);
 }
