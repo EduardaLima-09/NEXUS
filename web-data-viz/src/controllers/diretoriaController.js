@@ -54,7 +54,9 @@ function autenticar(req, res) {
                 return res.status(500).send("Mais de um usuário com o mesmo login.");
             }
             var usuario = resultado[0];
-            var redirecionarPara = "/dashboard/alunos.html";
+            var redirecionarPara = usuario.cargo === "Coordenador"
+                ? "/dashboard/painel.html"
+                : "/dashboard/alunos.html";
             res.status(200).json({
                 id: usuario.id,
                 nome: usuario.nome,
