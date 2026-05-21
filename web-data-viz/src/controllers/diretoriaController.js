@@ -236,50 +236,6 @@ function deletarCurso(req, res) {
         });
 }
 
-function cadastrarAluno(req, res) {
-    var nome = req.body.nome;
-    var sobrenome = req.body.sobrenome;
-    var cpf = req.body.cpf;
-    var sexo = req.body.sexo;
-    var email = req.body.email;
-
-    if (!nome || !sobrenome || !cpf || !sexo || !email) {
-        return res.status(400).send("Campos obrigatórios ausentes.");
-    }
-    if (sexo !== "M" && sexo !== "F" && sexo !== "O") {
-        return res.status(400).send("Sexo inválido. Use M, F ou O.");
-    }
-
-    diretoriaModel.cadastrarAluno(nome, sobrenome, cpf, sexo, email)
-        .then(function () {
-            res.status(201).json({ mensagem: "Aluno cadastrado com sucesso." });
-        })
-        .catch(function (erro) {
-            console.log(erro);
-            if (erro.code === "ER_DUP_ENTRY") {
-                return res.status(409).send("CPF ou email já cadastrado.");
-            }
-            res.status(500).json(erro.sqlMessage);
-        });
-}
-
-function cadastrarCurso(req, res) {
-    var fkUniversidade = req.query.fkUniversidade;
-    var nome = req.body.nome;
-    var modalidade = req.body.modalidade;
-
-    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
-    if (!nome || !modalidade) return res.status(400).send("Campos obrigatórios ausentes.");
-
-    diretoriaModel.cadastrarCurso(nome, modalidade, fkUniversidade)
-        .then(function () {
-            res.status(201).json({ mensagem: "Curso cadastrado com sucesso." });
-        })
-        .catch(function (erro) {
-            console.log(erro);
-            res.status(500).json(erro.sqlMessage);
-        });
-}
 
 module.exports = {
     cadastrar,
@@ -288,11 +244,9 @@ module.exports = {
     atualizar,
     deletar,
     listarAlunos,
-    cadastrarAluno,
     atualizarAluno,
     deletarAluno,
     listarCursos,
-    cadastrarCurso,
     atualizarCurso,
     deletarCurso
 };

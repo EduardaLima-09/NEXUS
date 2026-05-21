@@ -86,7 +86,7 @@
 
                             <div class="titulo-usuario">
                                 <span class="material-icons icone-user">account_circle</span>
-                                <h1>Administrador</h1>
+                                <h1 id="cargoUsuarioSidebar">Coordenador</h1>
                             </div>
 
                             <p>
@@ -246,15 +246,20 @@
             sessionStorage.getItem("CARGO_USUARIO");
 
         const nomeUsuario =
-            sessionStorage.getItem("NOME_USUARIO")
-            || sessionStorage.getItem("NOME_DIRETOR")
-            || "Usuário";
+            sessionStorage.getItem("NOME_USUARIO") || "Usuário";
 
         const fkUniversidade =
             sessionStorage.getItem("FK_UNIVERSIDADE");
 
+        if (cargoUsuario && cargoUsuario !== "Coordenador") {
+            window.location.href = "../login.html";
+        }
+
         document.getElementById("nomeUsuarioSidebar").innerText =
             nomeUsuario;
+
+        document.getElementById("cargoUsuarioSidebar").innerText =
+            cargoUsuario || "Coordenador";
 
         let abaAtual = "usuarios";
         let todosAlunos = [];
@@ -295,8 +300,8 @@
             botaoClicado.classList.add("ativa");
 
             if (tipo === "usuarios") carregarUsuarios();
-            if (tipo === "alunos") carregarAlunos();
-            if (tipo === "cursos") carregarCursos();
+            if (tipo === "alunos")   carregarAlunos();
+            if (tipo === "cursos")   carregarCursos();
 
         }
 
@@ -431,7 +436,6 @@
 
         async function salvarRegistro() {
 
-            // USUÁRIOS
             if (abaAtual === "usuarios") {
 
                 const nome =
@@ -499,12 +503,12 @@
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
-                                nomeServer: nome,
+                                nomeServer:      nome,
                                 sobrenomeServer: sobrenome || "-",
-                                emailServer: email,
-                                tokenServer: token,
-                                senhaServer: senha,
-                                cargoServer: cargo
+                                emailServer:     email,
+                                tokenServer:     token,
+                                senhaServer:     senha,
+                                cargoServer:     cargo
                             })
                         });
                         if (resposta.status === 201) {
@@ -524,7 +528,6 @@
 
             }
 
-            // ALUNOS
             else if (abaAtual === "alunos") {
 
                 const nome =
@@ -589,7 +592,6 @@
 
             }
 
-            // CURSOS
             else if (abaAtual === "cursos") {
 
                 const nome =
@@ -914,7 +916,6 @@
 
         }
 
-        // Carrega usuários ao abrir a página
         carregarUsuarios();
 
     </script>

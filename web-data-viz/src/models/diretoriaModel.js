@@ -41,7 +41,12 @@ function listarPorUniversidade(fkUniversidade) {
         SELECT id, nome, sobrenome, email, token, cargo
         FROM Usuario
         WHERE fkUniversidade = '${fkUniversidade}'
-        ORDER BY nome;
+        ORDER BY
+            CASE
+                WHEN cargo = 'Coordenador' THEN 0
+                ELSE 1
+            END,
+            nome;
     `;
     return database.executar(instrucaoSql);
 }
@@ -64,7 +69,8 @@ function deletar(id, fkUniversidade) {
     var instrucaoSql = `
         DELETE FROM Usuario
         WHERE id = '${id}'
-          AND fkUniversidade = '${fkUniversidade}';
+          AND fkUniversidade = '${fkUniversidade}'
+          AND cargo = 'Professor';
     `;
     return database.executar(instrucaoSql);
 }
@@ -89,6 +95,20 @@ function listarAlunos(fkUniversidade) {
         WHERE c.fkUniversidade = '${fkUniversidade}'
         GROUP BY a.RA, c.id
         ORDER BY a.nome;
+    `;
+    return database.executar(instrucaoSql);
+}
+
+function cadastrarAluno(nome, sobrenome, cpf, sexo, email) {
+    var instrucaoSql = `
+        INSERT INTO Aluno (nome, sobrenome, cpf, sexo, email)
+        VALUES (
+            '${nome}',
+            '${sobrenome}',
+            '${cpf}',
+            '${sexo}',
+            '${email}'
+        );
     `;
     return database.executar(instrucaoSql);
 }
@@ -125,6 +145,18 @@ function listarCursos(fkUniversidade) {
     return database.executar(instrucaoSql);
 }
 
+function cadastrarCurso(nome, modalidade, fkUniversidade) {
+    var instrucaoSql = `
+        INSERT INTO Curso (nome, modalidade, fkUniversidade)
+        VALUES (
+            '${nome}',
+            '${modalidade}',
+            '${fkUniversidade}'
+        );
+    `;
+    return database.executar(instrucaoSql);
+}
+
 function atualizarCurso(id, nome, modalidade, fkUniversidade) {
     var instrucaoSql = `
         UPDATE Curso
@@ -142,32 +174,6 @@ function deletarCurso(id, fkUniversidade) {
         DELETE FROM Curso
         WHERE id = '${id}'
           AND fkUniversidade = '${fkUniversidade}';
-    `;
-    return database.executar(instrucaoSql);
-}
-
-function cadastrarAluno(nome, sobrenome, cpf, sexo, email) {
-    var instrucaoSql = `
-        INSERT INTO Aluno (nome, sobrenome, cpf, sexo, email)
-        VALUES (
-            '${nome}',
-            '${sobrenome}',
-            '${cpf}',
-            '${sexo}',
-            '${email}'
-        );
-    `;
-    return database.executar(instrucaoSql);
-}
-
-function cadastrarCurso(nome, modalidade, fkUniversidade) {
-    var instrucaoSql = `
-        INSERT INTO Curso (nome, modalidade, fkUniversidade)
-        VALUES (
-            '${nome}',
-            '${modalidade}',
-            '${fkUniversidade}'
-        );
     `;
     return database.executar(instrucaoSql);
 }

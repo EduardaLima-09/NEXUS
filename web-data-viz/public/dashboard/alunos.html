@@ -10,15 +10,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <title>Nexus | Alunos</title>
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
+
     <div class="tela">
+
         <div class="dash">
+
             <div class="barra">
+
                 <div class="logo">
                     <img src="../assets/LogoBranca.png" alt="">
                 </div>
@@ -43,13 +48,8 @@
                         <div class="nome">
 
                             <div class="titulo-usuario">
-                                <span class="material-icons icone-user">
-                                    account_circle
-                                </span>
-
-                                <h1 id="cargoUsuarioSidebar">
-                                    Professor
-                                </h1>
+                                <span class="material-icons icone-user">account_circle</span>
+                                <h1 id="cargoUsuarioSidebar">Professor</h1>
                             </div>
 
                             <p id="nomeUsuarioSidebar"></p>
@@ -91,6 +91,7 @@
                             <h1 id="kpiBaixo">-</h1>
 
                             <div class="porcentagem">
+                                <img src="../assets/down-arrow.png" alt="">
                                 <p>Último semestre</p>
                             </div>
                         </div>
@@ -101,6 +102,7 @@
                             <h1 id="kpiAlto">-</h1>
 
                             <div class="porcentagem">
+                                <img src="../assets/up-arrow.png" alt="">
                                 <p>Último semestre</p>
                             </div>
                         </div>
@@ -111,6 +113,7 @@
                             <h1 id="kpiMedio">-</h1>
 
                             <div class="porcentagem">
+                                <img src="../assets/up-arrow.png" alt="">
                                 <p>Último semestre</p>
                             </div>
                         </div>
@@ -204,391 +207,401 @@
 
     </div>
 
-<script>
+    <script>
 
-    function goAlunos() {
-        window.location.href = "alunos.html";
-    }
-
-    function goCursos() {
-        window.location.href = "cursos.html";
-    }
-
-    function goHome() {
-        sessionStorage.clear();
-        window.location.href = "../index.html";
-    }
-
-    (function carregarCabecalho() {
-
-        const cargoUsuario =
-            sessionStorage.getItem("CARGO_USUARIO");
-
-        const nomeUsuario =
-            sessionStorage.getItem("NOME_USUARIO") || "Usuário";
-
-        document.getElementById("nomeUsuario").innerText =
-            nomeUsuario;
-
-        document.getElementById("nomeUsuarioSidebar").innerText =
-            nomeUsuario;
-
-        document.getElementById("cargoUsuarioSidebar").innerText =
-            cargoUsuario || "Professor";
-
-    })();
-
-</script>
-
-<script>
-
-    const fkUniversidade =
-        sessionStorage.getItem("FK_UNIVERSIDADE");
-
-    // Guarda todos os alunos vindos do banco para filtrar no front
-    let todosAlunos = [];
-
-    let graficoDonut = null;
-
-    async function iniciarPagina() {
-
-        if (!fkUniversidade) {
-            console.error("FK_UNIVERSIDADE não encontrada no sessionStorage.");
-            return;
+        function goAlunos() {
+            window.location.href = "alunos.html";
         }
 
-        await carregarKpis();
-        await carregarFiltros();
-        await carregarAlunos();
+        function goCursos() {
+            window.location.href = "cursos.html";
+        }
 
-    }
+        function goHome() {
+            sessionStorage.clear();
+            window.location.href = "../index.html";
+        }
 
-    // ── KPIs ────────────────────────────────────────────────────────────────
+        (function carregarCabecalho() {
 
-    async function carregarKpis() {
+            const cargoUsuario =
+                sessionStorage.getItem("CARGO_USUARIO");
 
-        try {
+            const nomeUsuario =
+                sessionStorage.getItem("NOME_USUARIO") || "Usuário";
 
-            const resposta = await fetch(
-                `/alunos/kpis-risco?fkUniversidade=${fkUniversidade}`
-            );
+            document.getElementById("nomeUsuario").innerText =
+                nomeUsuario;
 
-            if (!resposta.ok) {
-                console.error("Erro ao buscar KPIs:", await resposta.text());
+            document.getElementById("nomeUsuarioSidebar").innerText =
+                nomeUsuario;
+
+            document.getElementById("cargoUsuarioSidebar").innerText =
+                cargoUsuario || "Professor";
+
+            const paginaAtual =
+                window.location.pathname.split("/").pop();
+
+            if (paginaAtual === "alunos.html") {
+                document.getElementById("Alunos").classList.add("ativo");
+            }
+
+            if (paginaAtual === "cursos.html") {
+                document.getElementById("Cursos").classList.add("ativo");
+            }
+
+        })();
+
+    </script>
+
+    <script>
+
+        const fkUniversidade =
+            sessionStorage.getItem("FK_UNIVERSIDADE");
+
+        let todosAlunos = [];
+
+        let graficoDonut = null;
+
+        async function iniciarPagina() {
+
+            if (!fkUniversidade) {
+                console.error("FK_UNIVERSIDADE não encontrada no sessionStorage.");
                 return;
             }
 
-            const dados = await resposta.json();
-
-            document.getElementById("kpiBaixo").innerText =
-                dados.baixo ?? 0;
-
-            document.getElementById("kpiAlto").innerText =
-                dados.alto ?? 0;
-
-            document.getElementById("kpiMedio").innerText =
-                dados.medio ?? 0;
-
-        } catch (erro) {
-            console.error("Erro inesperado em carregarKpis:", erro);
-        }
-
-    }
-
-    // ── FILTROS (selects dinâmicos) ──────────────────────────────────────────
-
-    async function carregarFiltros() {
-
-        try {
-
-            // Cursos
-            const respostaCursos = await fetch(
-                `/alunos/cursos-filtro?fkUniversidade=${fkUniversidade}`
-            );
-
-            if (respostaCursos.ok) {
-
-                const cursos = await respostaCursos.json();
-
-                const selectCurso =
-                    document.getElementById("filtroCurso");
-
-                cursos.forEach(function (curso) {
-
-                    const option = document.createElement("option");
-                    option.value = curso.nome;
-                    option.textContent = curso.nome;
-                    selectCurso.appendChild(option);
-
-                });
-
-            }
-
-            // Semestres
-            const respostaSemestres = await fetch(
-                `/alunos/semestres-filtro?fkUniversidade=${fkUniversidade}`
-            );
-
-            if (respostaSemestres.ok) {
-
-                const semestres = await respostaSemestres.json();
-
-                const selectSemestre =
-                    document.getElementById("filtroSemestre");
-
-                semestres.forEach(function (item) {
-
-                    const option = document.createElement("option");
-                    option.value = item.semestre;
-                    option.textContent = `${item.semestre}º Semestre`;
-                    selectSemestre.appendChild(option);
-
-                });
-
-            }
-
-        } catch (erro) {
-            console.error("Erro inesperado em carregarFiltros:", erro);
-        }
-
-    }
-
-    // ── TABELA ───────────────────────────────────────────────────────────────
-
-    async function carregarAlunos() {
-
-        try {
-
-            const resposta = await fetch(
-                `/alunos/listar?fkUniversidade=${fkUniversidade}`
-            );
-
-            if (!resposta.ok) {
-                console.error("Erro ao buscar alunos:", await resposta.text());
-                return;
-            }
-
-            todosAlunos = await resposta.json();
-
-            renderizarTabela(todosAlunos);
-            renderizarGrafico(todosAlunos);
-
-        } catch (erro) {
-            console.error("Erro inesperado em carregarAlunos:", erro);
-        }
-
-    }
-
-    function renderizarTabela(alunos) {
-
-        const tbody =
-            document.getElementById("tbodyAlunos");
-
-        tbody.innerHTML = "";
-
-        if (alunos.length === 0) {
-
-            tbody.innerHTML =
-                `<tr><td colspan="6" style="text-align:center; padding: 20px; color: #999;">
-                    Nenhum aluno encontrado.
-                </td></tr>`;
-
-            return;
+            await carregarKpis();
+            await carregarFiltros();
+            await carregarAlunos();
 
         }
 
-        alunos.forEach(function (aluno) {
+        // ── KPIs ─────────────────────────────────────────────────────────────
 
-            const classNota =
-                aluno.media >= 8
-                    ? "media-alta"
-                    : aluno.media >= 6
-                        ? "media-media"
-                        : "media-baixa";
+        async function carregarKpis() {
 
-            const corRisco =
-                aluno.risco === "Alto"
-                    ? "#ef4444"
-                    : aluno.risco === "Médio"
-                        ? "#f97316"
-                        : "#22c55e";
+            try {
 
-            const tr = document.createElement("tr");
+                const resposta = await fetch(
+                    `/alunos/kpis-risco?fkUniversidade=${fkUniversidade}`
+                );
 
-            tr.innerHTML = `
-                <td>${aluno.nomeCompleto}</td>
-                <td>${aluno.curso}</td>
-                <td>${aluno.semestre}º</td>
-                <td>${aluno.faltas}%</td>
-                <td class="${classNota}">${aluno.media}</td>
-                <td>
-                    <span style="
-                        padding: 4px 10px;
-                        border-radius: 20px;
-                        font-size: 12px;
-                        font-weight: 600;
-                        color: white;
-                        background-color: ${corRisco};
-                    ">
-                        ${aluno.risco}
-                    </span>
-                </td>
-            `;
-
-            tbody.appendChild(tr);
-
-        });
-
-    }
-
-    // ── GRÁFICO DONUT ────────────────────────────────────────────────────────
-function renderizarGrafico(alunos) {
-
-    const baixo =
-        alunos.filter(a => a.risco === "Baixo").length;
-
-    const medio =
-        alunos.filter(a => a.risco === "Médio").length;
-
-    const alto =
-        alunos.filter(a => a.risco === "Alto").length;
-
-    const total = baixo + medio + alto;
-
-    const ctx =
-        document.getElementById("mychart1");
-
-    if (graficoDonut) {
-        graficoDonut.destroy();
-    }
-
-    graficoDonut = new Chart(ctx, {
-
-        type: "doughnut",
-
-        data: {
-
-            labels: ["Baixo", "Médio", "Alto"],
-
-            datasets: [{
-
-                data: [baixo, medio, alto],
-
-                backgroundColor: [
-                    "#22c55e",
-                    "#f97316",
-                    "#ef4444"
-                ],
-
-                borderColor: "#ffffff",
-
-                borderWidth: 3
-
-            }]
-
-        },
-
-        options: {
-
-            responsive: true,
-
-            maintainAspectRatio: false,
-
-            cutout: "55%",
-
-            plugins: {
-
-                legend: {
-                    position: "bottom"
-                },
-
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return ` ${context.label}: ${context.raw} aluno(s)`;
-                        }
-                    }
-                },
-
-                datalabels: {
-                    color: "#ffffff",
-                    font: {
-                        weight: "bold",
-                        size: 13
-                    },
-                    formatter: function (value) {
-                        if (total === 0 || value === 0) return "";
-                        const porcentagem = ((value / total) * 100).toFixed(1);
-                        return porcentagem + "%";
-                    }
+                if (!resposta.ok) {
+                    console.error("Erro ao buscar KPIs:", await resposta.text());
+                    return;
                 }
 
+                const dados = await resposta.json();
+
+                document.getElementById("kpiBaixo").innerText =
+                    dados.baixo ?? 0;
+
+                document.getElementById("kpiAlto").innerText =
+                    dados.alto ?? 0;
+
+                document.getElementById("kpiMedio").innerText =
+                    dados.medio ?? 0;
+
+            } catch (erro) {
+                console.error("Erro inesperado em carregarKpis:", erro);
             }
 
-        },
+        }
 
-        plugins: [ChartDataLabels]
+        // ── FILTROS DINÂMICOS ─────────────────────────────────────────────────
 
-    });
+        async function carregarFiltros() {
 
-}
-    // ── FILTROS FRONT-END ────────────────────────────────────────────────────
+            try {
 
-    function filtrarTabela() {
+                const respostaCursos = await fetch(
+                    `/alunos/cursos-filtro?fkUniversidade=${fkUniversidade}`
+                );
 
-        const textoPesquisa =
-            document.getElementById("pesquisaAluno")
-                .value.toLowerCase();
+                if (respostaCursos.ok) {
 
-        const cursoPesquisa =
-            document.getElementById("filtroCurso").value;
+                    const cursos = await respostaCursos.json();
 
-        const semestrePesquisa =
-            document.getElementById("filtroSemestre").value;
+                    const selectCurso =
+                        document.getElementById("filtroCurso");
 
-        const riscoPesquisa =
-            document.getElementById("filtroRisco").value;
+                    cursos.forEach(function (curso) {
 
-        const notaPesquisa =
-            document.getElementById("filtroNota").value;
+                        const option = document.createElement("option");
+                        option.value = curso.nome;
+                        option.textContent = curso.nome;
+                        selectCurso.appendChild(option);
 
-        const alunosFiltrados = todosAlunos.filter(function (aluno) {
+                    });
 
-            const nomeOk =
-                aluno.nomeCompleto.toLowerCase()
-                    .includes(textoPesquisa);
+                }
 
-            const cursoOk =
-                cursoPesquisa === ""
-                || aluno.curso === cursoPesquisa;
+                const respostaSemestres = await fetch(
+                    `/alunos/semestres-filtro?fkUniversidade=${fkUniversidade}`
+                );
 
-            const semestreOk =
-                semestrePesquisa === ""
-                || String(aluno.semestre) === String(semestrePesquisa);
+                if (respostaSemestres.ok) {
 
-            const riscoOk =
-                riscoPesquisa === ""
-                || aluno.risco === riscoPesquisa;
+                    const semestres = await respostaSemestres.json();
 
-            const notaOk =
-                notaPesquisa === ""
-                || (notaPesquisa === "alta" && aluno.media > 8)
-                || (notaPesquisa === "media" && aluno.media >= 6 && aluno.media <= 8)
-                || (notaPesquisa === "baixa" && aluno.media < 6);
+                    const selectSemestre =
+                        document.getElementById("filtroSemestre");
 
-            return nomeOk && cursoOk && semestreOk && riscoOk && notaOk;
+                    semestres.forEach(function (item) {
 
-        });
+                        const option = document.createElement("option");
+                        option.value = item.semestre;
+                        option.textContent = `${item.semestre}º Semestre`;
+                        selectSemestre.appendChild(option);
 
-        renderizarTabela(alunosFiltrados);
-        renderizarGrafico(alunosFiltrados);
+                    });
 
-    }
+                }
 
-    // Inicia tudo
-    iniciarPagina();
+            } catch (erro) {
+                console.error("Erro inesperado em carregarFiltros:", erro);
+            }
 
-</script>
+        }
+
+        // ── TABELA ────────────────────────────────────────────────────────────
+
+        async function carregarAlunos() {
+
+            try {
+
+                const resposta = await fetch(
+                    `/alunos/listar?fkUniversidade=${fkUniversidade}`
+                );
+
+                if (!resposta.ok) {
+                    console.error("Erro ao buscar alunos:", await resposta.text());
+                    return;
+                }
+
+                todosAlunos = await resposta.json();
+
+                renderizarTabela(todosAlunos);
+                renderizarGrafico(todosAlunos);
+
+            } catch (erro) {
+                console.error("Erro inesperado em carregarAlunos:", erro);
+            }
+
+        }
+
+        function renderizarTabela(alunos) {
+
+            const tbody =
+                document.getElementById("tbodyAlunos");
+
+            tbody.innerHTML = "";
+
+            if (alunos.length === 0) {
+
+                tbody.innerHTML =
+                    `<tr><td colspan="6" style="text-align:center; padding: 20px; color: #999;">
+                        Nenhum aluno encontrado.
+                    </td></tr>`;
+
+                return;
+
+            }
+
+            alunos.forEach(function (aluno) {
+
+                const classNota =
+                    aluno.media >= 8
+                        ? "media-alta"
+                        : aluno.media >= 6
+                            ? "media-media"
+                            : "media-baixa";
+
+                const corRisco =
+                    aluno.risco === "Alto"
+                        ? "#ef4444"
+                        : aluno.risco === "Médio"
+                            ? "#f97316"
+                            : "#22c55e";
+
+                const tr = document.createElement("tr");
+
+                tr.innerHTML = `
+                    <td>${aluno.nomeCompleto}</td>
+                    <td>${aluno.curso}</td>
+                    <td>${aluno.semestre}º</td>
+                    <td>${aluno.faltas}%</td>
+                    <td class="${classNota}">${aluno.media}</td>
+                    <td>
+                        <span style="
+                            padding: 4px 10px;
+                            border-radius: 20px;
+                            font-size: 12px;
+                            font-weight: 600;
+                            color: white;
+                            background-color: ${corRisco};
+                        ">
+                            ${aluno.risco}
+                        </span>
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+
+            });
+
+        }
+
+        // ── GRÁFICO DONUT ─────────────────────────────────────────────────────
+
+        function renderizarGrafico(alunos) {
+
+            const baixo =
+                alunos.filter(a => a.risco === "Baixo").length;
+
+            const medio =
+                alunos.filter(a => a.risco === "Médio").length;
+
+            const alto =
+                alunos.filter(a => a.risco === "Alto").length;
+
+            const total = baixo + medio + alto;
+
+            const ctx =
+                document.getElementById("mychart1");
+
+            if (graficoDonut) {
+                graficoDonut.destroy();
+            }
+
+            graficoDonut = new Chart(ctx, {
+
+                type: "doughnut",
+
+                data: {
+
+                    labels: ["Baixo", "Médio", "Alto"],
+
+                    datasets: [{
+
+                        data: [baixo, medio, alto],
+
+                        backgroundColor: [
+                            "#22c55e",
+                            "#f97316",
+                            "#ef4444"
+                        ],
+
+                        borderColor: "#ffffff",
+
+                        borderWidth: 3
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    cutout: "55%",
+
+                    plugins: {
+
+                        legend: {
+                            position: "bottom"
+                        },
+
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return ` ${context.label}: ${context.raw} aluno(s)`;
+                                }
+                            }
+                        },
+
+                        datalabels: {
+                            color: "#ffffff",
+                            font: {
+                                weight: "bold",
+                                size: 13
+                            },
+                            formatter: function (value) {
+                                if (total === 0 || value === 0) return "";
+                                const porcentagem =
+                                    ((value / total) * 100).toFixed(1);
+                                return porcentagem + "%";
+                            }
+                        }
+
+                    }
+
+                },
+
+                plugins: [ChartDataLabels]
+
+            });
+
+        }
+
+        // ── FILTROS FRONT-END ─────────────────────────────────────────────────
+
+        function filtrarTabela() {
+
+            const textoPesquisa =
+                document.getElementById("pesquisaAluno")
+                    .value.toLowerCase();
+
+            const cursoPesquisa =
+                document.getElementById("filtroCurso").value;
+
+            const semestrePesquisa =
+                document.getElementById("filtroSemestre").value;
+
+            const riscoPesquisa =
+                document.getElementById("filtroRisco").value;
+
+            const notaPesquisa =
+                document.getElementById("filtroNota").value;
+
+            const alunosFiltrados = todosAlunos.filter(function (aluno) {
+
+                const nomeOk =
+                    aluno.nomeCompleto.toLowerCase()
+                        .includes(textoPesquisa);
+
+                const cursoOk =
+                    cursoPesquisa === ""
+                    || aluno.curso === cursoPesquisa;
+
+                const semestreOk =
+                    semestrePesquisa === ""
+                    || String(aluno.semestre) === String(semestrePesquisa);
+
+                const riscoOk =
+                    riscoPesquisa === ""
+                    || aluno.risco === riscoPesquisa;
+
+                const notaOk =
+                    notaPesquisa === ""
+                    || (notaPesquisa === "alta" && aluno.media > 8)
+                    || (notaPesquisa === "media" && aluno.media >= 6 && aluno.media <= 8)
+                    || (notaPesquisa === "baixa" && aluno.media < 6);
+
+                return nomeOk && cursoOk && semestreOk && riscoOk && notaOk;
+
+            });
+
+            renderizarTabela(alunosFiltrados);
+            renderizarGrafico(alunosFiltrados);
+
+        }
+
+        iniciarPagina();
+
+    </script>
 
 </body>
 
