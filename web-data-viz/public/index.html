@@ -38,7 +38,7 @@
         </button>
       </div>
     </div>
-    <br><br><br><br>
+    <br><br><br>
     <!--Sessão 02-->
     <div class="cards" id="sobre">
       <div class="container-valores">
@@ -78,7 +78,6 @@
         </div>
       </div>
     </div>
-    <br><br><br><br>
     <!--Sessão 03-->
     <div class="sec3" id="servicos">
       <div class="background-tech">
@@ -103,7 +102,6 @@
         </div>
       </div>
     </div>
-    <br><br>
     <!--Sessão 04-->
     <div class="sec4" id="contato">
       <div class="formulario">
@@ -194,13 +192,10 @@
 <script>
   const header = document.querySelector("header");
   const conteudo = document.querySelector(".conteudo");
-
   const alturaHeader = header.offsetHeight;
 
   window.addEventListener("scroll", function () {
-
     if (window.scrollY > 0) {
-
       header.style.position = "fixed";
       header.style.top = "0";
       header.style.left = "0";
@@ -208,53 +203,91 @@
       header.style.zIndex = "1000";
       header.style.backgroundColor = "#ffffff";
       header.style.boxShadow = "0 2px 10px rgba(0,0,0,0.2)";
-
       conteudo.style.marginTop = alturaHeader + "px";
-
     } else {
-
       header.style.position = "static";
       header.style.boxShadow = "none";
-
       conteudo.style.marginTop = "0px";
     }
-
   });
 </script>
 
-
 <script>
-
-  const sections = document.querySelectorAll("#home, #sobre, #servicos, #equipe, #contato");
+  const sections = document.querySelectorAll("#home, #sobre, #servicos, #contato");
   const navLinks = document.querySelectorAll(".titulos a:not(.cadastro):not(.barra)");
 
   function setActiveLink() {
+    let current = "";
 
-    let current = "home";
+    const scrollPosition = window.scrollY + 150; 
 
     sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionBottom = sectionTop + section.offsetHeight;
 
-      const sectionTop = section.offsetTop - 200;
-
-      if (window.scrollY >= sectionTop) {
+      if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
         current = section.getAttribute("id");
       }
-
     });
 
     navLinks.forEach(link => {
-
       link.classList.remove("active");
-
       if (link.getAttribute("href") === "#" + current) {
         link.classList.add("active");
       }
-
     });
-
   }
 
   window.addEventListener("scroll", setActiveLink);
   window.addEventListener("load", setActiveLink);
+</script>
 
+<script>
+  // ===== COMPENSAÇÃO PARA NAVEGAÇÃO COM HEADER FIXO =====
+  // Isso resolve o problema da seção aparecer cortada!
+
+  function ajustarScrollMargin() {
+    const headerAtual = document.querySelector('header');
+    const alturaHeaderAtual = headerAtual.offsetHeight;
+    const sectionsParaAjustar = document.querySelectorAll('#home, #sobre, #servicos, #contato');
+
+    sectionsParaAjustar.forEach(section => {
+      section.style.scrollMarginTop = alturaHeaderAtual + 10 + 'px';
+    });
+  }
+
+  function corrigirNavegacao() {
+    const links = document.querySelectorAll('.titulos a[href^="#"], footer a[href^="#"]');
+
+    links.forEach(link => {
+      if (link.classList.contains('cadastro') || link.classList.contains('barra')) return;
+
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          const headerAltura = document.querySelector('header').offsetHeight;
+          const elementPosition = targetElement.offsetTop;
+          const offsetPosition = elementPosition - headerAltura - 10;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  }
+
+  window.addEventListener('load', () => {
+    ajustarScrollMargin();
+    corrigirNavegacao();
+  });
+
+  window.addEventListener('resize', () => {
+    ajustarScrollMargin();
+  });
 </script>
