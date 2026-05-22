@@ -14,7 +14,6 @@
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 
     <style>
-
         .secao-tabela {
             max-height: calc(100vh - 320px);
             overflow-y: auto;
@@ -46,97 +45,64 @@
             border: 2px solid var(--cor--sidebar);
             background-color: #fff;
         }
-
     </style>
 
 </head>
 
 <body>
-
     <div class="tela">
-
         <div class="dash">
-
             <div class="barra">
-
                 <button class="btn-menu-mobile" onclick="toggleMenu()">☰</button>
-
                 <div class="logo">
                     <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
                 </div>
-
                 <div class="menu" id="menuLateral">
-
                     <div class="titulo">
                         <h1>Menu Principal</h1>
                     </div>
-
                     <div class="botoes">
                         <button onclick="goDash()">Início</button>
+                        <button onclick="goMetas()">Metas</button>
                         <button onclick="goPainel()">Administração</button>
                     </div>
-
                 </div>
 
                 <div class="sair">
-
                     <div class="usuario">
-
                         <div class="nome">
-
                             <div class="titulo-usuario">
                                 <span class="material-icons icone-user">account_circle</span>
                                 <h1 id="cargoUsuarioSidebar">Coordenador</h1>
                             </div>
-
                             <p>
                                 <span id="nomeUsuarioSidebar">Usuário</span> * Nexus
                             </p>
-
                         </div>
-
                     </div>
-
                     <button onclick="goHome()">Sair</button>
-
                 </div>
-
             </div>
-
             <div class="conteudo">
-
                 <div class="tituloDash">
-
                     <div class="texto">
                         <h1>Painel Administrativo</h1>
                         <p>Controle e visualização de usuários da instituição</p>
                     </div>
-
                 </div>
-
                 <div class="conteudo2">
-
                     <div class="painel-admin">
-
                         <h1>Painel de Gerenciamento</h1>
-
                         <div class="abas-gerenciamento">
-
-                            <button class="aba-btn ativa"
-                                onclick="mostrarTabela('usuarios', this)">
+                            <button class="aba-btn ativa" onclick="mostrarTabela('usuarios', this)">
                                 Usuários
                             </button>
-
-                            <button class="aba-btn"
-                                onclick="mostrarTabela('alunos', this)">
+                            <button class="aba-btn" onclick="mostrarTabela('alunos', this)">
                                 Alunos
                             </button>
-
-                            <button class="aba-btn"
-                                onclick="mostrarTabela('cursos', this)">
+                            <button class="aba-btn" onclick="mostrarTabela('cursos', this)">
                                 Cursos
                             </button>
-
                         </div>
 
                         <button class="btn-add" onclick="abrirModal('adicionar', null)">
@@ -165,13 +131,8 @@
                         <!-- ALUNOS -->
                         <div id="alunos" class="secao-tabela">
 
-                            <input
-                                type="text"
-                                id="pesquisaAlunosPainel"
-                                class="barra-pesquisa-painel"
-                                placeholder="Pesquisar aluno..."
-                                oninput="filtrarAlunos()"
-                            >
+                            <input type="text" id="pesquisaAlunosPainel" class="barra-pesquisa-painel"
+                                placeholder="Pesquisar aluno..." oninput="filtrarAlunos()">
 
                             <table class="tabela-admin">
                                 <thead>
@@ -274,6 +235,10 @@
             window.location.href = "painel.html";
         }
 
+        function goMetas() {
+            window.location.href = "metas.html";
+        }
+
         function goHome() {
             sessionStorage.clear();
             window.location.href = "../index.html";
@@ -300,8 +265,8 @@
             botaoClicado.classList.add("ativa");
 
             if (tipo === "usuarios") carregarUsuarios();
-            if (tipo === "alunos")   carregarAlunos();
-            if (tipo === "cursos")   carregarCursos();
+            if (tipo === "alunos") carregarAlunos();
+            if (tipo === "cursos") carregarCursos();
 
         }
 
@@ -503,12 +468,12 @@
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
-                                nomeServer:      nome,
+                                nomeServer: nome,
                                 sobrenomeServer: sobrenome || "-",
-                                emailServer:     email,
-                                tokenServer:     token,
-                                senhaServer:     senha,
-                                cargoServer:     cargo
+                                emailServer: email,
+                                tokenServer: token,
+                                senhaServer: senha,
+                                cargoServer: cargo
                             })
                         });
                         if (resposta.status === 201) {
