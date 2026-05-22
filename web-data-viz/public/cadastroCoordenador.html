@@ -1,4 +1,4 @@
-<!--CADASTRO DIRETOR-->
+<!--CADASTRO COORDENADOR-->
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <title>Nexus | Cadastro</title>
+  <title>Nexus | Cadastro Coordenador</title>
   <link rel="shortcut icon" href="assets/favicon (3).ico" type="image/x-icon">
 </head>
 
@@ -21,7 +21,7 @@
     <div class="lado_esquerdo">
       <div class="conteudo_esquerda">
         <img src="assets/LogoBranca.png" class="logo">
-        <h1>Bem-vindo, Diretor</h1>
+        <h1>Bem-vindo, Coordenador</h1>
         <p>Gerencie sua instituição com eficiência.</p>
         <span class="descricao">
           Tenha acesso a uma plataforma completa para acompanhar indicadores, organizar processos e impulsionar
@@ -29,7 +29,7 @@
         </span>
       </div>
     </div>
-    <!--LADO DIREITO (formulário do diretor)-->
+    <!--LADO DIREITO (formulário do Coordena)-->
     <div class="lado_direito">
       <div class="grupo_voltar">
         <a href="./index.html" class="botao_de_voltar">
@@ -70,7 +70,8 @@
             </div>
           </div>
         </div>
-        <button onclick="cadastrar()">Cadastrar diretor</button>
+        <button onclick="cadastrar()">Cadastrar Coordenador
+        </button>
         <span class="sub">
           Já possui conta? <a href="./login.html">Login</a>
         </span>
@@ -343,7 +344,7 @@
         } else if (resposta.status === 409) {
           const msg = await resposta.text();
           if (msg.includes("email")) {
-            showAlert('error', 'Email já cadastrado', 'Este email já está vinculado a um diretor. Use outro email ou faça login.');
+            showAlert('error', 'Email já cadastrado', 'Este email já está vinculado a um coordenador. Use outro email ou faça login.');
             erroEmail.innerHTML = "Email já cadastrado";
           } else {
             showAlert('error', 'Erro no Cadastro', msg);

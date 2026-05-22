@@ -201,15 +201,6 @@
                 return;
             }
 
-            if (resposta.status === 401) {
-                showAlert("error", "Acesso Negado", "Email ou senha inválidos.");
-                erroDiv.style.color = "red";
-                erroDiv.innerText = "Email ou senha inválidos.";
-                emailInput.style.border = "1px solid #f44336";
-                senhaInput.style.border = "1px solid #f44336";
-                return;
-            }
-
             const msg = await resposta.text();
             showAlert("error", "Erro no Login", `Ocorreu um erro ao tentar fazer login: ${msg}`);
             erroDiv.style.color = "red";

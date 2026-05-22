@@ -131,7 +131,6 @@
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
-                                        <th>Modalidade</th>
                                         <th>Editar</th>
                                         <th>Excluir</th>
                                     </tr>
@@ -155,8 +154,7 @@
                                         <th>Meta</th>
                                         <th>Categoria</th>
                                         <th>Curso</th>
-                                        <th>Prazo</th>
-                                        <th>Procentagem</th>
+                                        <th>Porcentagem</th>
                                         <th>Editar</th>
                                         <th>Excluir</th>
                                     </tr>
@@ -346,23 +344,6 @@
 
                 ` : ""}
 
-                <select id="cargoUsuarioInput">
-
-                    <option value="">
-                        Selecione o Cargo
-                    </option>
-
-                    <option value="Coordenador"
-                        ${dados && dados.cargo === "Coordenador" ? "selected" : ""}>
-                        Coordenador
-                    </option>
-
-                    <option value="Professor"
-                        ${dados && dados.cargo === "Professor" ? "selected" : ""}>
-                        Professor
-                    </option>
-
-                </select>
             `;
             }
 
@@ -441,14 +422,8 @@
                     placeholder="Nome do Curso"
                     value="${dados ? dados.nome : ''}">
 
-                <input type="text"
-                    id="modalidadeCursoInput"
-                    placeholder="Modalidade"
-                    value="${dados ? dados.modalidade : ''}">
             `;
             }
-
-            // ───── METAS ─────
 
             // ───── METAS ─────
 
@@ -473,16 +448,6 @@
                     value="${dados ? dados.categoria : ''}"
                     required>
 
-                <input type="text"
-                    id="cursoMetaInput"
-                    placeholder="Curso"
-                    value="${dados ? dados.curso : ''}">
-
-                <input type="date"
-                    id="prazoMetaInput"
-                    placeholder="Prazo"
-                    value="${dados ? dados.prazo : ''}">
-
                 <div class="campo-porcentagem">
                     <label for="porcentagemMetaInput">Porcentagem de conclusão:</label>
                     <input type="range"
@@ -493,10 +458,6 @@
                         oninput="this.nextElementSibling.value = this.value + '%'">
                     <output>${dados ? dados.porcentagem : "0"}%</output>
                 </div>
-
-                <small style="color: #666; margin-top: 5px;">
-                    * Campos obrigatórios
-                </small>
             `;
             }
 

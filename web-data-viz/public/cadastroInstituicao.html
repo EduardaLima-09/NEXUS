@@ -1,4 +1,4 @@
-<!--CADASTRO EMPRESA-->
+<!--CADASTRO INSTITUIÇÃO-->
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -228,8 +228,8 @@
 
           // Redireciona após 12 segundos
           setTimeout(() => {
-            window.location.href = "cadastroDiretor.html";
-          }, 5000 );
+            window.location.href = "cadastroCoordenador.html";  // Corrigido
+          }, 3000);
         } else {
           const msg = await resposta.text();
           if (msg.includes("emailUniversidade")) {

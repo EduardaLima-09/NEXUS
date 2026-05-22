@@ -173,6 +173,319 @@ body {
     font-family: var(--font-titulos);
 }
 
+/* MODAIS */
+
+.modal {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 99999;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    width: 500px;
+    padding: 25px;
+    display: flex;
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 16px;
+    flex-direction: column;
+    animation: modalFadeIn 0.3s ease;
+    background-color: var(--cor-branco-puro);
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content.excluir {
+    width: 400px;
+    text-align: center;
+}
+
+.modal-content h2 {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    color: var(--cor--sidebar);
+    font-family: var(--font-titulos);
+    border-bottom: 2px solid var(--cor--sidebar);
+}
+
+.modal-content p {
+    margin: 15px 0;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+#camposModal {
+    gap: 12px;
+    padding: 5px;
+    display: flex;
+    max-height: 60vh;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    flex-direction: column;
+}
+
+#camposModal::-webkit-scrollbar {
+    width: 5px;
+}
+
+#camposModal::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background: var(--cor-cinza);
+}
+
+#camposModal::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: var(--cor--sidebar);
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+    border: 2px solid var(--cor-cinza);
+    background-color: var(--cor-branco-puro);
+}
+
+.modal-content input:focus,
+.modal-content select:focus,
+.modal-content textarea:focus {
+    border-color: var(--cor-azul-claro);
+    box-shadow: 0 0 0 3px rgba(70, 129, 166, 0.1);
+}
+
+.modal-content input::placeholder,
+.modal-content textarea::placeholder {
+    font-size: 16px;
+    color: var(--cor-cinza);
+}
+
+.campo-porcentagem {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.campo-porcentagem label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--cor--sidebar);
+    font-family: var(--font-subtitulos);
+}
+
+.campo-porcentagem input[type="range"] {
+    width: 100%;
+    padding: 0;
+    height: 6px;
+    cursor: pointer;
+    background: var(--cor-cinza);
+    border-radius: 5px;
+    -webkit-appearance: none;
+}
+
+.campo-porcentagem input[type="range"]:focus {
+    outline: none;
+}
+
+.campo-porcentagem input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--cor-azul-claro);
+    cursor: pointer;
+    border: none;
+}
+
+.campo-porcentagem input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: var(--cor-azul-medio);
+}
+
+.campo-porcentagem output {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    color: var(--cor-azul-claro);
+    font-family: var(--font-titulos);
+}
+
+
+.botoes-modal {
+    gap: 12px;
+    display: flex;
+    margin-top: 10px;
+    justify-content: flex-end;
+}
+
+.botoes-modal button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-subtitulos);
+    transition: all 0.2s ease;
+}
+
+.btn-salvar {
+    color: var(--cor-branco-puro);
+    background-color: var(--cor-azul-escuro);
+}
+
+.btn-salvar:hover {
+    transform: translateY(-2px);
+    background-color: var(--cor-azul-claro);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-excluir-modal {
+    background-color: #ef4444;
+    color: var(--cor-branco-puro);
+}
+
+.btn-excluir-modal:hover {
+    background-color: #dc2626;
+    transform: translateY(-2px);
+}
+
+.btn-cancelar {
+    color: var(--cor-branco-puro);
+    background-color: var(--cor-cinza-escuro);
+}
+
+.btn-cancelar:hover {
+    transform: translateY(-2px);
+    background-color: var(--cor-cinza);
+}
+
+#sexoAlunoInput,
+#cargoUsuarioInput,
+#statusMetaInput {
+    cursor: pointer;
+    background-color: var(--cor-branco-puro);
+}
+
+/* LABEL E TEXTOS AUXILIARES */
+.modal-content small {
+    display: block;
+    margin-top: 5px;
+    font-size: 11px;
+    color: #888;
+    font-family: var(--font-textos);
+}
+
+/* MODAL DE EXCLUSÃO ESPECÍFICO */
+.modal-content.excluir .botoes-modal {
+    justify-content: center;
+}
+
+.modal-content.excluir .btn-excluir-modal {
+    background-color: #ef4444;
+    padding: 10px 25px;
+}
+
+.modal-content.excluir .btn-cancelar {
+    background-color: var(--cor-cinza-escuro);
+}
+
+/* RESPONSIVIDADE DOS MODAIS */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+        max-height: 85vh;
+    }
+
+    .modal-content h2 {
+        font-size: 20px;
+    }
+
+    #camposModal {
+        max-height: 55vh;
+    }
+
+    .modal-content input,
+    .modal-content select,
+    .modal-content textarea {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .botoes-modal button {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .campo-porcentagem output {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 15px;
+    }
+
+    .modal-content h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    #camposModal {
+        gap: 10px;
+    }
+
+    .botoes-modal {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .botoes-modal button {
+        width: 100%;
+    }
+
+    .modal-content.excluir .botoes-modal {
+        flex-direction: column;
+    }
+}
+
+/* ANIMAÇÃO PARA FECHAR MODAL */
+.modal.fechando {
+    animation: modalFadeOut 0.2s ease;
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}
+
 .btn-add {
     border: none;
     cursor: pointer;
@@ -222,81 +535,6 @@ body {
     border-radius: 5px;
     background-color: #F44336;
     color: var(--cor-branco-puro);
-}
-
-.modal {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    z-index: 99999;
-    position: fixed;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.6);
-}
-
-.modal-content {
-    width: 300px;
-    padding: 20px;
-    display: flex;
-    border-radius: 12px;
-    flex-direction: column;
-    background-color: var(--cor-azul-escuro);
-}
-
-.modal-content h2 {
-    text-align: center;
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: var(--cor-branco-puro);
-    font-family: var(--font-titulos);
-}
-
-.modal-content input {
-    padding: 8px;
-    margin: 5px;
-    margin-left: 40px;
-    border-radius: 6px;
-    border: 1px solid var(--cor-azul-escuro);
-}
-
-#sexoAluno {
-    width: 180px;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 6px;
-    align-self: flex-end;
-    margin: 5px 5px 5px 40px;
-    color: var(--cor--sidebar);
-    background-color: var(--cor-branco-puro);
-}
-
-.botoes-modal {
-    gap: 10px;
-    display: flex;
-    margin-top: 10px;
-    justify-content: flex-end;
-}
-
-.btn-salvar {
-    border: none;
-    cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 6px;
-    color: var(--cor-branco-puro);
-    background-color: var(--cor-azul-claro);
-}
-
-.btn-cancelar {
-    border: none;
-    cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 6px;
-    color: var(--cor-branco-puro);
-    background-color: var(--cor-cinza-escuro);
 }
 
 .btn-menu-mobile {
@@ -562,5 +800,17 @@ body {
     .aba-btn {
         padding: 8px 10px;
         font-size: 12px;
+    }
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
