@@ -150,25 +150,6 @@ body {
     overflow-y: hidden;
 }
 
-.tituloDash {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-    justify-content: space-between;
-}
-
-.tituloDash h1 {
-    font-size: 24px;
-    color: var(--cor--sidebar);
-    font-family: var(--font-titulos);
-}
-
-.tituloDash p {
-    font-size: 14px;
-    color: var(--cor-cinza-escuro);
-    font-family: var(--font-subtitulos);
-}
-
 .conteudo2 {
     gap: 10px;
     width: 100%;
@@ -249,6 +230,7 @@ body {
     width: 100%;
     height: 100%;
     display: none;
+    z-index: 99999;
     position: fixed;
     align-items: center;
     justify-content: center;
@@ -363,6 +345,18 @@ body {
 }
 
 
+.secao-tabela {
+    max-height: calc(100vh - 320px);
+    overflow-y: auto;
+}
+
+.tabela-admin thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: var(--cor--sidebar);
+}
+
 
 .container-pesquisa {
     width: 100%;
@@ -381,12 +375,17 @@ body {
 }
 
 .barra-pesquisa-painel {
-    flex: 1;
-    border: none;
+    width: 500px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 2px solid transparent;
     outline: none;
-    font-size: 15px;
-    background: transparent;
+    font-size: 13px;
+    font-weight: 500;
+    transition: 0.2s;
     color: var(--cor--sidebar);
+    background-color: #f1f1f1;
+    margin-bottom: 12px;
 }
 
 .barra-pesquisa-painel::placeholder {

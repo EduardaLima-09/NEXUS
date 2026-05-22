@@ -13,40 +13,6 @@
     <title>Nexus | Painel Administrativo</title>
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 
-    <style>
-        .secao-tabela {
-            max-height: calc(100vh - 320px);
-            overflow-y: auto;
-        }
-
-        .tabela-admin thead th {
-            position: sticky;
-            top: 0;
-            z-index: 1;
-            background-color: var(--cor--sidebar);
-        }
-
-        .barra-pesquisa-painel {
-            width: 260px;
-            padding: 8px 14px;
-            border-radius: 8px;
-            border: 2px solid transparent;
-            outline: none;
-            font-size: 13px;
-            font-weight: 500;
-            transition: 0.2s;
-            color: var(--cor--sidebar);
-            background-color: #f1f1f1;
-            margin-bottom: 12px;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .barra-pesquisa-painel:focus {
-            border: 2px solid var(--cor--sidebar);
-            background-color: #fff;
-        }
-    </style>
-
 </head>
 
 <body>
@@ -198,24 +164,45 @@
                                 <tbody id="metasTabelaBody"></tbody>
                             </table>
                         </div>
-
-                        <!-- MODAL -->
-                        <div id="modalUsuario" class="modal">
-                            <div class="modal-content">
-                                <h2 id="tituloModal">Adicionar Registro</h2>
-                                <div id="camposModal"></div>
-                                <div class="botoes-modal">
-                                    <button class="btn-salvar" onclick="salvarRegistro()">
-                                        Salvar
-                                    </button>
-                                    <button class="btn-cancelar" onclick="fecharModal()">
-                                        Cancelar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL ADICIONAR / EDITAR -->
+    <div id="modalUsuario" class="modal">
+        <div class="modal-content">
+            <h2 id="tituloModal">Adicionar Registro</h2>
+            <div id="camposModal"></div>
+
+            <div class="botoes-modal">
+                <button class="btn-salvar" onclick="salvarRegistro()">
+                    Salvar
+                </button>
+                <button class="btn-cancelar" onclick="fecharModal()">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL EXCLUIR -->
+    <div id="modalExcluir" class="modal">
+        <div class="modal-content excluir">
+            <h2>Confirmar exclusão</h2>
+
+            <p id="textoExcluir">
+                Tem certeza que deseja excluir este registro?
+            </p>
+
+            <div class="botoes-modal">
+                <button class="btn-excluir" onclick="confirmarExclusao()">
+                    Excluir
+                </button>
+
+                <button class="btn-cancelar" onclick="fecharExcluirModal()">
+                    Cancelar
+                </button>
             </div>
         </div>
     </div>
@@ -463,6 +450,8 @@
 
             // ───── METAS ─────
 
+            // ───── METAS ─────
+
             else if (abaAtual === "metas") {
 
                 tituloModal.innerText =
@@ -474,41 +463,40 @@
 
                 <input type="text"
                     id="metaInput"
-                    placeholder="Meta"
-                    value="${dados ? dados.meta : ''}">
+                    placeholder="Meta *"
+                    value="${dados ? dados.meta : ''}"
+                    required>
 
                 <input type="text"
                     id="categoriaMetaInput"
-                    placeholder="Categoria"
-                    value="${dados ? dados.categoria : ''}">
+                    placeholder="Categoria *"
+                    value="${dados ? dados.categoria : ''}"
+                    required>
 
                 <input type="text"
                     id="cursoMetaInput"
                     placeholder="Curso"
                     value="${dados ? dados.curso : ''}">
 
-                <input type="text"
+                <input type="date"
                     id="prazoMetaInput"
                     placeholder="Prazo"
                     value="${dados ? dados.prazo : ''}">
 
-                <select id="statusMetaInput">
+                <div class="campo-porcentagem">
+                    <label for="porcentagemMetaInput">Porcentagem de conclusão:</label>
+                    <input type="range"
+                        id="porcentagemMetaInput"
+                        min="0"
+                        max="100"
+                        value="${dados ? parseInt(dados.porcentagem) : 0}"
+                        oninput="this.nextElementSibling.value = this.value + '%'">
+                    <output>${dados ? dados.porcentagem : "0"}%</output>
+                </div>
 
-                    <option value="">
-                        Selecione o Status
-                    </option>
-
-                    <option value="Em andamento"
-                        ${dados && dados.status === "Em andamento" ? "selected" : ""}>
-                        Em andamento
-                    </option>
-
-                    <option value="Concluída"
-                        ${dados && dados.status === "Concluída" ? "selected" : ""}>
-                        Concluída
-                    </option>
-
-                </select>
+                <small style="color: #666; margin-top: 5px;">
+                    * Campos obrigatórios
+                </small>
             `;
             }
 
@@ -605,24 +593,13 @@
                     <td>${usuario.cargo}</td>
 
                     <td>
-                        <button class="btn-editar"
-                            onclick='abrirModal("editar", ${JSON.stringify(usuario)})'>
-
-                            <span class="material-icons">
-                                edit
-                            </span>
-
+                        <button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(usuario).replace(/"/g, '&quot;')})">
+                            <span class="material-icons">edit</span>
                         </button>
                     </td>
-
                     <td>
-                        <button class="btn-excluir"
-                            onclick="deletarUsuario(${usuario.id})">
-
-                            <span class="material-icons">
-                                delete
-                            </span>
-
+                        <button class="btn-excluir" onclick="abrirExcluirModal('usuario', ${usuario.id})">
+                            <span class="material-icons">delete</span>
                         </button>
                     </td>
 
@@ -715,27 +692,15 @@
                     <td>${aluno.curso || "-"}</td>
 
                     <td>
-                        <button class="btn-editar"
-                            onclick='abrirModal("editar", ${JSON.stringify(aluno)})'>
-
-                            <span class="material-icons">
-                                edit
-                            </span>
-
+                        <button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(aluno).replace(/"/g, '&quot;')})">
+                            <span class="material-icons">edit</span>
                         </button>
                     </td>
-
                     <td>
-                        <button class="btn-excluir"
-                            onclick="deletarAluno(${aluno.RA})">
-
-                            <span class="material-icons">
-                                delete
-                            </span>
-
+                        <button class="btn-excluir" onclick="abrirExcluirModal('aluno', ${aluno.RA})">
+                            <span class="material-icons">delete</span>
                         </button>
                     </td>
-
                 </tr>
             `;
 
@@ -818,27 +783,15 @@
                     <td>${curso.modalidade}</td>
 
                     <td>
-                        <button class="btn-editar"
-                            onclick='abrirModal("editar", ${JSON.stringify(curso)})'>
-
-                        <span class="material-icons">
-                            edit
-                        </span>
-
+                        <button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(curso).replace(/"/g, '&quot;')})">
+                            <span class="material-icons">edit</span>
                         </button>
                     </td>
-
                     <td>
-                        <button class="btn-excluir"
-                            onclick="deletarCurso(${curso.id})">
-
-                            <span class="material-icons">
-                                delete
-                            </span>
-
+                        <button class="btn-excluir" onclick="abrirExcluirModal('curso', ${curso.id})">
+                            <span class="material-icons">delete</span>
                         </button>
                     </td>
-
                 </tr>
             `;
 
@@ -864,30 +817,30 @@
         }
 
         // ─────────────────────────────────────────────────────────
-        // METAS
+        // METAS (CORRIGIDO COM DATA)
         // ─────────────────────────────────────────────────────────
 
         async function carregarMetas() {
 
             try {
-
+                // Dados mockados com DATA no lugar de texto
                 todasMetas = [
                     {
                         id: 1,
                         meta: "Reduzir evasão",
                         categoria: "Retenção",
                         curso: "ADS",
-                        prazo: "Junho",
-                        porcentagem: "4%"
+                        prazo: "2024-06-30",
+                        porcentagem: "75%"
                     },
                     {
                         id: 2,
                         meta: "Aumentar média acadêmica",
                         categoria: "Desempenho",
                         curso: "SI",
-                        prazo: "Julho",
-                        porcentagem: "6%"
-                    }
+                        prazo: "2024-07-15",
+                        porcentagem: "45%"
+                    },
                 ];
 
                 renderizarMetas(todasMetas);
@@ -916,36 +869,58 @@
             }
 
             tbody.innerHTML = metas.map(function (meta) {
+                const dataFormatada = formatarData(meta.prazo);
+
+                // Definir cor da porcentagem
+                const valorPorcentagem = parseInt(meta.porcentagem);
+                let corPorcentagem = "inherit";
+                if (valorPorcentagem === 100) corPorcentagem = "#48bb78";
+                else if (valorPorcentagem >= 75) corPorcentagem = "#ed8936";
+                else if (valorPorcentagem >= 50) corPorcentagem = "#4299e1";
 
                 return `
-                <tr>
+                        <tr>
 
-                    <td>${meta.meta}</td>
+                            <td>${meta.meta}</td>
 
-                    <td>${meta.categoria}</td>
+                            <td>${meta.categoria}</td>
 
-                    <td>${meta.curso}</td>
+                            <td>${meta.curso}</td>
 
-                    <td>${meta.prazo}</td>
+                            <td>${dataFormatada}</td>
 
-                    <td>${meta.porcentagem}</td>
+                            <td style="color: ${corPorcentagem}; font-weight: bold;">
+                                ${meta.porcentagem}
+                            </td>
 
-                    <td>
-                        <button class="btn-editar">
-                            Editar
-                        </button>
-                    </td>
+                            <td>
+                                <button class="btn-editar" onclick='abrirModal("editar", ${JSON.stringify(meta).replace(/'/g, "&#39;")})'>
+                                    <span class="material-icons">edit</span>
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn-excluir" onclick="abrirExcluirModal('meta', ${meta.id})">
+                                    <span class="material-icons">delete</span>
+                                </button>
+                            </td>
 
-                    <td>
-                        <button class="btn-excluir">
-                            Excluir
-                        </button>
-                    </td>
-
-                </tr>
-            `;
+                        </tr>
+                    `;
 
             }).join("");
+        }
+
+        // Função auxiliar para formatar data
+        function formatarData(dataISO) {
+            if (!dataISO || dataISO === "-") return "-";
+
+            try {
+                const data = new Date(dataISO);
+                if (isNaN(data.getTime())) return dataISO;
+                return data.toLocaleDateString('pt-BR');
+            } catch {
+                return dataISO;
+            }
         }
 
         function filtrarMetas() {
@@ -956,18 +931,33 @@
 
             const filtradas =
                 todasMetas.filter(function (meta) {
+                    const dataFormatada = formatarData(meta.prazo);
 
                     return (
                         meta.meta.toLowerCase().includes(texto) ||
                         meta.categoria.toLowerCase().includes(texto) ||
                         meta.curso.toLowerCase().includes(texto) ||
-                        meta.porcentagem.toLowerCase().includes(texto)
+                        meta.porcentagem.toLowerCase().includes(texto) ||
+                        dataFormatada.toLowerCase().includes(texto)
                     );
                 });
 
             renderizarMetas(filtradas);
         }
 
+        // Função para deletar meta
+        async function deletarMeta(id) {
+            try {
+                console.log(`Deletando meta ${id}`);
+                todasMetas = todasMetas.filter(meta => meta.id !== id);
+                renderizarMetas(todasMetas);
+                alert("Meta excluída com sucesso!");
+
+            } catch (erro) {
+                console.error("Erro ao deletar meta:", erro);
+                alert("Erro ao excluir meta. Tente novamente.");
+            }
+        }
 
         document.getElementById("pesquisaUsuariosPainel")
             ?.addEventListener("input", filtrarUsuarios);
@@ -976,6 +966,186 @@
             ?.addEventListener("input", filtrarCursos);
 
         carregarUsuarios();
+
+        // Variáveis para exclusão
+        let itemParaExcluir = null;
+        let tipoExclusao = null;
+
+        // Função para abrir modal de edição
+        function abrirModalSimples(dados = null) {
+            abrirModal("editar", dados);
+        }
+
+        // Função para abrir modal de exclusão
+        function abrirExcluirModal(tipo, id) {
+            tipoExclusao = tipo;
+            itemParaExcluir = id;
+
+            const textoExcluir = document.getElementById("textoExcluir");
+
+            switch (tipo) {
+                case "usuario":
+                    textoExcluir.innerText = "Tem certeza que deseja excluir este usuário?";
+                    break;
+                case "aluno":
+                    textoExcluir.innerText = "Tem certeza que deseja excluir este aluno?";
+                    break;
+                case "curso":
+                    textoExcluir.innerText = "Tem certeza que deseja excluir este curso?";
+                    break;
+                case "meta":
+                    textoExcluir.innerText = "Tem certeza que deseja excluir esta meta?";
+                    break;
+            }
+
+            document.getElementById("modalExcluir").style.display = "flex";
+        }
+
+        function fecharExcluirModal() {
+            document.getElementById("modalExcluir").style.display = "none";
+            itemParaExcluir = null;
+            tipoExclusao = null;
+        }
+
+        // Funções de exclusão
+        async function deletarUsuario(id) {
+            try {
+                console.log(`Deletando usuário ${id}`);
+                await carregarUsuarios();
+
+            } catch (erro) {
+                console.error("Erro ao deletar usuário:", erro);
+            }
+        }
+
+        async function deletarAluno(id) {
+            try {
+                console.log(`Deletando aluno ${id}`);
+                await carregarAlunos();
+
+            } catch (erro) {
+                console.error("Erro ao deletar aluno:", erro);
+            }
+        }
+
+        async function deletarCurso(id) {
+            try {
+                console.log(`Deletando curso ${id}`);
+                await carregarCursos();
+
+            } catch (erro) {
+                console.error("Erro ao deletar curso:", erro);
+            }
+        }
+
+        async function confirmarExclusao() {
+            if (!itemParaExcluir) return;
+
+            if (tipoExclusao === "usuario") {
+                await deletarUsuario(itemParaExcluir);
+            } else if (tipoExclusao === "aluno") {
+                await deletarAluno(itemParaExcluir);
+            } else if (tipoExclusao === "curso") {
+                await deletarCurso(itemParaExcluir);
+            } else if (tipoExclusao === "meta") {
+                console.log("implementar delete meta");
+            }
+
+            fecharExcluirModal();
+        }
+
+        // Função para salvar registro
+        async function salvarRegistro() {
+            if (abaAtual === "usuarios") {
+                const nome = document.getElementById("nomeUsuarioInput")?.value;
+                const sobrenome = document.getElementById("sobrenomeUsuarioInput")?.value;
+                const email = document.getElementById("emailUsuarioInput")?.value;
+                const cargo = document.getElementById("cargoUsuarioInput")?.value;
+
+                if (!nome || !email || !cargo) {
+                    alert("Preencha todos os campos obrigatórios!");
+                    return;
+                }
+
+                if (!validarEmail(email)) {
+                    alert("Email inválido!");
+                    return;
+                }
+
+                console.log("Salvando usuário:", { nome, sobrenome, email, cargo });
+
+                // Aqui você implementa a chamada para sua API
+
+                fecharModal();
+                await carregarUsuarios();
+
+            } else if (abaAtual === "alunos") {
+                const nome = document.getElementById("nomeAlunoInput")?.value;
+                const sobrenome = document.getElementById("sobrenomeAlunoInput")?.value;
+                const cpf = document.getElementById("cpfAlunoInput")?.value;
+                const sexo = document.getElementById("sexoAlunoInput")?.value;
+                const email = document.getElementById("emailAlunoInput")?.value;
+
+                if (!nome || !cpf || !email) {
+                    alert("Preencha todos os campos obrigatórios!");
+                    return;
+                }
+
+                if (!validarEmail(email)) {
+                    alert("Email inválido!");
+                    return;
+                }
+
+                console.log("Salvando aluno:", { nome, sobrenome, cpf, sexo, email });
+
+                fecharModal();
+                await carregarAlunos();
+
+            } else if (abaAtual === "cursos") {
+                const nome = document.getElementById("nomeCursoInput")?.value;
+                const modalidade = document.getElementById("modalidadeCursoInput")?.value;
+
+                if (!nome || !modalidade) {
+                    alert("Preencha todos os campos obrigatórios!");
+                    return;
+                }
+
+                console.log("Salvando curso:", { nome, modalidade });
+
+                fecharModal();
+                await carregarCursos();
+
+            } else if (abaAtual === "metas") {
+                const meta = document.getElementById("metaInput")?.value;
+                const categoria = document.getElementById("categoriaMetaInput")?.value;
+                const curso = document.getElementById("cursoMetaInput")?.value;
+                const prazo = document.getElementById("prazoMetaInput")?.value;
+                const porcentagem = document.getElementById("porcentagemMetaInput")?.value;
+
+                if (!meta || !categoria) {
+                    alert("Preencha os campos obrigatórios!");
+                    return;
+                }
+
+                console.log("Salvando meta:", { meta, categoria, curso, prazo, porcentagem });
+
+                fecharModal();
+                await carregarMetas();
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const pesquisaCursos = document.getElementById("pesquisaCursosPainel");
+            if (pesquisaCursos) {
+                pesquisaCursos.addEventListener("input", filtrarCursos);
+            }
+
+            // Carregar dados iniciais
+            carregarUsuarios();
+            carregarAlunos();
+            carregarCursos();
+            carregarMetas();
+        });
 
     </script>
 </body>
