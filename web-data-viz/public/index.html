@@ -104,30 +104,31 @@
     </div>
     <!--Sessão 04-->
     <div class="sec4" id="contato">
-      <div class="formulario">
+      <div class="formulario" id="formContato">
         <div class="campo">
           <label>E-mail:</label>
           <div class="input-box">
-            <input type="email" placeholder="seuemail@email.com">
+            <input type="email" id="contatoEmail" placeholder="seuemail@email.com" required>
             <i class="fa-solid fa-envelope"></i>
           </div>
         </div>
         <div class="campo">
           <label>Telefone:</label>
           <div class="input-box">
-            <input type="text" placeholder="(11) 11111-1111">
+            <input type="text" id="contatoTelefone" placeholder="(11) 11111-1111" required>
             <i class="fa-solid fa-phone"></i>
           </div>
         </div>
         <div class="campo">
           <label>Mensagem:</label>
           <div class="input-box textarea">
-            <textarea placeholder="Olá, me interessei no serviço, gostaria de saber mais..."></textarea>
+            <textarea id="contatoMensagem" placeholder="Olá, me interessei no serviço, gostaria de saber mais..."
+              required></textarea>
             <i class="fa-solid fa-comment"></i>
           </div>
         </div>
         <div class="campo">
-          <button type="submit" class="btn-enviar">
+          <button type="button" class="btn-enviar" onclick="enviarContato()">
             Enviar
           </button>
         </div>
@@ -188,103 +189,157 @@
 </body>
 
 </html>
-
 <script>
-  const header = document.querySelector("header");
-  const conteudo = document.querySelector(".conteudo");
-  const alturaHeader = header.offsetHeight;
+  function enviarContato() {
+    const email = document.getElementById('contatoEmail')?.value;
+    const telefone = document.getElementById('contatoTelefone')?.value;
+    const mensagem = document.getElementById('contatoMensagem')?.value;
 
-  window.addEventListener("scroll", function () {
-    if (window.scrollY > 0) {
-      header.style.position = "fixed";
-      header.style.top = "0";
-      header.style.left = "0";
-      header.style.width = "100%";
-      header.style.zIndex = "1000";
-      header.style.backgroundColor = "#ffffff";
-      header.style.boxShadow = "0 2px 10px rgba(0,0,0,0.2)";
-      conteudo.style.marginTop = alturaHeader + "px";
-    } else {
-      header.style.position = "static";
-      header.style.boxShadow = "none";
-      conteudo.style.marginTop = "0px";
+    // Validação
+    if (!email || !email.includes('@')) {
+      alert('Por favor, insira um email válido.');
+      return;
     }
-  });
-</script>
 
-<script>
-  const sections = document.querySelectorAll("#home, #sobre, #servicos, #contato");
-  const navLinks = document.querySelectorAll(".titulos a:not(.cadastro):not(.barra)");
+    if (!telefone || telefone.length < 10) {
+      alert('Por favor, insira um telefone válido.');
+      return;
+    }
 
-  function setActiveLink() {
-    let current = "";
+    if (!mensagem || mensagem.trim() === '') {
+      alert('Por favor, escreva uma mensagem.');
+      return;
+    }
 
-    const scrollPosition = window.scrollY + 150;
+    console.log('Contato enviado:', { email, telefone, mensagem });
 
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionBottom = sectionTop + section.offsetHeight;
+    const subject = encodeURIComponent('Contato - Nexus');
+    const body = encodeURIComponent(`Mensagem: ${mensagem}\n\nTelefone: ${telefone}`);
+    window.location.href = `mailto:contato@nexus.com.br?subject=${subject}&body=${body}`;
 
-      if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-        current = section.getAttribute("id");
+    alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+
+    document.getElementById('contatoEmail').value = '';
+    document.getElementById('contatoTelefone').value = '';
+    document.getElementById('contatoMensagem').value = '';
+  }
+
+  // Máscara para telefone
+  const telefoneInput = document.getElementById('contatoTelefone');
+  if (telefoneInput) {
+    telefoneInput.addEventListener('input', function (e) {
+      let v = e.target.value.replace(/\D/g, '');
+      if (v.length <= 10) {
+        v = v.replace(/^(\d{2})(\d)/, '($1) $2');
+        v = v.replace(/(\d{4})(\d)/, '$1-$2');
+      } else {
+        v = v.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
       }
-    });
-
-    navLinks.forEach(link => {
-      link.classList.remove("active");
-      if (link.getAttribute("href") === "#" + current) {
-        link.classList.add("active");
-      }
+      e.target.value = v;
     });
   }
 
-  window.addEventListener("scroll", setActiveLink);
-  window.addEventListener("load", setActiveLink);
-</script>
+  // Consolidar todos os scripts em um só
+  (function () {
+    const header = document.querySelector("header");
+    const conteudo = document.querySelector(".conteudo");
 
-<script>
-  function ajustarScrollMargin() {
-    const headerAtual = document.querySelector('header');
-    const alturaHeaderAtual = headerAtual.offsetHeight;
-    const sectionsParaAjustar = document.querySelectorAll('#home, #sobre, #servicos, #contato');
-
-    sectionsParaAjustar.forEach(section => {
-      section.style.scrollMarginTop = alturaHeaderAtual + 10 + 'px';
+    // Scroll do header
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 0) {
+        header.style.position = "fixed";
+        header.style.top = "0";
+        header.style.left = "0";
+        header.style.width = "100%";
+        header.style.zIndex = "1000";
+        header.style.backgroundColor = "#ffffff";
+        header.style.boxShadow = "0 2px 10px rgba(0,0,0,0.2)";
+        if (conteudo) conteudo.style.marginTop = header.offsetHeight + "px";
+      } else {
+        header.style.position = "static";
+        header.style.boxShadow = "none";
+        if (conteudo) conteudo.style.marginTop = "0px";
+      }
     });
-  }
 
-  function corrigirNavegacao() {
-    const links = document.querySelectorAll('.titulos a[href^="#"], footer a[href^="#"]');
+    // Active link na navegação
+    const sections = document.querySelectorAll("#home, #sobre, #servicos, #contato");
+    const navLinks = document.querySelectorAll(".titulos a:not(.cadastro):not(.barra)");
 
-    links.forEach(link => {
-      if (link.classList.contains('cadastro') || link.classList.contains('barra')) return;
+    function setActiveLink() {
+      let current = "";
+      const scrollPosition = window.scrollY + 150;
 
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-          const headerAltura = document.querySelector('header').offsetHeight;
-          const elementPosition = targetElement.offsetTop;
-          const offsetPosition = elementPosition - headerAltura - 10;
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionBottom = sectionTop + section.offsetHeight;
+        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+          current = section.getAttribute("id");
         }
       });
+
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) {
+          link.classList.add("active");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", setActiveLink);
+    window.addEventListener("load", setActiveLink);
+
+    // Scroll suave corrigido
+    function corrigirNavegacao() {
+      const links = document.querySelectorAll('.titulos a[href^="#"], footer a[href^="#"]');
+
+      links.forEach(link => {
+        if (link.classList.contains('cadastro') || link.classList.contains('barra')) return;
+
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          if (!targetId || targetId === '#') return;
+
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            const headerAltura = header.offsetHeight;
+            const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementPosition - headerAltura - 10;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    }
+
+    window.addEventListener('load', () => {
+      corrigirNavegacao();
     });
-  }
 
-  window.addEventListener('load', () => {
-    ajustarScrollMargin();
-    corrigirNavegacao();
+    window.addEventListener('resize', () => {
+      if (window.scrollY > 0 && header) {
+        if (conteudo) conteudo.style.marginTop = header.offsetHeight + "px";
+      }
+    });
+  })();
+
+  // Garantir que links do footer funcionem
+  const footerLinks = document.querySelectorAll('footer a[href^="#"]');
+  footerLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      if (targetId && targetId !== '#') {
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
   });
 
-  window.addEventListener('resize', () => {
-    ajustarScrollMargin();
-  });
 </script>
