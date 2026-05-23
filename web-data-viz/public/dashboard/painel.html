@@ -656,9 +656,37 @@
             } else if (abaAtual === "cursos") {
                 const nome = document.getElementById("nomeCursoInput")?.value;
                 if (!nome) { alert("Preencha todos os campos obrigatórios!"); return; }
-                console.log("Salvando curso:", { nome });
-                fecharModal();
-                await carregarCursos();
+                
+                try {
+                    const resposta = await fetch("/cursos/cadastrar", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            nomeServer: nome,
+                            fkUniversidadeServer: fkUniversidade
+                        })
+                    });
+
+                    if (resposta.ok){
+
+                        alert("Curso cadastrado");
+
+                        fecharModal();
+
+                        carregarCursos();
+                    } else {
+
+                        alert("Erro ao cadastrar");
+                    }
+                } catch (erro){
+
+                    console.error(erro);
+                }
+
+                //await carregarCursos();
             } else if (abaAtual === "metas") {
                 const meta = document.getElementById("metaInput")?.value;
                 const categoria = document.getElementById("categoriaMetaInput")?.value;

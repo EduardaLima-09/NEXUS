@@ -3,6 +3,10 @@ var router = express.Router();
 
 var cursosController = require("../controllers/cursosController");
 
+router.post("/cadastrar", function(req, res){
+    cursosController.cadastrar(req, res);
+});
+
 router.get("/kpis", function (req, res) {
     cursosController.buscarKpis(req, res);
 });

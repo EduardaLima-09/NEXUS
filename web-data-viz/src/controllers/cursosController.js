@@ -1,5 +1,32 @@
 var cursosModel = require("../models/cursosModel");
 
+function cadastrar(req, res){
+
+    var nome = req.body.nomeServer;
+    var fkUniversidade = req.body.fkUniversidadeServer;
+
+    if (!nome || !fkUniversidade){
+
+        res.status(400).send("Dados inválidos");
+    } else {
+
+        cursosModel.cadastrar(
+            nome,
+            fkUniversidade
+        )
+        .then(function (resultado){
+            
+            res.json(resultado);
+        })
+        .catch (function(erro){
+
+            console.log(erro);
+
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+
 function buscarKpis(req, res) {
 
     var fkUniversidade = req.query.fkUniversidade;
@@ -55,6 +82,7 @@ function buscarListaCursos(req, res) {
 }
 
 module.exports = {
+    cadastrar,
     buscarKpis,
     buscarGrafico,
     buscarListaCursos

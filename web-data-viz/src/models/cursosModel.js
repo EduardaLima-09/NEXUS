@@ -1,5 +1,16 @@
 var database = require("../database/config");
 
+function cadastrar(
+    nome,
+    fkUniversidade
+) {
+    var instrucaoSql = `
+        INSERT INTO Curso (nome, fkUniversidade) VALUES ('${nome}', '${fkUniversidade}');
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 function buscarKpis(fkUniversidade) {
 
     var instrucaoSql = `
@@ -161,6 +172,7 @@ function buscarListaCursos(fkUniversidade) {
 }
 
 module.exports = {
+    cadastrar,
     buscarKpis,
     buscarGrafico,
     buscarListaCursos
