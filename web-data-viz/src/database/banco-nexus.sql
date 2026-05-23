@@ -37,7 +37,6 @@ CREATE TABLE Aluno (
 CREATE TABLE Curso (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(45),
-    modalidade VARCHAR(45),
     fkUniversidade INT,
         FOREIGN KEY (fkUniversidade) REFERENCES Universidade (id)
 );
