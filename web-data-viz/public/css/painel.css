@@ -501,10 +501,13 @@ body {
 .btn-add {
     border: none;
     cursor: pointer;
-    padding: 8px 14px;
+    padding: 20px 14px;
     border-radius: 6px;
     align-self: flex-end;
     margin: 10px 0 20px 0;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-subtitulos);
     color: var(--cor-branco-puro);
     background-color: var(--cor--sidebar);
 }

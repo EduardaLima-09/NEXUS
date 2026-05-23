@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
-    <title>Nexus | Alunos</title>
+    <title>Nexus | Acompanhamento de Alunos</title>
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 </head>
 
@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="botoes">
-                        <button id="Alunos" onclick="goAlunos()">Alunos</button>
+                        <button id="Alunos" onclick="goAlunos()">Meus Alunos</button>
                         <button id="Cursos" onclick="goCursos()">Cursos</button>
                     </div>
 
@@ -48,7 +48,6 @@
                         <div class="nome">
 
                             <div class="titulo-usuario">
-                                <span class="material-icons icone-user">account_circle</span>
                                 <h1 id="cargoUsuarioSidebar">Professor</h1>
                             </div>
 
@@ -65,17 +64,11 @@
             </div>
 
             <div class="conteudo">
-
                 <div class="tituloDash">
-
                     <div class="texto">
-                        <h1>
-                            Bem-vindo(a),
-                            <span id="nomeUsuario">Usuário</span>
-                        </h1>
-
+                        <h1>Olá, Professor(a)<span id="nomeUsuario">Usuário</span>!</h1>
                         <p>
-                            Visão geral dos alunos acompanhados neste semestre
+                            Acompanhamento acadêmico e indicadores de risco dos seus alunos neste semestre
                         </p>
                     </div>
 
@@ -87,31 +80,37 @@
 
                         <div class="cards">
                             <h3>Alunos com Risco Baixo</h3>
-
                             <h1 id="kpiBaixo">-</h1>
-
                             <div class="porcentagem">
-                                <p>aqui vem a meta</p>
+                                <p>Meta: <span id="metaBaixo">70</span>% dos alunos</p>
+                                <div class="progress-bar-mini">
+                                    <div class="progress-mini" id="progressoBaixo" style="width: 0%"></div>
+                                </div>
+                                <span class="percentual-texto" id="percentualBaixo">0% concluído</span>
                             </div>
                         </div>
 
                         <div class="cards">
                             <h3>Alunos com Risco Alto</h3>
-
                             <h1 id="kpiAlto">-</h1>
-
                             <div class="porcentagem">
-                                <p>aqui vem a meta</p>
+                                <p>Meta: <span id="metaAlto">10</span>% dos alunos</p>
+                                <div class="progress-bar-mini">
+                                    <div class="progress-mini" id="progressoAlto" style="width: 0%"></div>
+                                </div>
+                                <span class="percentual-texto" id="percentualAlto">0% concluído</span>
                             </div>
                         </div>
 
                         <div class="cards">
                             <h3>Alunos com Risco Médio</h3>
-
                             <h1 id="kpiMedio">-</h1>
-
                             <div class="porcentagem">
-                                <p>aqui vem a meta</p>
+                                <p>Meta: <span id="metaMedio">20</span>% dos alunos</p>
+                                <div class="progress-bar-mini">
+                                    <div class="progress-mini" id="progressoMedio" style="width: 0%"></div>
+                                </div>
+                                <span class="percentual-texto" id="percentualMedio">0% concluído</span>
                             </div>
                         </div>
 
@@ -127,13 +126,8 @@
 
                                 <div class="acoes-tabela">
 
-                                    <input
-                                        type="text"
-                                        id="pesquisaAluno"
-                                        class="barra-pesquisa"
-                                        placeholder="Pesquisar aluno..."
-                                        oninput="filtrarTabela()"
-                                    >
+                                    <input type="text" id="pesquisaAluno" class="barra-pesquisa"
+                                        placeholder="Pesquisar aluno..." oninput="filtrarTabela()">
 
                                     <select id="filtroCurso" class="filtro-select" onchange="filtrarTabela()">
                                         <option value="">Curso</option>
@@ -260,6 +254,13 @@
 
         let graficoDonut = null;
 
+        // Metas (valores padrão)
+        const metas = {
+            baixo: 70,
+            alto: 10,
+            medio: 20
+        };
+
         async function iniciarPagina() {
 
             if (!fkUniversidade) {
@@ -271,6 +272,52 @@
             await carregarFiltros();
             await carregarAlunos();
 
+        }
+
+        // Função para calcular e atualizar o progresso das metas
+        function atualizarProgressoMetas(baixo, alto, medio, total) {
+
+            // Calcular porcentagens atuais
+            const percentualBaixo = total > 0 ? (baixo / total) * 100 : 0;
+            const percentualAlto = total > 0 ? (alto / total) * 100 : 0;
+            const percentualMedio = total > 0 ? (medio / total) * 100 : 0;
+
+            // Calcular progresso em relação às metas
+            let progressoBaixo = (percentualBaixo / metas.baixo) * 100;
+            let progressoAlto = (percentualAlto / metas.alto) * 100;
+            let progressoMedio = (percentualMedio / metas.medio) * 100;
+
+            // Limitar a 100%
+            progressoBaixo = Math.min(progressoBaixo, 100);
+            progressoAlto = Math.min(progressoAlto, 100);
+            progressoMedio = Math.min(progressoMedio, 100);
+
+            // Atualizar barras de progresso
+            document.getElementById("progressoBaixo").style.width = progressoBaixo + "%";
+            document.getElementById("progressoAlto").style.width = progressoAlto + "%";
+            document.getElementById("progressoMedio").style.width = progressoMedio + "%";
+
+            // Atualizar textos percentuais
+            document.getElementById("percentualBaixo").innerText = Math.round(progressoBaixo) + "% concluído";
+            document.getElementById("percentualAlto").innerText = Math.round(progressoAlto) + "% concluído";
+            document.getElementById("percentualMedio").innerText = Math.round(progressoMedio) + "% concluído";
+
+            // Mudar cor da barra baseada no progresso
+            const barraBaixo = document.getElementById("progressoBaixo");
+            const barraAlto = document.getElementById("progressoAlto");
+            const barraMedio = document.getElementById("progressoMedio");
+
+            if (progressoBaixo >= 80) barraBaixo.style.backgroundColor = "#22c55e";
+            else if (progressoBaixo >= 50) barraBaixo.style.backgroundColor = "#f97316";
+            else barraBaixo.style.backgroundColor = "#ef4444";
+
+            if (progressoAlto <= 20) barraAlto.style.backgroundColor = "#22c55e";
+            else if (progressoAlto <= 50) barraAlto.style.backgroundColor = "#f97316";
+            else barraAlto.style.backgroundColor = "#ef4444";
+
+            if (progressoMedio <= 30) barraMedio.style.backgroundColor = "#22c55e";
+            else if (progressoMedio <= 60) barraMedio.style.backgroundColor = "#f97316";
+            else barraMedio.style.backgroundColor = "#ef4444";
         }
 
         // ── KPIs ─────────────────────────────────────────────────────────────
@@ -290,14 +337,14 @@
 
                 const dados = await resposta.json();
 
-                document.getElementById("kpiBaixo").innerText =
-                    dados.baixo ?? 0;
+                const total = (dados.baixo ?? 0) + (dados.alto ?? 0) + (dados.medio ?? 0);
 
-                document.getElementById("kpiAlto").innerText =
-                    dados.alto ?? 0;
+                document.getElementById("kpiBaixo").innerText = dados.baixo ?? 0;
+                document.getElementById("kpiAlto").innerText = dados.alto ?? 0;
+                document.getElementById("kpiMedio").innerText = dados.medio ?? 0;
 
-                document.getElementById("kpiMedio").innerText =
-                    dados.medio ?? 0;
+                // Atualizar progresso das metas
+                atualizarProgressoMetas(dados.baixo ?? 0, dados.alto ?? 0, dados.medio ?? 0, total);
 
             } catch (erro) {
                 console.error("Erro inesperado em carregarKpis:", erro);
@@ -399,7 +446,7 @@
                 tbody.innerHTML =
                     `<tr><td colspan="6" style="text-align:center; padding: 20px; color: #999;">
                         Nenhum aluno encontrado.
-                    </td></tr>`;
+                    </td></table>`;
 
                 return;
 
