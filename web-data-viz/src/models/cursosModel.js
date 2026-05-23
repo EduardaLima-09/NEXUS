@@ -11,6 +11,47 @@ function cadastrar(
     return database.executar(instrucaoSql);
 }
 
+function editar(id, nome){
+
+    const instrucaoSql = `
+        UPDATE Curso
+        SET
+            nome = '${nome}'
+        WHERE id = ${id};
+    `;
+
+    console.log("Executando SQL:\n" + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
+function excluir(id){
+
+    const instrucaoSql = `
+        DELETE FROM Curso
+        WHERE id = ${id};
+    `;
+
+    console.log("Executando SQL:\n" + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
+function listarCursos(fkUniversidade){
+
+    const instrucaoSql = `
+        SELECT
+            id,
+            nome
+        FROM Curso
+        WHERE fkUniversidade = ${fkUniversidade};
+    `;
+
+    console.log("SQL:\n" + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
 function buscarKpis(fkUniversidade) {
 
     var instrucaoSql = `
@@ -173,6 +214,9 @@ function buscarListaCursos(fkUniversidade) {
 
 module.exports = {
     cadastrar,
+    editar,
+    excluir,
+    listarCursos,
     buscarKpis,
     buscarGrafico,
     buscarListaCursos

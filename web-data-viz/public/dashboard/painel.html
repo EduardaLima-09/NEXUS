@@ -441,7 +441,7 @@
         async function carregarCursos() {
             if (!fkUniversidade) return;
             try {
-                const resposta = await fetch(`/diretoria/cursos/listar?fkUniversidade=${fkUniversidade}`);
+                const resposta = await fetch(`/cursos/listar?fkUniversidade=${fkUniversidade}`);
                 if (!resposta.ok) return;
                 todosCursos = await resposta.json();
                 renderizarCursos(todosCursos);
@@ -610,8 +610,21 @@
         }
 
         async function deletarCurso(id) {
-            console.log(`Deletando curso ${id}`);
-            await carregarCursos();
+            
+            try {
+                const resposta = await fetch(`/cursos/excluir/${id}`,{
+                    method: "DELETE"
+                });
+
+                if (resposta.ok){
+                    alert("Curso deletado");
+                    carregarCursos();
+                } else {
+                    alert("Erro ao excluir curso");
+                }
+            } catch (erro){
+                console.error(erro);
+            }
         }
 
         async function confirmarExclusao() {
@@ -710,35 +723,53 @@
                 if (!nome) { alert("Preencha todos os campos obrigatórios!"); return; }
                 
                 try {
-                    const resposta = await fetch("/cursos/cadastrar", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
 
-                        body: JSON.stringify({
-                            nomeServer: nome,
-                            fkUniversidadeServer: fkUniversidade
-                        })
-                    });
+                    if (modoModal === "editar"){
 
-                    if (resposta.ok){
+                        const resposta = await fetch(`/cursos/editar/${registroEditandoId}`,{
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            }, 
+                            body: JSON.stringify({
+                                nomeServer: nome
+                            })
+                        });
 
-                        alert("Curso cadastrado");
+                        if (resposta.ok){
+                            alert("Curso atualizado");
+                        } else {
+                            alert("Erro ao atualizar");
+                        }
+                    }
 
-                        fecharModal();
+                    else {
 
-                        carregarCursos();
-                    } else {
+                        const resposta = await fetch("/cursos/cadastrar", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                nomeServer: nome,
+                                fkUniversidadeServer: fkUniversidade
+                            })
+                        });
 
-                        alert("Erro ao cadastrar");
+                        if (resposta.ok){
+                            alert("Curso cadastrado");
+
+                            fecharModal();
+                            
+                        } else {
+                            alert("Erro ao cadastrar");
+                        }
                     }
                 } catch (erro){
-
                     console.error(erro);
                 }
 
-                //await carregarCursos();
+                await carregarCursos();
             } else if (abaAtual === "metas") {
                 const meta = document.getElementById("metaInput")?.value;
                 const categoria = document.getElementById("categoriaMetaInput")?.value;

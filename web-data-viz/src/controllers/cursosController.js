@@ -27,6 +27,56 @@ function cadastrar(req, res){
     }
 }
 
+function editar(req, res){
+
+    const id = req.params.id;
+
+    const nome = req.body.nomeServer;
+
+    cursosModel.editar(id, nome)
+        .then(function(resultado){
+            res.status(200).send("Curso atualizado");
+        })
+        .catch(function(erro){
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function excluir(req, res){
+
+    const id = req.params.id;
+
+    cursosModel.excluir(id)
+        .then(function(resultado){
+            res.status(200).send("Curso excluido");
+        })
+        .catch(function(erro){
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function listarCursos(req, res){
+
+    const fkUniversidade = req.query.fkUniversidade;
+
+    if(!fkUniversidade){
+        return res.status(400).send("fkUniversidade undefined");
+    }
+
+    cursosModel.listarCursos(fkUniversidade)
+        .then(function(resultado){
+
+            res.status(200).json(resultado);
+        })
+        .catch(function(erro){
+
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 function buscarKpis(req, res) {
 
     var fkUniversidade = req.query.fkUniversidade;
@@ -83,6 +133,9 @@ function buscarListaCursos(req, res) {
 
 module.exports = {
     cadastrar,
+    editar,
+    excluir,
+    listarCursos,
     buscarKpis,
     buscarGrafico,
     buscarListaCursos

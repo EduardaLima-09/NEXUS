@@ -178,57 +178,6 @@ function deletarAluno(req, res) {
         });
 }
 
-function listarCursos(req, res) {
-    var fkUniversidade = req.query.fkUniversidade;
-    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
-
-    diretoriaModel.listarCursos(fkUniversidade)
-        .then(function (resultado) {
-            res.status(200).json(resultado);
-        })
-        .catch(function (erro) {
-            res.status(500).json(erro.sqlMessage);
-        });
-}
-
-function atualizarCurso(req, res) {
-    var id = req.params.id;
-    var fkUniversidade = req.query.fkUniversidade;
-    var nome = req.body.nome;
-    var modalidade = req.body.modalidade;
-
-    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
-    if (!nome || !modalidade) return res.status(400).send("Campos obrigatórios ausentes.");
-
-    diretoriaModel.atualizarCurso(id, nome, modalidade, fkUniversidade)
-        .then(function (resultado) {
-            if (resultado.affectedRows === 0) {
-                return res.status(404).send("Curso não encontrado.");
-            }
-            res.status(200).json({ mensagem: "Curso atualizado com sucesso." });
-        })
-        .catch(function (erro) {
-            res.status(500).json(erro.sqlMessage);
-        });
-}
-
-function deletarCurso(req, res) {
-    var id = req.params.id;
-    var fkUniversidade = req.query.fkUniversidade;
-    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
-
-    diretoriaModel.deletarCurso(id, fkUniversidade)
-        .then(function (resultado) {
-            if (resultado.affectedRows === 0) {
-                return res.status(404).send("Curso não encontrado.");
-            }
-            res.status(200).json({ mensagem: "Curso removido com sucesso." });
-        })
-        .catch(function (erro) {
-            res.status(500).json(erro.sqlMessage);
-        });
-}
-
 
 module.exports = {
     cadastrar,
@@ -239,7 +188,4 @@ module.exports = {
     listarAlunos,
     atualizarAluno,
     deletarAluno,
-    listarCursos,
-    atualizarCurso,
-    deletarCurso
 };
