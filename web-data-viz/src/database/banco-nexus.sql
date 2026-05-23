@@ -66,7 +66,18 @@ CREATE TABLE Historico (
 CREATE TABLE Logs (
     id INT PRIMARY KEY AUTO_INCREMENT,
     mensagem VARCHAR(250),
-    dataHora DATETIME
+    dataHora DATETIME,
+    status VARCHAR(45)
+);
+
+CREATE TABLE Meta(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    categoria VARCHAR(45) NOT NULL,
+    fkCurso INT,
+		FOREIGN KEY (fkCurso) REFERENCES Curso (id),
+	fkUniversidade INT,
+		FOREIGN KEY (fkUniversidade) REFERENCES Universidade (id)
 );
 
 SELECT * FROM usuario;
