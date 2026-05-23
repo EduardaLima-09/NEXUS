@@ -270,11 +270,6 @@
                         <input type="password" id="senhaUsuario" placeholder="Senha">
                         <input type="text" id="tokenUsuario" placeholder="Token da universidade" maxlength="6">
                     ` : ""}
-                    <select id="cargoUsuarioInput">
-                        <option value="">Selecione o Cargo</option>
-                        <option value="Coordenador" ${dados && dados.cargo === "Coordenador" ? "selected" : ""}>Coordenador</option>
-                        <option value="Professor" ${dados && dados.cargo === "Professor" ? "selected" : ""}>Professor</option>
-                    </select>
                 `;
             }
             // ALUNOS
@@ -595,13 +590,33 @@
         // SALVAR REGISTRO
         async function salvarRegistro() {
             if (abaAtual === "usuarios") {
-                const nome = document.getElementById("nomeUsuarioInput")?.value;
-                const sobrenome = document.getElementById("sobrenomeUsuarioInput")?.value;
-                const email = document.getElementById("emailUsuarioInput")?.value;
-                const cargo = document.getElementById("cargoUsuarioInput")?.value;
-                if (!nome || !email || !cargo) { alert("Preencha todos os campos obrigatórios!"); return; }
+                const nome = document.getElementById("nomeUsuarioInput").value;
+                const sobrenome = document.getElementById("sobrenomeUsuarioInput").value;
+                const email = document.getElementById("emailUsuarioInput").value;
+                const token = document.getElementById("tokenUsuario").value;
+                const senha = document.getElementById("senhaUsuario").value;
+                //const cargo = document.getElementById("cargoUsuarioInput")?.value;
+                if (!nome || !email || !token || !senha) { alert("Preencha todos os campos obrigatórios!"); return; }
                 if (!validarEmail(email)) { alert("Email inválido!"); return; }
-                console.log("Salvando usuário:", { nome, sobrenome, email, cargo });
+                
+                try {
+                    const resposta = await fetch("/diretoria/cadastrar", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                        nomeServer: nome.trim(),
+                        sobrenomeServer: sobrenome.trim(),
+                        emailServer: email.trim(),
+                        tokenServer: token.trim().toUpperCase(),
+                        senhaServer: senha.trim()
+                        })
+                    });
+                } catch (erro) {
+                    console.error(erro);
+                }
+                
+                console.log("Salvando usuário:", { nome, sobrenome, email });
+
                 fecharModal();
                 await carregarUsuarios();
             } else if (abaAtual === "alunos") {
