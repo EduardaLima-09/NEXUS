@@ -19,4 +19,8 @@ router.get("/semestres-filtro", function (req, res) {
     alunosController.buscarSemestresFiltro(req, res);
 });
 
+router.get("/metas-risco", function(req, res){
+    alunosController.buscarMetasRisco(req, res);
+});
+
 module.exports = router;

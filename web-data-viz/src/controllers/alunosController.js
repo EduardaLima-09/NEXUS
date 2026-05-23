@@ -76,9 +76,29 @@ function buscarSemestresFiltro(req, res) {
 
 }
 
+function buscarMetasRisco(req, res){
+
+    const fkUniversidade = req.query.fkUniversidade;
+
+    if (!fkUniversidade){
+        return res.status(400).send("fkUniversidade undefined");
+    }
+
+    alunosModel.buscarMetasRisco(fkUniversidade)
+        .then(function(resultado){
+
+            res.status(200).json(resultado);
+        })
+        .catch(function(erro){
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 module.exports = {
     buscarKpisRisco,
     buscarAlunos,
     buscarCursosFiltro,
-    buscarSemestresFiltro
+    buscarSemestresFiltro,
+    buscarMetasRisco
 };

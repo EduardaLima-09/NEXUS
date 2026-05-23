@@ -59,7 +59,7 @@
                             <h3>Alunos com Risco Baixo</h3>
                             <h1 id="kpiBaixo">-</h1>
                             <div class="porcentagem">
-                                <p>Meta: <span id="metaBaixo">70</span>% dos alunos</p>
+                                <p id="textoMetaBaixo"></p>
                                 <div class="progress-bar-mini">
                                     <div class="progress-mini" id="progressoBaixo" style="width: 0%"></div>
                                 </div>
@@ -70,7 +70,7 @@
                             <h3>Alunos com Risco Alto</h3>
                             <h1 id="kpiAlto">-</h1>
                             <div class="porcentagem">
-                                <p>Meta: <span id="metaAlto">10</span>% dos alunos</p>
+                                <p id="textoMetaAlto"></p>
                                 <div class="progress-bar-mini">
                                     <div class="progress-mini" id="progressoAlto" style="width: 0%"></div>
                                 </div>
@@ -81,7 +81,7 @@
                             <h3>Alunos com Risco Médio</h3>
                             <h1 id="kpiMedio">-</h1>
                             <div class="porcentagem">
-                                <p>Meta: <span id="metaMedio">20</span>% dos alunos</p>
+                                <p id="textoMetaMedio"></p>
                                 <div class="progress-bar-mini">
                                     <div class="progress-mini" id="progressoMedio" style="width: 0%"></div>
                                 </div>
@@ -201,7 +201,7 @@
         let graficoDonut = null;
 
         // Metas (valores padrão)
-        const metas = {
+        let metas = {
             baixo: 70,
             alto: 10,
             medio: 20
@@ -214,6 +214,7 @@
                 return;
             }
 
+            await carregarMetas();
             await carregarKpis();
             await carregarFiltros();
             await carregarAlunos();
@@ -223,15 +224,52 @@
         // Função para calcular e atualizar o progresso das metas
         function atualizarProgressoMetas(baixo, alto, medio, total) {
 
+            if (total === 0) {
+
+                document.getElementById("progressoBaixo").style.width = "0%";
+                document.getElementById("progressoAlto").style.width = "0%";
+                document.getElementById("progressoMedio").style.width = "0%";
+
+                document.getElementById("percentualBaixo").innerText =
+                    "Sem dados";
+
+                document.getElementById("percentualAlto").innerText =
+                    "Sem dados";
+
+                document.getElementById("percentualMedio").innerText =
+                    "Sem dados";
+
+                document.getElementById("textoMetaBaixo").innerText =
+                    `Meta: pelo menos ${metas.baixo}% dos alunos`;
+
+                document.getElementById("textoMetaAlto").innerText =
+                    `Meta: no máximo ${metas.alto}% dos alunos`;
+
+                document.getElementById("textoMetaMedio").innerText =
+                    `Meta: no máximo ${metas.medio}% dos alunos`;
+
+                return;
+            }
+
             // Calcular porcentagens atuais
-            const percentualBaixo = total > 0 ? (baixo / total) * 100 : 0;
-            const percentualAlto = total > 0 ? (alto / total) * 100 : 0;
-            const percentualMedio = total > 0 ? (medio / total) * 100 : 0;
+            const percentualBaixo = (baixo / total) * 100;
+            const percentualAlto = (alto / total) * 100;
+            const percentualMedio = (medio / total) * 100;
 
             // Calcular progresso em relação às metas
-            let progressoBaixo = (percentualBaixo / metas.baixo) * 100;
-            let progressoAlto = (percentualAlto / metas.alto) * 100;
-            let progressoMedio = (percentualMedio / metas.medio) * 100;
+            let progressoBaixo = metas.baixo > 0
+                ? (percentualBaixo / metas.baixo) * 100 : 0;
+
+            let progressoAlto = percentualAlto <= metas.alto
+                ? 100 : Math.max(0, 100 - ((percentualAlto - metas.alto) * 5));
+
+            let progressoMedio = percentualMedio <= metas.medio
+                ? 100 : Math.max(0, 100 - ((percentualMedio - metas.medio) * 5));
+
+            progressoBaixo = isNaN(progressoBaixo) ? 0 : progressoBaixo;
+            progressoAlto = isNaN(progressoAlto) ? 0 : progressoAlto;
+            progressoMedio = isNaN(progressoMedio) ? 0 : progressoMedio;
+
 
             // Limitar a 100%
             progressoBaixo = Math.min(progressoBaixo, 100);
@@ -244,9 +282,12 @@
             document.getElementById("progressoMedio").style.width = progressoMedio + "%";
 
             // Atualizar textos percentuais
-            document.getElementById("percentualBaixo").innerText = Math.round(progressoBaixo) + "% concluído";
-            document.getElementById("percentualAlto").innerText = Math.round(progressoAlto) + "% concluído";
-            document.getElementById("percentualMedio").innerText = Math.round(progressoMedio) + "% concluído";
+            document.getElementById("percentualBaixo").innerText =
+                `${percentualBaixo.toFixed(1)}% atual`;
+            document.getElementById("percentualAlto").innerText =
+                `${percentualAlto.toFixed(1)}% atual`;
+            document.getElementById("percentualMedio").innerText =
+                `${percentualMedio.toFixed(1)}% atual`;
 
             // Mudar cor da barra baseada no progresso
             const barraBaixo = document.getElementById("progressoBaixo");
@@ -264,6 +305,16 @@
             if (progressoMedio <= 30) barraMedio.style.backgroundColor = "#22c55e";
             else if (progressoMedio <= 60) barraMedio.style.backgroundColor = "#f97316";
             else barraMedio.style.backgroundColor = "#ef4444";
+
+            // Metas
+            document.getElementById("textoMetaBaixo").innerText = 
+                `Meta: pelo menos ${metas.baixo}% dos alunos`;
+
+            document.getElementById("textoMetaAlto").innerText = 
+                `Meta: no máximo ${metas.alto}% dos alunos`;
+
+            document.getElementById("textoMetaMedio").innerText = 
+                `Meta: no máximo ${metas.medio}% dos alunos`;
         }
 
         // ── KPIs ─────────────────────────────────────────────────────────────
@@ -297,6 +348,41 @@
             }
 
         }
+
+        // ── CARREGAR METAS ─────────────────────────────────────────────────
+        async function carregarMetas() {
+            
+            try {
+
+                const resposta = await fetch(`/alunos/metas-risco?fkUniversidade=${fkUniversidade}`);
+
+                if(!resposta.ok){
+                    console.error("Erro ao buscar metas");
+                    return;
+                }
+
+                const dados = await resposta.json();
+
+                dados.forEach(meta => {
+
+                    if(meta.categoria === "Risco Baixo"){
+                        metas.baixo = meta.porcentagem;
+                    }
+
+                    if(meta.categoria === "Risco Médio"){
+                        metas.medio = meta.porcentagem;
+                    }
+
+                    if(meta.categoria === "Risco Alto"){
+                        metas.alto = meta.porcentagem;
+                    }
+                });
+            
+            } catch (erro){
+                console.error(erro);
+            }
+        }
+
 
         // ── FILTROS DINÂMICOS ─────────────────────────────────────────────────
 

@@ -74,9 +74,25 @@ function buscarSemestresFiltro(fkUniversidade) {
 
 }
 
+function buscarMetasRisco(fkUniversidade){
+
+    const instrucaoSql = `
+        SELECT
+            categoria,
+            porcentagem
+        FROM Meta
+        WHERE fkUniversidade = ${fkUniversidade};
+    `;
+
+    console.log(instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarKpisRisco,
     buscarAlunos,
     buscarCursosFiltro,
-    buscarSemestresFiltro
+    buscarSemestresFiltro,
+    buscarMetasRisco
 };
