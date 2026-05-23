@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,22 +9,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Nexus | Cursos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <title>Nexus | Desempenho dos Cursos</title>
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 </head>
+
 <body>
     <div class="tela">
         <div class="dash">
             <div class="barra">
                 <div class="logo">
-                    <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
+                    <img src="../assets/LogoBranca.png" alt="Logo Nexus">
                 </div>
                 <div class="menu">
                     <div class="titulo">
                         <h1>Menu Principal</h1>
                     </div>
                     <div class="botoes">
-                        <button id="Alunos" onclick="goAlunos()">Alunos</button>
+                        <button id="Alunos" onclick="goAlunos()">Meus Alunos</button>
                         <button id="Cursos" onclick="goCursos()">Cursos</button>
                     </div>
                 </div>
@@ -31,8 +34,6 @@
                     <div class="usuario">
                         <div class="nome">
                             <div class="titulo-usuario">
-                                <span class="material-icons icone-user">account_circle</span>
-                                <!-- Cargo preenchido dinamicamente -->
                                 <h1 id="cargoUsuarioSidebar">Professor</h1>
                             </div>
                             <p id="nomeUsuarioSidebar"></p>
@@ -41,41 +42,61 @@
                     <button onclick="goHome()">Sair</button>
                 </div>
             </div>
+
             <div class="conteudo">
                 <div class="tituloDash">
                     <div class="texto">
-                        <h1>Desempenho dos Cursos</h1>
-                        <p>Análise acadêmica e monitoramento dos cursos</p>
+                        <h1>Olá, Professor(a) <span id="nomeUsuario">Usuário</span>!</h1>
+                        <p>Análise acadêmica e monitoramento do desempenho dos cursos</p>
                     </div>
                 </div>
+
+
                 <div class="conteudo2">
                     <div class="insights">
                         <div class="cards">
-                            <h3>Curso com Maior Risco</h3>
-                            <h1>-</h1>
+                            <h3>Curso com Risco Elevado</h3>
+                            <!--acho que puxa o nome aqui-->
                             <div class="porcentagem">
-                                <p>aqui vem a meta</p>
+                                <p>Meta institucional: menos de <span id="metaMaiorRisco">15</span>% de alunos em risco
+                                </p>
+                                <div class="progress-bar-mini">
+                                    <div class="progress-mini" id="progressoMaiorRisco" style="width: 0%"></div>
+                                </div>
+                                <span class="percentual-texto" id="percentualMaiorRisco">0% da meta atingida</span>
                             </div>
                         </div>
+
                         <div class="cards">
-                            <h3>Curso com Menor Risco</h3>
-                            <h1>-</h1>
+                            <h3>Curso com Risco Baixo</h3>
+                            <!--acho que puxa o nome aqui-->
                             <div class="porcentagem">
-                                <p>aqui vem a meta</p>
+                                <p>Meta institucional: manter abaixo de <span id="metaMenorRisco">5</span>% de alunos em
+                                    risco</p>
+                                <div class="progress-bar-mini">
+                                    <div class="progress-mini" id="progressoMenorRisco" style="width: 0%"></div>
+                                </div>
+                                <span class="percentual-texto" id="percentualMenorRisco">0% da meta atingida</span>
                             </div>
                         </div>
                     </div>
+
                     <div class="conteudo3">
                         <div class="graficoBarra">
-                            <h3>Distribuição de Risco por Curso</h3>
+                            <h3>Quantidade de alunos por nível de risco em cada curso</h3>
                             <div class="chart-container">
                                 <canvas id="mychart1"></canvas>
                             </div>
                         </div>
+
                         <div class="detalhes">
                             <div class="lista-cursos">
-                                <h3>Lista de Cursos</h3>
-                                <!-- Preenchido via JS -->
+                                <h3>Relação de Cursos</h3>
+                                <div class="filtro-cursos">
+                                    <input type="text" id="pesquisaCurso" class="barra-pesquisa-curso"
+                                        placeholder="Buscar curso por nome..." oninput="filtrarListaCursos()">
+                                </div>
+                                <div id="listaCursosContainer" class="cursos-container"></div>
                             </div>
                         </div>
                     </div>
@@ -85,115 +106,292 @@
     </div>
 
     <script>
-    // ─── GUARD: apenas Professor acessa cursos ────────────────────────────────────
-    // ⚠️  CORREÇÃO: antes checava "Coordenador" — estava errado, Professor é quem usa esta tela.
-    //     Coordenador vai para o dashboard dele.
-    //     Sem sessão: não redireciona (permite testar em dev).
-    var cargoUsuario   = sessionStorage.getItem("CARGO_USUARIO");
-    var nomeUsuario    = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
-    var fkUniversidade = sessionStorage.getItem("FK_UNIVERSIDADE");
+        // VALIDAÇÃO DE ACESSO
+        const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+        const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
+        const fkUniversidade = sessionStorage.getItem("FK_UNIVERSIDADE");
 
-    if (cargoUsuario && cargoUsuario !== "Professor") {
-        window.location.href = cargoUsuario === "Coordenador"
-            ? "dashboard.html"
-            : "../login.html";
-    }
+        if (cargoUsuario && cargoUsuario !== "Professor") {
+            window.location.href = cargoUsuario === "Coordenador" ? "dashboard.html" : "../login.html";
+        }
 
-    document.getElementById("nomeUsuarioSidebar").innerText  = nomeUsuario;
-    document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario || "Professor";
+        document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
+        document.getElementById("nomeUsuario").innerText = nomeUsuario;
+        document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario || "Professor";
 
-    // ─── NAVEGAÇÃO ───────────────────────────────────────────────────────────────
-    var graficoCursos;
-    function goAlunos(){ window.location.href = "alunos.html"; }
-    function goCursos(){ window.location.href = "cursos.html"; }
-    function goHome()  { sessionStorage.clear(); window.location.href = "../index.html"; }
-    function toggleCurso(elemento) { elemento.classList.toggle("ativo"); }
+        // NAVEGAÇÃO
+        function goAlunos() { window.location.href = "alunos.html"; }
+        function goCursos() { window.location.href = "cursos.html"; }
+        function goHome() { sessionStorage.clear(); window.location.href = "../index.html"; }
 
-    // ─── HIGHLIGHT BOTÃO ATIVO ───────────────────────────────────────────────────
-    var paginaAtual = window.location.pathname.split("/").pop();
-    if (paginaAtual === "alunos.html") document.getElementById("Alunos").classList.add("ativo");
-    if (paginaAtual === "cursos.html") document.getElementById("Cursos").classList.add("ativo");
+        // MENU ATIVO
+        const paginaAtual = window.location.pathname.split("/").pop();
+        if (paginaAtual === "alunos.html") document.getElementById("Alunos")?.classList.add("ativo");
+        if (paginaAtual === "cursos.html") document.getElementById("Cursos")?.classList.add("ativo");
 
-    // ─── DADOS ───────────────────────────────────────────────────────────────────
-    async function carregarDados() {
-        if (!fkUniversidade) { console.warn("FK_UNIVERSIDADE não encontrada."); return; }
-        await carregarKpis(fkUniversidade);
-        await carregarGrafico(fkUniversidade);
-        await carregarListaCursos(fkUniversidade);
-    }
+        // VARIÁVEIS GLOBAIS
+        let graficoCursos = null;
+        let todosCursos = [];
+        let dadosGrafico = [];
 
-    async function carregarKpis(fkUniversidade) {
-        try {
-            var resposta = await fetch(`/cursos/kpis?fkUniversidade=${fkUniversidade}`);
-            var dados    = await resposta.json();
-            var cards    = document.querySelectorAll(".cards");
-            cards[0].innerHTML = `
-                <h3>Curso com Maior Risco</h3>
-                <h1>${dados.cursoMaiorRisco || "-"}</h1>
-                <div class="porcentagem"><p>${dados.qtdMaiorRisco || 0} alunos em risco • Último semestre</p></div>
-            `;
-            cards[1].innerHTML = `
-                <h3>Curso com Menor Risco</h3>
-                <h1>${dados.cursoMenorRisco || "-"}</h1>
-                <div class="porcentagem"><p>${dados.qtdMenorRisco || 0} alunos em risco • Último semestre</p></div>
-            `;
-        } catch (erro) { console.error("Erro KPIs cursos:", erro); }
-    }
+        // Metas institucionais para cursos
+        const metas = {
+            maiorRisco: 15,
+            menorRisco: 5
+        };
 
-    async function carregarGrafico(fkUniversidade) {
-        try {
-            var resposta = await fetch(`/cursos/grafico?fkUniversidade=${fkUniversidade}`);
-            var dados    = await resposta.json();
-            var labels   = dados.map(item => item.curso);
-            var alto     = dados.map(item => item.alto);
-            var medio    = dados.map(item => item.medio);
-            var baixo    = dados.map(item => item.baixo);
-            var ctx      = document.getElementById("mychart1");
-            if (graficoCursos) graficoCursos.destroy();
-            graficoCursos = new Chart(ctx, {
-                type: "bar",
-                data: {
-                    labels,
-                    datasets: [
-                        { label: "Alto Risco",  data: alto,  backgroundColor: "#ef4444", borderRadius: 6 },
-                        { label: "Médio Risco", data: medio, backgroundColor: "#facc15", borderRadius: 6 },
-                        { label: "Baixo Risco", data: baixo, backgroundColor: "#428d69", borderRadius: 6 }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: true, position: "top" } },
-                    scales: { y: { beginAtZero: true } }
+        // Função para atualizar progresso das metas
+        function atualizarProgressoMetas(percentualMaiorRisco, percentualMenorRisco) {
+            let progressoMaiorRisco = (percentualMaiorRisco / metas.maiorRisco) * 100;
+            let progressoMenorRisco = (percentualMenorRisco / metas.menorRisco) * 100;
+
+            progressoMaiorRisco = Math.min(progressoMaiorRisco, 100);
+            progressoMenorRisco = Math.min(progressoMenorRisco, 100);
+
+            document.getElementById("progressoMaiorRisco").style.width = progressoMaiorRisco + "%";
+            document.getElementById("progressoMenorRisco").style.width = progressoMenorRisco + "%";
+
+            document.getElementById("percentualMaiorRisco").innerText = Math.round(progressoMaiorRisco) + "% da meta atingida";
+            document.getElementById("percentualMenorRisco").innerText = Math.round(progressoMenorRisco) + "% da meta atingida";
+
+            const barraMaiorRisco = document.getElementById("progressoMaiorRisco");
+            const barraMenorRisco = document.getElementById("progressoMenorRisco");
+
+            if (progressoMaiorRisco <= 30) barraMaiorRisco.style.backgroundColor = "#22c55e";
+            else if (progressoMaiorRisco <= 60) barraMaiorRisco.style.backgroundColor = "#f97316";
+            else barraMaiorRisco.style.backgroundColor = "#ef4444";
+
+            if (progressoMenorRisco <= 30) barraMenorRisco.style.backgroundColor = "#22c55e";
+            else if (progressoMenorRisco <= 60) barraMenorRisco.style.backgroundColor = "#f97316";
+            else barraMenorRisco.style.backgroundColor = "#ef4444";
+        }
+
+        async function carregarDados() {
+            if (!fkUniversidade) {
+                console.warn("FK_UNIVERSIDADE não encontrada.");
+                return;
+            }
+            await carregarKpis();
+            await carregarGrafico();
+            await carregarListaCursos();
+        }
+
+        async function carregarKpis() {
+            try {
+                const resposta = await fetch(`/cursos/kpis?fkUniversidade=${fkUniversidade}`);
+                const dados = await resposta.json();
+
+                document.getElementById("cursoMaiorRisco").innerText = dados.cursoMaiorRisco || "-";
+                document.getElementById("cursoMenorRisco").innerText = dados.cursoMenorRisco || "-";
+
+                const totalAlunos = dados.totalAlunos || 1;
+                const percentualMaiorRisco = ((dados.qtdMaiorRisco || 0) / totalAlunos) * 100;
+                const percentualMenorRisco = ((dados.qtdMenorRisco || 0) / totalAlunos) * 100;
+
+                atualizarProgressoMetas(percentualMaiorRisco, percentualMenorRisco);
+
+            } catch (erro) {
+                console.error("Erro ao carregar indicadores:", erro);
+            }
+        }
+
+        async function carregarGrafico() {
+            try {
+                const resposta = await fetch(`/cursos/grafico?fkUniversidade=${fkUniversidade}`);
+                dadosGrafico = await resposta.json();
+
+                // Calcular o máximo para ajustar a escala do Y
+                let maxValor = 0;
+                dadosGrafico.forEach(item => {
+                    maxValor = Math.max(maxValor, item.alto || 0, item.medio || 0, item.baixo || 0);
+                });
+                // Adicionar 20% de margem ao topo
+                const yMax = Math.ceil(maxValor * 1.2);
+
+                const labels = dadosGrafico.map(item => item.curso);
+                const alto = dadosGrafico.map(item => item.alto || 0);
+                const medio = dadosGrafico.map(item => item.medio || 0);
+                const baixo = dadosGrafico.map(item => item.baixo || 0);
+
+                const ctx = document.getElementById("mychart1");
+                if (graficoCursos) graficoCursos.destroy();
+
+                graficoCursos = new Chart(ctx, {
+                    type: "bar",
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: "🔴 Risco Elevado (acima de 30%)",
+                                data: alto,
+                                backgroundColor: "#ef4444",
+                                borderRadius: 6,
+                                barPercentage: 0.8,
+                                categoryPercentage: 0.9
+                            },
+                            {
+                                label: "🟠 Risco Moderado (15% a 30%)",
+                                data: medio,
+                                backgroundColor: "#f97316",
+                                borderRadius: 6,
+                                barPercentage: 0.8,
+                                categoryPercentage: 0.9
+                            },
+                            {
+                                label: "🟢 Risco Baixo (abaixo de 15%)",
+                                data: baixo,
+                                backgroundColor: "#22c55e",
+                                borderRadius: 6,
+                                barPercentage: 0.8,
+                                categoryPercentage: 0.9
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: "top",
+                                labels: {
+                                    font: { size: 14, weight: "bold" },
+                                    usePointStyle: true,
+                                    pointStyle: "circle",
+                                    padding: 12
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function (context) {
+                                        let label = context.dataset.label || "";
+                                        let value = context.raw;
+                                        return `${label}: ${value} aluno(s)`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: yMax,
+                                title: {
+                                    display: true,
+                                    text: "Quantidade de Alunos",
+                                    font: { size: 14, weight: "bold" },
+                                    color: "#3f3f3f"
+                                },
+                                ticks: {
+                                    stepSize: Math.ceil(yMax / 5),
+                                    precision: 0,
+                                    font: { size: 12 }
+                                },
+                                grid: { color: "#e5e7eb", dash: [4, 4] }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: "Cursos Oferecidos",
+                                    font: { size: 14, weight: "bold" },
+                                    color: "#3f3f3f"
+                                },
+                                ticks: {
+                                    font: { size: 14, weight: "bold" },
+                                    rotation: 0,
+                                    autoSkip: true,
+                                    maxRotation: 30,
+                                    minRotation: 0
+                                },
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+
+            } catch (erro) { console.error("Erro ao carregar gráfico:", erro); }
+        }
+
+        async function carregarListaCursos() {
+            try {
+                const resposta = await fetch(`/cursos/lista?fkUniversidade=${fkUniversidade}`);
+                todosCursos = await resposta.json();
+                renderizarListaCursos(todosCursos);
+            } catch (erro) { console.error("Erro ao carregar lista de cursos:", erro); }
+        }
+
+        function renderizarListaCursos(cursos) {
+            const container = document.getElementById("listaCursosContainer");
+            container.innerHTML = "";
+
+            if (cursos.length === 0) {
+                container.innerHTML = '<div class="nenhum-curso">Nenhum curso encontrado.</div>';
+                return;
+            }
+
+            cursos.forEach(function (curso) {
+                let corRisco = "#22c55e";
+                let textoRisco = "Risco Baixo";
+                let fonteRisco = "Montserrat";
+                if (curso.emRisco > 30) {
+                    corRisco = "#ef4444";
+                    textoRisco = "Risco Elevado";
+                } else if (curso.emRisco > 15) {
+                    corRisco = "#f97316";
+                    textoRisco = "Risco Moderado";
                 }
-            });
-        } catch (erro) { console.error("Erro gráfico cursos:", erro); }
-    }
 
-    async function carregarListaCursos(fkUniversidade) {
-        try {
-            var resposta    = await fetch(`/cursos/lista?fkUniversidade=${fkUniversidade}`);
-            var dados       = await resposta.json();
-            var listaCursos = document.querySelector(".lista-cursos");
-            listaCursos.innerHTML = "<h3>Lista de Cursos</h3>";
-            dados.forEach(function(curso) {
-                listaCursos.innerHTML += `
-                    <div class="curso-item" onclick="toggleCurso(this)">
+                const cursoDiv = document.createElement("div");
+                cursoDiv.className = "curso-item";
+                cursoDiv.innerHTML = `
+                    <div class="curso-header" onclick="toggleCurso(this.parentElement)">
                         <div class="curso-nome">${curso.nome}</div>
-                        <div class="curso-info">
-                            <p><strong>Média:</strong> ${curso.media || 0}</p>
-                            <p><strong>Presença:</strong> ${curso.presenca || 0}%</p>
-                            <p><strong>Em risco:</strong> ${curso.emRisco || 0} alunos</p>
-                            <p><strong>Semestre crítico:</strong> ${curso.semestreCritico || "-"}º semestre</p>
+                        <div class="curso-badge" style="background-color: ${corRisco}">${textoRisco}</div>
+                        <span class="material-icons curso-toggle">expand_more</span>
+                    </div>
+                    <div class="curso-info">
+                        <div class="info-row">
+                            <span class="info-label">Média geral:</span>
+                            <span class="info-value">${curso.media || 0}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Presença média:</span>
+                            <span class="info-value">${curso.presenca || 0}%</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Alunos em risco:</span>
+                            <span class="info-value">${curso.emRisco || 0} alunos (${textoRisco.toLowerCase()})</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Semestre crítico:</span>
+                            <span class="info-value">${curso.semestreCritico || "-"}º semestre</span>
+                        </div>
+                        <div class="progresso-risco">
+                            <div class="progress-bar-mini">
+                                <div class="progress-mini" style="width: ${Math.min(curso.emRisco || 0, 100)}%; background-color: ${corRisco}"></div>
+                            </div>
+                            <span class="percentual-texto">${curso.emRisco || 0}% dos alunos</span>
                         </div>
                     </div>
                 `;
+                container.appendChild(cursoDiv);
             });
-        } catch (erro) { console.error("Erro lista cursos:", erro); }
-    }
+        }
 
-    // ─── INIT ────────────────────────────────────────────────────────────────────
-    carregarDados();
+        function toggleCurso(elemento) {
+            elemento.classList.toggle("expandido");
+        }
+
+        function filtrarListaCursos() {
+            const textoPesquisa = document.getElementById("pesquisaCurso").value.toLowerCase();
+            const cursosFiltrados = todosCursos.filter(function (curso) {
+                return curso.nome.toLowerCase().includes(textoPesquisa);
+            });
+            renderizarListaCursos(cursosFiltrados);
+        }
+
+        // Inicializar
+        carregarDados();
     </script>
 </body>
+
 </html>

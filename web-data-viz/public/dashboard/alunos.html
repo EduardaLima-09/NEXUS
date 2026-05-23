@@ -17,52 +17,33 @@
 </head>
 
 <body>
-
     <div class="tela">
-
         <div class="dash">
-
             <div class="barra">
-
                 <div class="logo">
                     <img src="../assets/LogoBranca.png" alt="">
                 </div>
-
                 <div class="menu">
-
                     <div class="titulo">
                         <h1>Menu Principal</h1>
                     </div>
-
                     <div class="botoes">
                         <button id="Alunos" onclick="goAlunos()">Meus Alunos</button>
                         <button id="Cursos" onclick="goCursos()">Cursos</button>
                     </div>
-
                 </div>
-
                 <div class="sair">
-
                     <div class="usuario">
-
                         <div class="nome">
-
                             <div class="titulo-usuario">
                                 <h1 id="cargoUsuarioSidebar">Professor</h1>
                             </div>
-
                             <p id="nomeUsuarioSidebar"></p>
-
                         </div>
-
                     </div>
-
                     <button onclick="goHome()">Sair</button>
-
                 </div>
-
             </div>
-
             <div class="conteudo">
                 <div class="tituloDash">
                     <div class="texto">
@@ -71,13 +52,9 @@
                             Acompanhamento acadêmico e indicadores de risco dos seus alunos neste semestre
                         </p>
                     </div>
-
                 </div>
-
                 <div class="conteudo2">
-
                     <div class="insights">
-
                         <div class="cards">
                             <h3>Alunos com Risco Baixo</h3>
                             <h1 id="kpiBaixo">-</h1>
@@ -89,7 +66,6 @@
                                 <span class="percentual-texto" id="percentualBaixo">0% concluído</span>
                             </div>
                         </div>
-
                         <div class="cards">
                             <h3>Alunos com Risco Alto</h3>
                             <h1 id="kpiAlto">-</h1>
@@ -101,7 +77,6 @@
                                 <span class="percentual-texto" id="percentualAlto">0% concluído</span>
                             </div>
                         </div>
-
                         <div class="cards">
                             <h3>Alunos com Risco Médio</h3>
                             <h1 id="kpiMedio">-</h1>
@@ -113,50 +88,35 @@
                                 <span class="percentual-texto" id="percentualMedio">0% concluído</span>
                             </div>
                         </div>
-
                     </div>
-
                     <div class="conteudo3">
-
                         <div class="tabela">
-
                             <div class="topo-tabela">
-
                                 <h1>Lista de Alunos</h1>
-
                                 <div class="acoes-tabela">
-
                                     <input type="text" id="pesquisaAluno" class="barra-pesquisa"
                                         placeholder="Pesquisar aluno..." oninput="filtrarTabela()">
-
                                     <select id="filtroCurso" class="filtro-select" onchange="filtrarTabela()">
                                         <option value="">Curso</option>
                                     </select>
-
                                     <select id="filtroSemestre" class="filtro-select" onchange="filtrarTabela()">
                                         <option value="">Semestre</option>
                                     </select>
-
                                     <select id="filtroRisco" class="filtro-select" onchange="filtrarTabela()">
                                         <option value="">Risco</option>
                                         <option value="Alto">Alto</option>
                                         <option value="Médio">Médio</option>
                                         <option value="Baixo">Baixo</option>
                                     </select>
-
                                     <select id="filtroNota" class="filtro-select" onchange="filtrarTabela()">
                                         <option value="">Nota</option>
                                         <option value="alta">Acima de 8</option>
                                         <option value="media">Entre 6 e 8</option>
                                         <option value="baixa">Abaixo de 6</option>
                                     </select>
-
                                 </div>
-
                             </div>
-
                             <table class="tabela-alunos" id="tabelaAlunos">
-
                                 <thead>
                                     <tr>
                                         <th>Aluno</th>
@@ -167,35 +127,21 @@
                                         <th>Risco</th>
                                     </tr>
                                 </thead>
-
                                 <tbody id="tbodyAlunos"></tbody>
-
                             </table>
-
                         </div>
-
                         <div class="metade2">
-
                             <div class="graficoDonut">
-
                                 <h3>Distribuição de Risco</h3>
-
                                 <div class="chart-container">
                                     <canvas id="mychart1"></canvas>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <script>
@@ -646,7 +592,5 @@
         iniciarPagina();
 
     </script>
-
 </body>
-
 </html>
