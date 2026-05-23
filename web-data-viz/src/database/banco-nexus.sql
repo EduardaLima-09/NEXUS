@@ -74,6 +74,7 @@ CREATE TABLE Meta(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
     categoria VARCHAR(45) NOT NULL,
+    porcentagem INT,
     fkCurso INT,
 		FOREIGN KEY (fkCurso) REFERENCES Curso (id),
 	fkUniversidade INT,
