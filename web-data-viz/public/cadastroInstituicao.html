@@ -214,7 +214,7 @@
 
     // Eliminar CNPJs com todos dígitos iguais
     if (/^(\d)\1{13}$/.test(cnpj)) return false;
-
+    
     // Validação do primeiro dígito verificador
     let tamanho = cnpj.length - 2;
     let numeros = cnpj.substring(0, tamanho);

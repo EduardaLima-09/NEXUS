@@ -6,17 +6,12 @@ function cadastrar(req, res) {
     var email = req.body.emailServer;
     var token = req.body.tokenServer;
     var senha = req.body.senhaServer;
-    var cargo = req.body.cargoServer;
 
     if (!nome) return res.status(400).send("Nome está undefined!");
     if (!sobrenome) return res.status(400).send("Sobrenome está undefined!");
     if (!email) return res.status(400).send("Email está undefined!");
     if (!token) return res.status(400).send("Token está undefined!");
     if (!senha) return res.status(400).send("Senha está undefined!");
-    if (!cargo) return res.status(400).send("Cargo está undefined!");
-    if (cargo !== "Coordenador" && cargo !== "Professor") {
-        return res.status(400).send("Cargo inválido. Use Coordenador ou Professor.");
-    }
 
     diretoriaModel.buscarUniversidadePorToken(token)
         .then(function (resultado) {
@@ -24,7 +19,7 @@ function cadastrar(req, res) {
                 return res.status(404).send("Token inválido! Verifique o token da sua instituição.");
             }
             var fkUniversidade = resultado[0].id;
-            return diretoriaModel.cadastrar(nome, sobrenome, email, senha, token, cargo, fkUniversidade)
+            return diretoriaModel.cadastrar(nome, sobrenome, email, senha, token, fkUniversidade)
                 .then(function () {
                     res.status(201).json({ mensagem: "Cadastro realizado com sucesso." });
                 });

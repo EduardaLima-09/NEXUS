@@ -9,21 +9,59 @@ function buscarUniversidadePorToken(token) {
     return database.executar(instrucaoSql);
 }
 
-function cadastrar(nome, sobrenome, email, senha, token, cargo, fkUniversidade) {
+function cadastrar(nome, sobrenome, email, senha, token, fkUniversidade){
+
     var instrucaoSql = `
-        INSERT INTO Usuario (nome, sobrenome, email, senha, token, cargo, fkUniversidade)
-        VALUES (
+        INSERT INTO Usuario (
+            nome,
+            sobrenome,
+            email,
+            senha,
+            token,
+            cargo,
+            fkUniversidade
+        )
+        SELECT
             '${nome}',
             '${sobrenome}',
             '${email}',
             '${senha}',
             '${token}',
-            '${cargo}',
+
+            CASE
+                WHEN contagem.qtdCoordenadores = 0
+                    THEN 'Coordenador'
+                ELSE 'Professor'
+            END,
+
             '${fkUniversidade}'
-        );
+
+        FROM (
+            SELECT COUNT(*) AS qtdCoordenadores
+            FROM Usuario
+            WHERE fkUniversidade = '${fkUniversidade}'
+            AND cargo = 'Coordenador'
+        ) AS contagem;
     `;
+
     return database.executar(instrucaoSql);
 }
+
+// function cadastrar(nome, sobrenome, email, senha, token, cargo, fkUniversidade) {
+//     var instrucaoSql = `
+//         INSERT INTO Usuario (nome, sobrenome, email, senha, token, cargo, fkUniversidade)
+//         VALUES (
+//             '${nome}',
+//             '${sobrenome}',
+//             '${email}',
+//             '${senha}',
+//             '${token}',
+//             '${cargo}',
+//             '${fkUniversidade}'
+//         );
+//     `;
+//     return database.executar(instrucaoSql);
+// }
 
 function autenticar(email, senha) {
     console.log("Autenticando usuário:", email);

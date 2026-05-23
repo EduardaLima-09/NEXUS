@@ -191,11 +191,11 @@
                     "success",
                     "Login realizado!",
                     `Bem-vindo de volta, ${dados.nome}! Redirecionando...`,
-                    dados.redirecionarPara
+                    //dados.redirecionarPara
                 );
 
                 setTimeout(function () {
-                    window.location.href = dados.redirecionarPara;
+                    window.location.href = './dashboard/dashboard.html';
                 }, 3000);
 
                 return;
