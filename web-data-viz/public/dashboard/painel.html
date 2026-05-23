@@ -27,21 +27,18 @@
                     <div class="titulo">
                         <h1>Menu Principal</h1>
                     </div>
-<div class="botoes">
-    <button onclick="goDash()" id="btnDash">Início</button>
-    <button onclick="goPainel()" id="btnPainel">Administração</button>
-</div>
+                    <div class="botoes">
+                        <button onclick="goDash()" id="btnDash">Início</button>
+                        <button onclick="goPainel()" id="btnPainel">Gerenciamento</button>
+                    </div>
                 </div>
                 <div class="sair">
                     <div class="usuario">
                         <div class="nome">
                             <div class="titulo-usuario">
-                                <span class="material-icons icone-user">account_circle</span>
                                 <h1 id="cargoUsuarioSidebar">Coordenador</h1>
                             </div>
-                            <p>
-                                <span id="nomeUsuarioSidebar">Usuário</span> * Nexus
-                            </p>
+                             <p id="nomeUsuarioSidebar"></p>
                         </div>
                     </div>
                     <button onclick="goHome()">Sair</button>
@@ -51,7 +48,7 @@
                 <div class="conteudo2">
                     <div class="painel-admin">
                         <h1>Painel de Gerenciamento</h1>
-                        <p>Gerencie usuários, alunos, cursos e metas da instituição em um único lugar.</p>
+                        <p>Gerencie usuários, alunos, cursos e metas da instituição em um só lugar</p>
                         <div class="abas-gerenciamento">
                             <button class="aba-btn ativa" onclick="mostrarTabela('usuarios', this)">
                                 Usuários
@@ -67,16 +64,15 @@
                             </button>
                         </div>
                         <button class="btn-add" onclick="abrirModal('adicionar', null)">
-                            + Adicionar Registro
+                            + Adicionar Novo Registro
                         </button>
+
                         <!-- USUÁRIOS -->
                         <div id="usuarios" class="secao-tabela ativa-tabela">
                             <div class="container-pesquisa">
-                                <span class="material-icons icone-pesquisa">
-                                    search
-                                </span>
+                                <span class="material-icons icone-pesquisa">search</span>
                                 <input type="text" id="pesquisaUsuariosPainel" class="barra-pesquisa-painel"
-                                    placeholder="Pesquisar usuário..." oninput="filtrarUsuarios()">
+                                    placeholder="Pesquisar usuário por nome, email ou cargo..." oninput="filtrarUsuarios()">
                             </div>
                             <table class="tabela-admin">
                                 <thead>
@@ -92,14 +88,13 @@
                                 <tbody id="usuariosTabelaBody"></tbody>
                             </table>
                         </div>
+
                         <!-- ALUNOS -->
                         <div id="alunos" class="secao-tabela">
                             <div class="container-pesquisa">
-                                <span class="material-icons icone-pesquisa">
-                                    search
-                                </span>
+                                <span class="material-icons icone-pesquisa">search</span>
                                 <input type="text" id="pesquisaAlunosPainel" class="barra-pesquisa-painel"
-                                    placeholder="Pesquisar aluno..." oninput="filtrarAlunos()">
+                                    placeholder="Pesquisar aluno por nome, email ou curso..." oninput="filtrarAlunos()">
                             </div>
                             <table class="tabela-admin">
                                 <thead>
@@ -121,16 +116,14 @@
                         <!-- CURSOS -->
                         <div id="cursos" class="secao-tabela">
                             <div class="container-pesquisa">
-                                <span class="material-icons icone-pesquisa">
-                                    search
-                                </span>
+                                <span class="material-icons icone-pesquisa">search</span>
                                 <input type="text" id="pesquisaCursosPainel" class="barra-pesquisa-painel"
-                                    placeholder="Pesquisar curso...">
+                                    placeholder="Pesquisar curso por nome..." oninput="filtrarCursos()">
                             </div>
                             <table class="tabela-admin">
                                 <thead>
                                     <tr>
-                                        <th>Nome</th>
+                                        <th>Curso</th>
                                         <th>Editar</th>
                                         <th>Excluir</th>
                                     </tr>
@@ -142,19 +135,16 @@
                         <!-- METAS -->
                         <div id="metas" class="secao-tabela">
                             <div class="container-pesquisa">
-                                <span class="material-icons icone-pesquisa">
-                                    search
-                                </span>
+                                <span class="material-icons icone-pesquisa">search</span>
                                 <input type="text" id="pesquisaMetasPainel" class="barra-pesquisa-painel"
-                                    placeholder="Pesquisar meta..." oninput="filtrarMetas()">
+                                    placeholder="Pesquisar meta por título..." oninput="filtrarMetas()">
                             </div>
                             <table class="tabela-admin">
                                 <thead>
                                     <tr>
                                         <th>Meta</th>
-                                        <th>Categoria</th>
-                                        <th>Curso</th>
-                                        <th>Porcentagem</th>
+                                        <th>Nível de Risco</th>
+                                        <th>Progresso</th>
                                         <th>Editar</th>
                                         <th>Excluir</th>
                                     </tr>
@@ -167,19 +157,15 @@
             </div>
         </div>
     </div>
+
     <!-- MODAL ADICIONAR / EDITAR -->
     <div id="modalUsuario" class="modal">
         <div class="modal-content">
             <h2 id="tituloModal">Adicionar Registro</h2>
             <div id="camposModal"></div>
-
             <div class="botoes-modal">
-                <button class="btn-salvar" onclick="salvarRegistro()">
-                    Salvar
-                </button>
-                <button class="btn-cancelar" onclick="fecharModal()">
-                    Cancelar
-                </button>
+                <button class="btn-salvar" onclick="salvarRegistro()">Salvar</button>
+                <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
             </div>
         </div>
     </div>
@@ -188,56 +174,36 @@
     <div id="modalExcluir" class="modal">
         <div class="modal-content excluir">
             <h2>Confirmar exclusão</h2>
-
-            <p id="textoExcluir">
-                Tem certeza que deseja excluir este registro?
-            </p>
-
+            <p id="textoExcluir">Tem certeza que deseja excluir este registro? Esta ação não poderá ser desfeita.</p>
             <div class="botoes-modal">
-                <button class="btn-excluir" onclick="confirmarExclusao()">
-                    Excluir
-                </button>
-
-                <button class="btn-cancelar" onclick="fecharExcluirModal()">
-                    Cancelar
-                </button>
+                <button class="btn-excluir" onclick="confirmarExclusao()">Sim, excluir</button>
+                <button class="btn-cancelar" onclick="fecharExcluirModal()">Cancelar</button>
             </div>
         </div>
     </div>
+
     <script>
-        const cargoUsuario =
-            sessionStorage.getItem("CARGO_USUARIO");
-
-        const nomeUsuario =
-            sessionStorage.getItem("NOME_USUARIO") || "Usuário";
-
-        const fkUniversidade =
-            sessionStorage.getItem("FK_UNIVERSIDADE");
+        const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+        const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
+        const fkUniversidade = sessionStorage.getItem("FK_UNIVERSIDADE");
 
         if (cargoUsuario && cargoUsuario !== "Coordenador") {
             window.location.href = "../login.html";
         }
 
-        document.getElementById("nomeUsuarioSidebar").innerText =
-            nomeUsuario;
+        document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
+        document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario || "Coordenador";
 
-        document.getElementById("cargoUsuarioSidebar").innerText =
-            cargoUsuario || "Coordenador";
-
-        // VARIÁVEIS GLOBAIS─────────────────────────────────────────────────────────
-
+        // VARIÁVEIS GLOBAIS
         let abaAtual = "usuarios";
-
         let todosUsuarios = [];
         let todosAlunos = [];
         let todosCursos = [];
         let todasMetas = [];
-
         let registroEditandoId = null;
         let modoModal = "adicionar";
 
-        // NAVEGAÇÃO─────────────────────────────────────────────────────────
-
+        // NAVEGAÇÃO
         function goDash() {
             window.location.href = "dashboard.html";
         }
@@ -252,713 +218,347 @@
         }
 
         function toggleMenu() {
-            document.getElementById("menuLateral")
-                .classList.toggle("aberto");
+            document.getElementById("menuLateral").classList.toggle("aberto");
         }
 
-        // ─────────────────────────────────────────────────────────
+        // MENU ATIVO
+        function setActiveMenu() {
+            const currentPage = window.location.pathname.split("/").pop();
+            if (currentPage === "dashboard.html" || currentPage === "") {
+                document.getElementById("btnDash")?.classList.add("active");
+                document.getElementById("btnPainel")?.classList.remove("active");
+            } else if (currentPage === "painel.html") {
+                document.getElementById("btnPainel")?.classList.add("active");
+                document.getElementById("btnDash")?.classList.remove("active");
+            }
+        }
+        document.addEventListener("DOMContentLoaded", setActiveMenu);
+
         // ABAS
-        // ─────────────────────────────────────────────────────────
-
         function mostrarTabela(tipo, botaoClicado) {
-
             abaAtual = tipo;
-
-            document.querySelectorAll(".secao-tabela")
-                .forEach(secao => {
-                    secao.classList.remove("ativa-tabela");
-                });
-
-            document.getElementById(tipo)
-                .classList.add("ativa-tabela");
-
-            document.querySelectorAll(".aba-btn")
-                .forEach(botao => {
-                    botao.classList.remove("ativa");
-                });
-
+            document.querySelectorAll(".secao-tabela").forEach(secao => {
+                secao.classList.remove("ativa-tabela");
+            });
+            document.getElementById(tipo).classList.add("ativa-tabela");
+            document.querySelectorAll(".aba-btn").forEach(botao => {
+                botao.classList.remove("ativa");
+            });
             botaoClicado.classList.add("ativa");
-
             if (tipo === "usuarios") carregarUsuarios();
             if (tipo === "alunos") carregarAlunos();
             if (tipo === "cursos") carregarCursos();
             if (tipo === "metas") carregarMetas();
-
         }
 
-        // ─────────────────────────────────────────────────────────
         // MODAL
-        // ─────────────────────────────────────────────────────────
-
         function abrirModal(modo, dados) {
-
             modoModal = modo;
-
-            registroEditandoId =
-                dados ? (dados.id || dados.RA) : null;
-
-            const camposModal =
-                document.getElementById("camposModal");
-
-            const tituloModal =
-                document.getElementById("tituloModal");
-
+            registroEditandoId = dados ? (dados.id || dados.RA) : null;
+            const camposModal = document.getElementById("camposModal");
+            const tituloModal = document.getElementById("tituloModal");
             camposModal.innerHTML = "";
 
-            // ───── USUÁRIOS ─────
-
+            // USUÁRIOS
             if (abaAtual === "usuarios") {
-
-                tituloModal.innerText =
-                    modo === "editar"
-                        ? "Editar Usuário"
-                        : "Adicionar Usuário";
-
+                tituloModal.innerText = modo === "editar" ? "Editar Usuário" : "Adicionar Novo Usuário";
                 camposModal.innerHTML = `
-
-                <input type="text"
-                    id="nomeUsuarioInput"
-                    placeholder="Nome"
-                    value="${dados ? dados.nome : ''}">
-
-                <input type="text"
-                    id="sobrenomeUsuarioInput"
-                    placeholder="Sobrenome"
-                    value="${dados ? (dados.sobrenome !== '-' ? dados.sobrenome : '') : ''}">
-
-                <input type="email"
-                    id="emailUsuarioInput"
-                    placeholder="Email"
-                    value="${dados ? dados.email : ''}">
-
-                ${modo === "adicionar" ? `
-
-                    <input type="password"
-                        id="senhaUsuario"
-                        placeholder="Senha">
-
-                    <input type="text"
-                        id="tokenUsuario"
-                        placeholder="Token da universidade"
-                        maxlength="6">
-
-                ` : ""}
-
-            `;
+                    <input type="text" id="nomeUsuarioInput" placeholder="Ex: João" value="${dados ? dados.nome : ''}">
+                    <input type="text" id="sobrenomeUsuarioInput" placeholder="Ex: Silva" value="${dados ? (dados.sobrenome !== '-' ? dados.sobrenome : '') : ''}">
+                    <input type="email" id="emailUsuarioInput" placeholder="exemplo@email.com" value="${dados ? dados.email : ''}">
+                    ${modo === "adicionar" ? `
+                        <input type="password" id="senhaUsuario" placeholder="Senha">
+                        <input type="text" id="tokenUsuario" placeholder="Token da universidade" maxlength="6">
+                    ` : ""}
+                    <select id="cargoUsuarioInput">
+                        <option value="">Selecione o Cargo</option>
+                        <option value="Coordenador" ${dados && dados.cargo === "Coordenador" ? "selected" : ""}>Coordenador</option>
+                        <option value="Professor" ${dados && dados.cargo === "Professor" ? "selected" : ""}>Professor</option>
+                    </select>
+                `;
             }
-
-            // ───── ALUNOS ─────
-
+            // ALUNOS
             else if (abaAtual === "alunos") {
-
-                tituloModal.innerText =
-                    modo === "editar"
-                        ? "Editar Aluno"
-                        : "Adicionar Aluno";
-
-                const sexoValor =
-                    dados ? dados.sexo : "";
-
+                tituloModal.innerText = modo === "editar" ? "Editar Aluno" : "Adicionar Novo Aluno";
+                const sexoValor = dados ? dados.sexo : "";
                 camposModal.innerHTML = `
-
-                <input type="text"
-                    id="nomeAlunoInput"
-                    placeholder="Nome"
-                    value="${dados ? dados.nome : ''}">
-
-                <input type="text"
-                    id="sobrenomeAlunoInput"
-                    placeholder="Sobrenome"
-                    value="${dados ? dados.sobrenome : ''}">
-
-                <input type="text"
-                    id="cpfAlunoInput"
-                    placeholder="CPF"
-                    value="${dados ? dados.cpf : ''}">
-
-                <select id="sexoAlunoInput">
-
-                    <option value="">
-                        Selecione o Sexo
-                    </option>
-
-                    <option value="M"
-                        ${sexoValor === "M" || sexoValor === "Masculino" ? "selected" : ""}>
-                        Masculino
-                    </option>
-
-                    <option value="F"
-                        ${sexoValor === "F" || sexoValor === "Feminino" ? "selected" : ""}>
-                        Feminino
-                    </option>
-
-                    <option value="O"
-                        ${sexoValor === "O" || sexoValor === "Outro" ? "selected" : ""}>
-                        Outro
-                    </option>
-
-                </select>
-
-                <input type="email"
-                    id="emailAlunoInput"
-                    placeholder="Email"
-                    value="${dados ? dados.email : ''}">
-            `;
+                    <input type="text" id="nomeAlunoInput" placeholder="Ex: João" value="${dados ? dados.nome : ''}">
+                    <input type="text" id="sobrenomeAlunoInput" placeholder="Ex: Silva" value="${dados ? dados.sobrenome : ''}">
+                    <input type="text" id="cpfAlunoInput" placeholder="000.000.000-00" value="${dados ? dados.cpf : ''}">
+                    <select id="sexoAlunoInput">
+                        <option value="">Selecione o Sexo</option>
+                        <option value="M" ${sexoValor === "M" || sexoValor === "Masculino" ? "selected" : ""}>Masculino</option>
+                        <option value="F" ${sexoValor === "F" || sexoValor === "Feminino" ? "selected" : ""}>Feminino</option>
+                    </select>
+                    <input type="email" id="emailAlunoInput" placeholder="exemplo@email.com" value="${dados ? dados.email : ''}">
+                `;
             }
-
-            // ───── CURSOS ─────
-
+            // CURSOS
             else if (abaAtual === "cursos") {
-
-                tituloModal.innerText =
-                    modo === "editar"
-                        ? "Editar Curso"
-                        : "Adicionar Curso";
-
+                tituloModal.innerText = modo === "editar" ? "Editar Curso" : "Adicionar Novo Curso";
                 camposModal.innerHTML = `
-
-                <input type="text"
-                    id="nomeCursoInput"
-                    placeholder="Nome do Curso"
-                    value="${dados ? dados.nome : ''}">
-
-            `;
+                    <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome do Curso</label>
+                    <select id="nomeCursoInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                        <option value="">Selecione o curso</option>
+                        <option value="Negócios" ${dados && dados.nome === "Negócios" ? "selected" : ""}>Negócios</option>
+                        <option value="Matemática" ${dados && dados.nome === "Matemática" ? "selected" : ""}>Matemática</option>
+                        <option value="Engenharia" ${dados && dados.nome === "Engenharia" ? "selected" : ""}>Engenharia</option>
+                        <option value="Ciências da Computação" ${dados && dados.nome === "Ciências da Computação" ? "selected" : ""}>Ciências da Computação</option>
+                    </select>
+                `;
             }
-
-            // ───── METAS ─────
-
+            // METAS
             else if (abaAtual === "metas") {
-
-                tituloModal.innerText =
-                    modo === "editar"
-                        ? "Editar Meta"
-                        : "Adicionar Meta";
-
+                tituloModal.innerText = modo === "editar" ? "Editar Meta" : "Adicionar Nova Meta";
                 camposModal.innerHTML = `
-
-                <input type="text"
-                    id="metaInput"
-                    placeholder="Meta *"
-                    value="${dados ? dados.meta : ''}"
-                    required>
-
-                <input type="text"
-                    id="categoriaMetaInput"
-                    placeholder="Categoria *"
-                    value="${dados ? dados.categoria : ''}"
-                    required>
-
-                <div class="campo-porcentagem">
-                    <label for="porcentagemMetaInput">Porcentagem de conclusão:</label>
-                    <input type="range"
-                        id="porcentagemMetaInput"
-                        min="0"
-                        max="100"
-                        value="${dados ? parseInt(dados.porcentagem) : 0}"
-                        oninput="this.nextElementSibling.value = this.value + '%'">
-                    <output>${dados ? dados.porcentagem : "0"}%</output>
-                </div>
-            `;
+                    <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome da Meta</label>
+                    <input type="text" id="metaInput" placeholder="Ex: Melhorar notas em cálculo" value="${dados ? dados.meta : ''}" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                    
+                    <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nível de Risco</label>
+                    <select id="categoriaMetaInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                        <option value="">Selecione o nível de risco</option>
+                        <option value="Risco Baixo" ${dados && dados.categoria === "Risco Baixo" ? "selected" : ""}>Risco Baixo</option>
+                        <option value="Risco Médio" ${dados && dados.categoria === "Risco Médio" ? "selected" : ""}>Risco Médio</option>
+                        <option value="Risco Alto" ${dados && dados.categoria === "Risco Alto" ? "selected" : ""}>Risco Alto</option>
+                    </select>
+                    
+                    <div class="campo-porcentagem">
+                        <label for="porcentagemMetaInput" style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Porcentagem de conclusão:</label>
+                        <input type="range" id="porcentagemMetaInput" min="0" max="100" value="${dados ? parseInt(dados.porcentagem) : 0}" oninput="this.nextElementSibling.value = this.value + '%'" style="width: 100%;">
+                        <output style="display: block; text-align: center; margin-top: 8px; font-weight: bold; color: #4681A6;">${dados ? dados.porcentagem : "0"}%</output>
+                    </div>
+                `;
             }
-
-            document.getElementById("modalUsuario").style.display =
-                "flex";
+            document.getElementById("modalUsuario").style.display = "flex";
         }
 
         function fecharModal() {
-
-            document.getElementById("modalUsuario").style.display =
-                "none";
-
+            document.getElementById("modalUsuario").style.display = "none";
             registroEditandoId = null;
             modoModal = "adicionar";
         }
-
-        // VALIDAÇÕES─────────────────────────────────────────────────────────
 
         function validarEmail(email) {
             return email.includes("@") && email.includes(".");
         }
 
-        // ─────────────────────────────────────────────────────────
         // USUÁRIOS
-        // ─────────────────────────────────────────────────────────
-
         async function carregarUsuarios() {
-
             if (!fkUniversidade) return;
-
             try {
-
-                const resposta = await fetch(
-                    `/diretoria/listar?fkUniversidade=${fkUniversidade}`
-                );
-
-                const tbody =
-                    document.getElementById("usuariosTabelaBody");
-
+                const resposta = await fetch(`/diretoria/listar?fkUniversidade=${fkUniversidade}`);
+                const tbody = document.getElementById("usuariosTabelaBody");
                 if (!resposta.ok) {
-
-                    tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6">
-                            Não foi possível carregar os usuários.
-                        </td>
-                    </tr>
-                `;
-
+                    tbody.innerHTML = `<tr><td colspan="6">Não foi possível carregar os usuários.</td></tr>`;
                     return;
                 }
-
                 todosUsuarios = await resposta.json();
-
                 renderizarUsuarios(todosUsuarios);
-
             } catch (erro) {
                 console.error(erro);
             }
         }
 
         function renderizarUsuarios(usuarios) {
-
-            const tbody =
-                document.getElementById("usuariosTabelaBody");
-
+            const tbody = document.getElementById("usuariosTabelaBody");
             if (usuarios.length === 0) {
-
-                tbody.innerHTML = `
-                <tr>
-                    <td colspan="6">
-                        Nenhum usuário encontrado.
-                    </td>
-                </tr>
-            `;
-
+                tbody.innerHTML = `<tr><td colspan="6">Nenhum usuário encontrado.</td></tr>`;
                 return;
             }
-
             tbody.innerHTML = usuarios.map(function (usuario) {
-
-                const nomeCompleto =
-                    `${usuario.nome} ${usuario.sobrenome && usuario.sobrenome !== "-" ? usuario.sobrenome : ""}`.trim();
-
+                const nomeCompleto = `${usuario.nome} ${usuario.sobrenome && usuario.sobrenome !== "-" ? usuario.sobrenome : ""}`.trim();
                 return `
-                <tr>
-
-                    <td>${nomeCompleto}</td>
-
-                    <td>${usuario.email}</td>
-
-                    <td>${usuario.token}</td>
-
-                    <td>${usuario.cargo}</td>
-
-                    <td>
-                        <button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(usuario).replace(/"/g, '&quot;')})">
-                            <span class="material-icons">edit</span>
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn-excluir" onclick="abrirExcluirModal('usuario', ${usuario.id})">
-                            <span class="material-icons">delete</span>
-                        </button>
-                    </td>
-
-                </tr>
-            `;
-
+                    <tr>
+                        <td>${nomeCompleto}</td>
+                        <td>${usuario.email}</td>
+                        <td>${usuario.token}</td>
+                        <td>${usuario.cargo}</td>
+                        <td><button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(usuario).replace(/"/g, '&quot;')})"><span class="material-icons">edit</span></button></td>
+                        <td><button class="btn-excluir" onclick="abrirExcluirModal('usuario', ${usuario.id})"><span class="material-icons">delete</span></button></td>
+                    </tr>
+                `;
             }).join("");
         }
 
         function filtrarUsuarios() {
-
-            const texto =
-                document.getElementById("pesquisaUsuariosPainel")
-                    .value.toLowerCase();
-
-            const filtrados =
-                todosUsuarios.filter(function (usuario) {
-
-                    return (
-                        usuario.nome.toLowerCase().includes(texto) ||
-                        usuario.email.toLowerCase().includes(texto) ||
-                        usuario.cargo.toLowerCase().includes(texto)
-                    );
-                });
-
+            const texto = document.getElementById("pesquisaUsuariosPainel").value.toLowerCase();
+            const filtrados = todosUsuarios.filter(function (usuario) {
+                return usuario.nome.toLowerCase().includes(texto) || usuario.email.toLowerCase().includes(texto) || usuario.cargo.toLowerCase().includes(texto);
+            });
             renderizarUsuarios(filtrados);
         }
 
-        // ─────────────────────────────────────────────────────────
         // ALUNOS
-        // ─────────────────────────────────────────────────────────
-
         async function carregarAlunos() {
-
             if (!fkUniversidade) return;
-
             try {
-
-                const resposta = await fetch(
-                    `/diretoria/alunos/listar?fkUniversidade=${fkUniversidade}`
-                );
-
-                if (!resposta.ok) {
-                    console.error(await resposta.text());
-                    return;
-                }
-
+                const resposta = await fetch(`/diretoria/alunos/listar?fkUniversidade=${fkUniversidade}`);
+                if (!resposta.ok) return;
                 todosAlunos = await resposta.json();
-
                 renderizarAlunos(todosAlunos);
-
             } catch (erro) {
                 console.error(erro);
             }
         }
 
         function renderizarAlunos(alunos) {
-
-            const tbody =
-                document.getElementById("alunosTabelaBody");
-
+            const tbody = document.getElementById("alunosTabelaBody");
             if (alunos.length === 0) {
-
-                tbody.innerHTML = `
-                <tr>
-                    <td colspan="8">
-                        Nenhum aluno encontrado.
-                    </td>
-                </tr>
-            `;
-
+                tbody.innerHTML = `<tr><td colspan="8">Nenhum aluno encontrado.</td></tr>`;
                 return;
             }
-
             tbody.innerHTML = alunos.map(function (aluno) {
-
                 return `
-                <tr>
-
-                    <td>${aluno.nome}</td>
-
-                    <td>${aluno.sobrenome}</td>
-
-                    <td>${aluno.cpf}</td>
-
-                    <td>${aluno.sexo}</td>
-
-                    <td>${aluno.email}</td>
-
-                    <td>${aluno.curso || "-"}</td>
-
-                    <td>
-                        <button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(aluno).replace(/"/g, '&quot;')})">
-                            <span class="material-icons">edit</span>
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn-excluir" onclick="abrirExcluirModal('aluno', ${aluno.RA})">
-                            <span class="material-icons">delete</span>
-                        </button>
-                    </td>
-                </tr>
-            `;
-
+                    <tr>
+                        <td>${aluno.nome}</td>
+                        <td>${aluno.sobrenome}</td>
+                        <td>${aluno.cpf}</td>
+                        <td>${aluno.sexo}</td>
+                        <td>${aluno.email}</td>
+                        <td>${aluno.curso || "-"}</td>
+                        <td><button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(aluno).replace(/"/g, '&quot;')})"><span class="material-icons">edit</span></button></td>
+                        <td><button class="btn-excluir" onclick="abrirExcluirModal('aluno', ${aluno.RA})"><span class="material-icons">delete</span></button></td>
+                    </tr>
+                `;
             }).join("");
         }
 
         function filtrarAlunos() {
-
-            const texto =
-                document.getElementById("pesquisaAlunosPainel")
-                    .value.toLowerCase();
-
-            const filtrados =
-                todosAlunos.filter(function (aluno) {
-
-                    return (
-                        aluno.nome.toLowerCase().includes(texto) ||
-                        aluno.sobrenome.toLowerCase().includes(texto) ||
-                        aluno.email.toLowerCase().includes(texto) ||
-                        (aluno.curso || "").toLowerCase().includes(texto)
-                    );
-                });
-
+            const texto = document.getElementById("pesquisaAlunosPainel").value.toLowerCase();
+            const filtrados = todosAlunos.filter(function (aluno) {
+                return aluno.nome.toLowerCase().includes(texto) || aluno.sobrenome.toLowerCase().includes(texto) || aluno.email.toLowerCase().includes(texto) || (aluno.curso || "").toLowerCase().includes(texto);
+            });
             renderizarAlunos(filtrados);
         }
 
-        // ─────────────────────────────────────────────────────────
         // CURSOS
-        // ─────────────────────────────────────────────────────────
-
         async function carregarCursos() {
-
             if (!fkUniversidade) return;
-
             try {
-
-                const resposta = await fetch(
-                    `/diretoria/cursos/listar?fkUniversidade=${fkUniversidade}`
-                );
-
-                if (!resposta.ok) {
-                    console.error(await resposta.text());
-                    return;
-                }
-
+                const resposta = await fetch(`/diretoria/cursos/listar?fkUniversidade=${fkUniversidade}`);
+                if (!resposta.ok) return;
                 todosCursos = await resposta.json();
-
                 renderizarCursos(todosCursos);
-
             } catch (erro) {
                 console.error(erro);
             }
         }
 
         function renderizarCursos(cursos) {
-
-            const tbody =
-                document.getElementById("cursosTabelaBody");
-
+            const tbody = document.getElementById("cursosTabelaBody");
             if (cursos.length === 0) {
-
-                tbody.innerHTML = `
-                <tr>
-                    <td colspan="4">
-                        Nenhum curso encontrado.
-                    </td>
-                </tr>
-            `;
-
+                tbody.innerHTML = `<tr><td colspan="3">Nenhum curso encontrado.</td></tr>`;
                 return;
             }
-
             tbody.innerHTML = cursos.map(function (curso) {
-
                 return `
-                <tr>
-
-                    <td>${curso.nome}</td>
-
-                    <td>${curso.modalidade}</td>
-
-                    <td>
-                        <button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(curso).replace(/"/g, '&quot;')})">
-                            <span class="material-icons">edit</span>
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn-excluir" onclick="abrirExcluirModal('curso', ${curso.id})">
-                            <span class="material-icons">delete</span>
-                        </button>
-                    </td>
-                </tr>
-            `;
-
+                    <tr>
+                        <td>${curso.nome}</td>
+                        <td><button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(curso).replace(/"/g, '&quot;')})"><span class="material-icons">edit</span></button></td>
+                        <td><button class="btn-excluir" onclick="abrirExcluirModal('curso', ${curso.id})"><span class="material-icons">delete</span></button></td>
+                    </tr>
+                `;
             }).join("");
         }
 
         function filtrarCursos() {
-
-            const texto =
-                document.getElementById("pesquisaCursosPainel")
-                    .value.toLowerCase();
-
-            const filtrados =
-                todosCursos.filter(function (curso) {
-
-                    return (
-                        curso.nome.toLowerCase().includes(texto) ||
-                        curso.modalidade.toLowerCase().includes(texto)
-                    );
-                });
-
+            const texto = document.getElementById("pesquisaCursosPainel").value.toLowerCase();
+            const filtrados = todosCursos.filter(function (curso) {
+                return curso.nome.toLowerCase().includes(texto);
+            });
             renderizarCursos(filtrados);
         }
 
-        // ─────────────────────────────────────────────────────────
-        // METAS (CORRIGIDO COM DATA)
-        // ─────────────────────────────────────────────────────────
-
+        // METAS
         async function carregarMetas() {
-
             try {
-                // Dados mockados com DATA no lugar de texto
                 todasMetas = [
-                    {
-                        id: 1,
-                        meta: "Reduzir evasão",
-                        categoria: "Retenção",
-                        curso: "ADS",
-                        prazo: "2024-06-30",
-                        porcentagem: "75%"
-                    },
-                    {
-                        id: 2,
-                        meta: "Aumentar média acadêmica",
-                        categoria: "Desempenho",
-                        curso: "SI",
-                        prazo: "2024-07-15",
-                        porcentagem: "45%"
-                    },
+                    { id: 1, meta: "Melhorar notas em cálculo", categoria: "Risco Alto", porcentagem: "75%" },
+                    { id: 2, meta: "Aumentar frequência nas aulas", categoria: "Risco Médio", porcentagem: "45%" },
+                    { id: 3, meta: "Reduzir evasão no primeiro ano", categoria: "Risco Alto", porcentagem: "60%" },
+                    { id: 4, meta: "Melhorar desempenho em programação", categoria: "Risco Baixo", porcentagem: "90%" },
+                    { id: 5, meta: "Melhorar participação em aula", categoria: "Risco Médio", porcentagem: "30%" }
                 ];
-
                 renderizarMetas(todasMetas);
-
             } catch (erro) {
                 console.error(erro);
             }
         }
 
         function renderizarMetas(metas) {
-
-            const tbody =
-                document.getElementById("metasTabelaBody");
-
+            const tbody = document.getElementById("metasTabelaBody");
             if (metas.length === 0) {
-
-                tbody.innerHTML = `
-                <tr>
-                    <td colspan="7">
-                        Nenhuma meta encontrada.
-                    </td>
-                </tr>
-            `;
-
+                tbody.innerHTML = `<tr><td colspan="5">Nenhuma meta encontrada.</td></tr>`;
                 return;
             }
-
             tbody.innerHTML = metas.map(function (meta) {
-                const dataFormatada = formatarData(meta.prazo);
-
-                // Definir cor da porcentagem
                 const valorPorcentagem = parseInt(meta.porcentagem);
                 let corPorcentagem = "inherit";
-                if (valorPorcentagem === 100) corPorcentagem = "#48bb78";
-                else if (valorPorcentagem >= 75) corPorcentagem = "#ed8936";
-                else if (valorPorcentagem >= 50) corPorcentagem = "#4299e1";
+                
+                if (valorPorcentagem === 100) { 
+                    corPorcentagem = "#48bb78";
+                } else if (valorPorcentagem >= 75) { 
+                    corPorcentagem = "#ed8936";
+                } else if (valorPorcentagem >= 50) { 
+                    corPorcentagem = "#4299e1";
+                }
+
+                let corRisco = "#27ae60";
+                if (meta.categoria === "Risco Médio") { 
+                    corRisco = "#f39c12"; 
+                } else if (meta.categoria === "Risco Alto") { 
+                    corRisco = "#e74c3c"; 
+                }
 
                 return `
-                        <tr>
-
-                            <td>${meta.meta}</td>
-
-                            <td>${meta.categoria}</td>
-
-                            <td>${meta.curso}</td>
-
-                            <td>${dataFormatada}</td>
-
-                            <td style="color: ${corPorcentagem}; font-weight: bold;">
-                                ${meta.porcentagem}
-                            </td>
-
-                            <td>
-                                <button class="btn-editar" onclick='abrirModal("editar", ${JSON.stringify(meta).replace(/'/g, "&#39;")})'>
-                                    <span class="material-icons">edit</span>
-                                </button>
-                            </td>
-                            <td>
-                                <button class="btn-excluir" onclick="abrirExcluirModal('meta', ${meta.id})">
-                                    <span class="material-icons">delete</span>
-                                </button>
-                            </td>
-
-                        </tr>
-                    `;
-
+                    <tr>
+                        <td>${meta.meta}</td>
+                        <td style="color: ${corRisco}; font-weight: bold;">${meta.categoria}</td>
+                        <td style="color: ${corPorcentagem}; font-weight: bold;">${meta.porcentagem}</td>
+                        <td><button class="btn-editar" onclick='abrirModal("editar", ${JSON.stringify(meta).replace(/'/g, "&#39;")})'><span class="material-icons">edit</span></button></td>
+                        <td><button class="btn-excluir" onclick="abrirExcluirModal('meta', ${meta.id})"><span class="material-icons">delete</span></button></td>
+                    </tr>
+                `;
             }).join("");
         }
 
-        // Função auxiliar para formatar data
-        function formatarData(dataISO) {
-            if (!dataISO || dataISO === "-") return "-";
-
-            try {
-                const data = new Date(dataISO);
-                if (isNaN(data.getTime())) return dataISO;
-                return data.toLocaleDateString('pt-BR');
-            } catch {
-                return dataISO;
-            }
-        }
-
         function filtrarMetas() {
-
-            const texto =
-                document.getElementById("pesquisaMetasPainel")
-                    .value.toLowerCase();
-
-            const filtradas =
-                todasMetas.filter(function (meta) {
-                    const dataFormatada = formatarData(meta.prazo);
-
-                    return (
-                        meta.meta.toLowerCase().includes(texto) ||
-                        meta.categoria.toLowerCase().includes(texto) ||
-                        meta.curso.toLowerCase().includes(texto) ||
-                        meta.porcentagem.toLowerCase().includes(texto) ||
-                        dataFormatada.toLowerCase().includes(texto)
-                    );
-                });
-
+            const texto = document.getElementById("pesquisaMetasPainel").value.toLowerCase();
+            const filtradas = todasMetas.filter(function (meta) {
+                return meta.meta.toLowerCase().includes(texto) || meta.categoria.toLowerCase().includes(texto);
+            });
             renderizarMetas(filtradas);
         }
 
-        // Função para deletar meta
         async function deletarMeta(id) {
             try {
-                console.log(`Deletando meta ${id}`);
                 todasMetas = todasMetas.filter(meta => meta.id !== id);
                 renderizarMetas(todasMetas);
                 alert("Meta excluída com sucesso!");
-
             } catch (erro) {
                 console.error("Erro ao deletar meta:", erro);
                 alert("Erro ao excluir meta. Tente novamente.");
             }
         }
 
-        document.getElementById("pesquisaUsuariosPainel")
-            ?.addEventListener("input", filtrarUsuarios);
-
-        document.getElementById("pesquisaCursosPainel")
-            ?.addEventListener("input", filtrarCursos);
-
+        document.getElementById("pesquisaUsuariosPainel")?.addEventListener("input", filtrarUsuarios);
+        document.getElementById("pesquisaCursosPainel")?.addEventListener("input", filtrarCursos);
         carregarUsuarios();
 
-        // Variáveis para exclusão
+        // EXCLUSÃO
         let itemParaExcluir = null;
         let tipoExclusao = null;
 
-        // Função para abrir modal de edição
-        function abrirModalSimples(dados = null) {
-            abrirModal("editar", dados);
-        }
-
-        // Função para abrir modal de exclusão
         function abrirExcluirModal(tipo, id) {
             tipoExclusao = tipo;
             itemParaExcluir = id;
-
             const textoExcluir = document.getElementById("textoExcluir");
-
             switch (tipo) {
-                case "usuario":
-                    textoExcluir.innerText = "Tem certeza que deseja excluir este usuário?";
-                    break;
-                case "aluno":
-                    textoExcluir.innerText = "Tem certeza que deseja excluir este aluno?";
-                    break;
-                case "curso":
-                    textoExcluir.innerText = "Tem certeza que deseja excluir este curso?";
-                    break;
-                case "meta":
-                    textoExcluir.innerText = "Tem certeza que deseja excluir esta meta?";
-                    break;
+                case "usuario": textoExcluir.innerText = "Tem certeza que deseja excluir este usuário?"; break;
+                case "aluno": textoExcluir.innerText = "Tem certeza que deseja excluir este aluno?"; break;
+                case "curso": textoExcluir.innerText = "Tem certeza que deseja excluir este curso?"; break;
+                case "meta": textoExcluir.innerText = "Tem certeza que deseja excluir esta meta?"; break;
             }
-
             document.getElementById("modalExcluir").style.display = "flex";
         }
 
@@ -968,162 +568,85 @@
             tipoExclusao = null;
         }
 
-        // Funções de exclusão
         async function deletarUsuario(id) {
-            try {
-                console.log(`Deletando usuário ${id}`);
-                await carregarUsuarios();
-
-            } catch (erro) {
-                console.error("Erro ao deletar usuário:", erro);
-            }
+            console.log(`Deletando usuário ${id}`);
+            await carregarUsuarios();
         }
 
         async function deletarAluno(id) {
-            try {
-                console.log(`Deletando aluno ${id}`);
-                await carregarAlunos();
-
-            } catch (erro) {
-                console.error("Erro ao deletar aluno:", erro);
-            }
+            console.log(`Deletando aluno ${id}`);
+            await carregarAlunos();
         }
 
         async function deletarCurso(id) {
-            try {
-                console.log(`Deletando curso ${id}`);
-                await carregarCursos();
-
-            } catch (erro) {
-                console.error("Erro ao deletar curso:", erro);
-            }
+            console.log(`Deletando curso ${id}`);
+            await carregarCursos();
         }
 
         async function confirmarExclusao() {
             if (!itemParaExcluir) return;
-
-            if (tipoExclusao === "usuario") {
-                await deletarUsuario(itemParaExcluir);
-            } else if (tipoExclusao === "aluno") {
-                await deletarAluno(itemParaExcluir);
-            } else if (tipoExclusao === "curso") {
-                await deletarCurso(itemParaExcluir);
-            } else if (tipoExclusao === "meta") {
-                console.log("implementar delete meta");
-            }
-
+            if (tipoExclusao === "usuario") await deletarUsuario(itemParaExcluir);
+            else if (tipoExclusao === "aluno") await deletarAluno(itemParaExcluir);
+            else if (tipoExclusao === "curso") await deletarCurso(itemParaExcluir);
+            else if (tipoExclusao === "meta") await deletarMeta(itemParaExcluir);
             fecharExcluirModal();
         }
 
-        // Função para salvar registro
+        // SALVAR REGISTRO
         async function salvarRegistro() {
             if (abaAtual === "usuarios") {
                 const nome = document.getElementById("nomeUsuarioInput")?.value;
                 const sobrenome = document.getElementById("sobrenomeUsuarioInput")?.value;
                 const email = document.getElementById("emailUsuarioInput")?.value;
                 const cargo = document.getElementById("cargoUsuarioInput")?.value;
-
-                if (!nome || !email || !cargo) {
-                    alert("Preencha todos os campos obrigatórios!");
-                    return;
-                }
-
-                if (!validarEmail(email)) {
-                    alert("Email inválido!");
-                    return;
-                }
-
+                if (!nome || !email || !cargo) { alert("Preencha todos os campos obrigatórios!"); return; }
+                if (!validarEmail(email)) { alert("Email inválido!"); return; }
                 console.log("Salvando usuário:", { nome, sobrenome, email, cargo });
-
-                // Aqui você implementa a chamada para sua API
-
                 fecharModal();
                 await carregarUsuarios();
-
             } else if (abaAtual === "alunos") {
                 const nome = document.getElementById("nomeAlunoInput")?.value;
                 const sobrenome = document.getElementById("sobrenomeAlunoInput")?.value;
                 const cpf = document.getElementById("cpfAlunoInput")?.value;
                 const sexo = document.getElementById("sexoAlunoInput")?.value;
                 const email = document.getElementById("emailAlunoInput")?.value;
-
-                if (!nome || !cpf || !email) {
-                    alert("Preencha todos os campos obrigatórios!");
-                    return;
-                }
-
-                if (!validarEmail(email)) {
-                    alert("Email inválido!");
-                    return;
-                }
-
+                if (!nome || !cpf || !email) { alert("Preencha todos os campos obrigatórios!"); return; }
+                if (!validarEmail(email)) { alert("Email inválido!"); return; }
                 console.log("Salvando aluno:", { nome, sobrenome, cpf, sexo, email });
-
                 fecharModal();
                 await carregarAlunos();
-
             } else if (abaAtual === "cursos") {
                 const nome = document.getElementById("nomeCursoInput")?.value;
-                const modalidade = document.getElementById("modalidadeCursoInput")?.value;
-
-                if (!nome || !modalidade) {
-                    alert("Preencha todos os campos obrigatórios!");
-                    return;
-                }
-
-                console.log("Salvando curso:", { nome, modalidade });
-
+                if (!nome) { alert("Preencha todos os campos obrigatórios!"); return; }
+                console.log("Salvando curso:", { nome });
                 fecharModal();
                 await carregarCursos();
-
             } else if (abaAtual === "metas") {
                 const meta = document.getElementById("metaInput")?.value;
                 const categoria = document.getElementById("categoriaMetaInput")?.value;
-                const curso = document.getElementById("cursoMetaInput")?.value;
-                const prazo = document.getElementById("prazoMetaInput")?.value;
-                const porcentagem = document.getElementById("porcentagemMetaInput")?.value;
-
-                if (!meta || !categoria) {
-                    alert("Preencha os campos obrigatórios!");
-                    return;
+                let porcentagem = document.getElementById("porcentagemMetaInput")?.value;
+                if (!meta || !categoria) { alert("Preencha os campos obrigatórios: Meta e Nível de Risco!"); return; }
+                if (porcentagem && !porcentagem.includes('%')) porcentagem = porcentagem + '%';
+                if (modoModal === "adicionar") {
+                    const novaMeta = { id: Date.now(), meta: meta, categoria: categoria, porcentagem: porcentagem || "0%" };
+                    todasMetas.push(novaMeta);
+                } else {
+                    const index = todasMetas.findIndex(m => m.id === registroEditandoId);
+                    if (index !== -1) todasMetas[index] = { ...todasMetas[index], meta: meta, categoria: categoria, porcentagem: porcentagem || "0%" };
                 }
-
-                console.log("Salvando meta:", { meta, categoria, curso, prazo, porcentagem });
-
+                renderizarMetas(todasMetas);
                 fecharModal();
-                await carregarMetas();
             }
         }
 
         document.addEventListener("DOMContentLoaded", function () {
             const pesquisaCursos = document.getElementById("pesquisaCursosPainel");
-            if (pesquisaCursos) {
-                pesquisaCursos.addEventListener("input", filtrarCursos);
-            }
-
-            // Carregar dados iniciais
+            if (pesquisaCursos) pesquisaCursos.addEventListener("input", filtrarCursos);
             carregarUsuarios();
             carregarAlunos();
             carregarCursos();
             carregarMetas();
         });
-
-
-        // Adicione junto com as outras funções
-        function setActiveMenu() {
-            const currentPage = window.location.pathname.split("/").pop();
-
-            if (currentPage === "dashboard.html") {
-                document.getElementById("btnDash")?.classList.add("active");
-                document.getElementById("btnPainel")?.classList.remove("active");
-            } else if (currentPage === "painel.html") {
-                document.getElementById("btnPainel")?.classList.add("active");
-                document.getElementById("btnDash")?.classList.remove("active");
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", setActiveMenu);
-
     </script>
 </body>
 
