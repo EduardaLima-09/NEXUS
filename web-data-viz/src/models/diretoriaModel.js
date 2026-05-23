@@ -73,26 +73,22 @@ function listarPorUniversidade(fkUniversidade) {
     return database.executar(instrucaoSql);
 }
 
-function atualizarUsuario(id, nome, sobrenome, email, cargo, fkUniversidade) {
+function atualizarUsuario(id, nome, sobrenome, email) {
     var instrucaoSql = `
         UPDATE Usuario
         SET
             nome = '${nome}',
             sobrenome = '${sobrenome}',
-            email = '${email}',
-            cargo = '${cargo}'
-        WHERE id = '${id}'
-          AND fkUniversidade = '${fkUniversidade}';
+            email = '${email}'
+        WHERE id = '${id}';
     `;
     return database.executar(instrucaoSql);
 }
 
-function deletar(id, fkUniversidade) {
+function deletar(id) {
     var instrucaoSql = `
         DELETE FROM Usuario
-        WHERE id = '${id}'
-          AND fkUniversidade = '${fkUniversidade}'
-          AND cargo = 'Professor';
+        WHERE id = '${id}';
     `;
     return database.executar(instrucaoSql);
 }

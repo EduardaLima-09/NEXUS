@@ -81,21 +81,19 @@ function listar(req, res) {
         });
 }
 
-function atualizar(req, res) {
+function editar(req, res) {
     var id = req.params.id;
-    var fkUniversidade = req.query.fkUniversidade;
-    var nome = req.body.nome;
-    var sobrenome = req.body.sobrenome;
-    var email = req.body.email;
-    var cargo = req.body.cargo;
+    var nome = req.body.nomeServer;
+    var sobrenome = req.body.sobrenomeServer;
+    var email = req.body.emailServer;
 
-    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
-    if (!nome || !email || !cargo) return res.status(400).send("Campos obrigatórios ausentes.");
-    if (cargo !== "Coordenador" && cargo !== "Professor") {
+    //if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
+    if (!nome || !email) return res.status(400).send("Campos obrigatórios ausentes.");
+    /* if (cargo !== "Coordenador" && cargo !== "Professor") {
         return res.status(400).send("Cargo inválido.");
-    }
+    } */
 
-    diretoriaModel.atualizarUsuario(id, nome, sobrenome || "-", email, cargo, fkUniversidade)
+    diretoriaModel.atualizarUsuario(id, nome, sobrenome, email)
         .then(function (resultado) {
             if (resultado.affectedRows === 0) {
                 return res.status(404).send("Usuário não encontrado.");
@@ -110,12 +108,10 @@ function atualizar(req, res) {
         });
 }
 
-function deletar(req, res) {
+function excluir(req, res) {
     var id = req.params.id;
-    var fkUniversidade = req.query.fkUniversidade;
-    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
 
-    diretoriaModel.deletar(id, fkUniversidade)
+    diretoriaModel.deletar(id)
         .then(function (resultado) {
             if (resultado.affectedRows === 0) {
                 return res.status(404).send("Usuário não encontrado ou sem permissão.");
@@ -238,8 +234,8 @@ module.exports = {
     cadastrar,
     autenticar,
     listar,
-    atualizar,
-    deletar,
+    editar,
+    excluir,
     listarAlunos,
     atualizarAluno,
     deletarAluno,

@@ -587,8 +587,21 @@
         }
 
         async function deletarUsuario(id) {
-            console.log(`Deletando usuário ${id}`);
-            await carregarUsuarios();
+            
+            try {
+                const resposta = await fetch(`/diretoria/excluir/${id}`, {
+                    method: "DELETE"
+                });
+
+                if(resposta.ok){
+                    alert("Usuário deletado");
+                    carregarUsuarios();
+                } else {
+                    alert("Erro ao excluir usuário");
+                }
+            } catch (erro){
+                console.error(erro);
+            }
         }
 
         async function deletarAluno(id) {
@@ -616,32 +629,71 @@
                 const nome = document.getElementById("nomeUsuarioInput").value;
                 const sobrenome = document.getElementById("sobrenomeUsuarioInput").value;
                 const email = document.getElementById("emailUsuarioInput").value;
-                const token = document.getElementById("tokenUsuario").value;
-                const senha = document.getElementById("senhaUsuario").value;
-                //const cargo = document.getElementById("cargoUsuarioInput")?.value;
-                if (!nome || !email || !token || !senha) { alert("Preencha todos os campos obrigatórios!"); return; }
+                
+                if (!nome || !email) { alert("Preencha todos os campos obrigatórios!"); return; }
                 if (!validarEmail(email)) { alert("Email inválido!"); return; }
                 
                 try {
-                    const resposta = await fetch("/diretoria/cadastrar", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                        nomeServer: nome.trim(),
-                        sobrenomeServer: sobrenome.trim(),
-                        emailServer: email.trim(),
-                        tokenServer: token.trim().toUpperCase(),
-                        senhaServer: senha.trim()
-                        })
-                    });
-                } catch (erro) {
+                    if (modoModal === "editar"){
+
+                        const resposta = await fetch(`/diretoria/editar/${registroEditandoId}`, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                nomeServer: nome,
+                                sobrenomeServer: sobrenome,
+                                emailServer: email
+                            })
+                        });
+
+                        if (resposta.ok){
+                            alert("Usuário atualizado");
+                        } else {
+                            alert("Erro ao atualizar")
+                        }
+                    }
+
+
+                    else {
+
+                        const token = document.getElementById("tokenUsuario").value;
+                        const senha = document.getElementById("senhaUsuario").value;
+
+                        if (!token || !senha){
+                            alert("Preencha todos os campos");
+                            return;
+                        }
+
+                        const resposta = await fetch("/diretoria/cadastrar",{
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                nomeServer: nome,
+                                sobrenomeServer: sobrenome,
+                                emailServer: email,
+                                tokenServer: token.trim().toUpperCase(),
+                                senhaServer: senha
+                            })
+                        });
+
+                        if (resposta.ok){
+                            alert("Usuário cadastrado");
+                        } else {
+                            alert("Erro ao cadastrar");
+                        }
+                    }
+
+                    fecharModal();
+                    carregarUsuarios();
+                } catch(erro){
                     console.error(erro);
                 }
-                
-                console.log("Salvando usuário:", { nome, sobrenome, email });
 
-                fecharModal();
-                await carregarUsuarios();
+                
             } else if (abaAtual === "alunos") {
                 const nome = document.getElementById("nomeAlunoInput")?.value;
                 const sobrenome = document.getElementById("sobrenomeAlunoInput")?.value;
