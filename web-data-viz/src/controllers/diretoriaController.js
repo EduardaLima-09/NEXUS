@@ -50,7 +50,7 @@ function autenticar(req, res) {
             }
             var usuario = resultado[0];
             var redirecionarPara = usuario.cargo === "Coordenador"
-                ? "/dashboard/painel.html"
+                ? "/dashboard/dashboard.html"
                 : "/dashboard/alunos.html";
             res.status(200).json({
                 id: usuario.id,

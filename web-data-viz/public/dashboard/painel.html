@@ -145,6 +145,7 @@
                                         <th>Meta</th>
                                         <th>Nível de Risco</th>
                                         <th>Progresso</th>
+                                        <th>Curso</th>
                                         <th>Editar</th>
                                         <th>Excluir</th>
                                     </tr>
@@ -316,11 +317,21 @@
                         <option value="Risco Médio" ${dados && dados.categoria === "Risco Médio" ? "selected" : ""}>Risco Médio</option>
                         <option value="Risco Alto" ${dados && dados.categoria === "Risco Alto" ? "selected" : ""}>Risco Alto</option>
                     </select>
+
+                    <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Curso</label>
+                    <select id="cursoMetaInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                        <option value="">Selecione o curso</option>
+                        ${todosCursos.map(curso =>`
+                            <option value="${curso.id}">
+                                ${curso.nome}
+                            </option>
+                        `).join("")}
+                    </select>
                     
                     <div class="campo-porcentagem">
                         <label for="porcentagemMetaInput" style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Porcentagem de conclusão:</label>
                         <input type="range" id="porcentagemMetaInput" min="0" max="100" value="${dados ? parseInt(dados.porcentagem) : 0}" oninput="this.nextElementSibling.value = this.value + '%'" style="width: 100%;">
-                        <output style="display: block; text-align: center; margin-top: 8px; font-weight: bold; color: #4681A6;">${dados ? dados.porcentagem : "0"}%</output>
+                        <output style="display: block; text-align: center; margin-top: 8px; font-weight: bold; color: #4681A6;">${dados ? dados.porcentagem : "0"}</output>
                     </div>
                 `;
             }
@@ -466,16 +477,27 @@
 
         // METAS
         async function carregarMetas() {
+            
             try {
-                todasMetas = [
-                    { id: 1, meta: "Melhorar notas em cálculo", categoria: "Risco Alto", porcentagem: "75%" },
-                    { id: 2, meta: "Aumentar frequência nas aulas", categoria: "Risco Médio", porcentagem: "45%" },
-                    { id: 3, meta: "Reduzir evasão no primeiro ano", categoria: "Risco Alto", porcentagem: "60%" },
-                    { id: 4, meta: "Melhorar desempenho em programação", categoria: "Risco Baixo", porcentagem: "90%" },
-                    { id: 5, meta: "Melhorar participação em aula", categoria: "Risco Médio", porcentagem: "30%" }
-                ];
-                renderizarMetas(todasMetas);
-            } catch (erro) {
+
+                const resposta = await fetch(`/metas/listar?fkUniversidade=${fkUniversidade}`);
+
+                if(!resposta.ok) return;
+
+                todasMetas = await resposta.json();
+
+                renderizarMetas(
+                    todasMetas.map(meta => ({
+                        id: meta.id,
+                        meta: meta.nome,
+                        categoria: meta.categoria,
+                        porcentagem: `${meta.porcentagem}%`,
+                        curso: meta.curso
+                    }))
+                );
+
+            } catch(erro){
+
                 console.error(erro);
             }
         }
@@ -510,6 +532,7 @@
                         <td>${meta.meta}</td>
                         <td style="color: ${corRisco}; font-weight: bold;">${meta.categoria}</td>
                         <td style="color: ${corPorcentagem}; font-weight: bold;">${meta.porcentagem}</td>
+                        <td>${meta.curso}</td>
                         <td><button class="btn-editar" onclick='abrirModal("editar", ${JSON.stringify(meta).replace(/'/g, "&#39;")})'><span class="material-icons">edit</span></button></td>
                         <td><button class="btn-excluir" onclick="abrirExcluirModal('meta', ${meta.id})"><span class="material-icons">delete</span></button></td>
                     </tr>
@@ -639,18 +662,41 @@
             } else if (abaAtual === "metas") {
                 const meta = document.getElementById("metaInput")?.value;
                 const categoria = document.getElementById("categoriaMetaInput")?.value;
-                let porcentagem = document.getElementById("porcentagemMetaInput")?.value;
-                if (!meta || !categoria) { alert("Preencha os campos obrigatórios: Meta e Nível de Risco!"); return; }
-                if (porcentagem && !porcentagem.includes('%')) porcentagem = porcentagem + '%';
-                if (modoModal === "adicionar") {
-                    const novaMeta = { id: Date.now(), meta: meta, categoria: categoria, porcentagem: porcentagem || "0%" };
-                    todasMetas.push(novaMeta);
-                } else {
-                    const index = todasMetas.findIndex(m => m.id === registroEditandoId);
-                    if (index !== -1) todasMetas[index] = { ...todasMetas[index], meta: meta, categoria: categoria, porcentagem: porcentagem || "0%" };
+                const porcentagem = document.getElementById("porcentagemMetaInput")?.value;
+                const fkCurso = document.getElementById("cursoMetaInput")?.value;
+
+                if (!meta || !categoria || !fkCurso){
+                    alert('Preencha todos os campos!');
+                    return;
                 }
-                renderizarMetas(todasMetas);
-                fecharModal();
+
+                try {
+                    const resposta = await fetch("/metas/cadastrar",{
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            tituloServer: meta,
+                            categoriaServer: categoria,
+                            porcentagemServer: porcentagem,
+                            fkCursoServer: fkCurso,
+                            fkUniversidadeServer: fkUniversidade
+                        })
+                    });
+
+                    if (resposta.ok){
+                        alert("Meta cadastrada");
+
+                        fecharModal();
+                        carregarMetas();
+                    } else {
+                        alert("Erro ao cadastrar");
+                    }
+                } catch (erro){
+                    console.error(erro);
+                }
             }
         }
 

@@ -27,12 +27,14 @@ var diretoriaRouter = require("./src/routes/diretoria");
 var alunosRouter = require("./src/routes/alunos");
 var cursosRouter = require("./src/routes/cursos");
 var dashboardRouter = require("./src/routes/dashboard");
+var metasRouter = require("./src/routes/metas");
 
 app.use("/universidades", universidadesRouter);
 app.use("/diretoria", diretoriaRouter);
 app.use("/alunos", alunosRouter);
 app.use("/cursos", cursosRouter);
 app.use("/dashboard", dashboardRouter);
+app.use("/metas", metasRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
