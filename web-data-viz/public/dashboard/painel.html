@@ -27,10 +27,10 @@
                     <div class="titulo">
                         <h1>Menu Principal</h1>
                     </div>
-                    <div class="botoes">
-                        <button onclick="goDash()">Início</button>
-                        <button onclick="goPainel()">Administração</button>
-                    </div>
+<div class="botoes">
+    <button onclick="goDash()" id="btnDash">Início</button>
+    <button onclick="goPainel()" id="btnPainel">Administração</button>
+</div>
                 </div>
                 <div class="sair">
                     <div class="usuario">
@@ -1107,6 +1107,22 @@
             carregarCursos();
             carregarMetas();
         });
+
+
+        // Adicione junto com as outras funções
+        function setActiveMenu() {
+            const currentPage = window.location.pathname.split("/").pop();
+
+            if (currentPage === "dashboard.html") {
+                document.getElementById("btnDash")?.classList.add("active");
+                document.getElementById("btnPainel")?.classList.remove("active");
+            } else if (currentPage === "painel.html") {
+                document.getElementById("btnPainel")?.classList.add("active");
+                document.getElementById("btnDash")?.classList.remove("active");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", setActiveMenu);
 
     </script>
 </body>

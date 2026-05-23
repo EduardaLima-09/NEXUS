@@ -94,6 +94,19 @@ body {
     background: var(--cor-azul-escuro);
 }
 
+
+/* Estilo para o botão ativo no menu */
+.botoes button.active {
+    background: linear-gradient(135deg, var(--cor-azul-medio), var(--cor-azul-escuro));
+    color: var(--cor-branco-puro);
+    border-left: 4px solid var(--cor-azul-claro);
+    padding-left: 16px;
+}
+
+.botoes button.active:hover {
+    transform: translateX(0);
+}
+
 /* Parte do Usuário */
 
 .titulo-usuario {

@@ -20,153 +20,101 @@
 <body onload="carregarDashboard();">
 
     <div class="tela">
-
         <div class="dash">
-
             <div class="barra">
-
                 <div class="logo">
                     <img src="../assets/LogoBranca.png" alt="Logo da Nexus na cor branca">
                 </div>
-
                 <div class="menu">
-
                     <div class="titulo">
                         <h1>Menu Principal</h1>
                     </div>
-
                     <div class="botoes">
-                        <button onclick="goDash()">Início</button>
-                        <button onclick="goPainel()">Administração</button>
+                        <button onclick="goDash()" id="btnDash">Início</button>
+                        <button onclick="goPainel()" id="btnPainel">Gerenciamento</button>
                     </div>
-
                 </div>
 
                 <div class="sair">
-
                     <div class="usuario">
-
                         <div class="nome">
-
                             <div class="titulo-usuario">
-                                <span class="material-icons icone-user">account_circle</span>
                                 <h1 id="cargoUsuarioSidebar">Coordenador</h1>
                             </div>
-
                             <p id="nomeUsuarioSidebar"></p>
-
                         </div>
-
                     </div>
-
                     <button onclick="goHome()">Sair</button>
-
                 </div>
-
             </div>
 
             <div class="conteudo">
-
                 <div class="tituloDash">
-
                     <div class="texto">
-                        <h1>Bem-vindo(a), <span id="nomeUsuario"></span></h1>
-                        <p>Visão geral da instituição referente ao último semestre</p>
+                        <h1>Olá, <span id="nomeUsuario"></span>!</h1>
+                        <p>Acompanhe o desempenho da sua instituição no último semestre</p>
                     </div>
-
                 </div>
 
                 <div class="conteudo2">
-
                     <div class="insights">
-
                         <div class="cards" id="kpi-alunos">
                             <h3>Total de Alunos Ativos</h3>
-
                             <h1>-</h1>
-
                             <div class="porcentagem">
-                                
                             </div>
                         </div>
 
                         <div class="cards" id="kpi-risco">
                             <h3>Alunos em Risco</h3>
-
                             <h1>-</h1>
-
                             <div class="porcentagem">
-                                
                             </div>
                         </div>
 
                         <div class="cards" id="kpi-curso-risco">
                             <h3>Curso com Mais Alunos em Risco</h3>
-
                             <h1>-</h1>
-
                             <div class="porcentagem">
-                            
                             </div>
                         </div>
-
                     </div>
 
                     <div class="graficos">
-
                         <div class="metade1">
-
                             <div class="graficoLinha" id="grafico-media">
-
-                                <h3>Evolução da Média Acadêmica - Último semestre</h3>
-
+                                <h3>Evolução da Média Acadêmica (último semestre)</h3>
                                 <div class="chart-container">
                                     <canvas id="mychart1"></canvas>
                                 </div>
-
                             </div>
 
                             <div class="graficoBarra" id="grafico-cursos">
-
                                 <h3>Top 5 cursos com mais alunos</h3>
-
                                 <div class="chart-container">
                                     <canvas id="mychart2"></canvas>
                                 </div>
-
                             </div>
-
                         </div>
 
                         <div class="metade2">
-
                             <h3>Distribuição de alunos por turno</h3>
-
                             <div class="chart-container g3" id="graficoPizza">
                                 <canvas id="mychart3"></canvas>
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <button id="btn-manual" title="Abrir Manual do Dashboard">
-        <span class="manual-icon material-icons">menu_book</span>
-        Help
+        <span class="manual-icon material-icons">menu_book</span>Manual
     </button>
 
     <div id="tour-overlay"></div>
-
     <div id="tour-seta">⬆</div>
-
     <div id="tour-card">
 
         <div class="tour-contador" id="tour-contador">
@@ -180,13 +128,9 @@
         </p>
 
         <div class="tour-btns">
-
             <button id="tour-btn-fechar">✕ Fechar</button>
-
             <button id="tour-btn-anterior">← Anterior</button>
-
             <button id="tour-btn-proximo">Próximo →</button>
-
         </div>
 
     </div>
@@ -230,6 +174,22 @@
 
         })();
 
+
+        // Versão mais simples com IDs
+        function setActiveMenu() {
+            const currentPage = window.location.pathname.split("/").pop();
+
+            if (currentPage === "dashboard.html" || currentPage === "") {
+                document.getElementById("btnDash")?.classList.add("active");
+                document.getElementById("btnPainel")?.classList.remove("active");
+            } else if (currentPage === "painel.html") {
+                document.getElementById("btnPainel")?.classList.add("active");
+                document.getElementById("btnDash")?.classList.remove("active");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", setActiveMenu);
+
     </script>
 
     <script>
@@ -240,16 +200,16 @@
         let passoAtual = 0;
         let elementoAnterior = null;
 
-        const overlay    = document.getElementById("tour-overlay");
-        const card       = document.getElementById("tour-card");
-        const seta       = document.getElementById("tour-seta");
-        const btnManual  = document.getElementById("btn-manual");
+        const overlay = document.getElementById("tour-overlay");
+        const card = document.getElementById("tour-card");
+        const seta = document.getElementById("tour-seta");
+        const btnManual = document.getElementById("btn-manual");
         const tourTitulo = document.getElementById("tour-titulo");
-        const tourDesc   = document.getElementById("tour-descricao");
-        const tourCount  = document.getElementById("tour-contador");
+        const tourDesc = document.getElementById("tour-descricao");
+        const tourCount = document.getElementById("tour-contador");
         const btnProximo = document.getElementById("tour-btn-proximo");
-        const btnAnt     = document.getElementById("tour-btn-anterior");
-        const btnFechar  = document.getElementById("tour-btn-fechar");
+        const btnAnt = document.getElementById("tour-btn-anterior");
+        const btnFechar = document.getElementById("tour-btn-fechar");
 
         async function carregarTour() {
 
@@ -257,7 +217,7 @@
 
                 const resp = await fetch(API_MANUAL);
                 const data = await resp.json();
-                passos     = data.passos;
+                passos = data.passos;
                 passoAtual = 0;
                 iniciarTour();
 
@@ -273,7 +233,7 @@
 
         function iniciarTour() {
             overlay.style.display = "block";
-            card.style.display    = "block";
+            card.style.display = "block";
             mostrarPasso(0);
         }
 
@@ -283,13 +243,13 @@
                 elementoAnterior.classList.remove("tour-highlight");
 
             const passo = passos[index];
-            const el    = document.querySelector(passo.target);
+            const el = document.querySelector(passo.target);
 
             tourTitulo.textContent = passo.titulo;
-            tourDesc.textContent   = passo.descricao;
-            tourCount.textContent  = `Passo ${index + 1} de ${passos.length}`;
+            tourDesc.textContent = passo.descricao;
+            tourCount.textContent = `Passo ${index + 1} de ${passos.length}`;
 
-            btnAnt.style.display   =
+            btnAnt.style.display =
                 index === 0 ? "none" : "inline-block";
 
             btnProximo.textContent =
@@ -306,20 +266,20 @@
 
         function posicionarCard(el, posicao) {
 
-            const rect   = el.getBoundingClientRect();
+            const rect = el.getBoundingClientRect();
             const margem = 18;
 
             card.style.display = "block";
 
             if (posicao === "bottom") {
-                card.style.top  = (rect.bottom + margem) + "px";
+                card.style.top = (rect.bottom + margem) + "px";
                 card.style.left = Math.max(10, rect.left) + "px";
             } else if (posicao === "top") {
-                card.style.top  =
+                card.style.top =
                     Math.max(10, rect.top - card.offsetHeight - margem) + "px";
                 card.style.left = Math.max(10, rect.left) + "px";
             } else if (posicao === "left") {
-                card.style.top  = rect.top + "px";
+                card.style.top = rect.top + "px";
                 card.style.left = Math.max(10, rect.left - 320 - margem) + "px";
             }
 
@@ -327,20 +287,20 @@
 
         function posicionarSeta(el, posicao) {
 
-            const rect  = el.getBoundingClientRect();
+            const rect = el.getBoundingClientRect();
             const setas = { bottom: "⬆", top: "⬇", left: "➡" };
 
             seta.style.display = "block";
-            seta.textContent   = setas[posicao] || "⬆";
+            seta.textContent = setas[posicao] || "⬆";
 
             if (posicao === "bottom") {
-                seta.style.top  = (rect.bottom + 2) + "px";
+                seta.style.top = (rect.bottom + 2) + "px";
                 seta.style.left = (rect.left + rect.width / 2 - 15) + "px";
             } else if (posicao === "top") {
-                seta.style.top  = (rect.top - 40) + "px";
+                seta.style.top = (rect.top - 40) + "px";
                 seta.style.left = (rect.left + rect.width / 2 - 15) + "px";
             } else if (posicao === "left") {
-                seta.style.top  = (rect.top + rect.height / 2 - 15) + "px";
+                seta.style.top = (rect.top + rect.height / 2 - 15) + "px";
                 seta.style.left = (rect.left - 45) + "px";
             }
 
@@ -348,8 +308,8 @@
 
         function fecharTour() {
             overlay.style.display = "none";
-            card.style.display    = "none";
-            seta.style.display    = "none";
+            card.style.display = "none";
+            seta.style.display = "none";
             if (elementoAnterior)
                 elementoAnterior.classList.remove("tour-highlight");
             elementoAnterior = null;
@@ -423,7 +383,7 @@
                     dados.alunosRisco ?? 0;
 
                 document.querySelector("#kpi-curso-risco h1").innerText =
-                    dados.cursoMaisRisco || "Sem dados";
+                    dados.cursoMaisRisco || "Nenhum curso em risco";
 
             } catch (erro) {
                 console.error("Erro inesperado em carregarKpis:", erro);
@@ -540,7 +500,7 @@
                     return;
                 }
 
-                const labels  = dados.map(item => item.nome);
+                const labels = dados.map(item => item.nome);
                 const valores = dados.map(item => item.quantidade);
 
                 const ctx2 = document.getElementById("mychart2");
@@ -632,7 +592,7 @@
                                 dados.manha || 0,
                                 dados.tarde || 0,
                                 dados.noite || 0,
-                                dados.ead   || 0
+                                dados.ead || 0
                             ],
 
                             backgroundColor: [
