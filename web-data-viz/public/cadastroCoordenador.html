@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="css/cadastroDiretor.css">
+  <link rel="stylesheet" href="css/cadastroCoordenador.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -21,15 +21,18 @@
     <div class="lado_esquerdo">
       <div class="conteudo_esquerda">
         <img src="assets/LogoBranca.png" class="logo">
-        <h1>Bem-vindo, Coordenador</h1>
-        <p>Gerencie sua instituição com eficiência.</p>
+        <h1>Bem-vindo, <span style="color: #3280b1;">Coordenador</span></h1>
+        <p>Gerencie sua instituição com eficiência e tecnologia</p>
         <span class="descricao">
-          Tenha acesso a uma plataforma completa para acompanhar indicadores, organizar processos e impulsionar
-          resultados educacionais.
+          Acompanhe indicadores em tempo real<br>
+          Organize processos acadêmicos<br>
+          Impulsione resultados educacionais<br>
+          Tenha insights estratégicos para sua gestão
         </span>
       </div>
     </div>
-    <!--LADO DIREITO (formulário do Coordena)-->
+
+    <!--LADO DIREITO (formulário do Coordenador)-->
     <div class="lado_direito">
       <div class="grupo_voltar">
         <a href="./index.html" class="botao_de_voltar">
@@ -37,7 +40,10 @@
         </a>
       </div>
       <div class="card-login">
-        <h2>Cadastre-se</h2>
+        <h1>Cadastrar coordenador</h1>
+        <p style="font-size: 13px; color: #666; margin-bottom: 20px; font-family: 'Montserrat';">
+          Preencha os dados abaixo para começar
+        </p>
         <div class="linha-dupla">
           <div class="campo">
             <label>Nome</label>
@@ -49,7 +55,7 @@
           </div>
           <div class="campo">
             <label>Email</label>
-            <input type="email" id="email_input" placeholder="empresa@email.com">
+            <input type="email" id="email_input" placeholder="email@exemplo.com">
           </div>
           <div class="campo">
             <label>Token</label>
@@ -70,13 +76,11 @@
             </div>
           </div>
         </div>
-        <button onclick="cadastrar()">Cadastrar Coordenador
-        </button>
+
+        <button onclick="cadastrar()">Cadastrar Coordenador</button>
         <span class="sub">
           Já possui conta? <a href="./login.html">Login</a>
         </span>
-        <div id="erro_senha" class="mensagem_senha"></div>
-        <div id="erro_confirmacao" class="mensagem_senha"></div>
 
         <!-- Alert -->
         <div id="customAlert" class="alerta">
@@ -90,12 +94,12 @@
               <div id="tokenContainer" style="display: none;"></div>
             </div>
             <div class="alerta-butoes">
-              <button class="alert-btn primary" onclick="closeAlert()">OK</button>
+              <button class="alert-btn primary" id="alertOkBtn">OK</button>
             </div>
           </div>
         </div>
 
-        <!--Carregamento-->
+        <!-- Carregamento -->
         <div id="customLoader" class="carregando">
           <div class="carregando-container">
             <div class="parte-texto"></div>
@@ -103,280 +107,284 @@
           </div>
         </div>
       </div>
+    </div>
   </main>
-</body>
 
-<script>
-  const nomeInput = document.getElementById("nome_input");
-  const sobrenomeInput = document.getElementById("sobrenome_input");
-  const emailInput = document.getElementById("email_input");
-  const tokenInput = document.getElementById("token_input");
-  const senhaInput = document.getElementById("senha_input");
-  const confirmacaoInput = document.getElementById("confirmacao_senha_input");
+  <script>
+    const nomeInput = document.getElementById("nome_input");
+    const sobrenomeInput = document.getElementById("sobrenome_input");
+    const emailInput = document.getElementById("email_input");
+    const tokenInput = document.getElementById("token_input");
+    const senhaInput = document.getElementById("senha_input");
+    const confirmacaoInput = document.getElementById("confirmacao_senha_input");
 
-  const toggleSenha = document.getElementById("toggle_senha");
-  const toggleConfirmacao = document.getElementById("toggle_confirmacao");
+    const toggleSenha = document.getElementById("toggle_senha");
+    const toggleConfirmacao = document.getElementById("toggle_confirmacao");
 
-  // Funções do alert personalizado
-  function showAlert(type, title, message, redirectUrl = null) {
-    const alert = document.getElementById('customAlert');
-    const alertIcon = document.getElementById('alertIcon');
-    const alertTitle = document.getElementById('alertTitle');
-    const alertMessage = document.getElementById('alertMessage');
+    let redirectUrlOnClose = null;
 
-    // Configurar ícone e cor baseado no tipo, resolve essa parte no css também
-    alertIcon.innerHTML = '';
-    if (type === 'success') {
-      alertIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
-      alertIcon.className = 'alerta-icone success';
-    } else if (type === 'error') {
-      alertIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-      alertIcon.className = 'alerta-icone error';
-    } else if (type === 'warning') {
-      alertIcon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
-      alertIcon.className = 'alerta-icone warning';
-    } else {
-      alertIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
-      alertIcon.className = 'alerta-icone info';
+    // Funções do alert personalizado
+    function showAlert(type, title, message, redirectUrl = null) {
+      const alert = document.getElementById('customAlert');
+      const alertIcon = document.getElementById('alertIcon');
+      const alertTitle = document.getElementById('alertTitle');
+      const alertMessage = document.getElementById('alertMessage');
+
+      redirectUrlOnClose = redirectUrl;
+
+      alertIcon.innerHTML = '';
+      if (type === 'success') {
+        alertIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+        alertIcon.className = 'alerta-icone success';
+      } else if (type === 'error') {
+        alertIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+        alertIcon.className = 'alerta-icone error';
+      } else if (type === 'warning') {
+        alertIcon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
+        alertIcon.className = 'alerta-icone warning';
+      } else {
+        alertIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+        alertIcon.className = 'alerta-icone info';
+      }
+
+      alertTitle.textContent = title;
+      alertMessage.textContent = message;
+      alert.classList.add('active');
     }
 
-    alertTitle.textContent = title;
-    alertMessage.textContent = message;
-
-    alert.classList.add('active');
-
-    // Se tiver URL de redirecionamento, redirecionar após fechar
-    if (redirectUrl) {
-      const closeBtn = document.querySelector('#customAlert .alert-btn.primary');
-      const oldClick = closeBtn.onclick;
-      closeBtn.onclick = () => {
-        if (oldClick) oldClick();
-        window.location.href = redirectUrl;
-      };
-    }
-  }
-
-  function showLoader() {
-    document.getElementById('customLoader').classList.add('active');
-  }
-
-  function hideLoader() {
-    document.getElementById('customLoader').classList.remove('active');
-  }
-
-  function closeAlert() {
-    document.getElementById('customAlert').classList.remove('active');
-  }
-
-
-  // Olhinhos
-  toggleSenha.addEventListener("click", () => {
-    if (senhaInput.type === "password") {
-      senhaInput.type = "text";
-      toggleSenha.classList.replace("fa-eye", "fa-eye-slash");
-    } else {
-      senhaInput.type = "password";
-      toggleSenha.classList.replace("fa-eye-slash", "fa-eye");
-    }
-  });
-
-  toggleConfirmacao.addEventListener("click", () => {
-    if (confirmacaoInput.type === "password") {
-      confirmacaoInput.type = "text";
-      toggleConfirmacao.classList.replace("fa-eye", "fa-eye-slash");
-    } else {
-      confirmacaoInput.type = "password";
-      toggleConfirmacao.classList.replace("fa-eye-slash", "fa-eye");
-    }
-  });
-
-  function criarErro(input) {
-    let erro = document.createElement("div");
-    erro.className = "mensagem_senha";
-    erro.style.color = "red";
-    erro.style.fontSize = "12px";
-    input.parentNode.appendChild(erro);
-    return erro;
-  }
-
-  const erroNome = criarErro(nomeInput);
-  const erroSobrenome = criarErro(sobrenomeInput);
-  const erroEmail = criarErro(emailInput);
-  const erroToken = criarErro(tokenInput);
-  const erroSenha = criarErro(senhaInput);
-  const erroConfirmacao = criarErro(confirmacaoInput);
-
-  // ================= TOKEN =================
-  tokenInput.addEventListener("input", function () {
-    // Permite letras e números, limita a 6 caracteres
-    this.value = this.value.replace(/[^a-zA-Z0-9]/g, "").slice(0, 6).toUpperCase();
-  });
-
-  // ================= VALIDAÇÃO SENHA =================
-  function validarSenha() {
-    let senha = senhaInput.value;
-    let erros = [];
-
-    let temMaiuscula = false;
-    let temNumero = false;
-    let temEspecial = false;
-
-    for (let i = 0; i < senha.length; i++) {
-      let c = senha[i];
-      if (c >= "A" && c <= "Z") temMaiuscula = true;
-      if (c >= "0" && c <= "9") temNumero = true;
-      if ("!@#$%&*".includes(c)) temEspecial = true;
+    function showLoader() {
+      document.getElementById('customLoader').classList.add('active');
     }
 
-    if (senha.length < 8) {
-      erros.push("Mínimo de 8 caracteres");
+    function hideLoader() {
+      document.getElementById('customLoader').classList.remove('active');
     }
 
-    if (!temMaiuscula) {
-      erros.push("1 letra maiúscula");
+    function closeAlert() {
+      document.getElementById('customAlert').classList.remove('active');
+      if (redirectUrlOnClose) {
+        window.location.href = redirectUrlOnClose;
+      }
     }
 
-    if (!temNumero) {
-      erros.push("1 número");
+    // Olhinhos (mostrar/esconder senha)
+    toggleSenha.addEventListener("click", () => {
+      if (senhaInput.type === "password") {
+        senhaInput.type = "text";
+        toggleSenha.classList.replace("fa-eye", "fa-eye-slash");
+      } else {
+        senhaInput.type = "password";
+        toggleSenha.classList.replace("fa-eye-slash", "fa-eye");
+      }
+    });
+
+    toggleConfirmacao.addEventListener("click", () => {
+      if (confirmacaoInput.type === "password") {
+        confirmacaoInput.type = "text";
+        toggleConfirmacao.classList.replace("fa-eye", "fa-eye-slash");
+      } else {
+        confirmacaoInput.type = "password";
+        toggleConfirmacao.classList.replace("fa-eye-slash", "fa-eye");
+      }
+    });
+
+    // Função para criar erro (sem duplicação)
+    function criarErro(input) {
+      const erroExistente = input.parentNode.querySelector('.mensagem_senha');
+      if (erroExistente) erroExistente.remove();
+
+      let erro = document.createElement("div");
+      erro.className = "mensagem_senha";
+      erro.style.color = "red";
+      erro.style.fontSize = "12px";
+      erro.style.marginTop = "5px";
+      input.parentNode.appendChild(erro);
+      return erro;
     }
 
-    if (!temEspecial) {
-      erros.push("1 caractere especial (!@#$%&*)");
+    const erroNome = criarErro(nomeInput);
+    const erroSobrenome = criarErro(sobrenomeInput);
+    const erroEmail = criarErro(emailInput);
+    const erroToken = criarErro(tokenInput);
+    const erroSenha = criarErro(senhaInput);
+    const erroConfirmacao = criarErro(confirmacaoInput);
+
+    // ================= TOKEN =================
+
+    tokenInput.addEventListener("input", function () {
+      this.value = this.value.replace(/[^a-zA-Z0-9]/g, "").slice(0, 6).toUpperCase();
+    });
+
+    // ================= VALIDAÇÃO EMAIL =================
+
+    function validarEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
     }
 
-    if (erros.length > 0) {
-      erroSenha.style.color = "red";
-      erroSenha.innerHTML = "Falta: " + erros.join(", ");
-      return false;
-    } else {
-      erroSenha.style.color = "green";
-      erroSenha.innerHTML = "Senha forte ✔";
+    // ================= VALIDAÇÃO SENHA =================
+
+    function validarSenha() {
+      let senha = senhaInput.value;
+      let erros = [];
+
+      let temMaiuscula = false;
+      let temNumero = false;
+      let temEspecial = false;
+
+      for (let i = 0; i < senha.length; i++) {
+        let c = senha[i];
+        if (c >= "A" && c <= "Z") temMaiuscula = true;
+        if (c >= "0" && c <= "9") temNumero = true;
+        if ("!@#$%&*".includes(c)) temEspecial = true;
+      }
+
+      if (senha.length < 8) erros.push("Mínimo de 8 caracteres");
+      if (!temMaiuscula) erros.push("1 letra maiúscula");
+      if (!temNumero) erros.push("1 número");
+      if (!temEspecial) erros.push("1 caractere especial (!@#$%&*)");
+
+      if (erros.length > 0) {
+        erroSenha.style.color = "red";
+        erroSenha.innerHTML = "Falta: " + erros.join(", ");
+        return false;
+      } else {
+        erroSenha.style.color = "green";
+        erroSenha.innerHTML = "Senha forte ✔";
+        return true;
+      }
+    }
+
+    // ================= VALIDAÇÃO CONFIRMAÇÃO =================
+
+    function validarConfirmacao() {
+      let senhaValida = validarSenha();
+
+      if (confirmacaoInput.value !== senhaInput.value) {
+        erroConfirmacao.style.color = "red";
+        erroConfirmacao.innerHTML = "As senhas não coincidem.";
+        return false;
+      }
+
+      if (!senhaValida) {
+        erroConfirmacao.style.color = "red";
+        erroConfirmacao.innerHTML = "Corrija a senha primeiro.";
+        return false;
+      }
+
+      if (confirmacaoInput.value === "") {
+        erroConfirmacao.innerHTML = "";
+        return false;
+      }
+
+      erroConfirmacao.style.color = "green";
+      erroConfirmacao.innerHTML = "As senhas coincidem ✔";
       return true;
     }
-  }
 
-  // ================= VALIDAÇÃO CONFIRMAÇÃO ================= //
-  function validarConfirmacao() {
-    let senhaValida = validarSenha();
+    senhaInput.addEventListener("input", validarSenha);
+    confirmacaoInput.addEventListener("input", validarConfirmacao);
 
-    if (confirmacaoInput.value !== senhaInput.value) {
-      erroConfirmacao.style.color = "red";
-      erroConfirmacao.innerHTML = "As senhas não coincidem.";
-      return false;
-    }
+    // ================= CADASTRAR =================
 
-    if (!senhaValida) {
-      erroConfirmacao.style.color = "red";
-      erroConfirmacao.innerHTML = "Corrija a senha primeiro.";
-      return false;
-    }
+    async function cadastrar() {
+      let valido = true;
 
-    if (confirmacaoInput.value === "") {
-      erroConfirmacao.innerHTML = "";
-      return false;
-    }
-
-    erroConfirmacao.style.color = "green";
-    erroConfirmacao.innerHTML = "As senhas coincidem ✔";
-    return true;
-  }
-
-  senhaInput.addEventListener("input", validarSenha);
-  confirmacaoInput.addEventListener("input", validarConfirmacao);
-
-  // ================= CADASTRAR ================= //
-  async function cadastrar() {
-    let valido = true;
-
-    if (nomeInput.value.trim() === "") {
-      erroNome.innerHTML = "Digite seu nome.";
-      valido = false;
-    } else erroNome.innerHTML = "";
-
-    if (sobrenomeInput.value.trim() === "") {
-      erroSobrenome.innerHTML = "Digite seu sobrenome.";
-      valido = false;
-    } else erroSobrenome.innerHTML = "";
-
-    if (!emailInput.value.includes("@")) {
-      erroEmail.innerHTML = "Email inválido.";
-      valido = false;
-    } else erroEmail.innerHTML = "";
-
-    if (tokenInput.value.trim().length !== 6) {
-      erroToken.innerHTML = "Token deve ter 6 caracteres.";
-      valido = false;
-    } else erroToken.innerHTML = "";
-
-    if (!validarSenha()) valido = false;
-    if (!validarConfirmacao()) valido = false;
-
-    if (valido) {
-      showLoader();
-
-      try {
-        const resposta = await fetch("/diretoria/cadastrar", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            nomeServer: nomeInput.value.trim(),
-            sobrenomeServer: sobrenomeInput.value.trim(),
-            emailServer: emailInput.value.trim(),
-            tokenServer: tokenInput.value.trim().toUpperCase(),
-            senhaServer: senhaInput.value
-          })
-        });
-
-        hideLoader();
-
-        if (resposta.status === 201) {
-          // Mostrar alert de sucesso e redirecionar
-          showAlert('success', 'Cadastro Realizado!', 'Cadastro realizado com sucesso! Redirecionando para o login...', 'login.html');
-
-          // Redirecionar após 3 segundos caso o alert não redirecione
-          setTimeout(() => {
-            window.location.href = "login.html";
-          }, 3000);
-        } else if (resposta.status === 404) {
-          erroToken.style.color = "red";
-          erroToken.innerHTML = "Token inválido! Verifique o token da sua instituição.";
-          showAlert('error', 'Token Inválido', 'O token informado não é válido. Verifique com sua instituição e tente novamente.');
-        } else if (resposta.status === 409) {
-          const msg = await resposta.text();
-          if (msg.includes("email")) {
-            showAlert('error', 'Email já cadastrado', 'Este email já está vinculado a um coordenador. Use outro email ou faça login.');
-            erroEmail.innerHTML = "Email já cadastrado";
-          } else {
-            showAlert('error', 'Erro no Cadastro', msg);
-          }
-        } else {
-          const msg = await resposta.text();
-          showAlert('error', 'Erro no Cadastro', `Erro ao cadastrar: ${msg}`);
-        }
-      } catch (erro) {
-        hideLoader();
-        console.error(erro);
-        showAlert('error', 'Erro de Conexão', 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
+      if (nomeInput.value.trim() === "") {
+        erroNome.innerHTML = "Digite seu nome.";
+        valido = false;
+      } else {
+        erroNome.innerHTML = "";
       }
-    } else {
-      // Mostrar alerta de validação
-      showAlert('warning', 'Campos Inválidos', 'Por favor, preencha todos os campos corretamente antes de continuar.');
-    }
-  }
 
-  // Permitir fechar alert com ESC
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
+      if (sobrenomeInput.value.trim() === "") {
+        erroSobrenome.innerHTML = "Digite seu sobrenome.";
+        valido = false;
+      } else {
+        erroSobrenome.innerHTML = "";
+      }
+
+      if (!validarEmail(emailInput.value.trim())) {
+        erroEmail.innerHTML = "Email inválido (exemplo: nome@dominio.com).";
+        valido = false;
+      } else {
+        erroEmail.innerHTML = "";
+      }
+
+      if (tokenInput.value.trim().length !== 6) {
+        erroToken.innerHTML = "Token deve ter 6 caracteres.";
+        valido = false;
+      } else {
+        erroToken.innerHTML = "";
+      }
+
+      if (!validarSenha()) valido = false;
+      if (!validarConfirmacao()) valido = false;
+
+      if (valido) {
+        showLoader();
+
+        try {
+          const resposta = await fetch("/diretoria/cadastrar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              nomeServer: nomeInput.value.trim(),
+              sobrenomeServer: sobrenomeInput.value.trim(),
+              emailServer: emailInput.value.trim(),
+              tokenServer: tokenInput.value.trim().toUpperCase(),
+              senhaServer: senhaInput.value
+            })
+          });
+
+          hideLoader();
+
+          if (resposta.status === 201) {
+            showAlert('success', 'Cadastro Realizado!', 'Cadastro realizado com sucesso! Redirecionando para o login...', 'login.html');
+          } else if (resposta.status === 404) {
+            erroToken.style.color = "red";
+            erroToken.innerHTML = "Token inválido! Verifique o token da sua instituição.";
+            showAlert('error', 'Token Inválido', 'O token informado não é válido. Verifique com sua instituição e tente novamente.');
+          } else if (resposta.status === 409) {
+            const msg = await resposta.text();
+            if (msg.includes("email")) {
+              showAlert('error', 'Email já cadastrado', 'Este email já está vinculado a um coordenador. Use outro email ou faça login.');
+              erroEmail.innerHTML = "Email já cadastrado";
+            } else {
+              showAlert('error', 'Erro no Cadastro', msg);
+            }
+          } else {
+            const msg = await resposta.text();
+            showAlert('error', 'Erro no Cadastro', `Erro ao cadastrar: ${msg}`);
+          }
+        } catch (erro) {
+          hideLoader();
+          console.error(erro);
+          showAlert('error', 'Erro de Conexão', 'Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
+        }
+      } else {
+        showAlert('warning', 'Campos Inválidos', 'Por favor, preencha todos os campos corretamente antes de continuar.');
+      }
+    }
+
+    // Configurar botão OK do alert
+    document.getElementById('alertOkBtn').addEventListener('click', function () {
       closeAlert();
-    }
-  });
+    });
 
-  // Fechar alert ao clicar fora
-  document.getElementById('customAlert').addEventListener('click', function (e) {
-    if (e.target === this) {
-      closeAlert();
-    }
-  });
-</script>
+    // Permitir fechar alert com ESC
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeAlert();
+      }
+    });
 
+    // Fechar alert ao clicar fora
+    document.getElementById('customAlert').addEventListener('click', function (e) {
+      if (e.target === this) {
+        closeAlert();
+      }
+    });
+  </script>
+</body>
 </html>

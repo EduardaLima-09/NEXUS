@@ -1,6 +1,3 @@
-/* Leonardo arrumar a responsividade por favor, confere se está tudo OK */
-
-
 /* Fontes importadas */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
@@ -48,14 +45,12 @@ body {
 }
 
 .lado_esquerdo {
-    width: 50%;
+    width: 60%;
     height: 100%;
     color: var(--cor-branco-puro);
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 40px;
     overflow: hidden;
     position: relative;
@@ -65,7 +60,6 @@ body {
     inset: 0;
     content: "";
     position: absolute;
-
     background-size: cover;
     filter: brightness(0.4);
     background-position: center;
@@ -79,38 +73,39 @@ body {
 }
 
 .lado_esquerdo h1 {
-    font-size: 34px;
-    margin-bottom: 10px;
+    font-size: 36px;
+    margin-bottom: 18px;
     color: var(--cor-branco-puro);
     font-family: var(--font-titulos);
 }
 
 .lado_esquerdo p {
-    font-size: 16px;
-    margin-bottom: 20px;
+    font-size: 18px;
+    margin-bottom: 30px;
     color: var(--cor-branco-puro);
     font-family: var(--font-subtitulos);
 }
 
 .lado_esquerdo .logo {
-    width: 120px;
+    width: 110px;
     margin-bottom: 20px;
 }
 
 .descricao {
     opacity: 0.95;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--cor-branco-puro);
     font-family: var(--font-subtitulos);
+    line-height: 1.6;
 }
 
 .lado_direito {
-    width: 50%;
+    width: 60%;
     display: flex;
     position: relative;
     align-items: center;
     justify-content: center;
-    background-color: var(--cor-branco);
+    background-color: var(--cor-branco-puro);
 }
 
 .botao_de_voltar {
@@ -120,6 +115,7 @@ body {
     transition: 0.3s;
     position: absolute;
     color: var(--cor--sidebar);
+    z-index: 10;
 }
 
 .botao_de_voltar:hover {
@@ -132,13 +128,13 @@ body {
     max-width: 400px;
     border-radius: 14px;
     background-color: var(--cor-branco-puro);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
 }
 
-.card-login h2 {
+.card-login h1 {
     font-size: 24px;
     color: var(--cor--sidebar);
     font-family: var(--font-titulos);
+    margin-bottom: 15px;
 }
 
 .linha-dupla {
@@ -168,12 +164,14 @@ body {
     transition: all 0.25s ease;
     background-color: var(--cor-branco);
     border: 1px solid var(--cor-cinza);
+    font-family: var(--font-subtitulos);
 }
 
 .campo input:focus {
     border-radius: 8px;
     background-color: var(--cor-branco);
-    box-shadow: 0 0 0 3px rgba(12, 6, 78, 0.685);
+    border-color: var(--cor-azul-claro);
+    box-shadow: 0 0 0 3px rgba(70, 129, 166, 0.2);
 }
 
 .input-com-icone {
@@ -183,16 +181,22 @@ body {
 
 .input-com-icone input {
     width: 100%;
-    padding-right: 20px;
+    padding-right: 35px;
 }
 
 .input-com-icone i {
     position: absolute;
-    top: 37%;
-    right: 10px;
+    top: 50%;
+    right: 12px;
     transform: translateY(-50%);
     color: var(--cor-azul-escuro);
     font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.input-com-icone i:hover {
+    color: var(--cor-azul-claro);
 }
 
 button {
@@ -213,14 +217,13 @@ button {
 
 button:hover {
     transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .sub {
     font-size: 14px;
-    margin-bottom: 20px;
-    margin-left: 70px;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
+    margin-left: 90px;
     color: var(--cor-cinza-escuro);
     font-family: var(--font-subtitulos);
 }
@@ -232,34 +235,22 @@ button:hover {
     font-family: var(--font-subtitulos);
 }
 
-.login {
-    display: block;
-    font-size: 14px;
-    margin-top: 10px;
-    color: var(--cor-cinza-escuro);
-    font-family: var(--font-subtitulos);
-}
-
-.login a {
-    font-weight: 600;
-    text-decoration: none;
-    color: var(--cor-azul-escuro);
-    font-family: var(--font-subtitulos);
+.sub a:hover {
+    color: var(--cor-azul-claro);
 }
 
 /* Mensagem de Erro de input */
-
 .mensagem_senha {
-    font-size: 8px;
+    font-size: 10px;
     margin-top: 4px;
-    font-weight: 600;
+    font-weight: 500;
     color: #e63946;
     font-family: var(--font-titulos);
 }
 
+/* ================= RESPONSIVIDADE ================= */
 
 /* Tablets e telas médias (992px ou menos) */
-
 @media (max-width: 992px) {
     .cadastro_container {
         flex-direction: column;
@@ -278,6 +269,10 @@ button:hover {
         justify-content: center;
         text-align: center;
         padding: 20px;
+    }
+
+    .lado_esquerdo {
+        min-height: 280px;
     }
 
     .lado_esquerdo h1 {
@@ -301,24 +296,16 @@ button:hover {
         max-width: 400px;
         padding: 25px;
         margin: 20px auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
     }
 
     .linha-dupla {
         flex-direction: column;
         gap: 8px;
         width: 100%;
-        align-items: center;
     }
 
     .campo {
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
     }
 
     .campo label,
@@ -332,11 +319,6 @@ button:hover {
         padding-right: 35px;
     }
 
-    .input-com-icone i {
-        font-size: clamp(12px, 2.5vw, 14px);
-        right: 10px;
-    }
-
     button {
         width: 100%;
         font-size: 15px;
@@ -344,8 +326,7 @@ button:hover {
         margin-bottom: 10px;
     }
 
-    .sub,
-    .login {
+    .sub {
         margin: 10px 0 0 0;
         width: 100%;
         text-align: center;
@@ -354,8 +335,6 @@ button:hover {
     .mensagem_senha {
         width: 100%;
         text-align: left;
-        max-height: 60px;
-        overflow-y: auto;
         margin-top: 4px;
     }
 
@@ -367,30 +346,26 @@ button:hover {
 }
 
 /* Celulares e telas pequenas (576px ou menos) */
-
 @media (max-width: 576px) {
     .cadastro_container {
         padding: 10px;
         height: auto;
     }
 
-    .lado_esquerdo,
-    .lado_direito {
+    .lado_esquerdo {
+        min-height: 220px;
         padding: 15px;
-        align-items: center;
-        justify-content: flex-start;
-        text-align: center;
     }
 
     .lado_esquerdo h1 {
-        font-size: clamp(10px, 6vw, 18px);
-        margin-top: 60px;
+        font-size: clamp(18px, 5vw, 24px);
+        margin-bottom: 8px;
     }
 
     .lado_esquerdo p,
     .descricao {
-        font-size: clamp(10px, 3vw, 14px);
-        margin: 0 auto 12px;
+        font-size: clamp(11px, 3vw, 13px);
+        margin: 0 auto 10px;
     }
 
     .logo {
@@ -400,75 +375,90 @@ button:hover {
 
     .card-login {
         width: 95%;
-        padding: 16px;
+        padding: 20px 15px;
         margin: 15px auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+    }
+
+    .card-login h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
     }
 
     .linha-dupla {
-        flex-direction: column;
-        gap: 2px;
-        width: 100%;
-        align-items: center;
+        gap: 6px;
     }
 
-    .campo {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .campo label {
+        font-size: 12px;
     }
 
-    .campo label,
     .campo input {
-        width: 100%;
-        text-align: left;
+        padding: 8px;
+        font-size: 12px;
     }
 
     .input-com-icone input {
-        font-size: clamp(10px, 3vw, 12px);
-        padding-right: 35px;
+        font-size: 12px;
+        padding-right: 30px;
     }
 
     .input-com-icone i {
-        font-size: clamp(12px, 4vw, 14px);
+        font-size: 14px;
         right: 8px;
     }
 
     button {
-        width: 100%;
-        font-size: clamp(12px, 3vw, 14px);
+        font-size: 14px;
         padding: 12px;
+        margin-top: 15px;
     }
 
-    .sub,
-    .login {
+    .sub {
+        font-size: 12px;
         margin: 8px 0 0 0;
-        width: 100%;
-        text-align: center;
     }
 
     .mensagem_senha {
-        font-size: clamp(7px, 2vw, 9px);
-        max-height: 50px;
-        width: 100%;
-        text-align: left;
-        overflow-y: auto;
+        font-size: 9px;
     }
 
     .botao_de_voltar {
-        font-size: clamp(18px, 5vw, 24px);
+        font-size: 20px;
         top: 15px;
         left: 15px;
     }
 }
 
+/* Telas muito pequenas (380px ou menos) */
+@media (max-width: 380px) {
+    .card-login {
+        padding: 15px 12px;
+    }
 
-/* alerts personalizados */
+    .card-login h2 {
+        font-size: 18px;
+    }
 
+    .campo label {
+        font-size: 11px;
+    }
+
+    .campo input {
+        padding: 6px;
+        font-size: 11px;
+    }
+
+    button {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    .sub {
+        font-size: 11px;
+    }
+}
+
+/* ================= ALERTS PERSONALIZADOS ================= */
 .alerta {
     top: 0;
     left: 0;
@@ -564,15 +554,26 @@ button:hover {
 }
 
 .token-box {
-    padding: 12px;
-    margin: 15px 0;
+    padding: 15px;
+    margin: 15px 0 0 0;
     font-size: 14px;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 10px;
     word-break: break-all;
-    background: var(--cor-branco);
+    background: #f8f9fa;
     font-family: var(--font-subtitulos);
     border-left: 4px solid var(--cor-azul-escuro);
+}
+
+.token-box code {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--cor-azul-medio);
+    background: var(--cor-branco-puro);
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 8px;
 }
 
 .alerta-butoes {
@@ -612,8 +613,7 @@ button:hover {
     background: var(--cor-branco);
 }
 
-/* Textinho de carregando processo */
-
+/* ================= CARREGAMENTO ================= */
 .carregando {
     top: 0;
     left: 0;
