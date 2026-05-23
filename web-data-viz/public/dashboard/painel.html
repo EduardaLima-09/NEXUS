@@ -782,30 +782,55 @@
                 }
 
                 try {
-                    const resposta = await fetch("/metas/cadastrar",{
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
 
-                        body: JSON.stringify({
-                            tituloServer: meta,
-                            categoriaServer: categoria,
-                            porcentagemServer: porcentagem,
-                            fkCursoServer: fkCurso,
-                            fkUniversidadeServer: fkUniversidade
-                        })
-                    });
+                    if(modoModal === "editar"){
 
-                    if (resposta.ok){
-                        alert("Meta cadastrada");
+                        const resposta = await fetch(`/metas/editar/${registroEditandoId}`,{
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                tituloServer: meta,
+                                categoriaServer: categoria,
+                                porcentagemServer: porcentagem,
+                                fkCursoServer: fkCurso
+                            })
+                        });
 
-                        fecharModal();
-                        carregarMetas();
-                    } else {
-                        alert("Erro ao cadastrar");
+                        if(resposta.ok){
+                            alert("Meta atualizada");
+                        } else {
+                            alert("Erro ao atualizar");
+                        }
                     }
-                } catch (erro){
+
+                    else {
+
+                        const resposta = await fetch("/metas/cadastrar", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                tituloServer: meta,
+                                categoriaServer: categoria,
+                                porcentagemServer: porcentagem,
+                                fkCursoServer: fkCurso,
+                                fkUniversidadeServer: fkUniversidade
+                            })
+                        });
+
+                        if(resposta.ok){
+                            alert("Meta cadastrada");
+                        } else{
+                            alert("Erro ao cadastrar");
+                        }
+                    }
+
+                    fecharModal();
+                    carregarMetas();
+                } catch(erro){
                     console.error(erro);
                 }
             }

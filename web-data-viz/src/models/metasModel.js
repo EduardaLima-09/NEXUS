@@ -30,6 +30,35 @@ function cadastrar(
     return database.executar(instrucaoSql);
 }
 
+function editar(id, nome, categoria, porcentagem, fkCurso){
+
+    const instrucaoSql = `
+        UPDATE Meta
+        SET
+            nome = '${nome}',
+            categoria = '${categoria}',
+            porcentagem = '${porcentagem}',
+            fkCurso = '${fkCurso}'
+        WHERE id = ${id};
+    `;
+
+    console.log("SQL:\n" + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
+function excluir(id){
+
+    const instrucaoSql = `
+        DELETE FROM Meta
+        WHERE id = ${id};
+    `;
+
+    console.log("SQL:\n" + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
 function listar(fkUniversidade) {
 
     var instrucaoSql = `
@@ -50,5 +79,7 @@ function listar(fkUniversidade) {
 
 module.exports = {
     cadastrar,
+    editar,
+    excluir,
     listar
 };

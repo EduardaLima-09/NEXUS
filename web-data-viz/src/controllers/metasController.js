@@ -30,6 +30,39 @@ function cadastrar(req, res){
     }
 }
 
+function editar(req, res){
+
+    const id = req.params.id;
+
+    const titulo = req.body.tituloServer;
+    const categoria = req.body.categoriaServer;
+    const porcentagem = req.body.porcentagemServer;
+    const fkCurso = req.body.fkCursoServer;
+
+    metasModel.editar(id, titulo, categoria, porcentagem, fkCurso)
+        .then(function(resultado){
+            res.status(200).send("Meta atualizada");
+        })
+        .catch (function(erro){
+            console.log(erro);
+            res.status(500).json(sqlMessage);
+        });
+}
+
+function excluir(req, res){
+
+    const id = req.params.id;
+
+    metasModel.excluir(id)
+        .then(function(resultado){
+            res.status(200).send("Meta excluida")
+        })
+        .catch(function(erro){
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage)
+        });
+}
+
 function listar(req, res){
 
     var fkUniversidade = req.query.fkUniversidade;
@@ -49,5 +82,7 @@ function listar(req, res){
 
 module.exports = {
     cadastrar,
+    editar,
+    excluir,
     listar
 };
