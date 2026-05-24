@@ -15,8 +15,10 @@
 </head>
 
 <body>
+
     <div class="tela">
         <div class="dash">
+
             <div class="barra">
                 <div class="logo">
                     <img src="../assets/LogoBranca.png" alt="Logo Nexus">
@@ -44,6 +46,7 @@
             </div>
 
             <div class="conteudo">
+
                 <div class="tituloDash">
                     <div class="texto">
                         <h1>Olá, Professor(a) <span id="nomeUsuario">Usuário</span>!</h1>
@@ -51,37 +54,38 @@
                     </div>
                 </div>
 
-
                 <div class="conteudo2">
+
                     <div class="insights">
+
                         <div class="cards">
                             <h3>Curso com Risco Elevado</h3>
-                            <!--acho que puxa o nome aqui-->
+                            <h1 id="cursoMaiorRisco">-</h1>
                             <div class="porcentagem">
-                                <p>Meta institucional: menos de <span id="metaMaiorRisco">15</span>% de alunos em risco
-                                </p>
-                                <div class="progress-bar-mini">
-                                    <div class="progress-mini" id="progressoMaiorRisco" style="width: 0%"></div>
+                                <p id="textoMetaMaiorRisco" style="font-size:12px; color:#666;"></p>
+                                <div style="width:100%; height:6px; background:#e5e7eb; border-radius:4px; margin:4px 0;">
+                                    <div id="progressoMaiorRisco" style="height:100%; width:0%; border-radius:4px; background:#ef4444; transition:width 0.5s;"></div>
                                 </div>
-                                <span class="percentual-texto" id="percentualMaiorRisco">0% da meta atingida</span>
+                                <span id="percentualMaiorRisco" style="font-size:11px; color:#888;"></span>
                             </div>
                         </div>
 
                         <div class="cards">
                             <h3>Curso com Risco Baixo</h3>
-                            <!--acho que puxa o nome aqui-->
+                            <h1 id="cursoMenorRisco">-</h1>
                             <div class="porcentagem">
-                                <p>Meta institucional: manter abaixo de <span id="metaMenorRisco">5</span>% de alunos em
-                                    risco</p>
-                                <div class="progress-bar-mini">
-                                    <div class="progress-mini" id="progressoMenorRisco" style="width: 0%"></div>
+                                <p id="textoMetaMenorRisco" style="font-size:12px; color:#666;"></p>
+                                <div style="width:100%; height:6px; background:#e5e7eb; border-radius:4px; margin:4px 0;">
+                                    <div id="progressoMenorRisco" style="height:100%; width:0%; border-radius:4px; background:#22c55e; transition:width 0.5s;"></div>
                                 </div>
-                                <span class="percentual-texto" id="percentualMenorRisco">0% da meta atingida</span>
+                                <span id="percentualMenorRisco" style="font-size:11px; color:#888;"></span>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="conteudo3">
+
                         <div class="graficoBarra">
                             <h3>Quantidade de alunos por nível de risco em cada curso</h3>
                             <div class="chart-container">
@@ -99,119 +103,176 @@
                                 <div id="listaCursosContainer" class="cursos-container"></div>
                             </div>
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
     </div>
 
     <script>
-        // VALIDAÇÃO DE ACESSO
-        const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
-        const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
+
+        const cargoUsuario   = sessionStorage.getItem("CARGO_USUARIO");
+        const nomeUsuario    = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
         const fkUniversidade = sessionStorage.getItem("FK_UNIVERSIDADE");
 
         if (cargoUsuario && cargoUsuario !== "Professor") {
-            window.location.href = cargoUsuario === "Coordenador" ? "dashboard.html" : "../login.html";
+            window.location.href = cargoUsuario === "Coordenador"
+                ? "dashboard.html" : "../login.html";
         }
 
-        document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
-        document.getElementById("nomeUsuario").innerText = nomeUsuario;
+        document.getElementById("nomeUsuarioSidebar").innerText  = nomeUsuario;
+        document.getElementById("nomeUsuario").innerText         = nomeUsuario;
         document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario || "Professor";
 
-        // NAVEGAÇÃO
         function goAlunos() { window.location.href = "alunos.html"; }
         function goCursos() { window.location.href = "cursos.html"; }
-        function goHome() { sessionStorage.clear(); window.location.href = "../index.html"; }
+        function goHome()   { sessionStorage.clear(); window.location.href = "../index.html"; }
 
-        // MENU ATIVO
         const paginaAtual = window.location.pathname.split("/").pop();
         if (paginaAtual === "alunos.html") document.getElementById("Alunos")?.classList.add("ativo");
         if (paginaAtual === "cursos.html") document.getElementById("Cursos")?.classList.add("ativo");
 
-        // VARIÁVEIS GLOBAIS
         let graficoCursos = null;
-        let todosCursos = [];
-        let dadosGrafico = [];
+        let todosCursos   = [];
+        let todasMetas    = [];
 
-        // Metas institucionais para cursos
-        const metas = {
-            maiorRisco: 15,
-            menorRisco: 5
-        };
+        // ── METAS ─────────────────────────────────────────────────────────────
 
-        // Função para atualizar progresso das metas
-        function atualizarProgressoMetas(percentualMaiorRisco, percentualMenorRisco) {
-            let progressoMaiorRisco = (percentualMaiorRisco / metas.maiorRisco) * 100;
-            let progressoMenorRisco = (percentualMenorRisco / metas.menorRisco) * 100;
+        async function carregarMetas() {
 
-            progressoMaiorRisco = Math.min(progressoMaiorRisco, 100);
-            progressoMenorRisco = Math.min(progressoMenorRisco, 100);
+            try {
 
-            document.getElementById("progressoMaiorRisco").style.width = progressoMaiorRisco + "%";
-            document.getElementById("progressoMenorRisco").style.width = progressoMenorRisco + "%";
+                const resposta = await fetch(
+                    `/metas/listar-professor?fkUniversidade=${fkUniversidade}`
+                );
 
-            document.getElementById("percentualMaiorRisco").innerText = Math.round(progressoMaiorRisco) + "% da meta atingida";
-            document.getElementById("percentualMenorRisco").innerText = Math.round(progressoMenorRisco) + "% da meta atingida";
+                if (!resposta.ok) return;
 
-            const barraMaiorRisco = document.getElementById("progressoMaiorRisco");
-            const barraMenorRisco = document.getElementById("progressoMenorRisco");
+                todasMetas = await resposta.json();
 
-            if (progressoMaiorRisco <= 30) barraMaiorRisco.style.backgroundColor = "#22c55e";
-            else if (progressoMaiorRisco <= 60) barraMaiorRisco.style.backgroundColor = "#f97316";
-            else barraMaiorRisco.style.backgroundColor = "#ef4444";
+            } catch (erro) {
+                console.error("Erro ao carregar metas:", erro);
+            }
 
-            if (progressoMenorRisco <= 30) barraMenorRisco.style.backgroundColor = "#22c55e";
-            else if (progressoMenorRisco <= 60) barraMenorRisco.style.backgroundColor = "#f97316";
-            else barraMenorRisco.style.backgroundColor = "#ef4444";
         }
 
+        // Retorna metas associadas a um curso específico
+        function metasDoCurso(fkCurso) {
+            return todasMetas.filter(m => m.fkCurso === fkCurso);
+        }
+
+        // ── INIT ──────────────────────────────────────────────────────────────
+
         async function carregarDados() {
+
             if (!fkUniversidade) {
                 console.warn("FK_UNIVERSIDADE não encontrada.");
                 return;
             }
+
+            await carregarMetas();
             await carregarKpis();
             await carregarGrafico();
             await carregarListaCursos();
+
         }
 
+        // ── KPIs ──────────────────────────────────────────────────────────────
+
         async function carregarKpis() {
+
             try {
-                const resposta = await fetch(`/cursos/kpis?fkUniversidade=${fkUniversidade}`);
+
+                const resposta = await fetch(
+                    `/cursos/kpis?fkUniversidade=${fkUniversidade}`
+                );
+
+                if (!resposta.ok) return;
+
                 const dados = await resposta.json();
 
-                document.getElementById("cursoMaiorRisco").innerText = dados.cursoMaiorRisco || "-";
-                document.getElementById("cursoMenorRisco").innerText = dados.cursoMenorRisco || "-";
+                document.getElementById("cursoMaiorRisco").innerText =
+                    dados.cursoMaiorRisco || "-";
 
-                const totalAlunos = dados.totalAlunos || 1;
-                const percentualMaiorRisco = ((dados.qtdMaiorRisco || 0) / totalAlunos) * 100;
-                const percentualMenorRisco = ((dados.qtdMenorRisco || 0) / totalAlunos) * 100;
+                document.getElementById("cursoMenorRisco").innerText =
+                    dados.cursoMenorRisco || "-";
 
-                atualizarProgressoMetas(percentualMaiorRisco, percentualMenorRisco);
+                const total = dados.totalAlunos || 1;
+                const percentualMaior = ((dados.qtdMaiorRisco || 0) / total) * 100;
+                const percentualMenor = ((dados.qtdMenorRisco || 0) / total) * 100;
+
+                // Meta de risco alto para cursos
+                const metaAlto = todasMetas.find(m => m.categoria === "Risco Alto");
+
+                if (metaAlto) {
+                    document.getElementById("textoMetaMaiorRisco").innerText =
+                        `Meta "${metaAlto.nome}": manter abaixo de ${metaAlto.porcentagem}%`;
+                    const progresso = percentualMaior <= metaAlto.porcentagem
+                        ? 100
+                        : Math.max(0, 100 - ((percentualMaior - metaAlto.porcentagem) * 5));
+                    document.getElementById("progressoMaiorRisco").style.width = progresso + "%";
+                    document.getElementById("progressoMaiorRisco").style.backgroundColor =
+                        progresso >= 100 ? "#22c55e" : progresso >= 50 ? "#f97316" : "#ef4444";
+                    document.getElementById("percentualMaiorRisco").innerText =
+                        `${percentualMaior.toFixed(1)}% atual · ${progresso.toFixed(0)}% da meta`;
+                } else {
+                    document.getElementById("textoMetaMaiorRisco").innerText =
+                        "Nenhuma meta definida";
+                    document.getElementById("percentualMaiorRisco").innerText =
+                        `${percentualMaior.toFixed(1)}% atual`;
+                }
+
+                // Meta de risco baixo para cursos
+                const metaBaixo = todasMetas.find(m => m.categoria === "Risco Baixo");
+
+                if (metaBaixo) {
+                    document.getElementById("textoMetaMenorRisco").innerText =
+                        `Meta "${metaBaixo.nome}": atingir ${metaBaixo.porcentagem}%`;
+                    const progresso = Math.min((percentualMenor / metaBaixo.porcentagem) * 100, 100);
+                    document.getElementById("progressoMenorRisco").style.width = progresso + "%";
+                    document.getElementById("progressoMenorRisco").style.backgroundColor =
+                        progresso >= 100 ? "#22c55e" : progresso >= 50 ? "#f97316" : "#ef4444";
+                    document.getElementById("percentualMenorRisco").innerText =
+                        `${percentualMenor.toFixed(1)}% atual · ${progresso.toFixed(0)}% da meta`;
+                } else {
+                    document.getElementById("textoMetaMenorRisco").innerText =
+                        "Nenhuma meta definida";
+                    document.getElementById("percentualMenorRisco").innerText =
+                        `${percentualMenor.toFixed(1)}% atual`;
+                }
 
             } catch (erro) {
                 console.error("Erro ao carregar indicadores:", erro);
             }
+
         }
 
-        async function carregarGrafico() {
-            try {
-                const resposta = await fetch(`/cursos/grafico?fkUniversidade=${fkUniversidade}`);
-                dadosGrafico = await resposta.json();
+        // ── GRÁFICO ───────────────────────────────────────────────────────────
 
-                // Calcular o máximo para ajustar a escala do Y
+        async function carregarGrafico() {
+
+            try {
+
+                const resposta = await fetch(
+                    `/cursos/grafico?fkUniversidade=${fkUniversidade}`
+                );
+
+                const dadosGrafico = await resposta.json();
+
                 let maxValor = 0;
                 dadosGrafico.forEach(item => {
                     maxValor = Math.max(maxValor, item.alto || 0, item.medio || 0, item.baixo || 0);
                 });
-                // Adicionar 20% de margem ao topo
-                const yMax = Math.ceil(maxValor * 1.2);
 
+                const yMax  = Math.ceil(maxValor * 1.2);
                 const labels = dadosGrafico.map(item => item.curso);
-                const alto = dadosGrafico.map(item => item.alto || 0);
-                const medio = dadosGrafico.map(item => item.medio || 0);
-                const baixo = dadosGrafico.map(item => item.baixo || 0);
+                const alto   = dadosGrafico.map(item => item.alto  || 0);
+                const medio  = dadosGrafico.map(item => item.medio || 0);
+                const baixo  = dadosGrafico.map(item => item.baixo || 0);
 
                 const ctx = document.getElementById("mychart1");
                 if (graficoCursos) graficoCursos.destroy();
@@ -219,31 +280,25 @@
                 graficoCursos = new Chart(ctx, {
                     type: "bar",
                     data: {
-                        labels: labels,
+                        labels,
                         datasets: [
                             {
-                                label: "🔴 Risco Elevado (acima de 30%)",
+                                label: "🔴 Risco Elevado",
                                 data: alto,
                                 backgroundColor: "#ef4444",
-                                borderRadius: 6,
-                                barPercentage: 0.8,
-                                categoryPercentage: 0.9
+                                borderRadius: 6
                             },
                             {
-                                label: "🟠 Risco Moderado (15% a 30%)",
+                                label: "🟠 Risco Moderado",
                                 data: medio,
                                 backgroundColor: "#f97316",
-                                borderRadius: 6,
-                                barPercentage: 0.8,
-                                categoryPercentage: 0.9
+                                borderRadius: 6
                             },
                             {
-                                label: "🟢 Risco Baixo (abaixo de 15%)",
+                                label: "🟢 Risco Baixo",
                                 data: baixo,
                                 backgroundColor: "#22c55e",
-                                borderRadius: 6,
-                                barPercentage: 0.8,
-                                categoryPercentage: 0.9
+                                borderRadius: 6
                             }
                         ]
                     },
@@ -251,22 +306,11 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: {
-                                display: true,
-                                position: "top",
-                                labels: {
-                                    font: { size: 14, weight: "bold" },
-                                    usePointStyle: true,
-                                    pointStyle: "circle",
-                                    padding: 12
-                                }
-                            },
+                            legend: { display: true, position: "top" },
                             tooltip: {
                                 callbacks: {
                                     label: function (context) {
-                                        let label = context.dataset.label || "";
-                                        let value = context.raw;
-                                        return `${label}: ${value} aluno(s)`;
+                                        return `${context.dataset.label}: ${context.raw} aluno(s)`;
                                     }
                                 }
                             }
@@ -275,73 +319,91 @@
                             y: {
                                 beginAtZero: true,
                                 max: yMax,
-                                title: {
-                                    display: true,
-                                    text: "Quantidade de Alunos",
-                                    font: { size: 14, weight: "bold" },
-                                    color: "#3f3f3f"
-                                },
-                                ticks: {
-                                    stepSize: Math.ceil(yMax / 5),
-                                    precision: 0,
-                                    font: { size: 12 }
-                                },
-                                grid: { color: "#e5e7eb", dash: [4, 4] }
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: "Cursos Oferecidos",
-                                    font: { size: 14, weight: "bold" },
-                                    color: "#3f3f3f"
-                                },
-                                ticks: {
-                                    font: { size: 14, weight: "bold" },
-                                    rotation: 0,
-                                    autoSkip: true,
-                                    maxRotation: 30,
-                                    minRotation: 0
-                                },
-                                grid: { display: false }
+                                ticks: { stepSize: Math.ceil(yMax / 5), precision: 0 }
                             }
                         }
                     }
                 });
 
-            } catch (erro) { console.error("Erro ao carregar gráfico:", erro); }
+            } catch (erro) {
+                console.error("Erro ao carregar gráfico:", erro);
+            }
+
         }
 
+        // ── LISTA DE CURSOS COM METAS ─────────────────────────────────────────
+
         async function carregarListaCursos() {
+
             try {
-                const resposta = await fetch(`/cursos/lista?fkUniversidade=${fkUniversidade}`);
+
+                const resposta = await fetch(
+                    `/cursos/lista?fkUniversidade=${fkUniversidade}`
+                );
+
                 todosCursos = await resposta.json();
                 renderizarListaCursos(todosCursos);
-            } catch (erro) { console.error("Erro ao carregar lista de cursos:", erro); }
+
+            } catch (erro) {
+                console.error("Erro ao carregar lista de cursos:", erro);
+            }
+
         }
 
         function renderizarListaCursos(cursos) {
+
             const container = document.getElementById("listaCursosContainer");
             container.innerHTML = "";
 
             if (cursos.length === 0) {
-                container.innerHTML = '<div class="nenhum-curso">Nenhum curso encontrado.</div>';
+                container.innerHTML =
+                    '<div class="nenhum-curso">Nenhum curso encontrado.</div>';
                 return;
             }
 
             cursos.forEach(function (curso) {
-                let corRisco = "#22c55e";
-                let textoRisco = "Risco Baixo";
-                let fonteRisco = "Montserrat";
+
+                let corRisco    = "#22c55e";
+                let textoRisco  = "Risco Baixo";
+
                 if (curso.emRisco > 30) {
-                    corRisco = "#ef4444";
+                    corRisco   = "#ef4444";
                     textoRisco = "Risco Elevado";
                 } else if (curso.emRisco > 15) {
-                    corRisco = "#f97316";
+                    corRisco   = "#f97316";
                     textoRisco = "Risco Moderado";
                 }
 
+                // Metas específicas deste curso
+                const metasCurso = metasDoCurso(curso.id);
+
+                const metasHtml = metasCurso.length > 0
+                    ? metasCurso.map(function (meta) {
+
+                        const corCategoria =
+                            meta.categoria === "Risco Alto"  ? "#ef4444"
+                            : meta.categoria === "Risco Médio" ? "#f97316"
+                            : "#22c55e";
+
+                        return `
+                            <div style="margin-top: 8px; padding: 8px; background: #f9fafb; border-radius: 8px; border-left: 3px solid ${corCategoria};">
+                                <div style="font-size: 12px; font-weight: 600; color: ${corCategoria};">
+                                    Meta · ${meta.categoria}
+                                </div>
+                                <div style="font-size: 13px; margin: 2px 0;">${meta.nome}</div>
+                                <div style="width:100%; height:5px; background:#e5e7eb; border-radius:3px; margin-top:4px;">
+                                    <div style="height:100%; width:${meta.porcentagem}%; border-radius:3px; background:${corCategoria};"></div>
+                                </div>
+                                <span style="font-size:11px; color:#888;">${meta.porcentagem}% de conclusão definido pelo coordenador</span>
+                            </div>
+                        `;
+
+                    }).join("")
+                    : `<div style="font-size:12px; color:#999; margin-top:6px;">Nenhuma meta definida para este curso.</div>`;
+
                 const cursoDiv = document.createElement("div");
                 cursoDiv.className = "curso-item";
+
                 cursoDiv.innerHTML = `
                     <div class="curso-header" onclick="toggleCurso(this.parentElement)">
                         <div class="curso-nome">${curso.nome}</div>
@@ -359,7 +421,7 @@
                         </div>
                         <div class="info-row">
                             <span class="info-label">Alunos em risco:</span>
-                            <span class="info-value">${curso.emRisco || 0} alunos (${textoRisco.toLowerCase()})</span>
+                            <span class="info-value">${curso.emRisco || 0} (${textoRisco.toLowerCase()})</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Semestre crítico:</span>
@@ -371,10 +433,19 @@
                             </div>
                             <span class="percentual-texto">${curso.emRisco || 0}% dos alunos</span>
                         </div>
+                        <div style="margin-top: 10px; border-top: 1px solid #e5e7eb; padding-top: 8px;">
+                            <div style="font-size: 12px; font-weight: 700; color: #374151; margin-bottom: 4px;">
+                                Metas do Coordenador para este curso
+                            </div>
+                            ${metasHtml}
+                        </div>
                     </div>
                 `;
+
                 container.appendChild(cursoDiv);
+
             });
+
         }
 
         function toggleCurso(elemento) {
@@ -382,16 +453,15 @@
         }
 
         function filtrarListaCursos() {
-            const textoPesquisa = document.getElementById("pesquisaCurso").value.toLowerCase();
-            const cursosFiltrados = todosCursos.filter(function (curso) {
-                return curso.nome.toLowerCase().includes(textoPesquisa);
-            });
-            renderizarListaCursos(cursosFiltrados);
+            const texto = document.getElementById("pesquisaCurso").value.toLowerCase();
+            const filtrados = todosCursos.filter(c => c.nome.toLowerCase().includes(texto));
+            renderizarListaCursos(filtrados);
         }
 
-        // Inicializar
         carregarDados();
+
     </script>
+
 </body>
 
-</html>
+</html> 

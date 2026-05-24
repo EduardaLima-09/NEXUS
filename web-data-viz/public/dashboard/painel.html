@@ -479,56 +479,56 @@ async function salvarRegistro() {
 
     else if (abaAtual === "cursos") {
 
-        const nome = document.getElementById("nomeCursoInput")?.value.trim();
-        if (!nome) { alert("Preencha todos os campos obrigatórios!"); return; }
+    const nome = document.getElementById("nomeCursoInput")?.value.trim();
+    if (!nome) { alert("Preencha o nome do curso!"); return; }
 
-        try {
+    try {
 
-            if (modoModal === "editar") {
+        if (modoModal === "editar") {
 
-                const resposta = await fetch(
-                    `/diretoria/cursos/atualizar/${registroEditandoId}?fkUniversidade=${fkUniversidade}`,
-                    {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ nome, modalidade: "-" })
-                    }
-                );
-
-                if (resposta.ok) {
-                    alert("Curso atualizado com sucesso.");
-                } else {
-                    alert("Erro ao atualizar: " + await resposta.text());
+            const resposta = await fetch(
+                `/cursos/editar/${registroEditandoId}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ nomeServer: nome })
                 }
+            );
 
+            if (resposta.ok) {
+                alert("Curso atualizado com sucesso.");
             } else {
-
-                const resposta = await fetch(
-                    `/diretoria/cursos/cadastrar?fkUniversidade=${fkUniversidade}`,
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ nome, modalidade: "-" })
-                    }
-                );
-
-                if (resposta.status === 201) {
-                    alert("Curso cadastrado com sucesso.");
-                } else {
-                    alert("Erro ao cadastrar: " + await resposta.text());
-                }
-
+                alert("Erro ao atualizar: " + await resposta.text());
             }
 
-            fecharModal();
-            await carregarCursos();
+        } else {
 
-        } catch (erro) {
-            console.error(erro);
-            alert("Não foi possível conectar ao servidor.");
+            const resposta = await fetch(
+                `/cursos/cadastrar?fkUniversidade=${fkUniversidade}`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ nomeServer: nome })
+                }
+            );
+
+            if (resposta.status === 201) {
+                alert("Curso cadastrado com sucesso.");
+            } else {
+                alert("Erro ao cadastrar: " + await resposta.text());
+            }
+
         }
 
+        fecharModal();
+        await carregarCursos();
+
+    } catch (erro) {
+        console.error(erro);
+        alert("Não foi possível conectar ao servidor.");
     }
+
+}
 
     else if (abaAtual === "metas") {
 
@@ -832,7 +832,7 @@ async function deletarAluno(ra) {
 async function deletarCurso(id) {
     try {
         const resposta = await fetch(
-            `/diretoria/cursos/deletar/${id}?fkUniversidade=${fkUniversidade}`,
+            `/cursos/excluir/${id}`,
             { method: "DELETE" }
         );
         if (resposta.ok) { alert("Curso deletado com sucesso."); carregarCursos(); }

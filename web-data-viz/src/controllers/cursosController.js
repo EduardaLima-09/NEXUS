@@ -1,80 +1,78 @@
 var cursosModel = require("../models/cursosModel");
 
-function cadastrar(req, res){
+function cadastrar(req, res) {
 
-    var nome = req.body.nomeServer;
-    var fkUniversidade = req.body.fkUniversidadeServer;
+    var nome           = req.body.nomeServer || req.body.nome;
+    var fkUniversidade = req.body.fkUniversidadeServer
+                      || req.query.fkUniversidade;
 
-    if (!nome || !fkUniversidade){
+    if (!nome || !fkUniversidade) {
+        return res.status(400).send("Dados inválidos");
+    }
 
-        res.status(400).send("Dados inválidos");
-    } else {
-
-        cursosModel.cadastrar(
-            nome,
-            fkUniversidade
-        )
-        .then(function (resultado){
-            
-            res.json(resultado);
+    cursosModel.cadastrar(nome, fkUniversidade)
+        .then(function (resultado) {
+            res.status(201).json(resultado);
         })
-        .catch (function(erro){
-
+        .catch(function (erro) {
             console.log(erro);
-
             res.status(500).json(erro.sqlMessage);
         });
-    }
+
 }
 
-function editar(req, res){
+function editar(req, res) {
 
-    const id = req.params.id;
+    const id   = req.params.id;
+    const nome = req.body.nomeServer || req.body.nome;
 
-    const nome = req.body.nomeServer;
+    if (!nome) {
+        return res.status(400).send("Nome está undefined!");
+    }
 
     cursosModel.editar(id, nome)
-        .then(function(resultado){
+        .then(function (resultado) {
             res.status(200).send("Curso atualizado");
         })
-        .catch(function(erro){
+        .catch(function (erro) {
             console.log(erro);
             res.status(500).json(erro.sqlMessage);
         });
+
 }
 
-function excluir(req, res){
+function excluir(req, res) {
 
     const id = req.params.id;
 
     cursosModel.excluir(id)
-        .then(function(resultado){
+        .then(function (resultado) {
             res.status(200).send("Curso excluido");
         })
-        .catch(function(erro){
+        .catch(function (erro) {
             console.log(erro);
             res.status(500).json(erro.sqlMessage);
         });
+
 }
 
-function listarCursos(req, res){
+function listarCursos(req, res) {
 
     const fkUniversidade = req.query.fkUniversidade;
 
-    if(!fkUniversidade){
+    if (!fkUniversidade) {
         return res.status(400).send("fkUniversidade undefined");
     }
 
     cursosModel.listarCursos(fkUniversidade)
-        .then(function(resultado){
-
+        .then(function (resultado) {
             res.status(200).json(resultado);
         })
-        .catch(function(erro){
-
+        .catch(function (erro) {
             console.log(erro);
             res.status(500).json(erro.sqlMessage);
         });
+
 }
 
 function buscarKpis(req, res) {
@@ -93,6 +91,7 @@ function buscarKpis(req, res) {
             console.log(erro);
             res.status(500).json(erro.sqlMessage);
         });
+
 }
 
 function buscarGrafico(req, res) {
@@ -111,6 +110,7 @@ function buscarGrafico(req, res) {
             console.log(erro);
             res.status(500).json(erro.sqlMessage);
         });
+
 }
 
 function buscarListaCursos(req, res) {
@@ -129,6 +129,7 @@ function buscarListaCursos(req, res) {
             console.log(erro);
             res.status(500).json(erro.sqlMessage);
         });
+
 }
 
 module.exports = {
