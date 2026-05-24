@@ -14,11 +14,11 @@ public class S3Service {
 
         try {
             if(!usarS3) {
-                System.out.println("Leitura de arquivo local:" + nomeArquivo);
+                System.out.println("\nLeitura sendo feita em Local: " + nomeArquivo);
                 return new FileInputStream(nomeArquivo);
             }
 
-            System.out.println("Leitura de arquivo em S3:" + nomeArquivo);
+            System.out.println("\nLeitura sendo feita em S3: " + nomeArquivo);
 
             S3Client s3 = S3Client.create();
 

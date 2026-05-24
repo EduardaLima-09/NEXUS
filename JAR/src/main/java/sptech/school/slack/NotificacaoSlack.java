@@ -28,7 +28,6 @@ public class NotificacaoSlack extends Notificacao{
             HttpClient client = HttpClient.newHttpClient();
 
             ObjectMapper mapper = new ObjectMapper();
-
             SlackDto dto = new SlackDto(mensagem);
 
             String json = mapper.writeValueAsString(dto);

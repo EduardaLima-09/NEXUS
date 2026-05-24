@@ -20,7 +20,6 @@ public class NotificacaoLog extends Notificacao{
         Log log = new Log(status, mensagem);
 
         logDAO.salvar(log);
-        System.out.println("Log registrado: " + log);
     }
 
 }

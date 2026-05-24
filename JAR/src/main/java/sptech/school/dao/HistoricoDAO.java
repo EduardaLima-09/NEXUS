@@ -85,8 +85,7 @@ public class HistoricoDAO {
             stmtIndicador.close();
 
             conexao.close();
-
-            System.out.println("PROCESSAMENTO FINALIZADO!");
+            System.out.println("Registros processados com sucesso!");
 
         } catch (Exception e) {
             e.printStackTrace();

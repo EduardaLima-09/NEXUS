@@ -37,7 +37,6 @@ public class LeituraExcel {
     }
 
     public List<Aluno> extrairAlunos(String nomeArquivo) {
-
         List<Aluno> alunos = new ArrayList<>();
 
         try (
@@ -50,7 +49,6 @@ public class LeituraExcel {
                 if (row.getRowNum() == 0) continue;
 
                 try {
-
                     Integer id = row.getRowNum();
 
                     String nome = getString(row.getCell(1));
@@ -68,15 +66,9 @@ public class LeituraExcel {
                         sexo = "O";
                     }
 
-//                    if (!sexo.equals("M") && !sexo.equals("F")) {
-//                        sexo = "O";
-//                    }
-
                     alunos.add(new Aluno(id, media, freq, nome, sobrenome, sexo));
-
                 } catch (Exception ignored) {}
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,22 +78,18 @@ public class LeituraExcel {
     }
 
     public List<Curso> extrairCursos(String nomeArquivo) {
-
         List<Curso> cursos = new ArrayList<>();
 
         try (
                 InputStream arquivo = S3Service.getArquivo(nomeArquivo);
                 Workbook workbook = new XSSFWorkbook(arquivo);
         ) {
-
             Sheet sheet = workbook.getSheetAt(0);
 
             for (Row row : sheet) {
-
                 if (row.getRowNum() == 0) continue;
 
                 try {
-
                     String nomeCurso = getString(row.getCell(6)).trim();
 
                     boolean existe = false;
@@ -119,7 +107,6 @@ public class LeituraExcel {
 
                 } catch (Exception ignored) {}
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

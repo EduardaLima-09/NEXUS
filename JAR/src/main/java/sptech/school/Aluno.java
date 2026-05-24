@@ -23,15 +23,15 @@ public class Aluno {
 
     public Double cacularScore() {
         double riscoNota =
-                mediaGeral >= 70 ? 10 :
-                mediaGeral >= 50 ? 40 :
-                mediaGeral >= 30 ? 70 :
+                mediaGeral >= 80 ? 10 :
+                mediaGeral >= 60 ? 40 :
+                mediaGeral >= 40 ? 70 :
                 90;
 
         double riscoFreq =
-                frequencia >= 85 ? 10 :
-                frequencia >= 70 ? 40 :
-                frequencia >= 50 ? 70 :
+                frequencia >= 90 ? 10 :
+                frequencia >= 75 ? 40 :
+                frequencia >= 60 ? 70 :
                 90;
 
         return (riscoNota * 0.40) + (riscoFreq * 0.60);

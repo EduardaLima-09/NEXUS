@@ -56,7 +56,7 @@ public class AlunoDAO {
             stmt.close();
             conexao.close();
 
-            System.out.println("Todos os alunos inseridos!");
+            System.out.println("Todos os alunos inseridos!\n");
 
         } catch (Exception e) {
             e.printStackTrace();
