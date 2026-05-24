@@ -145,7 +145,7 @@
         senhaInput.classList.remove("input-error");
         emailInput.style.border = "";
         senhaInput.style.border = "";
-        erroDiv.innerHTML = "";
+        erroDiv.innerHTML = ""; // Limpa mas não será mais usada
 
         if (!email || !senha) {
             showAlert("warning", "Campos Obrigatórios", "Por favor, preencha email e senha.");
@@ -201,16 +201,17 @@
                 return;
             }
 
+            // Erro vindo do servidor (status != 200)
             const msg = await resposta.text();
-            showAlert("error", "Erro no Login", `Ocorreu um erro ao tentar fazer login: ${msg}`);
-            erroDiv.style.color = "red";
-            erroDiv.innerText = "Erro: " + msg;
+            showAlert("error", "Erro no Login", msg || "Email ou senha inválidos.");
+            // ❌ REMOVIDO: erroDiv.innerText = "Erro: " + msg;
+
         } catch (erro) {
             console.error(erro);
             hideLoader();
-            showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
-            erroDiv.style.color = "red";
-            erroDiv.innerText = "Não foi possível conectar ao servidor.";
+            showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor. Verifique sua internet e tente novamente.");
+            // ❌ REMOVIDO: erroDiv.style.color = "red";
+            // ❌ REMOVIDO: erroDiv.innerText = "Não foi possível conectar ao servidor.";
         }
     }
 
