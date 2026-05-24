@@ -1,5 +1,3 @@
-/* Leonardo arrumar a responsividade por favor, confere se está tudo OK */
-
 /* Fontes importadas */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
@@ -37,7 +35,7 @@ body {
 }
 
 .login_container {
-    width: 90%;
+    width: 60%;
     height: 90vh;
     display: flex;
     overflow: hidden;
@@ -78,15 +76,20 @@ body {
 }
 
 .lado_direito h1 {
-    font-size: 34px;
+    font-size: 26px !important;
     margin-bottom: 10px;
     font-family: var(--font-titulos);
 }
 
 .lado_direito p {
-    font-size: 16px;
+    font-size: 14px !important;
     margin-bottom: 20px;
     font-family: var(--font-subtitulos);
+}
+
+.logo {
+    width: 35%;
+    margin-bottom: 20px;
 }
 
 .lado_esquerdo {
@@ -97,7 +100,7 @@ body {
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    background-color: var(--cor-branco);
+    background-color: var(--cor-branco-puro);
 }
 
 .botao_de_voltar {
@@ -121,11 +124,10 @@ body {
     border-radius: 14px;
     flex-direction: column;
     background-color: var(--cor-branco-puro);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
 }
 
 .card-login h2 {
-    font-size: 26px;
+    font-size: 20px;
     margin-bottom: 20px;
     color: var(--cor--sidebar);
     font-family: var(--font-titulos);
