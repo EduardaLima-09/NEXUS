@@ -19,6 +19,11 @@ public class NotificacaoSlack extends Notificacao{
 
     @Override
     public void enviar() {
+        if (WEBHOOK_URL == null || WEBHOOK_URL.isBlank()) {
+            System.out.println("Webhook não configurado");
+            return;
+        }
+
         try {
             HttpClient client = HttpClient.newHttpClient();
 
@@ -26,29 +31,27 @@ public class NotificacaoSlack extends Notificacao{
 
             SlackDto dto = new SlackDto(mensagem);
 
-            // SERIALIZAÇÃO JSON
             String json = mapper.writeValueAsString(dto);
-            System.out.println(json);
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(WEBHOOK_URL)).header("Content-Type",
-                            "application/json"
+                    .uri(
+                         URI.create(WEBHOOK_URL)
+                    )
+                    .header(
+                         "Content-Type",
+                         "application/json"
                     )
                     .POST(
-                            HttpRequest.BodyPublishers.ofString(json)
-                    ).build();
+                         HttpRequest.BodyPublishers.ofString(json)
+                    )
+                    .build();
 
-            HttpResponse<String> response = client.send(
-                            request,
-                            HttpResponse.BodyHandlers.ofString()
+            client.send(
+                    request,
+                    HttpResponse.BodyHandlers.ofString()
             );
 
-            System.out.println("Slack status: " + response.statusCode());
-
-        } catch (
-                IOException |
-                InterruptedException e
-        ) {
+        } catch (IOException | InterruptedException e) {
             System.out.println("Erro ao enviar notificação Slack");
             e.printStackTrace();
         }

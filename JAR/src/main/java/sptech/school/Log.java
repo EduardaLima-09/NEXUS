@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 public class Log {
 
     private String dataHora;
-    private String status;
+    private StatusLog status;
     private String especificacao;
 
-    public Log(String status, String especificacao) {
+    public Log(StatusLog status, String especificacao) {
         DateTimeFormatter formatar = DateTimeFormatter.ofPattern( "'['dd/MM/yyyy HH:mm:ss']'" );
         this.dataHora = LocalDateTime.now().format(formatar);
         this.status = status;
@@ -20,7 +20,7 @@ public class Log {
         return dataHora;
     }
 
-    public String getStatus() {
+    public StatusLog getStatus() {
         return status;
     }
 

@@ -2,6 +2,7 @@ package sptech.school.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import sptech.school.Log;
+import sptech.school.StatusLog;
 
 public class LogDAO {
     private JdbcTemplate jdbcTemplate;

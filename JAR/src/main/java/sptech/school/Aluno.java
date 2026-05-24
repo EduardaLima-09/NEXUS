@@ -23,9 +23,9 @@ public class Aluno {
 
     public Double cacularScore() {
         double riscoNota =
-                mediaGeral >= 7 ? 10 :
-                mediaGeral >= 5 ? 40 :
-                mediaGeral >= 3 ? 70 :
+                mediaGeral >= 70 ? 10 :
+                mediaGeral >= 50 ? 40 :
+                mediaGeral >= 30 ? 70 :
                 90;
 
         double riscoFreq =
