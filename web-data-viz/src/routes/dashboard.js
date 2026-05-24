@@ -15,8 +15,8 @@ router.get("/top-cursos", function (req, res) {
     dashboardController.buscarTopCursos(req, res);
 });
 
-router.get("/turnos", function (req, res) {
-    dashboardController.buscarTurnos(req, res);
+router.get("/media-por-curso", function (req, res) {
+    dashboardController.buscarMediaPorCurso(req, res);
 });
 
 module.exports = router;

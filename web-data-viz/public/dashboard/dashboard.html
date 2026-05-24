@@ -61,22 +61,19 @@
                         <div class="cards" id="kpi-alunos">
                             <h3>Total de Alunos Ativos</h3>
                             <h1>-</h1>
-                            <div class="porcentagem">
-                            </div>
+                            <div class="porcentagem"></div>
                         </div>
 
                         <div class="cards" id="kpi-risco">
                             <h3>Alunos em Risco</h3>
                             <h1>-</h1>
-                            <div class="porcentagem">
-                            </div>
+                            <div class="porcentagem"></div>
                         </div>
 
                         <div class="cards" id="kpi-curso-risco">
                             <h3>Curso com Mais Alunos em Risco</h3>
                             <h1>-</h1>
-                            <div class="porcentagem">
-                            </div>
+                            <div class="porcentagem"></div>
                         </div>
                     </div>
 
@@ -98,8 +95,8 @@
                         </div>
 
                         <div class="metade2">
-                            <h3>Distribuição de alunos por turno</h3>
-                            <div class="chart-container g3" id="graficoPizza">
+                            <h3>Média de Notas por Curso</h3>
+                            <div class="chart-container g3" id="graficoMediaCurso">
                                 <canvas id="mychart3"></canvas>
                             </div>
                         </div>
@@ -116,23 +113,14 @@
     <div id="tour-overlay"></div>
     <div id="tour-seta">⬆</div>
     <div id="tour-card">
-
-        <div class="tour-contador" id="tour-contador">
-            Passo 1 de 6
-        </div>
-
+        <div class="tour-contador" id="tour-contador">Passo 1 de 6</div>
         <h3 id="tour-titulo">Título</h3>
-
-        <p id="tour-descricao">
-            Descrição aqui.
-        </p>
-
+        <p id="tour-descricao">Descrição aqui.</p>
         <div class="tour-btns">
             <button id="tour-btn-fechar">✕ Fechar</button>
             <button id="tour-btn-anterior">← Anterior</button>
             <button id="tour-btn-proximo">Próximo →</button>
         </div>
-
     </div>
 
     <script>
@@ -174,11 +162,8 @@
 
         })();
 
-
-        // Versão mais simples com IDs
         function setActiveMenu() {
             const currentPage = window.location.pathname.split("/").pop();
-
             if (currentPage === "dashboard.html" || currentPage === "") {
                 document.getElementById("btnDash")?.classList.add("active");
                 document.getElementById("btnPainel")?.classList.remove("active");
@@ -200,60 +185,48 @@
         let passoAtual = 0;
         let elementoAnterior = null;
 
-        const overlay = document.getElementById("tour-overlay");
-        const card = document.getElementById("tour-card");
-        const seta = document.getElementById("tour-seta");
-        const btnManual = document.getElementById("btn-manual");
+        const overlay    = document.getElementById("tour-overlay");
+        const card       = document.getElementById("tour-card");
+        const seta       = document.getElementById("tour-seta");
+        const btnManual  = document.getElementById("btn-manual");
         const tourTitulo = document.getElementById("tour-titulo");
-        const tourDesc = document.getElementById("tour-descricao");
-        const tourCount = document.getElementById("tour-contador");
+        const tourDesc   = document.getElementById("tour-descricao");
+        const tourCount  = document.getElementById("tour-contador");
         const btnProximo = document.getElementById("tour-btn-proximo");
-        const btnAnt = document.getElementById("tour-btn-anterior");
-        const btnFechar = document.getElementById("tour-btn-fechar");
+        const btnAnt     = document.getElementById("tour-btn-anterior");
+        const btnFechar  = document.getElementById("tour-btn-fechar");
 
         async function carregarTour() {
-
             try {
-
                 const resp = await fetch(API_MANUAL);
                 const data = await resp.json();
-                passos = data.passos;
+                passos     = data.passos;
                 passoAtual = 0;
                 iniciarTour();
-
             } catch (e) {
-
-                alert(
-                    "Erro ao conectar com o servidor Python (porta 4000). Verifique se o manual.py está rodando."
-                );
-
+                alert("Erro ao conectar com o servidor Python (porta 4000). Verifique se o manual.py está rodando.");
             }
-
         }
 
         function iniciarTour() {
             overlay.style.display = "block";
-            card.style.display = "block";
+            card.style.display    = "block";
             mostrarPasso(0);
         }
 
         function mostrarPasso(index) {
-
             if (elementoAnterior)
                 elementoAnterior.classList.remove("tour-highlight");
 
             const passo = passos[index];
-            const el = document.querySelector(passo.target);
+            const el    = document.querySelector(passo.target);
 
             tourTitulo.textContent = passo.titulo;
-            tourDesc.textContent = passo.descricao;
-            tourCount.textContent = `Passo ${index + 1} de ${passos.length}`;
+            tourDesc.textContent   = passo.descricao;
+            tourCount.textContent  = `Passo ${index + 1} de ${passos.length}`;
 
-            btnAnt.style.display =
-                index === 0 ? "none" : "inline-block";
-
-            btnProximo.textContent =
-                index === passos.length - 1 ? "✓ Concluir" : "Próximo →";
+            btnAnt.style.display   = index === 0 ? "none" : "inline-block";
+            btnProximo.textContent = index === passos.length - 1 ? "✓ Concluir" : "Próximo →";
 
             if (el) {
                 el.classList.add("tour-highlight");
@@ -261,55 +234,45 @@
                 posicionarCard(el, passo.posicao);
                 posicionarSeta(el, passo.posicao);
             }
-
         }
 
         function posicionarCard(el, posicao) {
-
-            const rect = el.getBoundingClientRect();
+            const rect   = el.getBoundingClientRect();
             const margem = 18;
-
             card.style.display = "block";
-
             if (posicao === "bottom") {
-                card.style.top = (rect.bottom + margem) + "px";
+                card.style.top  = (rect.bottom + margem) + "px";
                 card.style.left = Math.max(10, rect.left) + "px";
             } else if (posicao === "top") {
-                card.style.top =
-                    Math.max(10, rect.top - card.offsetHeight - margem) + "px";
+                card.style.top  = Math.max(10, rect.top - card.offsetHeight - margem) + "px";
                 card.style.left = Math.max(10, rect.left) + "px";
             } else if (posicao === "left") {
-                card.style.top = rect.top + "px";
+                card.style.top  = rect.top + "px";
                 card.style.left = Math.max(10, rect.left - 320 - margem) + "px";
             }
-
         }
 
         function posicionarSeta(el, posicao) {
-
-            const rect = el.getBoundingClientRect();
+            const rect  = el.getBoundingClientRect();
             const setas = { bottom: "⬆", top: "⬇", left: "➡" };
-
             seta.style.display = "block";
-            seta.textContent = setas[posicao] || "⬆";
-
+            seta.textContent   = setas[posicao] || "⬆";
             if (posicao === "bottom") {
-                seta.style.top = (rect.bottom + 2) + "px";
+                seta.style.top  = (rect.bottom + 2) + "px";
                 seta.style.left = (rect.left + rect.width / 2 - 15) + "px";
             } else if (posicao === "top") {
-                seta.style.top = (rect.top - 40) + "px";
+                seta.style.top  = (rect.top - 40) + "px";
                 seta.style.left = (rect.left + rect.width / 2 - 15) + "px";
             } else if (posicao === "left") {
-                seta.style.top = (rect.top + rect.height / 2 - 15) + "px";
+                seta.style.top  = (rect.top + rect.height / 2 - 15) + "px";
                 seta.style.left = (rect.left - 45) + "px";
             }
-
         }
 
         function fecharTour() {
             overlay.style.display = "none";
-            card.style.display = "none";
-            seta.style.display = "none";
+            card.style.display    = "none";
+            seta.style.display    = "none";
             if (elementoAnterior)
                 elementoAnterior.classList.remove("tour-highlight");
             elementoAnterior = null;
@@ -345,7 +308,7 @@
 
         let graficoLinha;
         let graficoBarra;
-        let graficoPizza;
+        let graficoMediaCurso;
 
         async function carregarDashboard() {
 
@@ -357,7 +320,7 @@
             await carregarKpis();
             await carregarGraficoMedia();
             await carregarTopCursos();
-            await carregarTurnos();
+            await carregarMediaPorCurso();
 
         }
 
@@ -421,55 +384,29 @@
                     type: "bar",
 
                     data: {
-
                         labels: labels,
-
                         datasets: [{
-
                             label: "Média Acadêmica",
-
                             data: medias,
-
                             backgroundColor: "rgba(70, 129, 166, 0.7)",
-
                             borderColor: "#012340",
-
                             borderWidth: 2
-
                         }]
-
                     },
 
                     options: {
-
                         responsive: true,
-
                         maintainAspectRatio: false,
-
                         plugins: {
-
-                            legend: {
-                                display: true
-                            }
-
+                            legend: { display: true }
                         },
-
                         scales: {
-
                             y: {
-
                                 min: 0,
-
                                 max: 10,
-
-                                ticks: {
-                                    stepSize: 2
-                                }
-
+                                ticks: { stepSize: 2 }
                             }
-
                         }
-
                     }
 
                 });
@@ -500,7 +437,7 @@
                     return;
                 }
 
-                const labels = dados.map(item => item.nome);
+                const labels  = dados.map(item => item.nome);
                 const valores = dados.map(item => item.quantidade);
 
                 const ctx2 = document.getElementById("mychart2");
@@ -510,47 +447,25 @@
                     type: "bar",
 
                     data: {
-
                         labels: labels,
-
                         datasets: [{
-
                             label: "Quantidade de alunos",
-
                             data: valores,
-
                             backgroundColor: ["#164773"],
-
                             borderWidth: 1
-
                         }]
-
                     },
 
                     options: {
-
                         responsive: true,
-
                         maintainAspectRatio: false,
-
                         indexAxis: "y",
-
                         plugins: {
-
-                            legend: {
-                                display: true
-                            }
-
+                            legend: { display: true }
                         },
-
                         scales: {
-
-                            x: {
-                                beginAtZero: true
-                            }
-
+                            x: { beginAtZero: true }
                         }
-
                     }
 
                 });
@@ -561,114 +476,73 @@
 
         }
 
-        async function carregarTurnos() {
+        async function carregarMediaPorCurso() {
 
             try {
 
                 const resposta = await fetch(
-                    `/dashboard/turnos?fkUniversidade=${fkUniversidade}`
+                    `/dashboard/media-por-curso?fkUniversidade=${fkUniversidade}`
                 );
 
                 if (!resposta.ok) {
-                    console.error("Erro ao buscar turnos:", await resposta.text());
+                    console.error("Erro ao buscar média por curso:", await resposta.text());
                     return;
                 }
 
                 const dados = await resposta.json();
 
+                if (!Array.isArray(dados)) {
+                    console.error("Resposta inesperada em media-por-curso:", dados);
+                    return;
+                }
+
+                const labels = dados.map(item => item.nome);
+                const medias = dados.map(item => item.media);
+
                 const ctx3 = document.getElementById("mychart3");
 
-                graficoPizza = new Chart(ctx3, {
+                graficoMediaCurso = new Chart(ctx3, {
 
-                    type: "doughnut",
+                    type: "bar",
 
                     data: {
-
-                        labels: ["Manhã", "Tarde", "Noite", "EAD"],
-
+                        labels: labels,
                         datasets: [{
-
-                            data: [
-                                dados.manha || 0,
-                                dados.tarde || 0,
-                                dados.noite || 0,
-                                dados.ead || 0
-                            ],
-
+                            label: "Média de Notas",
+                            data: medias,
                             backgroundColor: [
                                 "#012340",
+                                "#164773",
                                 "#4681A6",
                                 "#8AB4A1",
-                                "#164773"
+                                "#D9D9D9",
+                                "#3f3f3f"
                             ],
-
-                            borderColor: "#ffffff",
-
-                            borderWidth: 3
-
+                            borderWidth: 1
                         }]
-
                     },
 
                     options: {
-
                         responsive: true,
-
                         maintainAspectRatio: false,
-
-                        cutout: "50%",
-
                         plugins: {
-
-                            legend: {
-
-                                position: "bottom",
-
-                                labels: {
-
-                                    generateLabels: function (chart) {
-
-                                        const original =
-                                            Chart.overrides
-                                                .doughnut
-                                                .plugins
-                                                .legend
-                                                .labels
-                                                .generateLabels;
-
-                                        const labels = original(chart);
-
-                                        labels.forEach(label => {
-                                            label.lineWidth = 0;
-                                        });
-
-                                        return labels;
-
-                                    }
-
-                                }
-
-                            },
-
-                            tooltip: {
-                                callbacks: {
-                                    label: function (context) {
-                                        return `${context.label}: ${context.raw}%`;
-                                    }
-                                }
-                            },
-
+                            legend: { display: false },
                             datalabels: {
                                 color: "#ffffff",
                                 font: {
                                     weight: "bold",
-                                    size: 14
+                                    size: 12
                                 },
-                                formatter: (value) => value + "%"
+                                formatter: (value) => value
                             }
-
+                        },
+                        scales: {
+                            y: {
+                                min: 0,
+                                max: 10,
+                                ticks: { stepSize: 2 }
+                            }
                         }
-
                     },
 
                     plugins: [ChartDataLabels]
@@ -676,7 +550,7 @@
                 });
 
             } catch (erro) {
-                console.error("Erro inesperado em carregarTurnos:", erro);
+                console.error("Erro inesperado em carregarMediaPorCurso:", erro);
             }
 
         }

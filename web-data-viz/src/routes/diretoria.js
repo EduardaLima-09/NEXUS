@@ -14,12 +14,12 @@ router.get("/listar", function (req, res) {
     diretoriaController.listar(req, res);
 });
 
-router.put("/editar/:id", function (req, res) {
-    diretoriaController.editar(req, res);
+router.put("/atualizar/:id", function (req, res) {
+    diretoriaController.atualizar(req, res);
 });
 
-router.delete("/excluir/:id", function (req, res) {
-    diretoriaController.excluir(req, res);
+router.delete("/deletar/:id", function (req, res) {
+    diretoriaController.deletar(req, res);
 });
 
 router.get("/alunos/listar", function (req, res) {

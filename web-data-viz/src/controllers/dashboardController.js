@@ -57,7 +57,7 @@ function buscarTopCursos(req, res) {
 
 }
 
-function buscarTurnos(req, res) {
+function buscarMediaPorCurso(req, res) {
 
     var fkUniversidade = req.query.fkUniversidade;
 
@@ -65,9 +65,9 @@ function buscarTurnos(req, res) {
         return res.status(400).send("fkUniversidade está undefined!");
     }
 
-    dashboardModel.buscarTurnos(fkUniversidade)
+    dashboardModel.buscarMediaPorCurso(fkUniversidade)
         .then(function (resultado) {
-            res.status(200).json(resultado[0]);
+            res.status(200).json(resultado);
         })
         .catch(function (erro) {
             console.log(erro);
@@ -80,5 +80,5 @@ module.exports = {
     buscarKpis,
     buscarGraficoMedia,
     buscarTopCursos,
-    buscarTurnos
+    buscarMediaPorCurso
 };

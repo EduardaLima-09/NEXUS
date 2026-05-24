@@ -184,666 +184,685 @@
     </div>
 
     <script>
-        const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
-        const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
-        const fkUniversidade = sessionStorage.getItem("FK_UNIVERSIDADE");
+       const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
+const fkUniversidade = sessionStorage.getItem("FK_UNIVERSIDADE");
 
-        if (cargoUsuario && cargoUsuario !== "Coordenador") {
-            window.location.href = "../login.html";
-        }
+if (cargoUsuario && cargoUsuario !== "Coordenador") {
+    window.location.href = "../login.html";
+}
 
-        document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
-        document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario || "Coordenador";
+document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
+document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario || "Coordenador";
 
-        // VARIÁVEIS GLOBAIS
-        let abaAtual = "usuarios";
-        let todosUsuarios = [];
-        let todosAlunos = [];
-        let todosCursos = [];
-        let todasMetas = [];
-        let registroEditandoId = null;
-        let modoModal = "adicionar";
+let abaAtual = "usuarios";
+let todosUsuarios = [];
+let todosAlunos = [];
+let todosCursos = [];
+let todasMetas = [];
+let registroEditandoId = null;
+let modoModal = "adicionar";
 
-        // NAVEGAÇÃO
-        function goDash() {
-            window.location.href = "dashboard.html";
-        }
+function goDash() {
+    window.location.href = "dashboard.html";
+}
 
-        function goPainel() {
-            window.location.href = "painel.html";
-        }
+function goPainel() {
+    window.location.href = "painel.html";
+}
 
-        function goHome() {
-            sessionStorage.clear();
-            window.location.href = "../index.html";
-        }
+function goHome() {
+    sessionStorage.clear();
+    window.location.href = "../index.html";
+}
 
-        function toggleMenu() {
-            document.getElementById("menuLateral").classList.toggle("aberto");
-        }
+function toggleMenu() {
+    document.getElementById("menuLateral").classList.toggle("aberto");
+}
 
-        // MENU ATIVO
-        function setActiveMenu() {
-            const currentPage = window.location.pathname.split("/").pop();
-            if (currentPage === "dashboard.html" || currentPage === "") {
-                document.getElementById("btnDash")?.classList.add("active");
-                document.getElementById("btnPainel")?.classList.remove("active");
-            } else if (currentPage === "painel.html") {
-                document.getElementById("btnPainel")?.classList.add("active");
-                document.getElementById("btnDash")?.classList.remove("active");
-            }
-        }
-        document.addEventListener("DOMContentLoaded", setActiveMenu);
+function setActiveMenu() {
+    const currentPage = window.location.pathname.split("/").pop();
+    if (currentPage === "dashboard.html" || currentPage === "") {
+        document.getElementById("btnDash")?.classList.add("active");
+        document.getElementById("btnPainel")?.classList.remove("active");
+    } else if (currentPage === "painel.html") {
+        document.getElementById("btnPainel")?.classList.add("active");
+        document.getElementById("btnDash")?.classList.remove("active");
+    }
+}
+document.addEventListener("DOMContentLoaded", setActiveMenu);
 
-        // ABAS
-        function mostrarTabela(tipo, botaoClicado) {
-            abaAtual = tipo;
-            document.querySelectorAll(".secao-tabela").forEach(secao => {
-                secao.classList.remove("ativa-tabela");
-            });
-            document.getElementById(tipo).classList.add("ativa-tabela");
-            document.querySelectorAll(".aba-btn").forEach(botao => {
-                botao.classList.remove("ativa");
-            });
-            botaoClicado.classList.add("ativa");
-            if (tipo === "usuarios") carregarUsuarios();
-            if (tipo === "alunos") carregarAlunos();
-            if (tipo === "cursos") carregarCursos();
-            if (tipo === "metas") carregarMetas();
-        }
+function mostrarTabela(tipo, botaoClicado) {
+    abaAtual = tipo;
+    document.querySelectorAll(".secao-tabela").forEach(secao => {
+        secao.classList.remove("ativa-tabela");
+    });
+    document.getElementById(tipo).classList.add("ativa-tabela");
+    document.querySelectorAll(".aba-btn").forEach(botao => {
+        botao.classList.remove("ativa");
+    });
+    botaoClicado.classList.add("ativa");
+    if (tipo === "usuarios") carregarUsuarios();
+    if (tipo === "alunos")   carregarAlunos();
+    if (tipo === "cursos")   carregarCursos();
+    if (tipo === "metas")    carregarMetas();
+}
 
-        // MODAL
-        function abrirModal(modo, dados) {
-            modoModal = modo;
-            registroEditandoId = dados ? (dados.id || dados.RA) : null;
-            const camposModal = document.getElementById("camposModal");
-            const tituloModal = document.getElementById("tituloModal");
-            camposModal.innerHTML = "";
+// ── MODAL ────────────────────────────────────────────────────────────────────
 
-            // USUÁRIOS
-            if (abaAtual === "usuarios") {
-                tituloModal.innerText = modo === "editar" ? "Editar Usuário" : "Adicionar Novo Usuário";
-                camposModal.innerHTML = `
-                    <input type="text" id="nomeUsuarioInput" placeholder="Ex: João" value="${dados ? dados.nome : ''}">
-                    <input type="text" id="sobrenomeUsuarioInput" placeholder="Ex: Silva" value="${dados ? (dados.sobrenome !== '-' ? dados.sobrenome : '') : ''}">
-                    <input type="email" id="emailUsuarioInput" placeholder="exemplo@email.com" value="${dados ? dados.email : ''}">
-                    ${modo === "adicionar" ? `
-                        <input type="password" id="senhaUsuario" placeholder="Senha">
-                        <input type="text" id="tokenUsuario" placeholder="Token da universidade" maxlength="6">
-                    ` : ""}
-                `;
-            }
-            // ALUNOS
-            else if (abaAtual === "alunos") {
-                tituloModal.innerText = modo === "editar" ? "Editar Aluno" : "Adicionar Novo Aluno";
-                const sexoValor = dados ? dados.sexo : "";
-                camposModal.innerHTML = `
-                    <input type="text" id="nomeAlunoInput" placeholder="Ex: João" value="${dados ? dados.nome : ''}">
-                    <input type="text" id="sobrenomeAlunoInput" placeholder="Ex: Silva" value="${dados ? dados.sobrenome : ''}">
-                    <input type="text" id="cpfAlunoInput" placeholder="000.000.000-00" value="${dados ? dados.cpf : ''}">
-                    <select id="sexoAlunoInput">
-                        <option value="">Selecione o Sexo</option>
-                        <option value="M" ${sexoValor === "M" || sexoValor === "Masculino" ? "selected" : ""}>Masculino</option>
-                        <option value="F" ${sexoValor === "F" || sexoValor === "Feminino" ? "selected" : ""}>Feminino</option>
-                    </select>
-                    <input type="email" id="emailAlunoInput" placeholder="exemplo@email.com" value="${dados ? dados.email : ''}">
-                `;
-            }
-            // CURSOS
-            else if (abaAtual === "cursos") {
-                tituloModal.innerText = modo === "editar" ? "Editar Curso" : "Adicionar Novo Curso";
-                camposModal.innerHTML = `
-                    <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome do Curso</label>
-                    <select id="nomeCursoInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
-                        <option value="">Selecione o curso</option>
-                        <option value="Negócios" ${dados && dados.nome === "Negócios" ? "selected" : ""}>Negócios</option>
-                        <option value="Matemática" ${dados && dados.nome === "Matemática" ? "selected" : ""}>Matemática</option>
-                        <option value="Engenharia" ${dados && dados.nome === "Engenharia" ? "selected" : ""}>Engenharia</option>
-                        <option value="Ciências da Computação" ${dados && dados.nome === "Ciências da Computação" ? "selected" : ""}>Ciências da Computação</option>
-                    </select>
-                `;
-            }
-            // METAS
-            else if (abaAtual === "metas") {
-                tituloModal.innerText = modo === "editar" ? "Editar Meta" : "Adicionar Nova Meta";
-                camposModal.innerHTML = `
-                    <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome da Meta</label>
-                    <input type="text" id="metaInput" placeholder="Ex: Melhorar notas em cálculo" value="${dados ? dados.meta : ''}" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
-                    
-                    <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nível de Risco</label>
-                    <select id="categoriaMetaInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
-                        <option value="">Selecione o nível de risco</option>
-                        <option value="Risco Baixo" ${dados && dados.categoria === "Risco Baixo" ? "selected" : ""}>Risco Baixo</option>
-                        <option value="Risco Médio" ${dados && dados.categoria === "Risco Médio" ? "selected" : ""}>Risco Médio</option>
-                        <option value="Risco Alto" ${dados && dados.categoria === "Risco Alto" ? "selected" : ""}>Risco Alto</option>
-                    </select>
+function abrirModal(modo, dados) {
+    modoModal = modo;
+    registroEditandoId = dados ? (dados.id || dados.RA) : null;
+    const camposModal = document.getElementById("camposModal");
+    const tituloModal = document.getElementById("tituloModal");
+    camposModal.innerHTML = "";
 
-                    <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Curso</label>
-                    <select id="cursoMetaInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
-                        <option value="">Selecione o curso</option>
-                        ${todosCursos.map(curso =>`
-                            <option value="${curso.id}">
-                                ${curso.nome}
-                            </option>
-                        `).join("")}
-                    </select>
-                    
-                    <div class="campo-porcentagem">
-                        <label for="porcentagemMetaInput" style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Porcentagem de conclusão:</label>
-                        <input type="range" id="porcentagemMetaInput" min="0" max="100" value="${dados ? parseInt(dados.porcentagem) : 0}" oninput="this.nextElementSibling.value = this.value + '%'" style="width: 100%;">
-                        <output style="display: block; text-align: center; margin-top: 8px; font-weight: bold; color: #4681A6;">${dados ? dados.porcentagem : "0"}</output>
-                    </div>
-                `;
-            }
-            document.getElementById("modalUsuario").style.display = "flex";
-        }
+    if (abaAtual === "usuarios") {
+        tituloModal.innerText = modo === "editar" ? "Editar Usuário" : "Adicionar Novo Usuário";
+        camposModal.innerHTML = `
+            <input type="text" id="nomeUsuarioInput" placeholder="Ex: João" value="${dados ? dados.nome : ''}">
+            <input type="text" id="sobrenomeUsuarioInput" placeholder="Ex: Silva" value="${dados ? (dados.sobrenome !== '-' ? dados.sobrenome : '') : ''}">
+            <input type="email" id="emailUsuarioInput" placeholder="exemplo@email.com" value="${dados ? dados.email : ''}">
+            ${modo === "adicionar" ? `
+                <input type="password" id="senhaUsuario" placeholder="Senha">
+                <input type="text" id="tokenUsuario" placeholder="Token da universidade" maxlength="6">
+            ` : ""}
+        `;
+    }
 
-        function fecharModal() {
-            document.getElementById("modalUsuario").style.display = "none";
-            registroEditandoId = null;
-            modoModal = "adicionar";
-        }
+    else if (abaAtual === "alunos") {
+        tituloModal.innerText = modo === "editar" ? "Editar Aluno" : "Adicionar Novo Aluno";
+        const sexoValor = dados ? dados.sexo : "";
+        camposModal.innerHTML = `
+            <input type="text" id="nomeAlunoInput" placeholder="Ex: João" value="${dados ? dados.nome : ''}">
+            <input type="text" id="sobrenomeAlunoInput" placeholder="Ex: Silva" value="${dados ? dados.sobrenome : ''}">
+            <input type="text" id="cpfAlunoInput" placeholder="000.000.000-00" value="${dados ? dados.cpf : ''}">
+            <select id="sexoAlunoInput">
+                <option value="">Selecione o Sexo</option>
+                <option value="M" ${sexoValor === "M" || sexoValor === "Masculino" ? "selected" : ""}>Masculino</option>
+                <option value="F" ${sexoValor === "F" || sexoValor === "Feminino" ? "selected" : ""}>Feminino</option>
+            </select>
+            <input type="email" id="emailAlunoInput" placeholder="exemplo@email.com" value="${dados ? dados.email : ''}">
+        `;
+    }
 
-        function validarEmail(email) {
-            return email.includes("@") && email.includes(".");
-        }
+    else if (abaAtual === "cursos") {
+        tituloModal.innerText = modo === "editar" ? "Editar Curso" : "Adicionar Novo Curso";
+        camposModal.innerHTML = `
+            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome do Curso</label>
+            <select id="nomeCursoInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                <option value="">Selecione o curso</option>
+                <option value="Negócios" ${dados && dados.nome === "Negócios" ? "selected" : ""}>Negócios</option>
+                <option value="Matemática" ${dados && dados.nome === "Matemática" ? "selected" : ""}>Matemática</option>
+                <option value="Engenharia" ${dados && dados.nome === "Engenharia" ? "selected" : ""}>Engenharia</option>
+                <option value="Ciências da Computação" ${dados && dados.nome === "Ciências da Computação" ? "selected" : ""}>Ciências da Computação</option>
+            </select>
+        `;
+    }
 
-        // USUÁRIOS
-        async function carregarUsuarios() {
-            if (!fkUniversidade) return;
-            try {
-                const resposta = await fetch(`/diretoria/listar?fkUniversidade=${fkUniversidade}`);
-                const tbody = document.getElementById("usuariosTabelaBody");
-                if (!resposta.ok) {
-                    tbody.innerHTML = `<tr><td colspan="6">Não foi possível carregar os usuários.</td></tr>`;
-                    return;
-                }
-                todosUsuarios = await resposta.json();
-                renderizarUsuarios(todosUsuarios);
-            } catch (erro) {
-                console.error(erro);
-            }
-        }
+    else if (abaAtual === "metas") {
+        tituloModal.innerText = modo === "editar" ? "Editar Meta" : "Adicionar Nova Meta";
+        camposModal.innerHTML = `
+            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome da Meta</label>
+            <input type="text" id="metaInput" placeholder="Ex: Melhorar notas em cálculo" value="${dados ? dados.meta : ''}" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
 
-        function renderizarUsuarios(usuarios) {
-            const tbody = document.getElementById("usuariosTabelaBody");
-            if (usuarios.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6">Nenhum usuário encontrado.</td></tr>`;
-                return;
-            }
-            tbody.innerHTML = usuarios.map(function (usuario) {
-                const nomeCompleto = `${usuario.nome} ${usuario.sobrenome && usuario.sobrenome !== "-" ? usuario.sobrenome : ""}`.trim();
-                return `
-                    <tr>
-                        <td>${nomeCompleto}</td>
-                        <td>${usuario.email}</td>
-                        <td>${usuario.token}</td>
-                        <td>${usuario.cargo}</td>
-                        <td><button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(usuario).replace(/"/g, '&quot;')})"><span class="material-icons">edit</span></button></td>
-                        <td><button class="btn-excluir" onclick="abrirExcluirModal('usuario', ${usuario.id})"><span class="material-icons">delete</span></button></td>
-                    </tr>
-                `;
-            }).join("");
-        }
+            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nível de Risco</label>
+            <select id="categoriaMetaInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                <option value="">Selecione o nível de risco</option>
+                <option value="Risco Baixo" ${dados && dados.categoria === "Risco Baixo" ? "selected" : ""}>Risco Baixo</option>
+                <option value="Risco Médio" ${dados && dados.categoria === "Risco Médio" ? "selected" : ""}>Risco Médio</option>
+                <option value="Risco Alto" ${dados && dados.categoria === "Risco Alto" ? "selected" : ""}>Risco Alto</option>
+            </select>
 
-        function filtrarUsuarios() {
-            const texto = document.getElementById("pesquisaUsuariosPainel").value.toLowerCase();
-            const filtrados = todosUsuarios.filter(function (usuario) {
-                return usuario.nome.toLowerCase().includes(texto) || usuario.email.toLowerCase().includes(texto) || usuario.cargo.toLowerCase().includes(texto);
-            });
-            renderizarUsuarios(filtrados);
-        }
+            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Curso</label>
+            <select id="cursoMetaInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+                <option value="">Selecione o curso</option>
+                ${todosCursos.map(curso => `<option value="${curso.id}">${curso.nome}</option>`).join("")}
+            </select>
 
-        // ALUNOS
-        async function carregarAlunos() {
-            if (!fkUniversidade) return;
-            try {
-                const resposta = await fetch(`/diretoria/alunos/listar?fkUniversidade=${fkUniversidade}`);
-                if (!resposta.ok) return;
-                todosAlunos = await resposta.json();
-                renderizarAlunos(todosAlunos);
-            } catch (erro) {
-                console.error(erro);
-            }
-        }
+            <div class="campo-porcentagem">
+                <label for="porcentagemMetaInput" style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Porcentagem de conclusão:</label>
+                <input type="range" id="porcentagemMetaInput" min="0" max="100" value="${dados ? parseInt(dados.porcentagem) : 0}" oninput="this.nextElementSibling.value = this.value + '%'" style="width: 100%;">
+                <output style="display: block; text-align: center; margin-top: 8px; font-weight: bold; color: #4681A6;">${dados ? dados.porcentagem : "0"}</output>
+            </div>
+        `;
+    }
 
-        function renderizarAlunos(alunos) {
-            const tbody = document.getElementById("alunosTabelaBody");
-            if (alunos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8">Nenhum aluno encontrado.</td></tr>`;
-                return;
-            }
-            tbody.innerHTML = alunos.map(function (aluno) {
-                return `
-                    <tr>
-                        <td>${aluno.nome}</td>
-                        <td>${aluno.sobrenome}</td>
-                        <td>${aluno.cpf}</td>
-                        <td>${aluno.sexo}</td>
-                        <td>${aluno.email}</td>
-                        <td>${aluno.curso || "-"}</td>
-                        <td><button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(aluno).replace(/"/g, '&quot;')})"><span class="material-icons">edit</span></button></td>
-                        <td><button class="btn-excluir" onclick="abrirExcluirModal('aluno', ${aluno.RA})"><span class="material-icons">delete</span></button></td>
-                    </tr>
-                `;
-            }).join("");
-        }
+    document.getElementById("modalUsuario").style.display = "flex";
+}
 
-        function filtrarAlunos() {
-            const texto = document.getElementById("pesquisaAlunosPainel").value.toLowerCase();
-            const filtrados = todosAlunos.filter(function (aluno) {
-                return aluno.nome.toLowerCase().includes(texto) || aluno.sobrenome.toLowerCase().includes(texto) || aluno.email.toLowerCase().includes(texto) || (aluno.curso || "").toLowerCase().includes(texto);
-            });
-            renderizarAlunos(filtrados);
-        }
+function fecharModal() {
+    document.getElementById("modalUsuario").style.display = "none";
+    registroEditandoId = null;
+    modoModal = "adicionar";
+}
 
-        // CURSOS
-        async function carregarCursos() {
-            if (!fkUniversidade) return;
-            try {
-                const resposta = await fetch(`/cursos/listar?fkUniversidade=${fkUniversidade}`);
-                if (!resposta.ok) return;
-                todosCursos = await resposta.json();
-                renderizarCursos(todosCursos);
-            } catch (erro) {
-                console.error(erro);
-            }
-        }
+function validarEmail(email) {
+    return email.includes("@") && email.includes(".");
+}
 
-        function renderizarCursos(cursos) {
-            const tbody = document.getElementById("cursosTabelaBody");
-            if (cursos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3">Nenhum curso encontrado.</td></tr>`;
-                return;
-            }
-            tbody.innerHTML = cursos.map(function (curso) {
-                return `
-                    <tr>
-                        <td>${curso.nome}</td>
-                        <td><button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(curso).replace(/"/g, '&quot;')})"><span class="material-icons">edit</span></button></td>
-                        <td><button class="btn-excluir" onclick="abrirExcluirModal('curso', ${curso.id})"><span class="material-icons">delete</span></button></td>
-                    </tr>
-                `;
-            }).join("");
-        }
+// ── SALVAR ───────────────────────────────────────────────────────────────────
 
-        function filtrarCursos() {
-            const texto = document.getElementById("pesquisaCursosPainel").value.toLowerCase();
-            const filtrados = todosCursos.filter(function (curso) {
-                return curso.nome.toLowerCase().includes(texto);
-            });
-            renderizarCursos(filtrados);
-        }
+async function salvarRegistro() {
 
-        // METAS
-        async function carregarMetas() {
-            
-            try {
+    if (abaAtual === "usuarios") {
 
-                const resposta = await fetch(`/metas/listar?fkUniversidade=${fkUniversidade}`);
+        const nome      = document.getElementById("nomeUsuarioInput").value.trim();
+        const sobrenome = document.getElementById("sobrenomeUsuarioInput").value.trim();
+        const email     = document.getElementById("emailUsuarioInput").value.trim();
 
-                if(!resposta.ok) return;
+        if (!nome || !email) { alert("Preencha todos os campos obrigatórios!"); return; }
+        if (!validarEmail(email)) { alert("Email inválido!"); return; }
 
-                todasMetas = await resposta.json();
+        try {
 
-                renderizarMetas(
-                    todasMetas.map(meta => ({
-                        id: meta.id,
-                        meta: meta.nome,
-                        categoria: meta.categoria,
-                        porcentagem: `${meta.porcentagem}%`,
-                        curso: meta.curso
-                    }))
+            if (modoModal === "editar") {
+
+                const resposta = await fetch(
+                    `/diretoria/atualizar/${registroEditandoId}?fkUniversidade=${fkUniversidade}`,
+                    {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            nome,
+                            sobrenome: sobrenome || "-",
+                            email,
+                            cargo: "Coordenador"
+                        })
+                    }
                 );
 
-            } catch(erro){
-
-                console.error(erro);
-            }
-        }
-
-        function renderizarMetas(metas) {
-            const tbody = document.getElementById("metasTabelaBody");
-            if (metas.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5">Nenhuma meta encontrada.</td></tr>`;
-                return;
-            }
-            tbody.innerHTML = metas.map(function (meta) {
-                const valorPorcentagem = parseInt(meta.porcentagem);
-                let corPorcentagem = "inherit";
-                
-                if (valorPorcentagem === 100) { 
-                    corPorcentagem = "#48bb78";
-                } else if (valorPorcentagem >= 75) { 
-                    corPorcentagem = "#ed8936";
-                } else if (valorPorcentagem >= 50) { 
-                    corPorcentagem = "#4299e1";
+                if (resposta.ok) {
+                    alert("Usuário atualizado com sucesso.");
+                } else {
+                    alert("Erro ao atualizar: " + await resposta.text());
                 }
 
-                let corRisco = "#27ae60";
-                if (meta.categoria === "Risco Médio") { 
-                    corRisco = "#f39c12"; 
-                } else if (meta.categoria === "Risco Alto") { 
-                    corRisco = "#e74c3c"; 
-                }
+            } else {
 
-                return `
-                    <tr>
-                        <td>${meta.meta}</td>
-                        <td style="color: ${corRisco}; font-weight: bold;">${meta.categoria}</td>
-                        <td style="color: ${corPorcentagem}; font-weight: bold;">${meta.porcentagem}</td>
-                        <td>${meta.curso}</td>
-                        <td><button class="btn-editar" onclick='abrirModal("editar", ${JSON.stringify(meta).replace(/'/g, "&#39;")})'><span class="material-icons">edit</span></button></td>
-                        <td><button class="btn-excluir" onclick="abrirExcluirModal('meta', ${meta.id})"><span class="material-icons">delete</span></button></td>
-                    </tr>
-                `;
-            }).join("");
-        }
+                const token = document.getElementById("tokenUsuario").value.trim().toUpperCase();
+                const senha = document.getElementById("senhaUsuario").value.trim();
 
-        function filtrarMetas() {
-            const texto = document.getElementById("pesquisaMetasPainel").value.toLowerCase();
-            const filtradas = todasMetas.filter(function (meta) {
-                return meta.meta.toLowerCase().includes(texto) || meta.categoria.toLowerCase().includes(texto);
-            });
-            renderizarMetas(filtradas);
-        }
+                if (!token || !senha) { alert("Preencha todos os campos."); return; }
+                if (token.length !== 6) { alert("O token deve ter 6 caracteres."); return; }
 
-        async function deletarMeta(id) {
-            try {
-                todasMetas = todasMetas.filter(meta => meta.id !== id);
-                renderizarMetas(todasMetas);
-                alert("Meta excluída com sucesso!");
-            } catch (erro) {
-                console.error("Erro ao deletar meta:", erro);
-                alert("Erro ao excluir meta. Tente novamente.");
-            }
-        }
-
-        document.getElementById("pesquisaUsuariosPainel")?.addEventListener("input", filtrarUsuarios);
-        document.getElementById("pesquisaCursosPainel")?.addEventListener("input", filtrarCursos);
-        carregarUsuarios();
-
-        // EXCLUSÃO
-        let itemParaExcluir = null;
-        let tipoExclusao = null;
-
-        function abrirExcluirModal(tipo, id) {
-            tipoExclusao = tipo;
-            itemParaExcluir = id;
-            const textoExcluir = document.getElementById("textoExcluir");
-            switch (tipo) {
-                case "usuario": textoExcluir.innerText = "Tem certeza que deseja excluir este usuário?"; break;
-                case "aluno": textoExcluir.innerText = "Tem certeza que deseja excluir este aluno?"; break;
-                case "curso": textoExcluir.innerText = "Tem certeza que deseja excluir este curso?"; break;
-                case "meta": textoExcluir.innerText = "Tem certeza que deseja excluir esta meta?"; break;
-            }
-            document.getElementById("modalExcluir").style.display = "flex";
-        }
-
-        function fecharExcluirModal() {
-            document.getElementById("modalExcluir").style.display = "none";
-            itemParaExcluir = null;
-            tipoExclusao = null;
-        }
-
-        async function deletarUsuario(id) {
-            
-            try {
-                const resposta = await fetch(`/diretoria/excluir/${id}`, {
-                    method: "DELETE"
+                const resposta = await fetch("/diretoria/cadastrar", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        nomeServer:      nome,
+                        sobrenomeServer: sobrenome || "-",
+                        emailServer:     email,
+                        tokenServer:     token,
+                        senhaServer:     senha,
+                        cargoServer:     "Coordenador"
+                    })
                 });
 
-                if(resposta.ok){
-                    alert("Usuário deletado");
-                    carregarUsuarios();
+                if (resposta.status === 201) {
+                    alert("Usuário cadastrado com sucesso.");
                 } else {
-                    alert("Erro ao excluir usuário");
+                    alert("Erro ao cadastrar: " + await resposta.text());
                 }
-            } catch (erro){
-                console.error(erro);
+
             }
-        }
 
-        async function deletarAluno(id) {
-            console.log(`Deletando aluno ${id}`);
-            await carregarAlunos();
-        }
-
-        async function deletarCurso(id) {
-            
-            try {
-                const resposta = await fetch(`/cursos/excluir/${id}`,{
-                    method: "DELETE"
-                });
-
-                if (resposta.ok){
-                    alert("Curso deletado");
-                    carregarCursos();
-                } else {
-                    alert("Erro ao excluir curso");
-                }
-            } catch (erro){
-                console.error(erro);
-            }
-        }
-
-        async function confirmarExclusao() {
-            if (!itemParaExcluir) return;
-            if (tipoExclusao === "usuario") await deletarUsuario(itemParaExcluir);
-            else if (tipoExclusao === "aluno") await deletarAluno(itemParaExcluir);
-            else if (tipoExclusao === "curso") await deletarCurso(itemParaExcluir);
-            else if (tipoExclusao === "meta") await deletarMeta(itemParaExcluir);
-            fecharExcluirModal();
-        }
-
-        // SALVAR REGISTRO
-        async function salvarRegistro() {
-            if (abaAtual === "usuarios") {
-                const nome = document.getElementById("nomeUsuarioInput").value;
-                const sobrenome = document.getElementById("sobrenomeUsuarioInput").value;
-                const email = document.getElementById("emailUsuarioInput").value;
-                
-                if (!nome || !email) { alert("Preencha todos os campos obrigatórios!"); return; }
-                if (!validarEmail(email)) { alert("Email inválido!"); return; }
-                
-                try {
-                    if (modoModal === "editar"){
-
-                        const resposta = await fetch(`/diretoria/editar/${registroEditandoId}`, {
-                            method: "PUT",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                nomeServer: nome,
-                                sobrenomeServer: sobrenome,
-                                emailServer: email
-                            })
-                        });
-
-                        if (resposta.ok){
-                            alert("Usuário atualizado");
-                        } else {
-                            alert("Erro ao atualizar")
-                        }
-                    }
-
-
-                    else {
-
-                        const token = document.getElementById("tokenUsuario").value;
-                        const senha = document.getElementById("senhaUsuario").value;
-
-                        if (!token || !senha){
-                            alert("Preencha todos os campos");
-                            return;
-                        }
-
-                        const resposta = await fetch("/diretoria/cadastrar",{
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                nomeServer: nome,
-                                sobrenomeServer: sobrenome,
-                                emailServer: email,
-                                tokenServer: token.trim().toUpperCase(),
-                                senhaServer: senha
-                            })
-                        });
-
-                        if (resposta.ok){
-                            alert("Usuário cadastrado");
-                        } else {
-                            alert("Erro ao cadastrar");
-                        }
-                    }
-
-                    fecharModal();
-                    carregarUsuarios();
-                } catch(erro){
-                    console.error(erro);
-                }
-
-                
-            } else if (abaAtual === "alunos") {
-                const nome = document.getElementById("nomeAlunoInput")?.value;
-                const sobrenome = document.getElementById("sobrenomeAlunoInput")?.value;
-                const cpf = document.getElementById("cpfAlunoInput")?.value;
-                const sexo = document.getElementById("sexoAlunoInput")?.value;
-                const email = document.getElementById("emailAlunoInput")?.value;
-                if (!nome || !cpf || !email) { alert("Preencha todos os campos obrigatórios!"); return; }
-                if (!validarEmail(email)) { alert("Email inválido!"); return; }
-                console.log("Salvando aluno:", { nome, sobrenome, cpf, sexo, email });
-                fecharModal();
-                await carregarAlunos();
-            } else if (abaAtual === "cursos") {
-                const nome = document.getElementById("nomeCursoInput")?.value;
-                if (!nome) { alert("Preencha todos os campos obrigatórios!"); return; }
-                
-                try {
-
-                    if (modoModal === "editar"){
-
-                        const resposta = await fetch(`/cursos/editar/${registroEditandoId}`,{
-                            method: "PUT",
-                            headers: {
-                                "Content-Type": "application/json"
-                            }, 
-                            body: JSON.stringify({
-                                nomeServer: nome
-                            })
-                        });
-
-                        if (resposta.ok){
-                            alert("Curso atualizado");
-                        } else {
-                            alert("Erro ao atualizar");
-                        }
-                    }
-
-                    else {
-
-                        const resposta = await fetch("/cursos/cadastrar", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                nomeServer: nome,
-                                fkUniversidadeServer: fkUniversidade
-                            })
-                        });
-
-                        if (resposta.ok){
-                            alert("Curso cadastrado");
-
-                            fecharModal();
-                            
-                        } else {
-                            alert("Erro ao cadastrar");
-                        }
-                    }
-                } catch (erro){
-                    console.error(erro);
-                }
-
-                await carregarCursos();
-            } else if (abaAtual === "metas") {
-                const meta = document.getElementById("metaInput")?.value;
-                const categoria = document.getElementById("categoriaMetaInput")?.value;
-                const porcentagem = document.getElementById("porcentagemMetaInput")?.value;
-                const fkCurso = document.getElementById("cursoMetaInput")?.value;
-
-                if (!meta || !categoria || !fkCurso){
-                    alert('Preencha todos os campos!');
-                    return;
-                }
-
-                try {
-
-                    if(modoModal === "editar"){
-
-                        const resposta = await fetch(`/metas/editar/${registroEditandoId}`,{
-                            method: "PUT",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                tituloServer: meta,
-                                categoriaServer: categoria,
-                                porcentagemServer: porcentagem,
-                                fkCursoServer: fkCurso
-                            })
-                        });
-
-                        if(resposta.ok){
-                            alert("Meta atualizada");
-                        } else {
-                            alert("Erro ao atualizar");
-                        }
-                    }
-
-                    else {
-
-                        const resposta = await fetch("/metas/cadastrar", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                tituloServer: meta,
-                                categoriaServer: categoria,
-                                porcentagemServer: porcentagem,
-                                fkCursoServer: fkCurso,
-                                fkUniversidadeServer: fkUniversidade
-                            })
-                        });
-
-                        if(resposta.ok){
-                            alert("Meta cadastrada");
-                        } else{
-                            alert("Erro ao cadastrar");
-                        }
-                    }
-
-                    fecharModal();
-                    carregarMetas();
-                } catch(erro){
-                    console.error(erro);
-                }
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const pesquisaCursos = document.getElementById("pesquisaCursosPainel");
-            if (pesquisaCursos) pesquisaCursos.addEventListener("input", filtrarCursos);
+            fecharModal();
             carregarUsuarios();
-            carregarAlunos();
-            carregarCursos();
+
+        } catch (erro) {
+            console.error(erro);
+            alert("Não foi possível conectar ao servidor.");
+        }
+
+    }
+
+    else if (abaAtual === "alunos") {
+
+        const nome      = document.getElementById("nomeAlunoInput")?.value.trim();
+        const sobrenome = document.getElementById("sobrenomeAlunoInput")?.value.trim();
+        const cpf       = document.getElementById("cpfAlunoInput")?.value.trim();
+        const sexo      = document.getElementById("sexoAlunoInput")?.value;
+        const email     = document.getElementById("emailAlunoInput")?.value.trim();
+
+        if (!nome || !sobrenome || !cpf || !sexo || !email) {
+            alert("Preencha todos os campos obrigatórios!");
+            return;
+        }
+
+        if (!validarEmail(email)) { alert("Email inválido!"); return; }
+
+        try {
+
+            if (modoModal === "editar") {
+
+                const resposta = await fetch(
+                    `/diretoria/alunos/atualizar/${registroEditandoId}`,
+                    {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ nome, sobrenome, cpf, sexo, email })
+                    }
+                );
+
+                if (resposta.ok) {
+                    alert("Aluno atualizado com sucesso.");
+                } else {
+                    alert("Erro ao atualizar: " + await resposta.text());
+                }
+
+            } else {
+
+                const resposta = await fetch("/diretoria/alunos/cadastrar", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ nome, sobrenome, cpf, sexo, email })
+                });
+
+                if (resposta.status === 201) {
+                    alert("Aluno cadastrado com sucesso.");
+                } else {
+                    alert("Erro ao cadastrar: " + await resposta.text());
+                }
+
+            }
+
+            fecharModal();
+            await carregarAlunos();
+
+        } catch (erro) {
+            console.error(erro);
+            alert("Não foi possível conectar ao servidor.");
+        }
+
+    }
+
+    else if (abaAtual === "cursos") {
+
+        const nome = document.getElementById("nomeCursoInput")?.value.trim();
+        if (!nome) { alert("Preencha todos os campos obrigatórios!"); return; }
+
+        try {
+
+            if (modoModal === "editar") {
+
+                const resposta = await fetch(
+                    `/diretoria/cursos/atualizar/${registroEditandoId}?fkUniversidade=${fkUniversidade}`,
+                    {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ nome, modalidade: "-" })
+                    }
+                );
+
+                if (resposta.ok) {
+                    alert("Curso atualizado com sucesso.");
+                } else {
+                    alert("Erro ao atualizar: " + await resposta.text());
+                }
+
+            } else {
+
+                const resposta = await fetch(
+                    `/diretoria/cursos/cadastrar?fkUniversidade=${fkUniversidade}`,
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ nome, modalidade: "-" })
+                    }
+                );
+
+                if (resposta.status === 201) {
+                    alert("Curso cadastrado com sucesso.");
+                } else {
+                    alert("Erro ao cadastrar: " + await resposta.text());
+                }
+
+            }
+
+            fecharModal();
+            await carregarCursos();
+
+        } catch (erro) {
+            console.error(erro);
+            alert("Não foi possível conectar ao servidor.");
+        }
+
+    }
+
+    else if (abaAtual === "metas") {
+
+        const meta       = document.getElementById("metaInput")?.value.trim();
+        const categoria  = document.getElementById("categoriaMetaInput")?.value;
+        const porcentagem = document.getElementById("porcentagemMetaInput")?.value;
+        const fkCurso    = document.getElementById("cursoMetaInput")?.value;
+
+        if (!meta || !categoria || !fkCurso) { alert("Preencha todos os campos!"); return; }
+
+        try {
+
+            if (modoModal === "editar") {
+
+                const resposta = await fetch(`/metas/editar/${registroEditandoId}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        tituloServer:     meta,
+                        categoriaServer:  categoria,
+                        porcentagemServer: porcentagem,
+                        fkCursoServer:    fkCurso
+                    })
+                });
+
+                if (resposta.ok) { alert("Meta atualizada."); }
+                else { alert("Erro ao atualizar: " + await resposta.text()); }
+
+            } else {
+
+                const resposta = await fetch("/metas/cadastrar", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        tituloServer:      meta,
+                        categoriaServer:   categoria,
+                        porcentagemServer: porcentagem,
+                        fkCursoServer:     fkCurso,
+                        fkUniversidadeServer: fkUniversidade
+                    })
+                });
+
+                if (resposta.ok) { alert("Meta cadastrada."); }
+                else { alert("Erro ao cadastrar: " + await resposta.text()); }
+
+            }
+
+            fecharModal();
             carregarMetas();
-        });
+
+        } catch (erro) {
+            console.error(erro);
+            alert("Não foi possível conectar ao servidor.");
+        }
+
+    }
+
+}
+
+// ── USUÁRIOS ─────────────────────────────────────────────────────────────────
+
+async function carregarUsuarios() {
+    if (!fkUniversidade) return;
+    try {
+        const resposta = await fetch(`/diretoria/listar?fkUniversidade=${fkUniversidade}`);
+        const tbody = document.getElementById("usuariosTabelaBody");
+        if (!resposta.ok) {
+            tbody.innerHTML = `<tr><td colspan="6">Não foi possível carregar os usuários.</td></tr>`;
+            return;
+        }
+        todosUsuarios = await resposta.json();
+        renderizarUsuarios(todosUsuarios);
+    } catch (erro) {
+        console.error(erro);
+    }
+}
+
+function renderizarUsuarios(usuarios) {
+    const tbody = document.getElementById("usuariosTabelaBody");
+    if (usuarios.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6">Nenhum usuário encontrado.</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = usuarios.map(function (usuario) {
+        const nomeCompleto = `${usuario.nome} ${usuario.sobrenome && usuario.sobrenome !== "-" ? usuario.sobrenome : ""}`.trim();
+        return `
+            <tr>
+                <td>${nomeCompleto}</td>
+                <td>${usuario.email}</td>
+                <td>${usuario.token}</td>
+                <td>${usuario.cargo}</td>
+                <td><button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(usuario).replace(/"/g, '&quot;')})"><span class="material-icons">edit</span></button></td>
+                <td><button class="btn-excluir" onclick="abrirExcluirModal('usuario', ${usuario.id})"><span class="material-icons">delete</span></button></td>
+            </tr>
+        `;
+    }).join("");
+}
+
+function filtrarUsuarios() {
+    const texto = document.getElementById("pesquisaUsuariosPainel").value.toLowerCase();
+    const filtrados = todosUsuarios.filter(function (usuario) {
+        return usuario.nome.toLowerCase().includes(texto) ||
+               usuario.email.toLowerCase().includes(texto) ||
+               usuario.cargo.toLowerCase().includes(texto);
+    });
+    renderizarUsuarios(filtrados);
+}
+
+// ── ALUNOS ───────────────────────────────────────────────────────────────────
+
+async function carregarAlunos() {
+    if (!fkUniversidade) return;
+    try {
+        const resposta = await fetch(`/diretoria/alunos/listar?fkUniversidade=${fkUniversidade}`);
+        if (!resposta.ok) return;
+        todosAlunos = await resposta.json();
+        renderizarAlunos(todosAlunos);
+    } catch (erro) {
+        console.error(erro);
+    }
+}
+
+function renderizarAlunos(alunos) {
+    const tbody = document.getElementById("alunosTabelaBody");
+    if (alunos.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8">Nenhum aluno encontrado.</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = alunos.map(function (aluno) {
+        return `
+            <tr>
+                <td>${aluno.nome}</td>
+                <td>${aluno.sobrenome}</td>
+                <td>${aluno.cpf}</td>
+                <td>${aluno.sexo}</td>
+                <td>${aluno.email}</td>
+                <td>${aluno.curso || "-"}</td>
+                <td><button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(aluno).replace(/"/g, '&quot;')})"><span class="material-icons">edit</span></button></td>
+                <td><button class="btn-excluir" onclick="abrirExcluirModal('aluno', ${aluno.RA})"><span class="material-icons">delete</span></button></td>
+            </tr>
+        `;
+    }).join("");
+}
+
+function filtrarAlunos() {
+    const texto = document.getElementById("pesquisaAlunosPainel").value.toLowerCase();
+    const filtrados = todosAlunos.filter(function (aluno) {
+        return aluno.nome.toLowerCase().includes(texto) ||
+               aluno.sobrenome.toLowerCase().includes(texto) ||
+               aluno.email.toLowerCase().includes(texto) ||
+               (aluno.curso || "").toLowerCase().includes(texto);
+    });
+    renderizarAlunos(filtrados);
+}
+
+// ── CURSOS ───────────────────────────────────────────────────────────────────
+
+async function carregarCursos() {
+    if (!fkUniversidade) return;
+    try {
+        const resposta = await fetch(`/cursos/listar?fkUniversidade=${fkUniversidade}`);
+        if (!resposta.ok) return;
+        todosCursos = await resposta.json();
+        renderizarCursos(todosCursos);
+    } catch (erro) {
+        console.error(erro);
+    }
+}
+
+function renderizarCursos(cursos) {
+    const tbody = document.getElementById("cursosTabelaBody");
+    if (cursos.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3">Nenhum curso encontrado.</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = cursos.map(function (curso) {
+        return `
+            <tr>
+                <td>${curso.nome}</td>
+                <td><button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(curso).replace(/"/g, '&quot;')})"><span class="material-icons">edit</span></button></td>
+                <td><button class="btn-excluir" onclick="abrirExcluirModal('curso', ${curso.id})"><span class="material-icons">delete</span></button></td>
+            </tr>
+        `;
+    }).join("");
+}
+
+function filtrarCursos() {
+    const texto = document.getElementById("pesquisaCursosPainel").value.toLowerCase();
+    const filtrados = todosCursos.filter(function (curso) {
+        return curso.nome.toLowerCase().includes(texto);
+    });
+    renderizarCursos(filtrados);
+}
+
+// ── METAS ────────────────────────────────────────────────────────────────────
+
+async function carregarMetas() {
+    try {
+        const resposta = await fetch(`/metas/listar?fkUniversidade=${fkUniversidade}`);
+        if (!resposta.ok) return;
+        todasMetas = await resposta.json();
+        renderizarMetas(
+            todasMetas.map(meta => ({
+                id:          meta.id,
+                meta:        meta.nome,
+                categoria:   meta.categoria,
+                porcentagem: `${meta.porcentagem}%`,
+                curso:       meta.curso
+            }))
+        );
+    } catch (erro) {
+        console.error(erro);
+    }
+}
+
+function renderizarMetas(metas) {
+    const tbody = document.getElementById("metasTabelaBody");
+    if (metas.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5">Nenhuma meta encontrada.</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = metas.map(function (meta) {
+        const valorPorcentagem = parseInt(meta.porcentagem);
+        let corPorcentagem = "inherit";
+        if (valorPorcentagem === 100)       corPorcentagem = "#48bb78";
+        else if (valorPorcentagem >= 75)    corPorcentagem = "#ed8936";
+        else if (valorPorcentagem >= 50)    corPorcentagem = "#4299e1";
+
+        let corRisco = "#27ae60";
+        if (meta.categoria === "Risco Médio") corRisco = "#f39c12";
+        else if (meta.categoria === "Risco Alto") corRisco = "#e74c3c";
+
+        return `
+            <tr>
+                <td>${meta.meta}</td>
+                <td style="color: ${corRisco}; font-weight: bold;">${meta.categoria}</td>
+                <td style="color: ${corPorcentagem}; font-weight: bold;">${meta.porcentagem}</td>
+                <td>${meta.curso}</td>
+                <td><button class="btn-editar" onclick='abrirModal("editar", ${JSON.stringify(meta).replace(/'/g, "&#39;")})'><span class="material-icons">edit</span></button></td>
+                <td><button class="btn-excluir" onclick="abrirExcluirModal('meta', ${meta.id})"><span class="material-icons">delete</span></button></td>
+            </tr>
+        `;
+    }).join("");
+}
+
+function filtrarMetas() {
+    const texto = document.getElementById("pesquisaMetasPainel").value.toLowerCase();
+    const filtradas = todasMetas.filter(function (meta) {
+        return meta.meta?.toLowerCase().includes(texto) ||
+               meta.categoria?.toLowerCase().includes(texto);
+    });
+    renderizarMetas(filtradas);
+}
+
+// ── EXCLUSÃO ─────────────────────────────────────────────────────────────────
+
+let itemParaExcluir = null;
+let tipoExclusao = null;
+
+function abrirExcluirModal(tipo, id) {
+    tipoExclusao = tipo;
+    itemParaExcluir = id;
+    const textoExcluir = document.getElementById("textoExcluir");
+    switch (tipo) {
+        case "usuario": textoExcluir.innerText = "Tem certeza que deseja excluir este usuário?"; break;
+        case "aluno":   textoExcluir.innerText = "Tem certeza que deseja excluir este aluno?"; break;
+        case "curso":   textoExcluir.innerText = "Tem certeza que deseja excluir este curso?"; break;
+        case "meta":    textoExcluir.innerText = "Tem certeza que deseja excluir esta meta?"; break;
+    }
+    document.getElementById("modalExcluir").style.display = "flex";
+}
+
+function fecharExcluirModal() {
+    document.getElementById("modalExcluir").style.display = "none";
+    itemParaExcluir = null;
+    tipoExclusao = null;
+}
+
+async function deletarUsuario(id) {
+    try {
+        const resposta = await fetch(
+            `/diretoria/deletar/${id}?fkUniversidade=${fkUniversidade}`,
+            { method: "DELETE" }
+        );
+        if (resposta.ok) { alert("Usuário deletado com sucesso."); carregarUsuarios(); }
+        else { alert("Erro ao excluir usuário: " + await resposta.text()); }
+    } catch (erro) { console.error(erro); }
+}
+
+async function deletarAluno(ra) {
+    try {
+        const resposta = await fetch(
+            `/diretoria/alunos/deletar/${ra}`,
+            { method: "DELETE" }
+        );
+        if (resposta.ok) { alert("Aluno deletado com sucesso."); carregarAlunos(); }
+        else { alert("Erro ao excluir aluno: " + await resposta.text()); }
+    } catch (erro) { console.error(erro); }
+}
+
+async function deletarCurso(id) {
+    try {
+        const resposta = await fetch(
+            `/diretoria/cursos/deletar/${id}?fkUniversidade=${fkUniversidade}`,
+            { method: "DELETE" }
+        );
+        if (resposta.ok) { alert("Curso deletado com sucesso."); carregarCursos(); }
+        else { alert("Erro ao excluir curso: " + await resposta.text()); }
+    } catch (erro) { console.error(erro); }
+}
+
+async function deletarMeta(id) {
+    try {
+        const resposta = await fetch(`/metas/deletar/${id}`, { method: "DELETE" });
+        if (resposta.ok) { alert("Meta excluída com sucesso."); carregarMetas(); }
+        else { alert("Erro ao excluir meta."); }
+    } catch (erro) { console.error(erro); }
+}
+
+async function confirmarExclusao() {
+    if (!itemParaExcluir) return;
+    if (tipoExclusao === "usuario") await deletarUsuario(itemParaExcluir);
+    else if (tipoExclusao === "aluno")  await deletarAluno(itemParaExcluir);
+    else if (tipoExclusao === "curso")  await deletarCurso(itemParaExcluir);
+    else if (tipoExclusao === "meta")   await deletarMeta(itemParaExcluir);
+    fecharExcluirModal();
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    carregarUsuarios();
+    carregarAlunos();
+    carregarCursos();
+    carregarMetas();
+});
     </script>
 </body>
 

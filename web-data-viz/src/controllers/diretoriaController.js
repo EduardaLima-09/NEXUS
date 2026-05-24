@@ -1,17 +1,17 @@
 var diretoriaModel = require("../models/diretoriaModel");
 
 function cadastrar(req, res) {
-    var nome = req.body.nomeServer;
+    var nome      = req.body.nomeServer;
     var sobrenome = req.body.sobrenomeServer;
-    var email = req.body.emailServer;
-    var token = req.body.tokenServer;
-    var senha = req.body.senhaServer;
+    var email     = req.body.emailServer;
+    var token     = req.body.tokenServer;
+    var senha     = req.body.senhaServer;
 
-    if (!nome) return res.status(400).send("Nome está undefined!");
+    if (!nome)      return res.status(400).send("Nome está undefined!");
     if (!sobrenome) return res.status(400).send("Sobrenome está undefined!");
-    if (!email) return res.status(400).send("Email está undefined!");
-    if (!token) return res.status(400).send("Token está undefined!");
-    if (!senha) return res.status(400).send("Senha está undefined!");
+    if (!email)     return res.status(400).send("Email está undefined!");
+    if (!token)     return res.status(400).send("Token está undefined!");
+    if (!senha)     return res.status(400).send("Senha está undefined!");
 
     diretoriaModel.buscarUniversidadePorToken(token)
         .then(function (resultado) {
@@ -50,16 +50,16 @@ function autenticar(req, res) {
             }
             var usuario = resultado[0];
             var redirecionarPara = usuario.cargo === "Coordenador"
-                ? "/dashboard/dashboard.html"
+                ? "/dashboard/painel.html"
                 : "/dashboard/alunos.html";
             res.status(200).json({
-                id: usuario.id,
-                nome: usuario.nome,
-                sobrenome: usuario.sobrenome,
-                email: usuario.email,
-                cargo: usuario.cargo,
-                universidade: usuario.fkUniversidade,
-                redirecionarPara: redirecionarPara
+                id:             usuario.id,
+                nome:           usuario.nome,
+                sobrenome:      usuario.sobrenome,
+                email:          usuario.email,
+                cargo:          usuario.cargo,
+                universidade:   usuario.fkUniversidade,
+                redirecionarPara
             });
         })
         .catch(function (erro) {
@@ -81,19 +81,21 @@ function listar(req, res) {
         });
 }
 
-function editar(req, res) {
-    var id = req.params.id;
-    var nome = req.body.nomeServer;
-    var sobrenome = req.body.sobrenomeServer;
-    var email = req.body.emailServer;
+function atualizar(req, res) {
+    var id         = req.params.id;
+    var fkUniversidade = req.query.fkUniversidade;
+    var nome       = req.body.nome;
+    var sobrenome  = req.body.sobrenome;
+    var email      = req.body.email;
+    var cargo      = req.body.cargo;
 
-    //if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
-    if (!nome || !email) return res.status(400).send("Campos obrigatórios ausentes.");
-    /* if (cargo !== "Coordenador" && cargo !== "Professor") {
+    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
+    if (!nome || !email || !cargo) return res.status(400).send("Campos obrigatórios ausentes.");
+    if (cargo !== "Coordenador" && cargo !== "Professor") {
         return res.status(400).send("Cargo inválido.");
-    } */
+    }
 
-    diretoriaModel.atualizarUsuario(id, nome, sobrenome, email)
+    diretoriaModel.atualizarUsuario(id, nome, sobrenome || "-", email, cargo, fkUniversidade)
         .then(function (resultado) {
             if (resultado.affectedRows === 0) {
                 return res.status(404).send("Usuário não encontrado.");
@@ -108,10 +110,12 @@ function editar(req, res) {
         });
 }
 
-function excluir(req, res) {
-    var id = req.params.id;
+function deletar(req, res) {
+    var id             = req.params.id;
+    var fkUniversidade = req.query.fkUniversidade;
+    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
 
-    diretoriaModel.deletar(id)
+    diretoriaModel.deletar(id, fkUniversidade)
         .then(function (resultado) {
             if (resultado.affectedRows === 0) {
                 return res.status(404).send("Usuário não encontrado ou sem permissão.");
@@ -136,13 +140,40 @@ function listarAlunos(req, res) {
         });
 }
 
-function atualizarAluno(req, res) {
-    var ra = req.params.ra;
-    var nome = req.body.nome;
+function cadastrarAluno(req, res) {
+    var nome      = req.body.nome;
     var sobrenome = req.body.sobrenome;
-    var cpf = req.body.cpf;
-    var sexo = req.body.sexo;
-    var email = req.body.email;
+    var cpf       = req.body.cpf;
+    var sexo      = req.body.sexo;
+    var email     = req.body.email;
+
+    if (!nome || !sobrenome || !cpf || !sexo || !email) {
+        return res.status(400).send("Campos obrigatórios ausentes.");
+    }
+    if (sexo !== "M" && sexo !== "F" && sexo !== "O") {
+        return res.status(400).send("Sexo inválido. Use M, F ou O.");
+    }
+
+    diretoriaModel.cadastrarAluno(nome, sobrenome, cpf, sexo, email)
+        .then(function () {
+            res.status(201).json({ mensagem: "Aluno cadastrado com sucesso." });
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            if (erro.code === "ER_DUP_ENTRY") {
+                return res.status(409).send("CPF ou email já cadastrado.");
+            }
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function atualizarAluno(req, res) {
+    var ra        = req.params.ra;
+    var nome      = req.body.nome;
+    var sobrenome = req.body.sobrenome;
+    var cpf       = req.body.cpf;
+    var sexo      = req.body.sexo;
+    var email     = req.body.email;
 
     if (!nome || !sobrenome || !cpf || !sexo || !email) {
         return res.status(400).send("Campos obrigatórios ausentes.");
@@ -178,14 +209,87 @@ function deletarAluno(req, res) {
         });
 }
 
+function listarCursos(req, res) {
+    var fkUniversidade = req.query.fkUniversidade;
+    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
+
+    diretoriaModel.listarCursos(fkUniversidade)
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        })
+        .catch(function (erro) {
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function cadastrarCurso(req, res) {
+    var fkUniversidade = req.query.fkUniversidade;
+    var nome           = req.body.nome;
+    var modalidade     = req.body.modalidade;
+
+    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
+    if (!nome)           return res.status(400).send("Campos obrigatórios ausentes.");
+
+    diretoriaModel.cadastrarCurso(nome, modalidade || "-", fkUniversidade)
+        .then(function () {
+            res.status(201).json({ mensagem: "Curso cadastrado com sucesso." });
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function atualizarCurso(req, res) {
+    var id             = req.params.id;
+    var fkUniversidade = req.query.fkUniversidade;
+    var nome           = req.body.nome;
+    var modalidade     = req.body.modalidade;
+
+    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
+    if (!nome)           return res.status(400).send("Campos obrigatórios ausentes.");
+
+    diretoriaModel.atualizarCurso(id, nome, modalidade || "-", fkUniversidade)
+        .then(function (resultado) {
+            if (resultado.affectedRows === 0) {
+                return res.status(404).send("Curso não encontrado.");
+            }
+            res.status(200).json({ mensagem: "Curso atualizado com sucesso." });
+        })
+        .catch(function (erro) {
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function deletarCurso(req, res) {
+    var id             = req.params.id;
+    var fkUniversidade = req.query.fkUniversidade;
+    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
+
+    diretoriaModel.deletarCurso(id, fkUniversidade)
+        .then(function (resultado) {
+            if (resultado.affectedRows === 0) {
+                return res.status(404).send("Curso não encontrado.");
+            }
+            res.status(200).json({ mensagem: "Curso removido com sucesso." });
+        })
+        .catch(function (erro) {
+            res.status(500).json(erro.sqlMessage);
+        });
+}
 
 module.exports = {
     cadastrar,
     autenticar,
     listar,
-    editar,
-    excluir,
+    atualizar,
+    deletar,
     listarAlunos,
+    cadastrarAluno,
     atualizarAluno,
     deletarAluno,
+    listarCursos,
+    cadastrarCurso,
+    atualizarCurso,
+    deletarCurso
 };
