@@ -1,14 +1,15 @@
 package sptech.school;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import sptech.school.config.ConexaoBD;
+import sptech.school.dao.AlunoDAO;
+import sptech.school.dao.CursoDAO;
+import sptech.school.dao.HistoricoDAO;
+import sptech.school.service.LeituraExcel;
 import sptech.school.slack.Notificacao;
 import sptech.school.slack.NotificacaoLog;
 import sptech.school.slack.NotificacaoSlack;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 public class Main {
 
@@ -18,22 +19,23 @@ public class Main {
 
         ConexaoBD conexaoBD = new ConexaoBD();
 
-        Notificacao inicioLog = new NotificacaoLog(
-                "Processo de carga iniciado", conexaoBD.getJdbcTemplate()
-                );
+        Notificacao inicioLog = new NotificacaoLog("Processo de carga iniciado", conexaoBD.getJdbcTemplate());
         inicioLog.enviar();
 
-        //Notificacao inicioSlack = new NotificacaoSlack("🚀 Processo de importação iniciado");
+        //Notificacao inicioSlack = new NotificacaoSlack("Processo de importação iniciado");
         //inicioSlack.enviar();
 
         LeituraExcel leituraExcel = new LeituraExcel();
+        CursoDAO cursoDAO = new CursoDAO(conexaoBD);
+        AlunoDAO alunoDAO = new AlunoDAO(conexaoBD);
+        HistoricoDAO historicoDAO = new HistoricoDAO(conexaoBD);
 
         List<Curso> cursos = leituraExcel.extrairCursos("BaseDeDados.xlsx");
         List<Aluno> alunos = leituraExcel.extrairAlunos("BaseDeDados.xlsx");
 
         Thread loadingThread = new Thread(() -> {
             while (carregando) {
-                System.out.println("CARREGANDO OUTRAS INFORMAÇÕES...");
+                System.out.println("PROCESSANDO INFORMAÇÕES...");
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -44,303 +46,14 @@ public class Main {
 
         loadingThread.start();
 
-        Random random = new Random();
-
-        List<Integer> idsCursos = new ArrayList<>();
-
         System.out.println("\n===== INSERINDO CURSOS =====");
-
-        for (Curso curso : cursos) {
-
-            String modalidade = random.nextBoolean() ? "Presencial" : "EAD";
-
-            String[] periodos = {"Manhã", "Tarde", "Noite"};
-            String periodo = periodos[random.nextInt(periodos.length)];
-
-            double mensalidade = 300 + (1500 * random.nextDouble());
-
-            try {
-                conexaoBD.getJdbcTemplate().update(
-                        "INSERT INTO Curso (nome, modalidade, periodo, mensalidade, fkUniversidade) VALUES (?, ?, ?, ?, 1)",
-                        curso.getNome(),
-                        modalidade,
-                        periodo,
-                        mensalidade
-                );
-
-                Integer idCurso = conexaoBD.getJdbcTemplate().queryForObject(
-                        "SELECT id FROM Curso WHERE nome = ? ORDER BY id DESC LIMIT 1",
-                        Integer.class,
-                        curso.getNome()
-                );
-
-                idsCursos.add(idCurso);
-
-                String msg = "Curso inserido: " + curso.getNome();
-                System.out.println(msg);
-
-                conexaoBD.getJdbcTemplate().update(
-                        "INSERT INTO Logs (mensagem, dataHora) VALUES (?, NOW())",
-                        msg
-                );
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        List<Integer> idsCursos = cursoDAO.inserirCursos(cursos);
 
         System.out.println("\n===== INSERINDO ALUNOS =====");
+        alunoDAO.inserirAlunos(alunos);
 
-        try {
-            Connection conexao = conexaoBD.getBasicDataSource().getConnection();
-
-            conexao.setAutoCommit(false);
-
-            String sql = "INSERT INTO Aluno (nome, sobrenome, cpf, sexo, email) VALUES (?, ?, ?, ?, ?)";
-
-            PreparedStatement stmt = conexao.prepareStatement(sql);
-
-            int contador = 0;
-
-            for (Aluno aluno : alunos) {
-                String cpf = String.format("%011d", random.nextInt(999999999));
-                String email = "aluno" + aluno.getId() + "@gmail.com";
-
-                stmt.setString(1, aluno.getNome());
-                stmt.setString(2, aluno.getSobrenome());
-                stmt.setString(3, cpf);
-                stmt.setString(4, aluno.getSexo());
-                stmt.setString(5, email);
-
-                stmt.addBatch();
-
-                contador++;
-
-                if (contador % 500 == 0){
-                    stmt.executeBatch();
-                    conexao.commit();
-
-                    System.out.println(contador + " alunos inseridos...");
-                }
-            }
-
-            stmt.executeBatch();
-            conexao.commit();
-
-            stmt.close();
-            conexao.close();
-
-            System.out.println("Todos os alunos inseridos!");
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-        System.out.println("\n===== INSERINDO DISCIPLINAS =====");
-
-        for (Integer idCurso : idsCursos) {
-
-            for (int j = 1; j <= 10; j++) {
-
-                try {
-                    conexaoBD.getJdbcTemplate().update(
-                            "INSERT INTO Disciplina (nome, cargaHoraria, fkCurso) VALUES (?, ?, ?)",
-                            "Disciplina " + j,
-                            "60h",
-                            idCurso
-                    );
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        System.out.println("\n===== PROCESSANDO MATRÍCULAS =====");
-
-        String[] motivos = {"Financeiro", "Mudança", "Desempenho", "Pessoal", "Saúde", "Trabalho"};
-
-        try {
-
-            Connection conexao =
-                    conexaoBD.getBasicDataSource().getConnection();
-
-            conexao.setAutoCommit(false);
-
-            PreparedStatement stmtMatricula =
-                    conexao.prepareStatement(
-                            """
-                            INSERT INTO Matricula
-                            (fkCurso, fkAluno, data_ingresso, evadiu, motivoEvasao, dataEvasao)
-                            VALUES (?, ?, ?, ?, ?, ?)
-                            """
-                    );
-
-            PreparedStatement stmtHistorico =
-                    conexao.prepareStatement(
-                            """
-                            INSERT INTO Historico
-                            (fkAluno, fkDisciplina, semestre, nota, frequencia)
-                            VALUES (?, ?, ?, ?, ?)
-                            """
-                    );
-
-            PreparedStatement stmtPagamento =
-                    conexao.prepareStatement(
-                            """
-                            INSERT INTO Pagamento
-                            (mesReferencia, valor, statusPagamento, fkAluno)
-                            VALUES (?, ?, ?, ?)
-                            """
-                    );
-
-            PreparedStatement stmtIndicador =
-                    conexao.prepareStatement(
-                            """
-                            INSERT INTO IndicadorRisco
-                            (score, nivel, dataCalculo, fkAluno)
-                            VALUES (?, ?, ?, ?)
-                            """
-                    );
-
-            int contador = 0;
-
-            String[] statusList = {
-                    "Pago",
-                    "Pendente",
-                    "Atrasado"
-            };
-
-            for (int i = 0; i < alunos.size(); i++) {
-
-                Aluno aluno = alunos.get(i);
-
-                int fkAluno = i + 1;
-                int fkCurso = idsCursos.get(i % idsCursos.size());
-
-                LocalDate dataIngresso =
-                        LocalDate.now().minusYears(
-                                random.nextInt(4) + 1
-                        );
-
-                int evadiu = random.nextBoolean() ? 1 : 0;
-
-                String motivoEvasao = null;
-                LocalDate dataEvasao = null;
-
-                if (evadiu == 1) {
-
-                    motivoEvasao =
-                            motivos[random.nextInt(motivos.length)];
-
-                    dataEvasao =
-                            dataIngresso.plusMonths(
-                                    random.nextInt(24) + 1
-                            );
-                }
-
-                stmtMatricula.setInt(1, fkCurso);
-                stmtMatricula.setInt(2, fkAluno);
-                stmtMatricula.setObject(3, dataIngresso);
-                stmtMatricula.setInt(4, evadiu);
-                stmtMatricula.setString(5, motivoEvasao);
-                stmtMatricula.setObject(6, dataEvasao);
-
-                stmtMatricula.addBatch();
-
-                int semestre = random.nextInt(8) + 1;
-
-                stmtHistorico.setInt(1, fkAluno);
-                stmtHistorico.setInt(2, 1);
-                stmtHistorico.setInt(3, semestre);
-                stmtHistorico.setDouble(4, aluno.getMediaGeral());
-                stmtHistorico.setDouble(5, aluno.getFrequencia());
-
-                stmtHistorico.addBatch();
-
-                String statusPagamento =
-                        statusList[random.nextInt(statusList.length)];
-
-                stmtPagamento.setObject(1, LocalDate.now());
-                stmtPagamento.setDouble(2, 500.0);
-                stmtPagamento.setString(3, statusPagamento);
-                stmtPagamento.setInt(4, fkAluno);
-
-                stmtPagamento.addBatch();
-
-                double nota = aluno.getMediaGeral();
-                double freq = aluno.getFrequencia();
-
-                double riscoNota =
-                        nota >= 7 ? 10 :
-                                nota >= 5 ? 40 :
-                                        nota >= 3 ? 70 : 90;
-
-                double riscoFreq =
-                        freq >= 85 ? 10 :
-                                freq >= 70 ? 40 :
-                                        freq >= 50 ? 70 : 90;
-
-                double riscoFin =
-                        statusPagamento.equals("Pago") ? 10 : 70;
-
-                double score =
-                        (riscoNota * 0.40) +
-                                (riscoFreq * 0.35) +
-                                (riscoFin * 0.25);
-
-                String nivel =
-                        score < 40 ? "Baixo" :
-                                score < 70 ? "Medio" : "Alto";
-
-                stmtIndicador.setDouble(1, score);
-                stmtIndicador.setString(2, nivel);
-                stmtIndicador.setObject(3, LocalDate.now());
-                stmtIndicador.setInt(4, fkAluno);
-
-                stmtIndicador.addBatch();
-
-                contador++;
-
-                if (contador % 500 == 0) {
-
-                    stmtMatricula.executeBatch();
-                    stmtHistorico.executeBatch();
-                    stmtPagamento.executeBatch();
-                    stmtIndicador.executeBatch();
-
-                    conexao.commit();
-
-                    System.out.println(
-                            contador +
-                                    " registros processados..."
-                    );
-                }
-            }
-
-            stmtMatricula.executeBatch();
-            stmtHistorico.executeBatch();
-            stmtPagamento.executeBatch();
-            stmtIndicador.executeBatch();
-
-            conexao.commit();
-
-            stmtMatricula.close();
-            stmtHistorico.close();
-            stmtPagamento.close();
-            stmtIndicador.close();
-
-            conexao.close();
-
-            System.out.println(
-                    "PROCESSAMENTO FINALIZADO!"
-            );
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
+        System.out.println("\n===== PROCESSANDO HISTÓRICOS E INDICADORES =====");
+        historicoDAO.processarHistorico(alunos, idsCursos);
 
         carregando = false;
 
@@ -348,9 +61,7 @@ public class Main {
             loadingThread.join();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             String erro = """
             ERRO NO PROCESSAMENTO
             

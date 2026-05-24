@@ -1,4 +1,4 @@
-package sptech.school;
+package sptech.school.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,17 +12,23 @@ public class ConexaoBD {
         BasicDataSource conexao = new BasicDataSource();
 
         conexao.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        conexao.setUrl("jdbc:mysql://ContainerBD:3306/NEXUS");
-        conexao.setUsername("nexus");
-        conexao.setPassword("N&xus12345");
+//        conexao.setUrl("jdbc:mysql://ContainerBD:3306/NEXUS");
+//        conexao.setUsername("nexus");
+//        conexao.setPassword("N&xus12345");
+        conexao.setUrl("jdbc:mysql://localhost:3306/NEXUS");
+        conexao.setUsername("root");
+        conexao.setPassword(System.getenv("DB_PASSWORD"));
 
         this.conexao = conexao;
         this.jdbcTemplate = new JdbcTemplate(conexao);
 
-        if (this.jdbcTemplate != null) {
+        try {
+            this.jdbcTemplate.queryForObject("SELECT 1", Integer.class);
+
             System.out.println("Conexão realizada com sucesso!");
-        } else {
-            System.out.println("Erro ao conectar com o banco de dados.");
+
+        } catch (Exception e) {
+            System.out.println("Erro ao conectar com o banco de dados: " + e.getMessage());
         }
     }
 

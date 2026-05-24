@@ -1,9 +1,10 @@
-package sptech.school;
+package sptech.school.service;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import sptech.school.Aluno;
+import sptech.school.Curso;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,27 +44,33 @@ public class LeituraExcel {
                 InputStream arquivo = S3Service.getArquivo(nomeArquivo);
                 Workbook workbook = new XSSFWorkbook(arquivo)
         ) {
-
             Sheet sheet = workbook.getSheetAt(0);
 
             for (Row row : sheet) {
-
                 if (row.getRowNum() == 0) continue;
 
                 try {
 
                     Integer id = row.getRowNum();
 
-                    Double media = getNumeric(row.getCell(9));
-                    Double freq = getNumeric(row.getCell(10));
-
                     String nome = getString(row.getCell(1));
                     String sobrenome = getString(row.getCell(2));
                     String sexo = getString(row.getCell(4));
 
-                    if (!sexo.equals("M") && !sexo.equals("F")) {
+                    Double freq = getNumeric(row.getCell(7));
+                    Double media = getNumeric(row.getCell(9));
+
+                    if (sexo.equals("Masculino")) {
+                        sexo = "M";
+                    } else if (sexo.equals("Feminino")) {
+                        sexo = "F";
+                    } else {
                         sexo = "O";
                     }
+
+//                    if (!sexo.equals("M") && !sexo.equals("F")) {
+//                        sexo = "O";
+//                    }
 
                     alunos.add(new Aluno(id, media, freq, nome, sobrenome, sexo));
 
@@ -73,6 +80,7 @@ public class LeituraExcel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("Alunos carregados: " + alunos.size());
 
         return alunos;
     }
@@ -116,6 +124,7 @@ public class LeituraExcel {
             e.printStackTrace();
         }
 
+        System.out.println("Cursos carregados: " + cursos.size());
         return cursos;
     }
 }
