@@ -3,9 +3,6 @@ package sptech.school.dto;
 public class SlackDto {
     private String text;
 
-    public SlackDto() {
-    }
-
     public SlackDto(String text) {
         this.text = text;
     }

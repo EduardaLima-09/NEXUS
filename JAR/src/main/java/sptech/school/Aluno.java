@@ -2,14 +2,13 @@ package sptech.school;
 
 public class Aluno {
     private Integer id;
-    private Boolean evadiram;
-    private Double mediaGeral;
-    private Double frequencia;
-    private Boolean pago;
-    private Integer semestre;
-    private String motivoEvasao;
     private String nome;
     private String sobrenome;
+    private Double mediaGeral;
+    private Double frequencia;
+    private Integer semestre;
+
+
     private String sexo;
 
     public Aluno(Integer id, Double mediaGeral, Double frequencia, String nome, String sobrenome, String sexo) {
@@ -19,20 +18,37 @@ public class Aluno {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.sexo = sexo;
-
-        this.evadiram = false;
-        this.pago = Math.random() > 0.3;
         this.semestre = (int) (Math.random() * 8) + 1;
-        this.motivoEvasao = null;
+    }
+
+    public Double cacularScore() {
+        double riscoNota =
+                mediaGeral >= 80 ? 10 :
+                mediaGeral >= 60 ? 40 :
+                mediaGeral >= 40 ? 70 :
+                90;
+
+        double riscoFreq =
+                frequencia >= 90 ? 10 :
+                frequencia >= 75 ? 40 :
+                frequencia >= 60 ? 70 :
+                90;
+
+        return (riscoNota * 0.40) + (riscoFreq * 0.60);
+    }
+
+    public String getNivelRisco() {
+        Double score = cacularScore();
+
+        return score < 40 ? "Baixo" :
+               score < 70 ? "Medio" :
+               "Alto";
     }
 
     public Integer getId() { return id; }
-    public Boolean getEvadiram() { return evadiram; }
     public Double getMediaGeral() { return mediaGeral; }
     public Double getFrequencia() { return frequencia; }
-    public Boolean getPago() { return pago; }
     public Integer getSemestre() { return semestre; }
-    public String getMotivoEvasao() { return motivoEvasao; }
     public String getNome() { return nome; }
     public String getSobrenome() { return sobrenome; }
     public String getSexo() { return sexo; }

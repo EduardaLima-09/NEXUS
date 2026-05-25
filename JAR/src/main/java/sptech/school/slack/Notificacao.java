@@ -10,13 +10,9 @@ public abstract class Notificacao {
         this.mensagem = mensagem;
     }
 
+    public abstract void enviar();
+
     public String getMensagem() {
         return mensagem;
     }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
-    }
-
-    public abstract void enviar();
 }
