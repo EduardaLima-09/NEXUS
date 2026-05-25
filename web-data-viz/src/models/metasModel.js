@@ -76,10 +76,30 @@ function listar(fkUniversidade) {
 
     return database.executar(instrucaoSql);
 }
+function listarParaProfessor(fkUniversidade) {
+
+    var instrucaoSql = `
+        SELECT
+            m.id,
+            m.nome,
+            m.categoria,
+            m.porcentagem,
+            m.fkCurso,
+            c.nome AS curso
+        FROM Meta m
+        JOIN Curso c ON m.fkCurso = c.id
+        WHERE m.fkUniversidade = ${fkUniversidade}
+        ORDER BY m.categoria;
+    `;
+
+    return database.executar(instrucaoSql);
+
+}
 
 module.exports = {
     cadastrar,
     editar,
     excluir,
-    listar
+    listar,
+    listarParaProfessor
 };

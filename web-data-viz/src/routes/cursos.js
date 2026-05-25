@@ -3,19 +3,19 @@ var router = express.Router();
 
 var cursosController = require("../controllers/cursosController");
 
-router.post("/cadastrar", function(req, res){
+router.post("/cadastrar", function (req, res) {
     cursosController.cadastrar(req, res);
 });
 
-router.put("/editar/:id", function(req, res){
+router.put("/editar/:id", function (req, res) {
     cursosController.editar(req, res);
 });
 
-router.delete("/excluir/:id", function(req, res){
+router.delete("/excluir/:id", function (req, res) {
     cursosController.excluir(req, res);
 });
 
-router.get("/listar", function(req, res){
+router.get("/listar", function (req, res) {
     cursosController.listarCursos(req, res);
 });
 

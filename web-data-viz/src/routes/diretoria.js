@@ -38,20 +38,4 @@ router.delete("/alunos/deletar/:ra", function (req, res) {
     diretoriaController.deletarAluno(req, res);
 });
 
-router.get("/cursos/listar", function (req, res) {
-    diretoriaController.listarCursos(req, res);
-});
-
-router.post("/cursos/cadastrar", function (req, res) {
-    diretoriaController.cadastrarCurso(req, res);
-});
-
-router.put("/cursos/atualizar/:id", function (req, res) {
-    diretoriaController.atualizarCurso(req, res);
-});
-
-router.delete("/cursos/deletar/:id", function (req, res) {
-    diretoriaController.deletarCurso(req, res);
-});
-
 module.exports = router;
