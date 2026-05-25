@@ -20,7 +20,7 @@
             border: 2px solid #e74c3c !important;
             background-color: #fff5f5 !important;
         }
-        
+
         .mensagem-erro {
             color: #e74c3c;
             font-size: 12px;
@@ -28,16 +28,16 @@
             margin-bottom: 10px;
             display: block;
         }
-        
+
         .campo-porcentagem {
             margin-top: 15px;
         }
-        
+
         .modal-content {
             max-height: 90vh;
             overflow-y: auto;
         }
-        
+
         .senha-requisitos {
             background-color: #f8f9fa;
             padding: 10px;
@@ -46,24 +46,24 @@
             margin-bottom: 10px;
             font-size: 12px;
         }
-        
+
         .senha-requisitos ul {
             margin: 5px 0;
             padding-left: 20px;
         }
-        
+
         .senha-requisitos li {
             margin: 3px 0;
         }
-        
+
         .requisito-atendido {
             color: #27ae60;
         }
-        
+
         .requisito-nao-atendido {
             color: #e74c3c;
         }
-        
+
         .forca-senha {
             margin-top: 5px;
             margin-bottom: 10px;
@@ -73,12 +73,31 @@
             font-size: 12px;
             font-weight: bold;
         }
-        
-        .forca-muito-fraca { background-color: #e74c3c; color: white; }
-        .forca-fraca { background-color: #e67e22; color: white; }
-        .forca-media { background-color: #f39c12; color: white; }
-        .forca-forte { background-color: #27ae60; color: white; }
-        .forca-muito-forte { background-color: #2ecc71; color: white; }
+
+        .forca-muito-fraca {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .forca-fraca {
+            background-color: #e67e22;
+            color: white;
+        }
+
+        .forca-media {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .forca-forte {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .forca-muito-forte {
+            background-color: #2ecc71;
+            color: white;
+        }
 
         /* Alert Personalizado */
         .alerta-personalizado {
@@ -112,6 +131,7 @@
                 transform: translateY(-50px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -242,8 +262,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .modal {
@@ -275,7 +300,7 @@
                             <div class="titulo-usuario">
                                 <h1 id="cargoUsuarioSidebar">Coordenador</h1>
                             </div>
-                             <p id="nomeUsuarioSidebar"></p>
+                            <p id="nomeUsuarioSidebar"></p>
                         </div>
                     </div>
                     <button onclick="goHome()">Sair</button>
@@ -309,7 +334,8 @@
                             <div class="container-pesquisa">
                                 <span class="material-icons icone-pesquisa">search</span>
                                 <input type="text" id="pesquisaUsuariosPainel" class="barra-pesquisa-painel"
-                                    placeholder="Pesquisar usuário por nome, email ou cargo..." oninput="filtrarUsuarios()">
+                                    placeholder="Pesquisar usuário por nome, email ou cargo..."
+                                    oninput="filtrarUsuarios()">
                             </div>
                             <table class="tabela-admin">
                                 <thead>
@@ -444,257 +470,257 @@
     </div>
 
     <script>
-       const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
-const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
-const fkUniversidade = sessionStorage.getItem("FK_UNIVERSIDADE");
+        const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
+        const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
+        const fkUniversidade = sessionStorage.getItem("FK_UNIVERSIDADE");
 
-if (cargoUsuario && cargoUsuario !== "Coordenador") {
-    window.location.href = "../login.html";
-}
-
-document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
-document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario || "Coordenador";
-
-let abaAtual = "usuarios";
-let todosUsuarios = [];
-let todosAlunos = [];
-let todosCursos = [];
-let todasMetas = [];
-let registroEditandoId = null;
-let modoModal = "adicionar";
-let alertCallback = null;
-
-// Funções de Alert e Loader
-function showAlert(type, title, message, onClose = null) {
-    const alert = document.getElementById("customAlert");
-    const alertIcon = document.getElementById("alertIcon");
-    const alertTitle = document.getElementById("alertTitle");
-    const alertMessage = document.getElementById("alertMessage");
-
-    alertIcon.innerHTML = "";
-
-    if (type === "success") {
-        alertIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
-        alertIcon.className = "alerta-icone success";
-    } else if (type === "error") {
-        alertIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-        alertIcon.className = "alerta-icone error";
-    } else if (type === "warning") {
-        alertIcon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
-        alertIcon.className = "alerta-icone warning";
-    } else {
-        alertIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
-        alertIcon.className = "alerta-icone info";
-    }
-
-    alertTitle.textContent = title;
-    alertMessage.textContent = message;
-    alertCallback = onClose;
-    alert.classList.add("active");
-}
-
-function closeAlert() {
-    document.getElementById("customAlert").classList.remove("active");
-    if (alertCallback) {
-        alertCallback();
-        alertCallback = null;
-    }
-}
-
-function showLoader() {
-    document.getElementById("customLoader").classList.add("active");
-}
-
-function hideLoader() {
-    document.getElementById("customLoader").classList.remove("active");
-}
-
-// Funções de validação
-function validarNome(nome) {
-    return nome && nome.trim().length >= 2 && /^[a-zA-ZÀ-ÿ\s]+$/.test(nome);
-}
-
-function validarEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-
-function validarCPF(cpf) {
-    cpf = cpf.replace(/[^\d]/g, '');
-    if (cpf.length !== 11) return false;
-    if (/^(\d)\1{10}$/.test(cpf)) return false;
-    
-    let soma = 0;
-    for (let i = 0; i < 9; i++) {
-        soma += parseInt(cpf.charAt(i)) * (10 - i);
-    }
-    let resto = 11 - (soma % 11);
-    let digito1 = resto === 10 || resto === 11 ? 0 : resto;
-    if (digito1 !== parseInt(cpf.charAt(9))) return false;
-    
-    soma = 0;
-    for (let i = 0; i < 10; i++) {
-        soma += parseInt(cpf.charAt(i)) * (11 - i);
-    }
-    resto = 11 - (soma % 11);
-    let digito2 = resto === 10 || resto === 11 ? 0 : resto;
-    return digito2 === parseInt(cpf.charAt(10));
-}
-
-function formatarCPF(cpf) {
-    cpf = cpf.replace(/[^\d]/g, '');
-    if (cpf.length === 11) {
-        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-    }
-    return cpf;
-}
-
-function validarSenha(senha) {
-    if (!senha || senha.length < 8) return false;
-    let temMaiuscula = /[A-Z]/.test(senha);
-    let temMinuscula = /[a-z]/.test(senha);
-    let temNumero = /[0-9]/.test(senha);
-    let temEspecial = /[!@#$%^&*(),.?":{}|<>]/.test(senha);
-    return temMaiuscula && temMinuscula && temNumero && temEspecial;
-}
-
-function verificarForcaSenha(senha) {
-    let forca = 0;
-    if (senha.length >= 8) forca++;
-    if (senha.length >= 12) forca++;
-    if (/[A-Z]/.test(senha)) forca++;
-    if (/[a-z]/.test(senha)) forca++;
-    if (/[0-9]/.test(senha)) forca++;
-    if (/[!@#$%^&*(),.?":{}|<>]/.test(senha)) forca++;
-    
-    if (forca <= 2) return "Muito Fraca";
-    if (forca <= 3) return "Fraca";
-    if (forca <= 4) return "Média";
-    if (forca <= 5) return "Forte";
-    return "Muito Forte";
-}
-
-function validarToken(token) {
-    return token && token.length === 6 && /^[A-Z0-9]+$/.test(token);
-}
-
-function mostrarErro(campoId, mensagem) {
-    const campo = document.getElementById(campoId);
-    if (!campo) return;
-    
-    const erroAnterior = campo.parentElement?.querySelector('.mensagem-erro');
-    if (erroAnterior) erroAnterior.remove();
-    
-    campo.classList.add('campo-invalido');
-    const erro = document.createElement('span');
-    erro.className = 'mensagem-erro';
-    erro.innerText = mensagem;
-    campo.insertAdjacentElement('afterend', erro);
-}
-
-function limparErros() {
-    document.querySelectorAll('.campo-invalido').forEach(campo => {
-        campo.classList.remove('campo-invalido');
-    });
-    document.querySelectorAll('.mensagem-erro').forEach(erro => {
-        erro.remove();
-    });
-}
-
-function goDash() {
-    window.location.href = "dashboard.html";
-}
-
-function goPainel() {
-    window.location.href = "painel.html";
-}
-
-function goHome() {
-    sessionStorage.clear();
-    window.location.href = "../index.html";
-}
-
-function toggleMenu() {
-    document.getElementById("menuLateral").classList.toggle("aberto");
-}
-
-function setActiveMenu() {
-    const currentPage = window.location.pathname.split("/").pop();
-    if (currentPage === "dashboard.html" || currentPage === "") {
-        document.getElementById("btnDash")?.classList.add("active");
-        document.getElementById("btnPainel")?.classList.remove("active");
-    } else if (currentPage === "painel.html") {
-        document.getElementById("btnPainel")?.classList.add("active");
-        document.getElementById("btnDash")?.classList.remove("active");
-    }
-}
-document.addEventListener("DOMContentLoaded", setActiveMenu);
-
-function mostrarTabela(tipo, botaoClicado) {
-    abaAtual = tipo;
-    document.querySelectorAll(".secao-tabela").forEach(secao => {
-        secao.classList.remove("ativa-tabela");
-    });
-    document.getElementById(tipo).classList.add("ativa-tabela");
-    document.querySelectorAll(".aba-btn").forEach(botao => {
-        botao.classList.remove("ativa");
-    });
-    botaoClicado.classList.add("ativa");
-    if (tipo === "usuarios") carregarUsuarios();
-    if (tipo === "alunos")   carregarAlunos();
-    if (tipo === "cursos")   carregarCursos();
-    if (tipo === "metas")    carregarMetas();
-}
-
-function atualizarForcaSenha() {
-    const senhaInput = document.getElementById("senhaUsuario");
-    if (!senhaInput) return;
-    
-    const forcaDiv = document.getElementById("forcaSenha");
-    if (!forcaDiv) return;
-    
-    const senha = senhaInput.value;
-    if (!senha) {
-        forcaDiv.style.display = "none";
-        return;
-    }
-    
-    const forca = verificarForcaSenha(senha);
-    forcaDiv.style.display = "block";
-    forcaDiv.className = `forca-senha forca-${forca.toLowerCase().replace(' ', '-')}`;
-    forcaDiv.innerHTML = `Força da senha: ${forca}`;
-    
-    const requisitos = {
-        'req-tamanho': senha.length >= 8,
-        'req-maiuscula': /[A-Z]/.test(senha),
-        'req-minuscula': /[a-z]/.test(senha),
-        'req-numero': /[0-9]/.test(senha),
-        'req-especial': /[!@#$%^&*(),.?":{}|<>]/.test(senha)
-    };
-    
-    for (const [id, atendido] of Object.entries(requisitos)) {
-        const elemento = document.getElementById(id);
-        if (elemento) {
-            elemento.className = atendido ? "requisito-atendido" : "requisito-nao-atendido";
-            const texto = elemento.innerHTML.substring(2);
-            elemento.innerHTML = atendido ? "✓ " + texto : "✗ " + texto;
+        if (cargoUsuario && cargoUsuario !== "Coordenador") {
+            window.location.href = "../login.html";
         }
-    }
-}
 
-// ── MODAL ────────────────────────────────────────────────────────────────────
+        document.getElementById("nomeUsuarioSidebar").innerText = nomeUsuario;
+        document.getElementById("cargoUsuarioSidebar").innerText = cargoUsuario || "Coordenador";
 
-function abrirModal(modo, dados) {
-    modoModal = modo;
-    registroEditandoId = dados ? (dados.id || dados.RA) : null;
-    const camposModal = document.getElementById("camposModal");
-    const tituloModal = document.getElementById("tituloModal");
-    camposModal.innerHTML = "";
-    limparErros();
+        let abaAtual = "usuarios";
+        let todosUsuarios = [];
+        let todosAlunos = [];
+        let todosCursos = [];
+        let todasMetas = [];
+        let registroEditandoId = null;
+        let modoModal = "adicionar";
+        let alertCallback = null;
 
-    if (abaAtual === "usuarios") {
-        tituloModal.innerText = modo === "editar" ? "Editar Usuário" : "Adicionar Novo Usuário";
-        camposModal.innerHTML = `
+        // Funções de Alert e Loader
+        function showAlert(type, title, message, onClose = null) {
+            const alert = document.getElementById("customAlert");
+            const alertIcon = document.getElementById("alertIcon");
+            const alertTitle = document.getElementById("alertTitle");
+            const alertMessage = document.getElementById("alertMessage");
+
+            alertIcon.innerHTML = "";
+
+            if (type === "success") {
+                alertIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+                alertIcon.className = "alerta-icone success";
+            } else if (type === "error") {
+                alertIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+                alertIcon.className = "alerta-icone error";
+            } else if (type === "warning") {
+                alertIcon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
+                alertIcon.className = "alerta-icone warning";
+            } else {
+                alertIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+                alertIcon.className = "alerta-icone info";
+            }
+
+            alertTitle.textContent = title;
+            alertMessage.textContent = message;
+            alertCallback = onClose;
+            alert.classList.add("active");
+        }
+
+        function closeAlert() {
+            document.getElementById("customAlert").classList.remove("active");
+            if (alertCallback) {
+                alertCallback();
+                alertCallback = null;
+            }
+        }
+
+        function showLoader() {
+            document.getElementById("customLoader").classList.add("active");
+        }
+
+        function hideLoader() {
+            document.getElementById("customLoader").classList.remove("active");
+        }
+
+        // Funções de validação
+        function validarNome(nome) {
+            return nome && nome.trim().length >= 2 && /^[a-zA-ZÀ-ÿ\s]+$/.test(nome);
+        }
+
+        function validarEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/[^\d]/g, '');
+            if (cpf.length !== 11) return false;
+            if (/^(\d)\1{10}$/.test(cpf)) return false;
+
+            let soma = 0;
+            for (let i = 0; i < 9; i++) {
+                soma += parseInt(cpf.charAt(i)) * (10 - i);
+            }
+            let resto = 11 - (soma % 11);
+            let digito1 = resto === 10 || resto === 11 ? 0 : resto;
+            if (digito1 !== parseInt(cpf.charAt(9))) return false;
+
+            soma = 0;
+            for (let i = 0; i < 10; i++) {
+                soma += parseInt(cpf.charAt(i)) * (11 - i);
+            }
+            resto = 11 - (soma % 11);
+            let digito2 = resto === 10 || resto === 11 ? 0 : resto;
+            return digito2 === parseInt(cpf.charAt(10));
+        }
+
+        function formatarCPF(cpf) {
+            cpf = cpf.replace(/[^\d]/g, '');
+            if (cpf.length === 11) {
+                return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            }
+            return cpf;
+        }
+
+        function validarSenha(senha) {
+            if (!senha || senha.length < 8) return false;
+            let temMaiuscula = /[A-Z]/.test(senha);
+            let temMinuscula = /[a-z]/.test(senha);
+            let temNumero = /[0-9]/.test(senha);
+            let temEspecial = /[!@#$%^&*(),.?":{}|<>]/.test(senha);
+            return temMaiuscula && temMinuscula && temNumero && temEspecial;
+        }
+
+        function verificarForcaSenha(senha) {
+            let forca = 0;
+            if (senha.length >= 8) forca++;
+            if (senha.length >= 12) forca++;
+            if (/[A-Z]/.test(senha)) forca++;
+            if (/[a-z]/.test(senha)) forca++;
+            if (/[0-9]/.test(senha)) forca++;
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(senha)) forca++;
+
+            if (forca <= 2) return "Muito Fraca";
+            if (forca <= 3) return "Fraca";
+            if (forca <= 4) return "Média";
+            if (forca <= 5) return "Forte";
+            return "Muito Forte";
+        }
+
+        function validarToken(token) {
+            return token && token.length === 6 && /^[A-Z0-9]+$/.test(token);
+        }
+
+        function mostrarErro(campoId, mensagem) {
+            const campo = document.getElementById(campoId);
+            if (!campo) return;
+
+            const erroAnterior = campo.parentElement?.querySelector('.mensagem-erro');
+            if (erroAnterior) erroAnterior.remove();
+
+            campo.classList.add('campo-invalido');
+            const erro = document.createElement('span');
+            erro.className = 'mensagem-erro';
+            erro.innerText = mensagem;
+            campo.insertAdjacentElement('afterend', erro);
+        }
+
+        function limparErros() {
+            document.querySelectorAll('.campo-invalido').forEach(campo => {
+                campo.classList.remove('campo-invalido');
+            });
+            document.querySelectorAll('.mensagem-erro').forEach(erro => {
+                erro.remove();
+            });
+        }
+
+        function goDash() {
+            window.location.href = "dashboard.html";
+        }
+
+        function goPainel() {
+            window.location.href = "painel.html";
+        }
+
+        function goHome() {
+            sessionStorage.clear();
+            window.location.href = "../index.html";
+        }
+
+        function toggleMenu() {
+            document.getElementById("menuLateral").classList.toggle("aberto");
+        }
+
+        function setActiveMenu() {
+            const currentPage = window.location.pathname.split("/").pop();
+            if (currentPage === "dashboard.html" || currentPage === "") {
+                document.getElementById("btnDash")?.classList.add("active");
+                document.getElementById("btnPainel")?.classList.remove("active");
+            } else if (currentPage === "painel.html") {
+                document.getElementById("btnPainel")?.classList.add("active");
+                document.getElementById("btnDash")?.classList.remove("active");
+            }
+        }
+        document.addEventListener("DOMContentLoaded", setActiveMenu);
+
+        function mostrarTabela(tipo, botaoClicado) {
+            abaAtual = tipo;
+            document.querySelectorAll(".secao-tabela").forEach(secao => {
+                secao.classList.remove("ativa-tabela");
+            });
+            document.getElementById(tipo).classList.add("ativa-tabela");
+            document.querySelectorAll(".aba-btn").forEach(botao => {
+                botao.classList.remove("ativa");
+            });
+            botaoClicado.classList.add("ativa");
+            if (tipo === "usuarios") carregarUsuarios();
+            if (tipo === "alunos") carregarAlunos();
+            if (tipo === "cursos") carregarCursos();
+            if (tipo === "metas") carregarMetas();
+        }
+
+        function atualizarForcaSenha() {
+            const senhaInput = document.getElementById("senhaUsuario");
+            if (!senhaInput) return;
+
+            const forcaDiv = document.getElementById("forcaSenha");
+            if (!forcaDiv) return;
+
+            const senha = senhaInput.value;
+            if (!senha) {
+                forcaDiv.style.display = "none";
+                return;
+            }
+
+            const forca = verificarForcaSenha(senha);
+            forcaDiv.style.display = "block";
+            forcaDiv.className = `forca-senha forca-${forca.toLowerCase().replace(' ', '-')}`;
+            forcaDiv.innerHTML = `Força da senha: ${forca}`;
+
+            const requisitos = {
+                'req-tamanho': senha.length >= 8,
+                'req-maiuscula': /[A-Z]/.test(senha),
+                'req-minuscula': /[a-z]/.test(senha),
+                'req-numero': /[0-9]/.test(senha),
+                'req-especial': /[!@#$%^&*(),.?":{}|<>]/.test(senha)
+            };
+
+            for (const [id, atendido] of Object.entries(requisitos)) {
+                const elemento = document.getElementById(id);
+                if (elemento) {
+                    elemento.className = atendido ? "requisito-atendido" : "requisito-nao-atendido";
+                    const texto = elemento.innerHTML.substring(2);
+                    elemento.innerHTML = atendido ? "✓ " + texto : "✗ " + texto;
+                }
+            }
+        }
+
+        // ── MODAL ────────────────────────────────────────────────────────────────────
+
+        function abrirModal(modo, dados) {
+            modoModal = modo;
+            registroEditandoId = dados ? (dados.id || dados.RA) : null;
+            const camposModal = document.getElementById("camposModal");
+            const tituloModal = document.getElementById("tituloModal");
+            camposModal.innerHTML = "";
+            limparErros();
+
+            if (abaAtual === "usuarios") {
+                tituloModal.innerText = modo === "editar" ? "Editar Usuário" : "Adicionar Novo Usuário";
+                camposModal.innerHTML = `
             <input type="text" id="nomeUsuarioInput" placeholder="Nome * (mínimo 2 caracteres, apenas letras)" value="${dados ? dados.nome : ''}" required>
             <input type="text" id="sobrenomeUsuarioInput" placeholder="Sobrenome *" value="${dados ? (dados.sobrenome !== '-' ? dados.sobrenome : '') : ''}" required>
             <input type="email" id="emailUsuarioInput" placeholder="Email * (exemplo@email.com)" value="${dados ? dados.email : ''}" required>
@@ -714,13 +740,13 @@ function abrirModal(modo, dados) {
                 <input type="text" id="tokenUsuario" placeholder="Token da universidade * (6 caracteres, letras maiúsculas ou números)" maxlength="6" required>
             ` : ""}
         `;
-    }
+            }
 
-    else if (abaAtual === "alunos") {
-        tituloModal.innerText = modo === "editar" ? "Editar Aluno" : "Adicionar Novo Aluno";
-        const sexoValor = dados ? dados.sexo : "";
-        const cpfValor = dados ? (dados.cpf || "") : "";
-        camposModal.innerHTML = `
+            else if (abaAtual === "alunos") {
+                tituloModal.innerText = modo === "editar" ? "Editar Aluno" : "Adicionar Novo Aluno";
+                const sexoValor = dados ? dados.sexo : "";
+                const cpfValor = dados ? (dados.cpf || "") : "";
+                camposModal.innerHTML = `
             <input type="text" id="nomeAlunoInput" placeholder="Nome * (mínimo 2 caracteres)" value="${dados ? dados.nome : ''}" required>
             <input type="text" id="sobrenomeAlunoInput" placeholder="Sobrenome * (mínimo 2 caracteres)" value="${dados ? dados.sobrenome : ''}" required>
             <input type="text" id="cpfAlunoInput" placeholder="CPF * (000.000.000-00)" value="${cpfValor ? formatarCPF(cpfValor) : ''}" oninput="this.value = this.value.replace(/[^\\d]/g, '').replace(/(\\d{3})(\\d{3})(\\d{3})(\\d{2})/, '$1.$2.$3-$4')" required>
@@ -731,11 +757,11 @@ function abrirModal(modo, dados) {
             </select>
             <input type="email" id="emailAlunoInput" placeholder="Email * (exemplo@email.com)" value="${dados ? dados.email : ''}" required>
         `;
-    }
+            }
 
-    else if (abaAtual === "cursos") {
-        tituloModal.innerText = modo === "editar" ? "Editar Curso" : "Adicionar Novo Curso";
-        camposModal.innerHTML = `
+            else if (abaAtual === "cursos") {
+                tituloModal.innerText = modo === "editar" ? "Editar Curso" : "Adicionar Novo Curso";
+                camposModal.innerHTML = `
             <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome do Curso *</label>
             <select id="nomeCursoInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
                 <option value="">Selecione o curso</option>
@@ -745,11 +771,11 @@ function abrirModal(modo, dados) {
                 <option value="Ciências da Computação" ${dados && dados.nome === "Ciências da Computação" ? "selected" : ""}>Ciências da Computação</option>
             </select>
         `;
-    }
+            }
 
-    else if (abaAtual === "metas") {
-        tituloModal.innerText = modo === "editar" ? "Editar Meta" : "Adicionar Nova Meta";
-        camposModal.innerHTML = `
+            else if (abaAtual === "metas") {
+                tituloModal.innerText = modo === "editar" ? "Editar Meta" : "Adicionar Nova Meta";
+                camposModal.innerHTML = `
             <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome da Meta *</label>
             <input type="text" id="metaInput" placeholder="Ex: Melhorar notas em cálculo" value="${dados ? dados.meta : ''}" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
 
@@ -773,389 +799,389 @@ function abrirModal(modo, dados) {
                 <output style="display: block; text-align: center; margin-top: 8px; font-weight: bold; color: #4681A6;">${dados ? dados.porcentagem : "0%"}</output>
             </div>
         `;
-    }
+            }
 
-    document.getElementById("modalUsuario").style.display = "flex";
-}
-
-function fecharModal() {
-    document.getElementById("modalUsuario").style.display = "none";
-    registroEditandoId = null;
-    modoModal = "adicionar";
-    limparErros();
-}
-
-// ── SALVAR COM VALIDAÇÕES COMPLETAS ───────────────────────────────────────────
-
-async function salvarRegistro() {
-    limparErros();
-
-    if (abaAtual === "usuarios") {
-        const nome = document.getElementById("nomeUsuarioInput")?.value.trim();
-        const sobrenome = document.getElementById("sobrenomeUsuarioInput")?.value.trim();
-        const email = document.getElementById("emailUsuarioInput")?.value.trim();
-
-        // Validação de campos obrigatórios
-        if (!nome) {
-            showAlert("warning", "Campo Obrigatório", "O campo Nome é obrigatório!");
-            return;
-        }
-        if (!sobrenome) {
-            showAlert("warning", "Campo Obrigatório", "O campo Sobrenome é obrigatório!");
-            return;
-        }
-        if (!email) {
-            showAlert("warning", "Campo Obrigatório", "O campo Email é obrigatório!");
-            return;
+            document.getElementById("modalUsuario").style.display = "flex";
         }
 
-        // Validação de formato
-        if (!validarNome(nome)) {
-            mostrarErro("nomeUsuarioInput", "Nome deve ter pelo menos 2 caracteres e conter apenas letras");
-            return;
-        }
-        if (!validarNome(sobrenome)) {
-            mostrarErro("sobrenomeUsuarioInput", "Sobrenome deve ter pelo menos 2 caracteres e conter apenas letras");
-            return;
-        }
-        if (!validarEmail(email)) {
-            mostrarErro("emailUsuarioInput", "Email inválido! Exemplo: usuario@email.com");
-            return;
+        function fecharModal() {
+            document.getElementById("modalUsuario").style.display = "none";
+            registroEditandoId = null;
+            modoModal = "adicionar";
+            limparErros();
         }
 
-        if (modoModal === "adicionar") {
-            const token = document.getElementById("tokenUsuario")?.value.trim().toUpperCase();
-            const senha = document.getElementById("senhaUsuario")?.value;
+        // ── SALVAR COM VALIDAÇÕES COMPLETAS ───────────────────────────────────────────
 
-            if (!token) {
-                showAlert("warning", "Campo Obrigatório", "O campo Token é obrigatório!");
+        async function salvarRegistro() {
+            limparErros();
+
+            if (abaAtual === "usuarios") {
+                const nome = document.getElementById("nomeUsuarioInput")?.value.trim();
+                const sobrenome = document.getElementById("sobrenomeUsuarioInput")?.value.trim();
+                const email = document.getElementById("emailUsuarioInput")?.value.trim();
+
+                // Validação de campos obrigatórios
+                if (!nome) {
+                    showAlert("warning", "Campo Obrigatório", "O campo Nome é obrigatório!");
+                    return;
+                }
+                if (!sobrenome) {
+                    showAlert("warning", "Campo Obrigatório", "O campo Sobrenome é obrigatório!");
+                    return;
+                }
+                if (!email) {
+                    showAlert("warning", "Campo Obrigatório", "O campo Email é obrigatório!");
+                    return;
+                }
+
+                // Validação de formato
+                if (!validarNome(nome)) {
+                    mostrarErro("nomeUsuarioInput", "Nome deve ter pelo menos 2 caracteres e conter apenas letras");
+                    return;
+                }
+                if (!validarNome(sobrenome)) {
+                    mostrarErro("sobrenomeUsuarioInput", "Sobrenome deve ter pelo menos 2 caracteres e conter apenas letras");
+                    return;
+                }
+                if (!validarEmail(email)) {
+                    mostrarErro("emailUsuarioInput", "Email inválido! Exemplo: usuario@email.com");
+                    return;
+                }
+
+                if (modoModal === "adicionar") {
+                    const token = document.getElementById("tokenUsuario")?.value.trim().toUpperCase();
+                    const senha = document.getElementById("senhaUsuario")?.value;
+
+                    if (!token) {
+                        showAlert("warning", "Campo Obrigatório", "O campo Token é obrigatório!");
+                        return;
+                    }
+                    if (!senha) {
+                        showAlert("warning", "Campo Obrigatório", "O campo Senha é obrigatório!");
+                        return;
+                    }
+                    if (!validarToken(token)) {
+                        showAlert("warning", "Token Inválido", "O token deve ter exatamente 6 caracteres (letras maiúsculas ou números)");
+                        return;
+                    }
+                    if (!validarSenha(senha)) {
+                        showAlert("warning", "Senha Fraca", "A senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais!");
+                        return;
+                    }
+                }
+
+                showLoader();
+                try {
+                    if (modoModal === "editar") {
+                        const resposta = await fetch(
+                            `/diretoria/atualizar/${registroEditandoId}?fkUniversidade=${fkUniversidade}`,
+                            {
+                                method: "PUT",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    nome,
+                                    sobrenome: sobrenome || "-",
+                                    email,
+                                    cargo: "Coordenador"
+                                })
+                            }
+                        );
+                        hideLoader();
+                        if (resposta.ok) {
+                            showAlert("success", "Sucesso!", "Usuário atualizado com sucesso.", () => {
+                                fecharModal();
+                                carregarUsuarios();
+                            });
+                        } else {
+                            const erroMsg = await resposta.text();
+                            showAlert("error", "Erro", "Erro ao atualizar usuário: " + erroMsg);
+                        }
+                    } else {
+                        const token = document.getElementById("tokenUsuario")?.value.trim().toUpperCase();
+                        const senha = document.getElementById("senhaUsuario")?.value;
+                        const resposta = await fetch("/diretoria/cadastrar", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                nomeServer: nome,
+                                sobrenomeServer: sobrenome || "-",
+                                emailServer: email,
+                                tokenServer: token,
+                                senhaServer: senha,
+                                cargoServer: "Coordenador"
+                            })
+                        });
+                        hideLoader();
+                        if (resposta.status === 201) {
+                            showAlert("success", "Sucesso!", "Usuário cadastrado com sucesso.", () => {
+                                fecharModal();
+                                carregarUsuarios();
+                            });
+                        } else {
+                            const erroMsg = await resposta.text();
+                            showAlert("error", "Erro", "Erro ao cadastrar: " + erroMsg);
+                        }
+                    }
+                } catch (erro) {
+                    hideLoader();
+                    showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
+                }
+            }
+
+            else if (abaAtual === "alunos") {
+                const nome = document.getElementById("nomeAlunoInput")?.value.trim();
+                const sobrenome = document.getElementById("sobrenomeAlunoInput")?.value.trim();
+                const cpf = document.getElementById("cpfAlunoInput")?.value.trim();
+                const sexo = document.getElementById("sexoAlunoInput")?.value;
+                const email = document.getElementById("emailAlunoInput")?.value.trim();
+
+                // Validação de campos obrigatórios
+                if (!nome) {
+                    showAlert("warning", "Campo Obrigatório", "O campo Nome é obrigatório!");
+                    return;
+                }
+                if (!sobrenome) {
+                    showAlert("warning", "Campo Obrigatório", "O campo Sobrenome é obrigatório!");
+                    return;
+                }
+                if (!cpf) {
+                    showAlert("warning", "Campo Obrigatório", "O campo CPF é obrigatório!");
+                    return;
+                }
+                if (!sexo) {
+                    showAlert("warning", "Campo Obrigatório", "O campo Sexo é obrigatório!");
+                    return;
+                }
+                if (!email) {
+                    showAlert("warning", "Campo Obrigatório", "O campo Email é obrigatório!");
+                    return;
+                }
+
+                // Validação de formato
+                if (!validarNome(nome)) {
+                    mostrarErro("nomeAlunoInput", "Nome deve ter pelo menos 2 caracteres");
+                    return;
+                }
+                if (!validarNome(sobrenome)) {
+                    mostrarErro("sobrenomeAlunoInput", "Sobrenome deve ter pelo menos 2 caracteres");
+                    return;
+                }
+                if (!validarCPF(cpf)) {
+                    mostrarErro("cpfAlunoInput", "CPF inválido! Digite um CPF válido.");
+                    return;
+                }
+                if (!validarEmail(email)) {
+                    mostrarErro("emailAlunoInput", "Email inválido!");
+                    return;
+                }
+
+                showLoader();
+                try {
+                    if (modoModal === "editar") {
+                        const resposta = await fetch(
+                            `/diretoria/alunos/atualizar/${registroEditandoId}`,
+                            {
+                                method: "PUT",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ nome, sobrenome, cpf, sexo, email })
+                            }
+                        );
+                        hideLoader();
+                        if (resposta.ok) {
+                            showAlert("success", "Sucesso!", "Aluno atualizado com sucesso.", () => {
+                                fecharModal();
+                                carregarAlunos();
+                            });
+                        } else {
+                            const erroMsg = await resposta.text();
+                            showAlert("error", "Erro", "Erro ao atualizar: " + erroMsg);
+                        }
+                    } else {
+                        const resposta = await fetch("/diretoria/alunos/cadastrar", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ nome, sobrenome, cpf, sexo, email })
+                        });
+                        hideLoader();
+                        if (resposta.status === 201) {
+                            showAlert("success", "Sucesso!", "Aluno cadastrado com sucesso.", () => {
+                                fecharModal();
+                                carregarAlunos();
+                            });
+                        } else {
+                            const erroMsg = await resposta.text();
+                            showAlert("error", "Erro", "Erro ao cadastrar: " + erroMsg);
+                        }
+                    }
+                } catch (erro) {
+                    hideLoader();
+                    showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
+                }
+            }
+
+            else if (abaAtual === "cursos") {
+                const nome = document.getElementById("nomeCursoInput")?.value.trim();
+
+                if (!nome) {
+                    showAlert("warning", "Campo Obrigatório", "Selecione um curso!");
+                    return;
+                }
+
+                showLoader();
+                try {
+                    if (modoModal === "editar") {
+                        const resposta = await fetch(
+                            `/diretoria/cursos/atualizar/${registroEditandoId}?fkUniversidade=${fkUniversidade}`,
+                            {
+                                method: "PUT",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ nome, modalidade: "-" })
+                            }
+                        );
+                        hideLoader();
+                        if (resposta.ok) {
+                            showAlert("success", "Sucesso!", "Curso atualizado com sucesso.", () => {
+                                fecharModal();
+                                carregarCursos();
+                            });
+                        } else {
+                            const erroMsg = await resposta.text();
+                            showAlert("error", "Erro", "Erro ao atualizar: " + erroMsg);
+                        }
+                    } else {
+                        const resposta = await fetch(
+                            `/diretoria/cursos/cadastrar?fkUniversidade=${fkUniversidade}`,
+                            {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ nome, modalidade: "-" })
+                            }
+                        );
+                        hideLoader();
+                        if (resposta.status === 201) {
+                            showAlert("success", "Sucesso!", "Curso cadastrado com sucesso.", () => {
+                                fecharModal();
+                                carregarCursos();
+                            });
+                        } else {
+                            const erroMsg = await resposta.text();
+                            showAlert("error", "Erro", "Erro ao cadastrar: " + erroMsg);
+                        }
+                    }
+                } catch (erro) {
+                    hideLoader();
+                    showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
+                }
+            }
+
+            else if (abaAtual === "metas") {
+                const meta = document.getElementById("metaInput")?.value.trim();
+                const categoria = document.getElementById("categoriaMetaInput")?.value;
+                const fkCurso = document.getElementById("cursoMetaInput")?.value;
+
+                // Validação de campos obrigatórios
+                if (!meta) {
+                    showAlert("warning", "Campo Obrigatório", "O campo Meta é obrigatório!");
+                    return;
+                }
+                if (!categoria) {
+                    showAlert("warning", "Campo Obrigatório", "Selecione o nível de risco!");
+                    return;
+                }
+                if (!fkCurso) {
+                    showAlert("warning", "Campo Obrigatório", "Selecione o curso!");
+                    return;
+                }
+
+                // Validação de formato
+                if (meta.length < 5) {
+                    showAlert("warning", "Campo Inválido", "A meta deve ter pelo menos 5 caracteres!");
+                    return;
+                }
+
+                const porcentagem = document.getElementById("porcentagemMetaInput")?.value;
+
+                showLoader();
+                try {
+                    if (modoModal === "editar") {
+                        const resposta = await fetch(`/metas/editar/${registroEditandoId}`, {
+                            method: "PUT",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                tituloServer: meta,
+                                categoriaServer: categoria,
+                                porcentagemServer: porcentagem,
+                                fkCursoServer: fkCurso
+                            })
+                        });
+                        hideLoader();
+                        if (resposta.ok) {
+                            showAlert("success", "Sucesso!", "Meta atualizada com sucesso.", () => {
+                                fecharModal();
+                                carregarMetas();
+                            });
+                        } else {
+                            const erroMsg = await resposta.text();
+                            showAlert("error", "Erro", "Erro ao atualizar: " + erroMsg);
+                        }
+                    } else {
+                        const resposta = await fetch("/metas/cadastrar", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                tituloServer: meta,
+                                categoriaServer: categoria,
+                                porcentagemServer: porcentagem,
+                                fkCursoServer: fkCurso,
+                                fkUniversidadeServer: fkUniversidade
+                            })
+                        });
+                        hideLoader();
+                        if (resposta.ok) {
+                            showAlert("success", "Sucesso!", "Meta cadastrada com sucesso.", () => {
+                                fecharModal();
+                                carregarMetas();
+                            });
+                        } else {
+                            const erroMsg = await resposta.text();
+                            showAlert("error", "Erro", "Erro ao cadastrar: " + erroMsg);
+                        }
+                    }
+                } catch (erro) {
+                    hideLoader();
+                    showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
+                }
+            }
+        }
+
+        // ── USUÁRIOS ─────────────────────────────────────────────────────────────────
+
+        async function carregarUsuarios() {
+            if (!fkUniversidade) return;
+            try {
+                const resposta = await fetch(`/diretoria/listar?fkUniversidade=${fkUniversidade}`);
+                const tbody = document.getElementById("usuariosTabelaBody");
+                if (!resposta.ok) {
+                    tbody.innerHTML = `<tr><td colspan="6">Não foi possível carregar os usuários.</td></tr>`;
+                    return;
+                }
+                todosUsuarios = await resposta.json();
+                renderizarUsuarios(todosUsuarios);
+            } catch (erro) {
+                console.error(erro);
+            }
+        }
+
+        function renderizarUsuarios(usuarios) {
+            const tbody = document.getElementById("usuariosTabelaBody");
+            if (usuarios.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6">Nenhum usuário encontrado.</td></tr>`;
                 return;
             }
-            if (!senha) {
-                showAlert("warning", "Campo Obrigatório", "O campo Senha é obrigatório!");
-                return;
-            }
-            if (!validarToken(token)) {
-                showAlert("warning", "Token Inválido", "O token deve ter exatamente 6 caracteres (letras maiúsculas ou números)");
-                return;
-            }
-            if (!validarSenha(senha)) {
-                showAlert("warning", "Senha Fraca", "A senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais!");
-                return;
-            }
-        }
-
-        showLoader();
-        try {
-            if (modoModal === "editar") {
-                const resposta = await fetch(
-                    `/diretoria/atualizar/${registroEditandoId}?fkUniversidade=${fkUniversidade}`,
-                    {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            nome,
-                            sobrenome: sobrenome || "-",
-                            email,
-                            cargo: "Coordenador"
-                        })
-                    }
-                );
-                hideLoader();
-                if (resposta.ok) {
-                    showAlert("success", "Sucesso!", "Usuário atualizado com sucesso.", () => {
-                        fecharModal();
-                        carregarUsuarios();
-                    });
-                } else {
-                    const erroMsg = await resposta.text();
-                    showAlert("error", "Erro", "Erro ao atualizar usuário: " + erroMsg);
-                }
-            } else {
-                const token = document.getElementById("tokenUsuario")?.value.trim().toUpperCase();
-                const senha = document.getElementById("senhaUsuario")?.value;
-                const resposta = await fetch("/diretoria/cadastrar", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        nomeServer: nome,
-                        sobrenomeServer: sobrenome || "-",
-                        emailServer: email,
-                        tokenServer: token,
-                        senhaServer: senha,
-                        cargoServer: "Coordenador"
-                    })
-                });
-                hideLoader();
-                if (resposta.status === 201) {
-                    showAlert("success", "Sucesso!", "Usuário cadastrado com sucesso.", () => {
-                        fecharModal();
-                        carregarUsuarios();
-                    });
-                } else {
-                    const erroMsg = await resposta.text();
-                    showAlert("error", "Erro", "Erro ao cadastrar: " + erroMsg);
-                }
-            }
-        } catch (erro) {
-            hideLoader();
-            showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
-        }
-    }
-
-    else if (abaAtual === "alunos") {
-        const nome = document.getElementById("nomeAlunoInput")?.value.trim();
-        const sobrenome = document.getElementById("sobrenomeAlunoInput")?.value.trim();
-        const cpf = document.getElementById("cpfAlunoInput")?.value.trim();
-        const sexo = document.getElementById("sexoAlunoInput")?.value;
-        const email = document.getElementById("emailAlunoInput")?.value.trim();
-
-        // Validação de campos obrigatórios
-        if (!nome) {
-            showAlert("warning", "Campo Obrigatório", "O campo Nome é obrigatório!");
-            return;
-        }
-        if (!sobrenome) {
-            showAlert("warning", "Campo Obrigatório", "O campo Sobrenome é obrigatório!");
-            return;
-        }
-        if (!cpf) {
-            showAlert("warning", "Campo Obrigatório", "O campo CPF é obrigatório!");
-            return;
-        }
-        if (!sexo) {
-            showAlert("warning", "Campo Obrigatório", "O campo Sexo é obrigatório!");
-            return;
-        }
-        if (!email) {
-            showAlert("warning", "Campo Obrigatório", "O campo Email é obrigatório!");
-            return;
-        }
-
-        // Validação de formato
-        if (!validarNome(nome)) {
-            mostrarErro("nomeAlunoInput", "Nome deve ter pelo menos 2 caracteres");
-            return;
-        }
-        if (!validarNome(sobrenome)) {
-            mostrarErro("sobrenomeAlunoInput", "Sobrenome deve ter pelo menos 2 caracteres");
-            return;
-        }
-        if (!validarCPF(cpf)) {
-            mostrarErro("cpfAlunoInput", "CPF inválido! Digite um CPF válido.");
-            return;
-        }
-        if (!validarEmail(email)) {
-            mostrarErro("emailAlunoInput", "Email inválido!");
-            return;
-        }
-
-        showLoader();
-        try {
-            if (modoModal === "editar") {
-                const resposta = await fetch(
-                    `/diretoria/alunos/atualizar/${registroEditandoId}`,
-                    {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ nome, sobrenome, cpf, sexo, email })
-                    }
-                );
-                hideLoader();
-                if (resposta.ok) {
-                    showAlert("success", "Sucesso!", "Aluno atualizado com sucesso.", () => {
-                        fecharModal();
-                        carregarAlunos();
-                    });
-                } else {
-                    const erroMsg = await resposta.text();
-                    showAlert("error", "Erro", "Erro ao atualizar: " + erroMsg);
-                }
-            } else {
-                const resposta = await fetch("/diretoria/alunos/cadastrar", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ nome, sobrenome, cpf, sexo, email })
-                });
-                hideLoader();
-                if (resposta.status === 201) {
-                    showAlert("success", "Sucesso!", "Aluno cadastrado com sucesso.", () => {
-                        fecharModal();
-                        carregarAlunos();
-                    });
-                } else {
-                    const erroMsg = await resposta.text();
-                    showAlert("error", "Erro", "Erro ao cadastrar: " + erroMsg);
-                }
-            }
-        } catch (erro) {
-            hideLoader();
-            showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
-        }
-    }
-
-    else if (abaAtual === "cursos") {
-        const nome = document.getElementById("nomeCursoInput")?.value.trim();
-        
-        if (!nome) {
-            showAlert("warning", "Campo Obrigatório", "Selecione um curso!");
-            return;
-        }
-
-        showLoader();
-        try {
-            if (modoModal === "editar") {
-                const resposta = await fetch(
-                    `/diretoria/cursos/atualizar/${registroEditandoId}?fkUniversidade=${fkUniversidade}`,
-                    {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ nome, modalidade: "-" })
-                    }
-                );
-                hideLoader();
-                if (resposta.ok) {
-                    showAlert("success", "Sucesso!", "Curso atualizado com sucesso.", () => {
-                        fecharModal();
-                        carregarCursos();
-                    });
-                } else {
-                    const erroMsg = await resposta.text();
-                    showAlert("error", "Erro", "Erro ao atualizar: " + erroMsg);
-                }
-            } else {
-                const resposta = await fetch(
-                    `/diretoria/cursos/cadastrar?fkUniversidade=${fkUniversidade}`,
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ nome, modalidade: "-" })
-                    }
-                );
-                hideLoader();
-                if (resposta.status === 201) {
-                    showAlert("success", "Sucesso!", "Curso cadastrado com sucesso.", () => {
-                        fecharModal();
-                        carregarCursos();
-                    });
-                } else {
-                    const erroMsg = await resposta.text();
-                    showAlert("error", "Erro", "Erro ao cadastrar: " + erroMsg);
-                }
-            }
-        } catch (erro) {
-            hideLoader();
-            showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
-        }
-    }
-
-    else if (abaAtual === "metas") {
-        const meta = document.getElementById("metaInput")?.value.trim();
-        const categoria = document.getElementById("categoriaMetaInput")?.value;
-        const fkCurso = document.getElementById("cursoMetaInput")?.value;
-
-        // Validação de campos obrigatórios
-        if (!meta) {
-            showAlert("warning", "Campo Obrigatório", "O campo Meta é obrigatório!");
-            return;
-        }
-        if (!categoria) {
-            showAlert("warning", "Campo Obrigatório", "Selecione o nível de risco!");
-            return;
-        }
-        if (!fkCurso) {
-            showAlert("warning", "Campo Obrigatório", "Selecione o curso!");
-            return;
-        }
-
-        // Validação de formato
-        if (meta.length < 5) {
-            showAlert("warning", "Campo Inválido", "A meta deve ter pelo menos 5 caracteres!");
-            return;
-        }
-
-        const porcentagem = document.getElementById("porcentagemMetaInput")?.value;
-
-        showLoader();
-        try {
-            if (modoModal === "editar") {
-                const resposta = await fetch(`/metas/editar/${registroEditandoId}`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        tituloServer: meta,
-                        categoriaServer: categoria,
-                        porcentagemServer: porcentagem,
-                        fkCursoServer: fkCurso
-                    })
-                });
-                hideLoader();
-                if (resposta.ok) {
-                    showAlert("success", "Sucesso!", "Meta atualizada com sucesso.", () => {
-                        fecharModal();
-                        carregarMetas();
-                    });
-                } else {
-                    const erroMsg = await resposta.text();
-                    showAlert("error", "Erro", "Erro ao atualizar: " + erroMsg);
-                }
-            } else {
-                const resposta = await fetch("/metas/cadastrar", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        tituloServer: meta,
-                        categoriaServer: categoria,
-                        porcentagemServer: porcentagem,
-                        fkCursoServer: fkCurso,
-                        fkUniversidadeServer: fkUniversidade
-                    })
-                });
-                hideLoader();
-                if (resposta.ok) {
-                    showAlert("success", "Sucesso!", "Meta cadastrada com sucesso.", () => {
-                        fecharModal();
-                        carregarMetas();
-                    });
-                } else {
-                    const erroMsg = await resposta.text();
-                    showAlert("error", "Erro", "Erro ao cadastrar: " + erroMsg);
-                }
-            }
-        } catch (erro) {
-            hideLoader();
-            showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
-        }
-    }
-}
-
-// ── USUÁRIOS ─────────────────────────────────────────────────────────────────
-
-async function carregarUsuarios() {
-    if (!fkUniversidade) return;
-    try {
-        const resposta = await fetch(`/diretoria/listar?fkUniversidade=${fkUniversidade}`);
-        const tbody = document.getElementById("usuariosTabelaBody");
-        if (!resposta.ok) {
-            tbody.innerHTML = `<tr><td colspan="6">Não foi possível carregar os usuários.</td></tr>`;
-            return;
-        }
-        todosUsuarios = await resposta.json();
-        renderizarUsuarios(todosUsuarios);
-    } catch (erro) {
-        console.error(erro);
-    }
-}
-
-function renderizarUsuarios(usuarios) {
-    const tbody = document.getElementById("usuariosTabelaBody");
-    if (usuarios.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6">Nenhum usuário encontrado.</td></tr>`;
-        return;
-    }
-    tbody.innerHTML = usuarios.map(function (usuario) {
-        const nomeCompleto = `${usuario.nome} ${usuario.sobrenome && usuario.sobrenome !== "-" ? usuario.sobrenome : ""}`.trim();
-        return `
+            tbody.innerHTML = usuarios.map(function (usuario) {
+                const nomeCompleto = `${usuario.nome} ${usuario.sobrenome && usuario.sobrenome !== "-" ? usuario.sobrenome : ""}`.trim();
+                return `
             <tr>
                 <td>${nomeCompleto}</td>
                 <td>${usuario.email}</td>
@@ -1165,41 +1191,41 @@ function renderizarUsuarios(usuarios) {
                 <td><button class="btn-excluir" onclick="abrirExcluirModal('usuario', ${usuario.id})"><span class="material-icons">delete</span></button></td>
             </tr>
         `;
-    }).join("");
-}
+            }).join("");
+        }
 
-function filtrarUsuarios() {
-    const texto = document.getElementById("pesquisaUsuariosPainel").value.toLowerCase();
-    const filtrados = todosUsuarios.filter(function (usuario) {
-        return usuario.nome.toLowerCase().includes(texto) ||
-               usuario.email.toLowerCase().includes(texto) ||
-               usuario.cargo.toLowerCase().includes(texto);
-    });
-    renderizarUsuarios(filtrados);
-}
+        function filtrarUsuarios() {
+            const texto = document.getElementById("pesquisaUsuariosPainel").value.toLowerCase();
+            const filtrados = todosUsuarios.filter(function (usuario) {
+                return usuario.nome.toLowerCase().includes(texto) ||
+                    usuario.email.toLowerCase().includes(texto) ||
+                    usuario.cargo.toLowerCase().includes(texto);
+            });
+            renderizarUsuarios(filtrados);
+        }
 
-// ── ALUNOS ───────────────────────────────────────────────────────────────────
+        // ── ALUNOS ───────────────────────────────────────────────────────────────────
 
-async function carregarAlunos() {
-    if (!fkUniversidade) return;
-    try {
-        const resposta = await fetch(`/diretoria/alunos/listar?fkUniversidade=${fkUniversidade}`);
-        if (!resposta.ok) return;
-        todosAlunos = await resposta.json();
-        renderizarAlunos(todosAlunos);
-    } catch (erro) {
-        console.error(erro);
-    }
-}
+        async function carregarAlunos() {
+            if (!fkUniversidade) return;
+            try {
+                const resposta = await fetch(`/diretoria/alunos/listar?fkUniversidade=${fkUniversidade}`);
+                if (!resposta.ok) return;
+                todosAlunos = await resposta.json();
+                renderizarAlunos(todosAlunos);
+            } catch (erro) {
+                console.error(erro);
+            }
+        }
 
-function renderizarAlunos(alunos) {
-    const tbody = document.getElementById("alunosTabelaBody");
-    if (alunos.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8">Nenhum aluno encontrado.</td></tr>`;
-        return;
-    }
-    tbody.innerHTML = alunos.map(function (aluno) {
-        return `
+        function renderizarAlunos(alunos) {
+            const tbody = document.getElementById("alunosTabelaBody");
+            if (alunos.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8">Nenhum aluno encontrado.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = alunos.map(function (aluno) {
+                return `
             <tr>
                 <td>${aluno.nome}</td>
                 <td>${aluno.sobrenome}</td>
@@ -1211,98 +1237,98 @@ function renderizarAlunos(alunos) {
                 <td><button class="btn-excluir" onclick="abrirExcluirModal('aluno', ${aluno.RA})"><span class="material-icons">delete</span></button></td>
             </tr>
         `;
-    }).join("");
-}
+            }).join("");
+        }
 
-function filtrarAlunos() {
-    const texto = document.getElementById("pesquisaAlunosPainel").value.toLowerCase();
-    const filtrados = todosAlunos.filter(function (aluno) {
-        return aluno.nome.toLowerCase().includes(texto) ||
-               aluno.sobrenome.toLowerCase().includes(texto) ||
-               aluno.email.toLowerCase().includes(texto) ||
-               (aluno.curso || "").toLowerCase().includes(texto);
-    });
-    renderizarAlunos(filtrados);
-}
+        function filtrarAlunos() {
+            const texto = document.getElementById("pesquisaAlunosPainel").value.toLowerCase();
+            const filtrados = todosAlunos.filter(function (aluno) {
+                return aluno.nome.toLowerCase().includes(texto) ||
+                    aluno.sobrenome.toLowerCase().includes(texto) ||
+                    aluno.email.toLowerCase().includes(texto) ||
+                    (aluno.curso || "").toLowerCase().includes(texto);
+            });
+            renderizarAlunos(filtrados);
+        }
 
-// ── CURSOS ───────────────────────────────────────────────────────────────────
+        // ── CURSOS ───────────────────────────────────────────────────────────────────
 
-async function carregarCursos() {
-    if (!fkUniversidade) return;
-    try {
-        const resposta = await fetch(`/cursos/listar?fkUniversidade=${fkUniversidade}`);
-        if (!resposta.ok) return;
-        todosCursos = await resposta.json();
-        renderizarCursos(todosCursos);
-    } catch (erro) {
-        console.error(erro);
-    }
-}
+        async function carregarCursos() {
+            if (!fkUniversidade) return;
+            try {
+                const resposta = await fetch(`/cursos/listar?fkUniversidade=${fkUniversidade}`);
+                if (!resposta.ok) return;
+                todosCursos = await resposta.json();
+                renderizarCursos(todosCursos);
+            } catch (erro) {
+                console.error(erro);
+            }
+        }
 
-function renderizarCursos(cursos) {
-    const tbody = document.getElementById("cursosTabelaBody");
-    if (cursos.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="3">Nenhum curso encontrado.ubro2`;
-        return;
-    }
-    tbody.innerHTML = cursos.map(function (curso) {
-        return `
+        function renderizarCursos(cursos) {
+            const tbody = document.getElementById("cursosTabelaBody");
+            if (cursos.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3">Nenhum curso encontrado`;
+                return;
+            }
+            tbody.innerHTML = cursos.map(function (curso) {
+                return `
             <tr>
                 <td>${curso.nome}</td>
                 <td><button class="btn-editar" onclick="abrirModal('editar', ${JSON.stringify(curso).replace(/"/g, '&quot;')})"><span class="material-icons">edit</span></button></td>
                 <td><button class="btn-excluir" onclick="abrirExcluirModal('curso', ${curso.id})"><span class="material-icons">delete</span></button></td>
             </tr>
         `;
-    }).join("");
-}
+            }).join("");
+        }
 
-function filtrarCursos() {
-    const texto = document.getElementById("pesquisaCursosPainel").value.toLowerCase();
-    const filtrados = todosCursos.filter(function (curso) {
-        return curso.nome.toLowerCase().includes(texto);
-    });
-    renderizarCursos(filtrados);
-}
+        function filtrarCursos() {
+            const texto = document.getElementById("pesquisaCursosPainel").value.toLowerCase();
+            const filtrados = todosCursos.filter(function (curso) {
+                return curso.nome.toLowerCase().includes(texto);
+            });
+            renderizarCursos(filtrados);
+        }
 
-// ── METAS ────────────────────────────────────────────────────────────────────
+        // ── METAS ────────────────────────────────────────────────────────────────────
 
-async function carregarMetas() {
-    try {
-        const resposta = await fetch(`/metas/listar?fkUniversidade=${fkUniversidade}`);
-        if (!resposta.ok) return;
-        todasMetas = await resposta.json();
-        renderizarMetas(
-            todasMetas.map(meta => ({
-                id:          meta.id,
-                meta:        meta.nome,
-                categoria:   meta.categoria,
-                porcentagem: `${meta.porcentagem}%`,
-                curso:       meta.curso
-            }))
-        );
-    } catch (erro) {
-        console.error(erro);
-    }
-}
+        async function carregarMetas() {
+            try {
+                const resposta = await fetch(`/metas/listar?fkUniversidade=${fkUniversidade}`);
+                if (!resposta.ok) return;
+                todasMetas = await resposta.json();
+                renderizarMetas(
+                    todasMetas.map(meta => ({
+                        id: meta.id,
+                        meta: meta.nome,
+                        categoria: meta.categoria,
+                        porcentagem: `${meta.porcentagem}%`,
+                        curso: meta.curso
+                    }))
+                );
+            } catch (erro) {
+                console.error(erro);
+            }
+        }
 
-function renderizarMetas(metas) {
-    const tbody = document.getElementById("metasTabelaBody");
-    if (metas.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5">Nenhuma meta encontrada.</td></tr>`;
-        return;
-    }
-    tbody.innerHTML = metas.map(function (meta) {
-        const valorPorcentagem = parseInt(meta.porcentagem);
-        let corPorcentagem = "inherit";
-        if (valorPorcentagem === 100)       corPorcentagem = "#48bb78";
-        else if (valorPorcentagem >= 75)    corPorcentagem = "#ed8936";
-        else if (valorPorcentagem >= 50)    corPorcentagem = "#4299e1";
+        function renderizarMetas(metas) {
+            const tbody = document.getElementById("metasTabelaBody");
+            if (metas.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5">Nenhuma meta encontrada.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = metas.map(function (meta) {
+                const valorPorcentagem = parseInt(meta.porcentagem);
+                let corPorcentagem = "inherit";
+                if (valorPorcentagem === 100) corPorcentagem = "#48bb78";
+                else if (valorPorcentagem >= 75) corPorcentagem = "#ed8936";
+                else if (valorPorcentagem >= 50) corPorcentagem = "#4299e1";
 
-        let corRisco = "#27ae60";
-        if (meta.categoria === "Risco Médio") corRisco = "#f39c12";
-        else if (meta.categoria === "Risco Alto") corRisco = "#e74c3c";
+                let corRisco = "#27ae60";
+                if (meta.categoria === "Risco Médio") corRisco = "#f39c12";
+                else if (meta.categoria === "Risco Alto") corRisco = "#e74c3c";
 
-        return `
+                return `
             <tr>
                 <td>${meta.meta}</td>
                 <td style="color: ${corRisco}; font-weight: bold;">${meta.categoria}</td>
@@ -1312,146 +1338,146 @@ function renderizarMetas(metas) {
                 <td><button class="btn-excluir" onclick="abrirExcluirModal('meta', ${meta.id})"><span class="material-icons">delete</span></button></td>
             </tr>
         `;
-    }).join("");
-}
-
-function filtrarMetas() {
-    const texto = document.getElementById("pesquisaMetasPainel").value.toLowerCase();
-    const filtradas = todasMetas.filter(function (meta) {
-        return meta.meta?.toLowerCase().includes(texto) ||
-               meta.categoria?.toLowerCase().includes(texto);
-    });
-    renderizarMetas(filtradas);
-}
-
-// ── EXCLUSÃO ─────────────────────────────────────────────────────────────────
-
-let itemParaExcluir = null;
-let tipoExclusao = null;
-
-function abrirExcluirModal(tipo, id) {
-    tipoExclusao = tipo;
-    itemParaExcluir = id;
-    const textoExcluir = document.getElementById("textoExcluir");
-    switch (tipo) {
-        case "usuario": textoExcluir.innerText = "Tem certeza que deseja excluir este usuário?"; break;
-        case "aluno":   textoExcluir.innerText = "Tem certeza que deseja excluir este aluno?"; break;
-        case "curso":   textoExcluir.innerText = "Tem certeza que deseja excluir este curso?"; break;
-        case "meta":    textoExcluir.innerText = "Tem certeza que deseja excluir esta meta?"; break;
-    }
-    document.getElementById("modalExcluir").style.display = "flex";
-}
-
-function fecharExcluirModal() {
-    document.getElementById("modalExcluir").style.display = "none";
-    itemParaExcluir = null;
-    tipoExclusao = null;
-}
-
-async function deletarUsuario(id) {
-    try {
-        const resposta = await fetch(
-            `/diretoria/deletar/${id}?fkUniversidade=${fkUniversidade}`,
-            { method: "DELETE" }
-        );
-        if (resposta.ok) {
-            showAlert("success", "Sucesso!", "Usuário deletado com sucesso.", () => {
-                carregarUsuarios();
-            });
-        } else {
-            const erroMsg = await resposta.text();
-            showAlert("error", "Erro", "Erro ao excluir usuário: " + erroMsg);
+            }).join("");
         }
-    } catch (erro) { 
-        showAlert("error", "Erro", "Não foi possível excluir o usuário.");
-    }
-}
 
-async function deletarAluno(ra) {
-    try {
-        const resposta = await fetch(
-            `/diretoria/alunos/deletar/${ra}`,
-            { method: "DELETE" }
-        );
-        if (resposta.ok) {
-            showAlert("success", "Sucesso!", "Aluno deletado com sucesso.", () => {
-                carregarAlunos();
+        function filtrarMetas() {
+            const texto = document.getElementById("pesquisaMetasPainel").value.toLowerCase();
+            const filtradas = todasMetas.filter(function (meta) {
+                return meta.meta?.toLowerCase().includes(texto) ||
+                    meta.categoria?.toLowerCase().includes(texto);
             });
-        } else {
-            const erroMsg = await resposta.text();
-            showAlert("error", "Erro", "Erro ao excluir aluno: " + erroMsg);
+            renderizarMetas(filtradas);
         }
-    } catch (erro) {
-        showAlert("error", "Erro", "Não foi possível excluir o aluno.");
-    }
-}
 
-async function deletarCurso(id) {
-    try {
-        const resposta = await fetch(
-            `/diretoria/cursos/deletar/${id}?fkUniversidade=${fkUniversidade}`,
-            { method: "DELETE" }
-        );
-        if (resposta.ok) {
-            showAlert("success", "Sucesso!", "Curso deletado com sucesso.", () => {
-                carregarCursos();
-            });
-        } else {
-            const erroMsg = await resposta.text();
-            showAlert("error", "Erro", "Erro ao excluir curso: " + erroMsg);
+        // ── EXCLUSÃO ─────────────────────────────────────────────────────────────────
+
+        let itemParaExcluir = null;
+        let tipoExclusao = null;
+
+        function abrirExcluirModal(tipo, id) {
+            tipoExclusao = tipo;
+            itemParaExcluir = id;
+            const textoExcluir = document.getElementById("textoExcluir");
+            switch (tipo) {
+                case "usuario": textoExcluir.innerText = "Tem certeza que deseja excluir este usuário?"; break;
+                case "aluno": textoExcluir.innerText = "Tem certeza que deseja excluir este aluno?"; break;
+                case "curso": textoExcluir.innerText = "Tem certeza que deseja excluir este curso?"; break;
+                case "meta": textoExcluir.innerText = "Tem certeza que deseja excluir esta meta?"; break;
+            }
+            document.getElementById("modalExcluir").style.display = "flex";
         }
-    } catch (erro) {
-        showAlert("error", "Erro", "Não foi possível excluir o curso.");
-    }
-}
 
-async function deletarMeta(id) {
-    try {
-        const resposta = await fetch(`/metas/deletar/${id}`, { method: "DELETE" });
-        if (resposta.ok) {
-            showAlert("success", "Sucesso!", "Meta excluída com sucesso.", () => {
-                carregarMetas();
-            });
-        } else {
-            const erroMsg = await resposta.text();
-            showAlert("error", "Erro", "Erro ao excluir meta: " + erroMsg);
+        function fecharExcluirModal() {
+            document.getElementById("modalExcluir").style.display = "none";
+            itemParaExcluir = null;
+            tipoExclusao = null;
         }
-    } catch (erro) {
-        showAlert("error", "Erro", "Não foi possível excluir a meta.");
-    }
-}
 
-async function confirmarExclusao() {
-    if (!itemParaExcluir) return;
-    fecharExcluirModal();
-    showLoader();
-    
-    if (tipoExclusao === "usuario") await deletarUsuario(itemParaExcluir);
-    else if (tipoExclusao === "aluno")  await deletarAluno(itemParaExcluir);
-    else if (tipoExclusao === "curso")  await deletarCurso(itemParaExcluir);
-    else if (tipoExclusao === "meta")   await deletarMeta(itemParaExcluir);
-    
-    hideLoader();
-    itemParaExcluir = null;
-    tipoExclusao = null;
-}
+        async function deletarUsuario(id) {
+            try {
+                const resposta = await fetch(
+                    `/diretoria/deletar/${id}?fkUniversidade=${fkUniversidade}`,
+                    { method: "DELETE" }
+                );
+                if (resposta.ok) {
+                    showAlert("success", "Sucesso!", "Usuário deletado com sucesso.", () => {
+                        carregarUsuarios();
+                    });
+                } else {
+                    const erroMsg = await resposta.text();
+                    showAlert("error", "Erro", "Erro ao excluir usuário: " + erroMsg);
+                }
+            } catch (erro) {
+                showAlert("error", "Erro", "Não foi possível excluir o usuário.");
+            }
+        }
 
-document.addEventListener("DOMContentLoaded", function () {
-    carregarUsuarios();
-    carregarAlunos();
-    carregarCursos();
-    carregarMetas();
-});
+        async function deletarAluno(ra) {
+            try {
+                const resposta = await fetch(
+                    `/diretoria/alunos/deletar/${ra}`,
+                    { method: "DELETE" }
+                );
+                if (resposta.ok) {
+                    showAlert("success", "Sucesso!", "Aluno deletado com sucesso.", () => {
+                        carregarAlunos();
+                    });
+                } else {
+                    const erroMsg = await resposta.text();
+                    showAlert("error", "Erro", "Erro ao excluir aluno: " + erroMsg);
+                }
+            } catch (erro) {
+                showAlert("error", "Erro", "Não foi possível excluir o aluno.");
+            }
+        }
 
-// Fechar alert com ESC
-document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") closeAlert();
-});
+        async function deletarCurso(id) {
+            try {
+                const resposta = await fetch(
+                    `/diretoria/cursos/deletar/${id}?fkUniversidade=${fkUniversidade}`,
+                    { method: "DELETE" }
+                );
+                if (resposta.ok) {
+                    showAlert("success", "Sucesso!", "Curso deletado com sucesso.", () => {
+                        carregarCursos();
+                    });
+                } else {
+                    const erroMsg = await resposta.text();
+                    showAlert("error", "Erro", "Erro ao excluir curso: " + erroMsg);
+                }
+            } catch (erro) {
+                showAlert("error", "Erro", "Não foi possível excluir o curso.");
+            }
+        }
 
-// Fechar alert clicando fora
-document.getElementById("customAlert").addEventListener("click", function (e) {
-    if (e.target === this) closeAlert();
-});
+        async function deletarMeta(id) {
+            try {
+                const resposta = await fetch(`/metas/deletar/${id}`, { method: "DELETE" });
+                if (resposta.ok) {
+                    showAlert("success", "Sucesso!", "Meta excluída com sucesso.", () => {
+                        carregarMetas();
+                    });
+                } else {
+                    const erroMsg = await resposta.text();
+                    showAlert("error", "Erro", "Erro ao excluir meta: " + erroMsg);
+                }
+            } catch (erro) {
+                showAlert("error", "Erro", "Não foi possível excluir a meta.");
+            }
+        }
+
+        async function confirmarExclusao() {
+            if (!itemParaExcluir) return;
+            fecharExcluirModal();
+            showLoader();
+
+            if (tipoExclusao === "usuario") await deletarUsuario(itemParaExcluir);
+            else if (tipoExclusao === "aluno") await deletarAluno(itemParaExcluir);
+            else if (tipoExclusao === "curso") await deletarCurso(itemParaExcluir);
+            else if (tipoExclusao === "meta") await deletarMeta(itemParaExcluir);
+
+            hideLoader();
+            itemParaExcluir = null;
+            tipoExclusao = null;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            carregarUsuarios();
+            carregarAlunos();
+            carregarCursos();
+            carregarMetas();
+        });
+
+        // Fechar alert com ESC
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") closeAlert();
+        });
+
+        // Fechar alert clicando fora
+        document.getElementById("customAlert").addEventListener("click", function (e) {
+            if (e.target === this) closeAlert();
+        });
     </script>
 </body>
 

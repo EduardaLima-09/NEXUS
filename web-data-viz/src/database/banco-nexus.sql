@@ -1,3 +1,5 @@
+DROP DATABASE NEXUS;
+
 CREATE DATABASE NEXUS;
 USE NEXUS;
 
@@ -85,5 +87,4 @@ SELECT *  FROM aluno;
 SELECT * FROM universidade;
 
 
-
-
+SELECT * FROM Meta;
