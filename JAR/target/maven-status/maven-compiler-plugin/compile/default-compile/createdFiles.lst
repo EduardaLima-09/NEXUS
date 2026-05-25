@@ -1,7 +1,12 @@
+sptech\school\dto\SlackDto.class
+sptech\school\slack\NotificacaoSlack.class
+sptech\school\slack\TesteSlack.class
 sptech\school\Aluno.class
+sptech\school\slack\Notificacao.class
 sptech\school\LeituraExcel.class
 sptech\school\S3Service.class
 sptech\school\ConexaoBD.class
+sptech\school\slack\NotificacaoLog.class
 sptech\school\Curso.class
 sptech\school\Main.class
 sptech\school\Log.class
