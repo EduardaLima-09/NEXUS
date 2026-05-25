@@ -995,7 +995,6 @@ async function salvarRegistro() {
     }
 
     else if (abaAtual === "cursos") {
-<<<<<<< HEAD
         const nome = document.getElementById("nomeCursoInput")?.value.trim();
         
         if (!nome) {
@@ -1048,59 +1047,7 @@ async function salvarRegistro() {
             hideLoader();
             showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
         }
-=======
-
-    const nome = document.getElementById("nomeCursoInput")?.value.trim();
-    if (!nome) { alert("Preencha o nome do curso!"); return; }
-
-    try {
-
-        if (modoModal === "editar") {
-
-            const resposta = await fetch(
-                `/cursos/editar/${registroEditandoId}`,
-                {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ nomeServer: nome })
-                }
-            );
-
-            if (resposta.ok) {
-                alert("Curso atualizado com sucesso.");
-            } else {
-                alert("Erro ao atualizar: " + await resposta.text());
-            }
-
-        } else {
-
-            const resposta = await fetch(
-                `/cursos/cadastrar?fkUniversidade=${fkUniversidade}`,
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ nomeServer: nome })
-                }
-            );
-
-            if (resposta.status === 201) {
-                alert("Curso cadastrado com sucesso.");
-            } else {
-                alert("Erro ao cadastrar: " + await resposta.text());
-            }
-
-        }
-
-        fecharModal();
-        await carregarCursos();
-
-    } catch (erro) {
-        console.error(erro);
-        alert("Não foi possível conectar ao servidor.");
->>>>>>> 334274b6cfb974373fe0df05331116adc9ef525f
     }
-
-}
 
     else if (abaAtual === "metas") {
         const meta = document.getElementById("metaInput")?.value.trim();
@@ -1442,7 +1389,7 @@ async function deletarAluno(ra) {
 async function deletarCurso(id) {
     try {
         const resposta = await fetch(
-            `/cursos/excluir/${id}`,
+            `/diretoria/cursos/deletar/${id}?fkUniversidade=${fkUniversidade}`,
             { method: "DELETE" }
         );
         if (resposta.ok) {
