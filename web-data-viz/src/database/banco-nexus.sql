@@ -81,7 +81,7 @@ CREATE TABLE Meta(
 );
 
 SELECT * FROM usuario;
-
+SELECT *  FROM aluno;
 SELECT * FROM universidade;
 
 

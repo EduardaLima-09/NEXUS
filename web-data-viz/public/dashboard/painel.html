@@ -9,10 +9,247 @@
     <link rel="stylesheet" href="../css/painel.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <title>Nexus | Painel Administrativo</title>
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 
+    <style>
+        /* Estilos adicionais para validação */
+        .campo-invalido {
+            border: 2px solid #e74c3c !important;
+            background-color: #fff5f5 !important;
+        }
+        
+        .mensagem-erro {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .campo-porcentagem {
+            margin-top: 15px;
+        }
+        
+        .modal-content {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .senha-requisitos {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+        
+        .senha-requisitos ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+        
+        .senha-requisitos li {
+            margin: 3px 0;
+        }
+        
+        .requisito-atendido {
+            color: #27ae60;
+        }
+        
+        .requisito-nao-atendido {
+            color: #e74c3c;
+        }
+        
+        .forca-senha {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .forca-muito-fraca { background-color: #e74c3c; color: white; }
+        .forca-fraca { background-color: #e67e22; color: white; }
+        .forca-media { background-color: #f39c12; color: white; }
+        .forca-forte { background-color: #27ae60; color: white; }
+        .forca-muito-forte { background-color: #2ecc71; color: white; }
+
+        /* Alert Personalizado */
+        .alerta-personalizado {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .alerta-personalizado.active {
+            display: flex;
+        }
+
+        .alerta-container {
+            background: white;
+            border-radius: 12px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .alerta-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alerta-icone {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .alerta-icone.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alerta-icone.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .alerta-icone.warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .alerta-icone.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .alerta-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .alerta-mensagem {
+            padding: 20px;
+        }
+
+        .alerta-mensagem p {
+            margin: 0;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .alerta-botoes {
+            padding: 15px 20px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .alert-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .alert-btn.primary {
+            background-color: #4681A6;
+            color: white;
+        }
+
+        .alert-btn.primary:hover {
+            background-color: #366d8c;
+        }
+
+        /* Loader Personalizado */
+        .carregando {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carregando.active {
+            display: flex;
+        }
+
+        .carregando-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            min-width: 250px;
+        }
+
+        .carregando-container p {
+            margin: 0;
+            color: #4681A6;
+            font-weight: 500;
+        }
+
+        .carregando-container::before {
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4681A6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .modal {
+            z-index: 9999;
+        }
+    </style>
 </head>
 
 <body>
@@ -183,6 +420,29 @@
         </div>
     </div>
 
+    <!-- Alert Personalizado -->
+    <div id="customAlert" class="alerta-personalizado">
+        <div class="alerta-container">
+            <div class="alerta-header">
+                <div id="alertIcon" class="alerta-icone"></div>
+                <h3 id="alertTitle"></h3>
+            </div>
+            <div class="alerta-mensagem">
+                <p id="alertMessage"></p>
+            </div>
+            <div class="alerta-botoes">
+                <button class="alert-btn primary" onclick="closeAlert()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loader Personalizado -->
+    <div id="customLoader" class="carregando">
+        <div class="carregando-container">
+            <p>Processando...</p>
+        </div>
+    </div>
+
     <script>
        const cargoUsuario = sessionStorage.getItem("CARGO_USUARIO");
 const nomeUsuario = sessionStorage.getItem("NOME_USUARIO") || "Usuário";
@@ -202,6 +462,144 @@ let todosCursos = [];
 let todasMetas = [];
 let registroEditandoId = null;
 let modoModal = "adicionar";
+let alertCallback = null;
+
+// Funções de Alert e Loader
+function showAlert(type, title, message, onClose = null) {
+    const alert = document.getElementById("customAlert");
+    const alertIcon = document.getElementById("alertIcon");
+    const alertTitle = document.getElementById("alertTitle");
+    const alertMessage = document.getElementById("alertMessage");
+
+    alertIcon.innerHTML = "";
+
+    if (type === "success") {
+        alertIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+        alertIcon.className = "alerta-icone success";
+    } else if (type === "error") {
+        alertIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+        alertIcon.className = "alerta-icone error";
+    } else if (type === "warning") {
+        alertIcon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
+        alertIcon.className = "alerta-icone warning";
+    } else {
+        alertIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+        alertIcon.className = "alerta-icone info";
+    }
+
+    alertTitle.textContent = title;
+    alertMessage.textContent = message;
+    alertCallback = onClose;
+    alert.classList.add("active");
+}
+
+function closeAlert() {
+    document.getElementById("customAlert").classList.remove("active");
+    if (alertCallback) {
+        alertCallback();
+        alertCallback = null;
+    }
+}
+
+function showLoader() {
+    document.getElementById("customLoader").classList.add("active");
+}
+
+function hideLoader() {
+    document.getElementById("customLoader").classList.remove("active");
+}
+
+// Funções de validação
+function validarNome(nome) {
+    return nome && nome.trim().length >= 2 && /^[a-zA-ZÀ-ÿ\s]+$/.test(nome);
+}
+
+function validarEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+function validarCPF(cpf) {
+    cpf = cpf.replace(/[^\d]/g, '');
+    if (cpf.length !== 11) return false;
+    if (/^(\d)\1{10}$/.test(cpf)) return false;
+    
+    let soma = 0;
+    for (let i = 0; i < 9; i++) {
+        soma += parseInt(cpf.charAt(i)) * (10 - i);
+    }
+    let resto = 11 - (soma % 11);
+    let digito1 = resto === 10 || resto === 11 ? 0 : resto;
+    if (digito1 !== parseInt(cpf.charAt(9))) return false;
+    
+    soma = 0;
+    for (let i = 0; i < 10; i++) {
+        soma += parseInt(cpf.charAt(i)) * (11 - i);
+    }
+    resto = 11 - (soma % 11);
+    let digito2 = resto === 10 || resto === 11 ? 0 : resto;
+    return digito2 === parseInt(cpf.charAt(10));
+}
+
+function formatarCPF(cpf) {
+    cpf = cpf.replace(/[^\d]/g, '');
+    if (cpf.length === 11) {
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+    return cpf;
+}
+
+function validarSenha(senha) {
+    if (!senha || senha.length < 8) return false;
+    let temMaiuscula = /[A-Z]/.test(senha);
+    let temMinuscula = /[a-z]/.test(senha);
+    let temNumero = /[0-9]/.test(senha);
+    let temEspecial = /[!@#$%^&*(),.?":{}|<>]/.test(senha);
+    return temMaiuscula && temMinuscula && temNumero && temEspecial;
+}
+
+function verificarForcaSenha(senha) {
+    let forca = 0;
+    if (senha.length >= 8) forca++;
+    if (senha.length >= 12) forca++;
+    if (/[A-Z]/.test(senha)) forca++;
+    if (/[a-z]/.test(senha)) forca++;
+    if (/[0-9]/.test(senha)) forca++;
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(senha)) forca++;
+    
+    if (forca <= 2) return "Muito Fraca";
+    if (forca <= 3) return "Fraca";
+    if (forca <= 4) return "Média";
+    if (forca <= 5) return "Forte";
+    return "Muito Forte";
+}
+
+function validarToken(token) {
+    return token && token.length === 6 && /^[A-Z0-9]+$/.test(token);
+}
+
+function mostrarErro(campoId, mensagem) {
+    const campo = document.getElementById(campoId);
+    if (!campo) return;
+    
+    const erroAnterior = campo.parentElement?.querySelector('.mensagem-erro');
+    if (erroAnterior) erroAnterior.remove();
+    
+    campo.classList.add('campo-invalido');
+    const erro = document.createElement('span');
+    erro.className = 'mensagem-erro';
+    erro.innerText = mensagem;
+    campo.insertAdjacentElement('afterend', erro);
+}
+
+function limparErros() {
+    document.querySelectorAll('.campo-invalido').forEach(campo => {
+        campo.classList.remove('campo-invalido');
+    });
+    document.querySelectorAll('.mensagem-erro').forEach(erro => {
+        erro.remove();
+    });
+}
 
 function goDash() {
     window.location.href = "dashboard.html";
@@ -248,6 +646,42 @@ function mostrarTabela(tipo, botaoClicado) {
     if (tipo === "metas")    carregarMetas();
 }
 
+function atualizarForcaSenha() {
+    const senhaInput = document.getElementById("senhaUsuario");
+    if (!senhaInput) return;
+    
+    const forcaDiv = document.getElementById("forcaSenha");
+    if (!forcaDiv) return;
+    
+    const senha = senhaInput.value;
+    if (!senha) {
+        forcaDiv.style.display = "none";
+        return;
+    }
+    
+    const forca = verificarForcaSenha(senha);
+    forcaDiv.style.display = "block";
+    forcaDiv.className = `forca-senha forca-${forca.toLowerCase().replace(' ', '-')}`;
+    forcaDiv.innerHTML = `Força da senha: ${forca}`;
+    
+    const requisitos = {
+        'req-tamanho': senha.length >= 8,
+        'req-maiuscula': /[A-Z]/.test(senha),
+        'req-minuscula': /[a-z]/.test(senha),
+        'req-numero': /[0-9]/.test(senha),
+        'req-especial': /[!@#$%^&*(),.?":{}|<>]/.test(senha)
+    };
+    
+    for (const [id, atendido] of Object.entries(requisitos)) {
+        const elemento = document.getElementById(id);
+        if (elemento) {
+            elemento.className = atendido ? "requisito-atendido" : "requisito-nao-atendido";
+            const texto = elemento.innerHTML.substring(2);
+            elemento.innerHTML = atendido ? "✓ " + texto : "✗ " + texto;
+        }
+    }
+}
+
 // ── MODAL ────────────────────────────────────────────────────────────────────
 
 function abrirModal(modo, dados) {
@@ -256,16 +690,28 @@ function abrirModal(modo, dados) {
     const camposModal = document.getElementById("camposModal");
     const tituloModal = document.getElementById("tituloModal");
     camposModal.innerHTML = "";
+    limparErros();
 
     if (abaAtual === "usuarios") {
         tituloModal.innerText = modo === "editar" ? "Editar Usuário" : "Adicionar Novo Usuário";
         camposModal.innerHTML = `
-            <input type="text" id="nomeUsuarioInput" placeholder="Ex: João" value="${dados ? dados.nome : ''}">
-            <input type="text" id="sobrenomeUsuarioInput" placeholder="Ex: Silva" value="${dados ? (dados.sobrenome !== '-' ? dados.sobrenome : '') : ''}">
-            <input type="email" id="emailUsuarioInput" placeholder="exemplo@email.com" value="${dados ? dados.email : ''}">
+            <input type="text" id="nomeUsuarioInput" placeholder="Nome * (mínimo 2 caracteres, apenas letras)" value="${dados ? dados.nome : ''}" required>
+            <input type="text" id="sobrenomeUsuarioInput" placeholder="Sobrenome *" value="${dados ? (dados.sobrenome !== '-' ? dados.sobrenome : '') : ''}" required>
+            <input type="email" id="emailUsuarioInput" placeholder="Email * (exemplo@email.com)" value="${dados ? dados.email : ''}" required>
             ${modo === "adicionar" ? `
-                <input type="password" id="senhaUsuario" placeholder="Senha">
-                <input type="text" id="tokenUsuario" placeholder="Token da universidade" maxlength="6">
+                <div class="senha-requisitos">
+                    <strong>Requisitos da senha:</strong>
+                    <ul>
+                        <li id="req-tamanho">✗ Mínimo 8 caracteres</li>
+                        <li id="req-maiuscula">✗ Pelo menos 1 letra maiúscula</li>
+                        <li id="req-minuscula">✗ Pelo menos 1 letra minúscula</li>
+                        <li id="req-numero">✗ Pelo menos 1 número</li>
+                        <li id="req-especial">✗ Pelo menos 1 caractere especial (!@#$%^&*)</li>
+                    </ul>
+                </div>
+                <input type="password" id="senhaUsuario" placeholder="Senha *" oninput="atualizarForcaSenha()" required>
+                <div id="forcaSenha" style="display: none;"></div>
+                <input type="text" id="tokenUsuario" placeholder="Token da universidade * (6 caracteres, letras maiúsculas ou números)" maxlength="6" required>
             ` : ""}
         `;
     }
@@ -273,23 +719,24 @@ function abrirModal(modo, dados) {
     else if (abaAtual === "alunos") {
         tituloModal.innerText = modo === "editar" ? "Editar Aluno" : "Adicionar Novo Aluno";
         const sexoValor = dados ? dados.sexo : "";
+        const cpfValor = dados ? (dados.cpf || "") : "";
         camposModal.innerHTML = `
-            <input type="text" id="nomeAlunoInput" placeholder="Ex: João" value="${dados ? dados.nome : ''}">
-            <input type="text" id="sobrenomeAlunoInput" placeholder="Ex: Silva" value="${dados ? dados.sobrenome : ''}">
-            <input type="text" id="cpfAlunoInput" placeholder="000.000.000-00" value="${dados ? dados.cpf : ''}">
-            <select id="sexoAlunoInput">
-                <option value="">Selecione o Sexo</option>
+            <input type="text" id="nomeAlunoInput" placeholder="Nome * (mínimo 2 caracteres)" value="${dados ? dados.nome : ''}" required>
+            <input type="text" id="sobrenomeAlunoInput" placeholder="Sobrenome * (mínimo 2 caracteres)" value="${dados ? dados.sobrenome : ''}" required>
+            <input type="text" id="cpfAlunoInput" placeholder="CPF * (000.000.000-00)" value="${cpfValor ? formatarCPF(cpfValor) : ''}" oninput="this.value = this.value.replace(/[^\\d]/g, '').replace(/(\\d{3})(\\d{3})(\\d{3})(\\d{2})/, '$1.$2.$3-$4')" required>
+            <select id="sexoAlunoInput" required>
+                <option value="">Selecione o Sexo *</option>
                 <option value="M" ${sexoValor === "M" || sexoValor === "Masculino" ? "selected" : ""}>Masculino</option>
                 <option value="F" ${sexoValor === "F" || sexoValor === "Feminino" ? "selected" : ""}>Feminino</option>
             </select>
-            <input type="email" id="emailAlunoInput" placeholder="exemplo@email.com" value="${dados ? dados.email : ''}">
+            <input type="email" id="emailAlunoInput" placeholder="Email * (exemplo@email.com)" value="${dados ? dados.email : ''}" required>
         `;
     }
 
     else if (abaAtual === "cursos") {
         tituloModal.innerText = modo === "editar" ? "Editar Curso" : "Adicionar Novo Curso";
         camposModal.innerHTML = `
-            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome do Curso</label>
+            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome do Curso *</label>
             <select id="nomeCursoInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
                 <option value="">Selecione o curso</option>
                 <option value="Negócios" ${dados && dados.nome === "Negócios" ? "selected" : ""}>Negócios</option>
@@ -303,10 +750,10 @@ function abrirModal(modo, dados) {
     else if (abaAtual === "metas") {
         tituloModal.innerText = modo === "editar" ? "Editar Meta" : "Adicionar Nova Meta";
         camposModal.innerHTML = `
-            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome da Meta</label>
+            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome da Meta *</label>
             <input type="text" id="metaInput" placeholder="Ex: Melhorar notas em cálculo" value="${dados ? dados.meta : ''}" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
 
-            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nível de Risco</label>
+            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nível de Risco *</label>
             <select id="categoriaMetaInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
                 <option value="">Selecione o nível de risco</option>
                 <option value="Risco Baixo" ${dados && dados.categoria === "Risco Baixo" ? "selected" : ""}>Risco Baixo</option>
@@ -314,16 +761,16 @@ function abrirModal(modo, dados) {
                 <option value="Risco Alto" ${dados && dados.categoria === "Risco Alto" ? "selected" : ""}>Risco Alto</option>
             </select>
 
-            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Curso</label>
+            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Curso *</label>
             <select id="cursoMetaInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
                 <option value="">Selecione o curso</option>
                 ${todosCursos.map(curso => `<option value="${curso.id}">${curso.nome}</option>`).join("")}
             </select>
 
             <div class="campo-porcentagem">
-                <label for="porcentagemMetaInput" style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Porcentagem de conclusão:</label>
-                <input type="range" id="porcentagemMetaInput" min="0" max="100" value="${dados ? parseInt(dados.porcentagem) : 0}" oninput="this.nextElementSibling.value = this.value + '%'" style="width: 100%;">
-                <output style="display: block; text-align: center; margin-top: 8px; font-weight: bold; color: #4681A6;">${dados ? dados.porcentagem : "0"}</output>
+                <label for="porcentagemMetaInput" style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Porcentagem de conclusão (0-100):</label>
+                <input type="range" id="porcentagemMetaInput" min="0" max="100" value="${dados ? parseInt(dados.porcentagem) : 0}" oninput="this.nextElementSibling.value = this.value + '%'">
+                <output style="display: block; text-align: center; margin-top: 8px; font-weight: bold; color: #4681A6;">${dados ? dados.porcentagem : "0%"}</output>
             </div>
         `;
     }
@@ -335,29 +782,72 @@ function fecharModal() {
     document.getElementById("modalUsuario").style.display = "none";
     registroEditandoId = null;
     modoModal = "adicionar";
+    limparErros();
 }
 
-function validarEmail(email) {
-    return email.includes("@") && email.includes(".");
-}
-
-// ── SALVAR ───────────────────────────────────────────────────────────────────
+// ── SALVAR COM VALIDAÇÕES COMPLETAS ───────────────────────────────────────────
 
 async function salvarRegistro() {
+    limparErros();
 
     if (abaAtual === "usuarios") {
+        const nome = document.getElementById("nomeUsuarioInput")?.value.trim();
+        const sobrenome = document.getElementById("sobrenomeUsuarioInput")?.value.trim();
+        const email = document.getElementById("emailUsuarioInput")?.value.trim();
 
-        const nome      = document.getElementById("nomeUsuarioInput").value.trim();
-        const sobrenome = document.getElementById("sobrenomeUsuarioInput").value.trim();
-        const email     = document.getElementById("emailUsuarioInput").value.trim();
+        // Validação de campos obrigatórios
+        if (!nome) {
+            showAlert("warning", "Campo Obrigatório", "O campo Nome é obrigatório!");
+            return;
+        }
+        if (!sobrenome) {
+            showAlert("warning", "Campo Obrigatório", "O campo Sobrenome é obrigatório!");
+            return;
+        }
+        if (!email) {
+            showAlert("warning", "Campo Obrigatório", "O campo Email é obrigatório!");
+            return;
+        }
 
-        if (!nome || !email) { alert("Preencha todos os campos obrigatórios!"); return; }
-        if (!validarEmail(email)) { alert("Email inválido!"); return; }
+        // Validação de formato
+        if (!validarNome(nome)) {
+            mostrarErro("nomeUsuarioInput", "Nome deve ter pelo menos 2 caracteres e conter apenas letras");
+            return;
+        }
+        if (!validarNome(sobrenome)) {
+            mostrarErro("sobrenomeUsuarioInput", "Sobrenome deve ter pelo menos 2 caracteres e conter apenas letras");
+            return;
+        }
+        if (!validarEmail(email)) {
+            mostrarErro("emailUsuarioInput", "Email inválido! Exemplo: usuario@email.com");
+            return;
+        }
 
+        if (modoModal === "adicionar") {
+            const token = document.getElementById("tokenUsuario")?.value.trim().toUpperCase();
+            const senha = document.getElementById("senhaUsuario")?.value;
+
+            if (!token) {
+                showAlert("warning", "Campo Obrigatório", "O campo Token é obrigatório!");
+                return;
+            }
+            if (!senha) {
+                showAlert("warning", "Campo Obrigatório", "O campo Senha é obrigatório!");
+                return;
+            }
+            if (!validarToken(token)) {
+                showAlert("warning", "Token Inválido", "O token deve ter exatamente 6 caracteres (letras maiúsculas ou números)");
+                return;
+            }
+            if (!validarSenha(senha)) {
+                showAlert("warning", "Senha Fraca", "A senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais!");
+                return;
+            }
+        }
+
+        showLoader();
         try {
-
             if (modoModal === "editar") {
-
                 const resposta = await fetch(
                     `/diretoria/atualizar/${registroEditandoId}?fkUniversidade=${fkUniversidade}`,
                     {
@@ -371,71 +861,98 @@ async function salvarRegistro() {
                         })
                     }
                 );
-
+                hideLoader();
                 if (resposta.ok) {
-                    alert("Usuário atualizado com sucesso.");
+                    showAlert("success", "Sucesso!", "Usuário atualizado com sucesso.", () => {
+                        fecharModal();
+                        carregarUsuarios();
+                    });
                 } else {
-                    alert("Erro ao atualizar: " + await resposta.text());
+                    const erroMsg = await resposta.text();
+                    showAlert("error", "Erro", "Erro ao atualizar usuário: " + erroMsg);
                 }
-
             } else {
-
-                const token = document.getElementById("tokenUsuario").value.trim().toUpperCase();
-                const senha = document.getElementById("senhaUsuario").value.trim();
-
-                if (!token || !senha) { alert("Preencha todos os campos."); return; }
-                if (token.length !== 6) { alert("O token deve ter 6 caracteres."); return; }
-
+                const token = document.getElementById("tokenUsuario")?.value.trim().toUpperCase();
+                const senha = document.getElementById("senhaUsuario")?.value;
                 const resposta = await fetch("/diretoria/cadastrar", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        nomeServer:      nome,
+                        nomeServer: nome,
                         sobrenomeServer: sobrenome || "-",
-                        emailServer:     email,
-                        tokenServer:     token,
-                        senhaServer:     senha,
-                        cargoServer:     "Coordenador"
+                        emailServer: email,
+                        tokenServer: token,
+                        senhaServer: senha,
+                        cargoServer: "Coordenador"
                     })
                 });
-
+                hideLoader();
                 if (resposta.status === 201) {
-                    alert("Usuário cadastrado com sucesso.");
+                    showAlert("success", "Sucesso!", "Usuário cadastrado com sucesso.", () => {
+                        fecharModal();
+                        carregarUsuarios();
+                    });
                 } else {
-                    alert("Erro ao cadastrar: " + await resposta.text());
+                    const erroMsg = await resposta.text();
+                    showAlert("error", "Erro", "Erro ao cadastrar: " + erroMsg);
                 }
-
             }
-
-            fecharModal();
-            carregarUsuarios();
-
         } catch (erro) {
-            console.error(erro);
-            alert("Não foi possível conectar ao servidor.");
+            hideLoader();
+            showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
         }
-
     }
 
     else if (abaAtual === "alunos") {
-
-        const nome      = document.getElementById("nomeAlunoInput")?.value.trim();
+        const nome = document.getElementById("nomeAlunoInput")?.value.trim();
         const sobrenome = document.getElementById("sobrenomeAlunoInput")?.value.trim();
-        const cpf       = document.getElementById("cpfAlunoInput")?.value.trim();
-        const sexo      = document.getElementById("sexoAlunoInput")?.value;
-        const email     = document.getElementById("emailAlunoInput")?.value.trim();
+        const cpf = document.getElementById("cpfAlunoInput")?.value.trim();
+        const sexo = document.getElementById("sexoAlunoInput")?.value;
+        const email = document.getElementById("emailAlunoInput")?.value.trim();
 
-        if (!nome || !sobrenome || !cpf || !sexo || !email) {
-            alert("Preencha todos os campos obrigatórios!");
+        // Validação de campos obrigatórios
+        if (!nome) {
+            showAlert("warning", "Campo Obrigatório", "O campo Nome é obrigatório!");
+            return;
+        }
+        if (!sobrenome) {
+            showAlert("warning", "Campo Obrigatório", "O campo Sobrenome é obrigatório!");
+            return;
+        }
+        if (!cpf) {
+            showAlert("warning", "Campo Obrigatório", "O campo CPF é obrigatório!");
+            return;
+        }
+        if (!sexo) {
+            showAlert("warning", "Campo Obrigatório", "O campo Sexo é obrigatório!");
+            return;
+        }
+        if (!email) {
+            showAlert("warning", "Campo Obrigatório", "O campo Email é obrigatório!");
             return;
         }
 
-        if (!validarEmail(email)) { alert("Email inválido!"); return; }
+        // Validação de formato
+        if (!validarNome(nome)) {
+            mostrarErro("nomeAlunoInput", "Nome deve ter pelo menos 2 caracteres");
+            return;
+        }
+        if (!validarNome(sobrenome)) {
+            mostrarErro("sobrenomeAlunoInput", "Sobrenome deve ter pelo menos 2 caracteres");
+            return;
+        }
+        if (!validarCPF(cpf)) {
+            mostrarErro("cpfAlunoInput", "CPF inválido! Digite um CPF válido.");
+            return;
+        }
+        if (!validarEmail(email)) {
+            mostrarErro("emailAlunoInput", "Email inválido!");
+            return;
+        }
 
+        showLoader();
         try {
-
             if (modoModal === "editar") {
-
                 const resposta = await fetch(
                     `/diretoria/alunos/atualizar/${registroEditandoId}`,
                     {
@@ -444,48 +961,50 @@ async function salvarRegistro() {
                         body: JSON.stringify({ nome, sobrenome, cpf, sexo, email })
                     }
                 );
-
+                hideLoader();
                 if (resposta.ok) {
-                    alert("Aluno atualizado com sucesso.");
+                    showAlert("success", "Sucesso!", "Aluno atualizado com sucesso.", () => {
+                        fecharModal();
+                        carregarAlunos();
+                    });
                 } else {
-                    alert("Erro ao atualizar: " + await resposta.text());
+                    const erroMsg = await resposta.text();
+                    showAlert("error", "Erro", "Erro ao atualizar: " + erroMsg);
                 }
-
             } else {
-
                 const resposta = await fetch("/diretoria/alunos/cadastrar", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ nome, sobrenome, cpf, sexo, email })
                 });
-
+                hideLoader();
                 if (resposta.status === 201) {
-                    alert("Aluno cadastrado com sucesso.");
+                    showAlert("success", "Sucesso!", "Aluno cadastrado com sucesso.", () => {
+                        fecharModal();
+                        carregarAlunos();
+                    });
                 } else {
-                    alert("Erro ao cadastrar: " + await resposta.text());
+                    const erroMsg = await resposta.text();
+                    showAlert("error", "Erro", "Erro ao cadastrar: " + erroMsg);
                 }
-
             }
-
-            fecharModal();
-            await carregarAlunos();
-
         } catch (erro) {
-            console.error(erro);
-            alert("Não foi possível conectar ao servidor.");
+            hideLoader();
+            showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
         }
-
     }
 
     else if (abaAtual === "cursos") {
-
         const nome = document.getElementById("nomeCursoInput")?.value.trim();
-        if (!nome) { alert("Preencha todos os campos obrigatórios!"); return; }
+        
+        if (!nome) {
+            showAlert("warning", "Campo Obrigatório", "Selecione um curso!");
+            return;
+        }
 
+        showLoader();
         try {
-
             if (modoModal === "editar") {
-
                 const resposta = await fetch(
                     `/diretoria/cursos/atualizar/${registroEditandoId}?fkUniversidade=${fkUniversidade}`,
                     {
@@ -494,15 +1013,17 @@ async function salvarRegistro() {
                         body: JSON.stringify({ nome, modalidade: "-" })
                     }
                 );
-
+                hideLoader();
                 if (resposta.ok) {
-                    alert("Curso atualizado com sucesso.");
+                    showAlert("success", "Sucesso!", "Curso atualizado com sucesso.", () => {
+                        fecharModal();
+                        carregarCursos();
+                    });
                 } else {
-                    alert("Erro ao atualizar: " + await resposta.text());
+                    const erroMsg = await resposta.text();
+                    showAlert("error", "Erro", "Erro ao atualizar: " + erroMsg);
                 }
-
             } else {
-
                 const resposta = await fetch(
                     `/diretoria/cursos/cadastrar?fkUniversidade=${fkUniversidade}`,
                     {
@@ -511,81 +1032,101 @@ async function salvarRegistro() {
                         body: JSON.stringify({ nome, modalidade: "-" })
                     }
                 );
-
+                hideLoader();
                 if (resposta.status === 201) {
-                    alert("Curso cadastrado com sucesso.");
+                    showAlert("success", "Sucesso!", "Curso cadastrado com sucesso.", () => {
+                        fecharModal();
+                        carregarCursos();
+                    });
                 } else {
-                    alert("Erro ao cadastrar: " + await resposta.text());
+                    const erroMsg = await resposta.text();
+                    showAlert("error", "Erro", "Erro ao cadastrar: " + erroMsg);
                 }
-
             }
-
-            fecharModal();
-            await carregarCursos();
-
         } catch (erro) {
-            console.error(erro);
-            alert("Não foi possível conectar ao servidor.");
+            hideLoader();
+            showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
         }
-
     }
 
     else if (abaAtual === "metas") {
+        const meta = document.getElementById("metaInput")?.value.trim();
+        const categoria = document.getElementById("categoriaMetaInput")?.value;
+        const fkCurso = document.getElementById("cursoMetaInput")?.value;
 
-        const meta       = document.getElementById("metaInput")?.value.trim();
-        const categoria  = document.getElementById("categoriaMetaInput")?.value;
+        // Validação de campos obrigatórios
+        if (!meta) {
+            showAlert("warning", "Campo Obrigatório", "O campo Meta é obrigatório!");
+            return;
+        }
+        if (!categoria) {
+            showAlert("warning", "Campo Obrigatório", "Selecione o nível de risco!");
+            return;
+        }
+        if (!fkCurso) {
+            showAlert("warning", "Campo Obrigatório", "Selecione o curso!");
+            return;
+        }
+
+        // Validação de formato
+        if (meta.length < 5) {
+            showAlert("warning", "Campo Inválido", "A meta deve ter pelo menos 5 caracteres!");
+            return;
+        }
+
         const porcentagem = document.getElementById("porcentagemMetaInput")?.value;
-        const fkCurso    = document.getElementById("cursoMetaInput")?.value;
 
-        if (!meta || !categoria || !fkCurso) { alert("Preencha todos os campos!"); return; }
-
+        showLoader();
         try {
-
             if (modoModal === "editar") {
-
                 const resposta = await fetch(`/metas/editar/${registroEditandoId}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        tituloServer:     meta,
-                        categoriaServer:  categoria,
+                        tituloServer: meta,
+                        categoriaServer: categoria,
                         porcentagemServer: porcentagem,
-                        fkCursoServer:    fkCurso
+                        fkCursoServer: fkCurso
                     })
                 });
-
-                if (resposta.ok) { alert("Meta atualizada."); }
-                else { alert("Erro ao atualizar: " + await resposta.text()); }
-
+                hideLoader();
+                if (resposta.ok) {
+                    showAlert("success", "Sucesso!", "Meta atualizada com sucesso.", () => {
+                        fecharModal();
+                        carregarMetas();
+                    });
+                } else {
+                    const erroMsg = await resposta.text();
+                    showAlert("error", "Erro", "Erro ao atualizar: " + erroMsg);
+                }
             } else {
-
                 const resposta = await fetch("/metas/cadastrar", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        tituloServer:      meta,
-                        categoriaServer:   categoria,
+                        tituloServer: meta,
+                        categoriaServer: categoria,
                         porcentagemServer: porcentagem,
-                        fkCursoServer:     fkCurso,
+                        fkCursoServer: fkCurso,
                         fkUniversidadeServer: fkUniversidade
                     })
                 });
-
-                if (resposta.ok) { alert("Meta cadastrada."); }
-                else { alert("Erro ao cadastrar: " + await resposta.text()); }
-
+                hideLoader();
+                if (resposta.ok) {
+                    showAlert("success", "Sucesso!", "Meta cadastrada com sucesso.", () => {
+                        fecharModal();
+                        carregarMetas();
+                    });
+                } else {
+                    const erroMsg = await resposta.text();
+                    showAlert("error", "Erro", "Erro ao cadastrar: " + erroMsg);
+                }
             }
-
-            fecharModal();
-            carregarMetas();
-
         } catch (erro) {
-            console.error(erro);
-            alert("Não foi possível conectar ao servidor.");
+            hideLoader();
+            showAlert("error", "Erro de Conexão", "Não foi possível conectar ao servidor.");
         }
-
     }
-
 }
 
 // ── USUÁRIOS ─────────────────────────────────────────────────────────────────
@@ -701,7 +1242,7 @@ async function carregarCursos() {
 function renderizarCursos(cursos) {
     const tbody = document.getElementById("cursosTabelaBody");
     if (cursos.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="3">Nenhum curso encontrado.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="3">Nenhum curso encontrado.ubro2`;
         return;
     }
     tbody.innerHTML = cursos.map(function (curso) {
@@ -813,9 +1354,17 @@ async function deletarUsuario(id) {
             `/diretoria/deletar/${id}?fkUniversidade=${fkUniversidade}`,
             { method: "DELETE" }
         );
-        if (resposta.ok) { alert("Usuário deletado com sucesso."); carregarUsuarios(); }
-        else { alert("Erro ao excluir usuário: " + await resposta.text()); }
-    } catch (erro) { console.error(erro); }
+        if (resposta.ok) {
+            showAlert("success", "Sucesso!", "Usuário deletado com sucesso.", () => {
+                carregarUsuarios();
+            });
+        } else {
+            const erroMsg = await resposta.text();
+            showAlert("error", "Erro", "Erro ao excluir usuário: " + erroMsg);
+        }
+    } catch (erro) { 
+        showAlert("error", "Erro", "Não foi possível excluir o usuário.");
+    }
 }
 
 async function deletarAluno(ra) {
@@ -824,9 +1373,17 @@ async function deletarAluno(ra) {
             `/diretoria/alunos/deletar/${ra}`,
             { method: "DELETE" }
         );
-        if (resposta.ok) { alert("Aluno deletado com sucesso."); carregarAlunos(); }
-        else { alert("Erro ao excluir aluno: " + await resposta.text()); }
-    } catch (erro) { console.error(erro); }
+        if (resposta.ok) {
+            showAlert("success", "Sucesso!", "Aluno deletado com sucesso.", () => {
+                carregarAlunos();
+            });
+        } else {
+            const erroMsg = await resposta.text();
+            showAlert("error", "Erro", "Erro ao excluir aluno: " + erroMsg);
+        }
+    } catch (erro) {
+        showAlert("error", "Erro", "Não foi possível excluir o aluno.");
+    }
 }
 
 async function deletarCurso(id) {
@@ -835,26 +1392,48 @@ async function deletarCurso(id) {
             `/diretoria/cursos/deletar/${id}?fkUniversidade=${fkUniversidade}`,
             { method: "DELETE" }
         );
-        if (resposta.ok) { alert("Curso deletado com sucesso."); carregarCursos(); }
-        else { alert("Erro ao excluir curso: " + await resposta.text()); }
-    } catch (erro) { console.error(erro); }
+        if (resposta.ok) {
+            showAlert("success", "Sucesso!", "Curso deletado com sucesso.", () => {
+                carregarCursos();
+            });
+        } else {
+            const erroMsg = await resposta.text();
+            showAlert("error", "Erro", "Erro ao excluir curso: " + erroMsg);
+        }
+    } catch (erro) {
+        showAlert("error", "Erro", "Não foi possível excluir o curso.");
+    }
 }
 
 async function deletarMeta(id) {
     try {
         const resposta = await fetch(`/metas/deletar/${id}`, { method: "DELETE" });
-        if (resposta.ok) { alert("Meta excluída com sucesso."); carregarMetas(); }
-        else { alert("Erro ao excluir meta."); }
-    } catch (erro) { console.error(erro); }
+        if (resposta.ok) {
+            showAlert("success", "Sucesso!", "Meta excluída com sucesso.", () => {
+                carregarMetas();
+            });
+        } else {
+            const erroMsg = await resposta.text();
+            showAlert("error", "Erro", "Erro ao excluir meta: " + erroMsg);
+        }
+    } catch (erro) {
+        showAlert("error", "Erro", "Não foi possível excluir a meta.");
+    }
 }
 
 async function confirmarExclusao() {
     if (!itemParaExcluir) return;
+    fecharExcluirModal();
+    showLoader();
+    
     if (tipoExclusao === "usuario") await deletarUsuario(itemParaExcluir);
     else if (tipoExclusao === "aluno")  await deletarAluno(itemParaExcluir);
     else if (tipoExclusao === "curso")  await deletarCurso(itemParaExcluir);
     else if (tipoExclusao === "meta")   await deletarMeta(itemParaExcluir);
-    fecharExcluirModal();
+    
+    hideLoader();
+    itemParaExcluir = null;
+    tipoExclusao = null;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -862,6 +1441,16 @@ document.addEventListener("DOMContentLoaded", function () {
     carregarAlunos();
     carregarCursos();
     carregarMetas();
+});
+
+// Fechar alert com ESC
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeAlert();
+});
+
+// Fechar alert clicando fora
+document.getElementById("customAlert").addEventListener("click", function (e) {
+    if (e.target === this) closeAlert();
 });
     </script>
 </body>
