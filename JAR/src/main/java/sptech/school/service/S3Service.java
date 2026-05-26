@@ -8,19 +8,11 @@ import java.io.InputStream;
 
 public class S3Service {
 
-    private static final boolean usarS3 = false;
+    private static final S3Client s3 = S3Client.create();
 
     public static InputStream getArquivo(String nomeArquivo){
 
-        try {
-            if(!usarS3) {
-                System.out.println("\nLeitura sendo feita em Local: " + nomeArquivo);
-                return new FileInputStream(nomeArquivo);
-            }
-
             System.out.println("\nLeitura sendo feita em S3: " + nomeArquivo);
-
-            S3Client s3 = S3Client.create();
 
             GetObjectRequest request = GetObjectRequest.builder()
                     .bucket("nexus-projeto")
@@ -29,8 +21,5 @@ public class S3Service {
 
             return s3.getObject(request);
 
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao carregar arquivo", e);
-        }
     }
 }
