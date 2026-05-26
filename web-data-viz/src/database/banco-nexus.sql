@@ -1,5 +1,3 @@
-DROP DATABASE NEXUS;
-
 CREATE DATABASE NEXUS;
 USE NEXUS;
 
@@ -88,3 +86,29 @@ SELECT * FROM universidade;
 
 
 SELECT * FROM Meta;
+
+
+
+-- 1. Inserir Universidade
+INSERT INTO Universidade (cnpj, razaoSocial, nomeFantasia, email, token) VALUES
+('12.345.678/0001-90', 'Nexus Educacional LTDA', 'Nexus University', 'contato@nexus.edu', 'ABC123');
+
+-- 2. Inserir Usuários
+INSERT INTO Usuario (nome, sobrenome, email, senha, token, cargo, fkUniversidade) VALUES
+('João', 'Silva', 'joao.silva@nexus.edu', 'senha123', 'GHI789', 'Coordenador', 1),
+('Maria', 'Oliveira', 'maria.oliveira@nexus.edu', 'senha456', 'GHI789', 'Professor', 1);
+
+-- 3. Inserir Cursos
+INSERT INTO Curso (nome, fkUniversidade) VALUES
+('Ciência da Computação', 1),
+('Sistemas de Informação', 1);
+
+-- 4. Inserir Alunos
+INSERT INTO Aluno (nome, sobrenome, cpf, sexo, email) VALUES
+('Carlos', 'Andrade', '12345678901', 'M', 'carlos.andrade@aluno.edu'),
+('Ana', 'Beatriz', '23456789012', 'F', 'ana.beatriz@aluno.edu'),
+('Pedro', 'Henrique', '34567890123', 'M', 'pedro.henrique@aluno.edu'),
+('Fernanda', 'Lima', '45678901234', 'F', 'fernanda.lima@aluno.edu');
+
+
+

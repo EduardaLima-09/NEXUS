@@ -1,23 +1,25 @@
 /* Fontes importadas */
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sirin+Stencil&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-    --font-titulos: "Montserrat", sans-serif;
-    --font-subtitulos: "Poppins", sans-serif;
-    --font-textos: "Montserrat Alternates", sans-serif;
-    --cor--sidebar: #111827;
-    --cor-azul-escuro: #012340;
-    --cor-azul-medio: #164773;
-    --cor-azul-claro: #4681A6;
-    --cor-fundo-input: #F2F2F2;
+    --cor-erro: #e74c3c;
+    --cor-preto: #000000;
     --cor-verde: #8AB4A1;
     --cor-cinza: #D9D9D9;
-    --cor-cinza-escuro: #3f3f3f;
     --cor-branco: #F1F1F1;
+    --cor-sucesso: #27ae60;
+    --cor--sidebar: #111827;
+    --cor-azul-medio: #164773;
+    --cor-azul-claro: #4681A6;
+    --cor-azul-escuro: #012340;
+    --cor-fundo-input: #F2F2F2;
+    --cor-cinza-escuro: #3f3f3f;
     --cor-branco-puro: #FFFFFF;
-    --cor-preto: #000000;
+
+    --font-titulos: "Montserrat", sans-serif;
+    --font-subtitulos: "Poppins", sans-serif;
 }
 
 * {
@@ -27,22 +29,11 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-body {
-    overflow: hidden;
-    background-color: var(--cor-branco);
-}
+body {overflow: hidden;background-color: var(--cor-branco);}
+.tela {width: 100%;height: 100vh;}
+.dash {display: flex;height: 100vh;}
 
-.tela {
-    width: 100%;
-    height: 100vh;
-}
-
-.dash {
-    display: flex;
-    height: 100vh;
-}
-
-/* Começa o SIDEBAR */
+/* Começa o SIDEBAR ________________________________________________________________________________________________________________________________________________________________________________________________*/
 
 .barra {
     width: 230px;
@@ -60,7 +51,7 @@ body {
     margin-bottom: 8px;
 }
 
-/* Começa o MENU */
+/* Começa o MENU __________________________________________________________________________________________________________________________________________________________________________________________________*/
 
 .menu .titulo h1 {
     font-size: 18px;
@@ -95,20 +86,18 @@ body {
     background: var(--cor-azul-escuro);
 }
 
-/* Estilo para o botão ativo no menu */
+/* Estilo para o botão ativo no menu ______________________________________________________________________________________________________________________________________________________________________________*/
 
 .botoes button.active {
-    background: linear-gradient(135deg, var(--cor-azul-medio), var(--cor-azul-escuro));
+    padding-left: 16px;
     color: var(--cor-branco-puro);
     border-left: 4px solid var(--cor-azul-claro);
-    padding-left: 16px;
+    background: linear-gradient(135deg, var(--cor-azul-medio), var(--cor-azul-escuro));
 }
 
-.botoes button.active:hover {
-    transform: translateX(0);
-}
+.botoes button.active:hover {transform: translateX(0);}
 
-/* Parte do Usuário */
+/* Parte do Usuário _______________________________________________________________________________________________________________________________________________________________________________________________*/
 
 .titulo-usuario {
     gap: 8px;
@@ -129,30 +118,26 @@ body {
     color: var(--cor-cinza);
 }
 
-/* botão de sair */
+/* botão de sair ___________________________________________________________________________________________________________________________________________________________________________________________________*/
 
 .sair button {
+    width: 90px;
     border: none;
     padding: 10px;
-    width: 90px;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
     margin-top: 70px;
     margin-left: 30px;
     border-radius: 6px;
-    background-color: #ef4444;
-
-    font-size: 14px;
-    font-weight: 700;
     color: var(--cor-branco);
+    background-color: #ef4444;
     font-family: var(--font-subtitulos);
 }
 
-.sair button:hover {
-    background: #dc2626;
-}
+.sair button:hover {background: #dc2626;}
 
-
-/* COMEÇA O CONTEÚDO */
+/* COMEÇA O CONTEÚDO ______________________________________________________________________________________________________________________________________________________________________________________________*/
 
 .conteudo {
     flex: 1;
@@ -184,7 +169,7 @@ body {
     font-family: var(--font-titulos);
 }
 
-/* MODAIS */
+/* MODAIS _________________________________________________________________________________________________________________________________________________________________________________________________________*/
 
 .modal {
     top: 0;
@@ -196,30 +181,30 @@ body {
     position: fixed;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(6px);
-    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(7px);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .modal-content {
-    width: 500px;
-    padding: 25px;
+    width: 550px;
+    padding: 30px;
     display: flex;
-    max-width: 90%;
-    max-height: 90vh;
+    max-width: 100%;
+    max-height: 120vh;
     border-radius: 16px;
     flex-direction: column;
     animation: modalFadeIn 0.3s ease;
     background-color: var(--cor-branco-puro);
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.7);
 }
 
 .modal-content.excluir {
-    width: 400px;
+    width: 550px;
     text-align: center;
 }
 
 .modal-content h2 {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     text-align: center;
     margin-bottom: 20px;
@@ -230,7 +215,7 @@ body {
 }
 
 .modal-content p {
-    margin: 15px 0;
+    margin: 14px 0;
     font-size: 20px;
     line-height: 1.5;
     color: var(--cor-cinza-escuro);
@@ -238,12 +223,12 @@ body {
 }
 
 #camposModal {
-    gap: 12px;
+    gap: 8px;
     padding: 5px;
     display: flex;
     max-height: 60vh;
     overflow-y: auto;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     flex-direction: column;
     color: var(--cor-cinza-escuro);
 }
@@ -272,16 +257,16 @@ body {
     border-radius: 8px;
     transition: all 0.2s ease;
     color: var(--cor-cinza-escuro);
-    font-family: var(--font-subtitulos);
     border: 2px solid var(--cor-cinza);
+    font-family: var(--font-subtitulos);
     background-color: var(--cor-branco-puro);
 }
 
 .modal-content input:focus,
 .modal-content select:focus,
 .modal-content textarea:focus {
-    border-color: var(--cor-azul-claro);
-    box-shadow: 0 0 0 3px rgba(70, 129, 166, 0.1);
+    border-color: var(--cor--sidebar);
+    box-shadow: 0 0 0 3px rgba(70, 129, 166, 0.3);
 }
 
 .modal-content input::placeholder,
@@ -291,9 +276,9 @@ body {
 }
 
 .campo-porcentagem {
+    gap: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
 }
 
 .campo-porcentagem label {
@@ -304,13 +289,13 @@ body {
 }
 
 .campo-porcentagem input[type="range"] {
-    width: 100%;
     padding: 0;
+    width: 100%;
     height: 6px;
     cursor: pointer;
-    background: var(--cor-cinza);
     border-radius: 5px;
     -webkit-appearance: none;
+    background: var(--cor-cinza);
 }
 
 .campo-porcentagem input[type="range"]:focus {
@@ -318,13 +303,13 @@ body {
 }
 
 .campo-porcentagem input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
     width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: var(--cor-azul-claro);
-    cursor: pointer;
     border: none;
+    height: 18px;
+    cursor: pointer;
+    border-radius: 50%;
+    -webkit-appearance: none;
+    background: var(--cor-azul-claro);
 }
 
 .campo-porcentagem input[type="range"]::-webkit-slider-thumb:hover {
@@ -333,13 +318,12 @@ body {
 }
 
 .campo-porcentagem output {
-    text-align: center;
-    font-weight: bold;
     font-size: 18px;
+    font-weight: bold;
+    text-align: center;
     color: var(--cor-azul-claro);
     font-family: var(--font-titulos);
 }
-
 
 .botoes-modal {
     gap: 12px;
@@ -349,14 +333,14 @@ body {
 }
 
 .botoes-modal button {
-    padding: 10px 20px;
     border: none;
-    border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
-    font-family: var(--font-subtitulos);
+    padding: 10px 20px;
+    border-radius: 8px;
     transition: all 0.2s ease;
+    font-family: var(--font-subtitulos);
 }
 
 .btn-salvar {
@@ -371,13 +355,13 @@ body {
 }
 
 .btn-excluir-modal {
-    background-color: #ef4444;
     color: var(--cor-branco-puro);
+    background-color: var(--cor-erro);
 }
 
 .btn-excluir-modal:hover {
-    background-color: #dc2626;
     transform: translateY(-2px);
+    background-color: var(--cor-erro);
 }
 
 .btn-cancelar {
@@ -397,30 +381,29 @@ body {
     background-color: var(--cor-branco-puro);
 }
 
-/* LABEL E TEXTOS AUXILIARES */
 .modal-content small {
     display: block;
     margin-top: 5px;
     font-size: 11px;
-    color: #888;
+    color: var(--cor-cinza-escuro);
     font-family: var(--font-textos);
 }
 
-/* MODAL DE EXCLUSÃO ESPECÍFICO */
 .modal-content.excluir .botoes-modal {
     justify-content: center;
 }
 
 .modal-content.excluir .btn-excluir-modal {
-    background-color: #ef4444;
     padding: 10px 25px;
+    background-color: var(--cor-erro);
 }
 
 .modal-content.excluir .btn-cancelar {
     background-color: var(--cor-cinza-escuro);
 }
 
-/* RESPONSIVIDADE DOS MODAIS */
+/* RESPONSIVIDADE DOS MODAIS _______________________________________________________________________________________________________________________________________________________________________________________*/
+
 @media (max-width: 768px) {
     .modal-content {
         width: 95%;
@@ -439,13 +422,13 @@ body {
     .modal-content input,
     .modal-content select,
     .modal-content textarea {
-        padding: 10px 12px;
         font-size: 13px;
+        padding: 10px 12px;
     }
 
     .botoes-modal button {
-        padding: 8px 16px;
         font-size: 13px;
+        padding: 8px 16px;
     }
 
     .campo-porcentagem output {
@@ -481,7 +464,8 @@ body {
     }
 }
 
-/* ANIMAÇÃO PARA FECHAR MODAL */
+/* ANIMAÇÃO PARA FECHAR MODAL _____________________________________________________________________________________________________________________________________________________________________________________*/
+
 .modal.fechando {
     animation: modalFadeOut 0.2s ease;
 }
@@ -501,14 +485,14 @@ body {
 .btn-add {
     border: none;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
     padding: 20px 14px;
     border-radius: 6px;
     align-self: flex-end;
     margin: 10px 0 20px 0;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: var(--font-subtitulos);
     color: var(--cor-branco-puro);
+    font-family: var(--font-subtitulos);
     background-color: var(--cor--sidebar);
 }
 
@@ -548,17 +532,17 @@ body {
     cursor: pointer;
     padding: 5px 10px;
     border-radius: 5px;
-    background-color: #F44336;
     color: var(--cor-branco-puro);
+    background-color: var(--cor-erro);
 }
 
 .btn-menu-mobile {
-    display: none;
-    background: none;
     border: none;
+    display: none;
     font-size: 28px;
-    color: var(--cor-branco);
     cursor: pointer;
+    background: none;
+    color: var(--cor-branco);
 }
 
 .abas-gerenciamento {
@@ -580,81 +564,268 @@ body {
     background-color: var(--cor-cinza);
 }
 
-.aba-btn:hover {
-    background-color: #c9c9c9;
-}
-
-.aba-btn.ativa {
-    color: var(--cor-branco-puro);
-    background-color: var(--cor--sidebar);
-}
-
-.secao-tabela {
-    display: none;
-}
-
-.ativa-tabela {
-    display: block;
-}
-
-
-.secao-tabela {
-    max-height: calc(100vh - 320px);
-    overflow-y: auto;
-}
+.aba-btn:hover {background-color: #c9c9c9;}
+.aba-btn.ativa {color: var(--cor-branco-puro);background-color: var(--cor--sidebar);}
+.secao-tabela {display: none;}
+.ativa-tabela {display: block;}
+.secao-tabela {max-height: calc(100vh - 320px);overflow-y: auto;}
 
 .tabela-admin thead th {
-    position: sticky;
     top: 0;
     z-index: 1;
+    position: sticky;
     background-color: var(--cor--sidebar);
 }
 
-
 .container-pesquisa {
+    gap: 10px;
     width: 100%;
     height: 50px;
-    max-width: 800px;
-
-    gap: 10px;
     display: flex;
-    align-items: center;
-
-    background: #fff;
-    border-radius: 14px;
-
     padding: 0 14px;
+    max-width: 800px;
+    border-radius: 14px;
     margin-bottom: 30px;
+    align-items: center;
+    background: var(--cor-branco-puro);
 }
 
 .barra-pesquisa-painel {
     width: 500px;
-    padding: 8px 14px;
-    border-radius: 8px;
-    border: 2px solid transparent;
     outline: none;
     font-size: 13px;
     font-weight: 500;
     transition: 0.2s;
-    color: var(--cor--sidebar);
-    background-color: #f1f1f1;
+    padding: 8px 14px;
+    border-radius: 8px;
     margin-bottom: 12px;
+    color: var(--cor--sidebar);
+    border: 2px solid transparent;
+    background-color: var(--cor-branco);
 }
 
-.barra-pesquisa-painel::placeholder {
-    color: var(--cor-cinza-escuro);
-}
+.barra-pesquisa-painel::placeholder {color: var(--cor-cinza-escuro);}
 
 .icone-pesquisa {
-    font-size: 2rem !important;
     margin-bottom: 10px;
+    font-size: 2rem !important;
     color: var(--cor--sidebar);
 }
 
+/* ESTILOS DOS MODAIS DE ALERTAS __________________________________________________________________________________________________________________________________________________________________________________*/
 
-/* Tablet */
+.campo-invalido {border: 2px solid var(--cor-erro) !important;background-color: var(--cor-branco) !important;}
+
+.mensagem-erro {
+    display: block;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    color: var(--cor-erro);
+}
+
+.campo-porcentagem {margin-top: 15px;}
+.modal-content {max-height: 90vh;overflow-y: auto;}
+
+.senha-requisitos {
+    padding: 10px;
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: 600;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: var(--cor-cinza);
+}
+
+.senha-requisitos ul {margin: 5px 0;padding-left: 20px;}
+.senha-requisitos li {margin: 3px 0;}
+.requisito-atendido {color: var(--cor-sucesso);}
+.requisito-nao-atendido {color: var(--cor-erro);}
+
+.forca-senha {
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.forca-muito-fraca {background-color: var(--cor-erro);color: var(--cor-branco-puro);}
+.forca-fraca {background-color: #e67e22;color: var(--cor-branco-puro);}
+.forca-media {background-color: #f39c12;color: var(--cor-branco-puro);}
+.forca-forte {background-color: var(--cor-sucesso);color: var(--cor-branco-puro);}
+.forca-muito-forte {background-color: var(--cor-sucesso);color: var(--cor-branco-puro);}
+
+/* Alert Personalizado _____________________________________________________________________________________________________________________________________________________________________________________________*/
+
+.alerta-personalizado {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 10000;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.alerta-personalizado.active {display: flex;}
+
+.alerta-container {
+    width: 500px;
+    max-width: 90%;
+    border-radius: 12px;
+    animation: slideIn 0.3s ease;
+    background: var(--cor-branco-puro);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alerta-header {
+    gap: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--cor-cinza);
+}
+
+.alerta-icone {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    font-size: 30px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+}
+
+.alerta-icone.success {background-color: #d4edda;color: var(--cor-sucesso);}
+.alerta-icone.error {background-color: #f8d7da;color: var(--cor-erro);}
+.alerta-icone.warning {background-color: #fff3cd;color: #d7b347;}
+.alerta-icone.info {background-color: #d1ecf1;color: var(--cor-azul-escuro);}
+
+.alerta-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--cor--sidebar);
+    font-family: var(--font-titulos);
+}
+
+.alerta-mensagem {padding: 20px;}
+
+.alerta-mensagem p {
+    margin: 0;
+    line-height: 1.5;
+    color: var(--cor-cinza-escuro);
+    font-family: var(--font-subtitulos);
+}
+
+.alerta-botoes {
+    display: flex;
+    padding: 15px 20px;
+    justify-content: flex-end;
+    border-top: 1px solid var(--cor-cinza);
+}
+
+.alert-btn {
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 8px 20px;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.alert-btn.primary {background-color: var(--cor-azul-claro);color: var(cor-branco-puro);}
+.alert-btn.primary:hover {background-color: var(--cor-azul-claro);}
+
+/* Loader Personalizado ____________________________________________________________________________________________________________________________________________________________________________________________*/
+
+.carregando {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 10001;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.carregando.active {display: flex;}
+
+.carregando-container {
+    padding: 30px;
+    min-width: 250px;
+    text-align: center;
+    border-radius: 12px;
+    background: var(--cor-branco-puro);
+}
+
+.carregando-container p {
+    margin: 0;
+    font-weight: 500;
+    color: var(--cor-azul-claro);
+}
+
+.carregando-container::before {
+    content: '';
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    display: inline-block;
+    animation: spin 1s linear infinite;
+    border: 4px solid var(--cor-branco);
+    border-top: 4px solid var(--cor-azul-claro);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.modal {z-index: 9999;}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RESPONSIVIDADE DA PÁGINA COMPLETA ________________________________________________________________________________________________________________________________________________________________________________*/
+
+/* Tablet ___________________________________________________________________________________________________________________________________________________________________________________________________________*/
+
 @media (max-width: 1024px) {
-
     .barra {
         width: 180px;
         padding: 20px;
@@ -670,8 +841,8 @@ body {
 
     .tabela-admin th,
     .tabela-admin td {
-        font-size: 12px;
         padding: 6px;
+        font-size: 12px;
     }
 
     .btn-add {
@@ -680,9 +851,9 @@ body {
     }
 }
 
-/* Celular */
-@media (max-width: 768px) {
+/* Celular __________________________________________________________________________________________________________________________________________________________________________________________________________*/
 
+@media (max-width: 768px) {
     body {
         overflow-y: auto;
     }
@@ -700,37 +871,32 @@ body {
         height: auto;
     }
 
-    /* Sidebar vira menu superior */
+    /* Sidebar vira menu superior ___________________________________________________________________________________________________________________________________________________________________________________*/
+    
     .barra {
         width: 100%;
         height: auto;
+        padding: 10px 20px;
         flex-direction: row;
         align-items: center;
-        padding: 10px 20px;
     }
 
-    .logo img {
-        width: 100px;
-    }
+    .logo img {width: 100px;}
 
     .menu {
         display: none;
-        /* Esconde menu lateral no mobile */
+        /* Esconde menu lateral no mobile ____________________________________________________________________________________________________________________________________________________________________________*/
     }
 
     .sair {
+        width: 100%;
         display: flex;
         justify-content: space-between;
-        width: 100%;
     }
 
-    .usuario {
-        margin-right: auto;
-    }
+    .usuario {margin-right: auto;}
 
-    .sair button {
-        margin: 0;
-    }
+    .sair button {margin: 0;}
 
     .conteudo {
         height: auto;
@@ -738,57 +904,42 @@ body {
         overflow-y: auto;
     }
 
-    .conteudo2 {
-        flex-direction: column;
-    }
+    .conteudo2 {flex-direction: column;}
 
     .painel-admin {
         width: 100%;
-        margin-top: 15px;
         padding: 12px;
+        margin-top: 15px;
     }
 
-    /* Tabela vira scroll horizontal */
+    /* Tabela vira scroll horizontal _________________________________________________________________________________________________________________________________________________________________________________*/
+    
     .tabela-admin {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
     }
 
-    .btn-add {
-        width: 100%;
-        text-align: center;
-    }
+    .btn-add { width: 100%; text-align: center;}
 
-    /* Modal responsivo */
-    .modal-content {
-        width: 90%;
-    }
+    /* Modal responsivo _______________________________________________________________________________________________________________________________________________________________________________________________*/
+    
+    .modal-content {width: 90%;}
+    .btn-menu-mobile {display: block;}
+    .barra {flex-wrap: wrap;}
 
-    .btn-menu-mobile {
-        display: block;
-    }
-
-    .barra {
-        flex-wrap: wrap;
-    }
-
-    /* Menu oculto por padrão */
+    /* Menu oculto por padrão ________________________________________________________________________________________________________________________________________________________________________________________*/
+    
     .menu {
-        display: none;
         width: 100%;
+        display: none;
         margin-top: 10px;
     }
 
-    /* Menu visível quando aberto */
-    .menu.aberto {
-        display: block;
-    }
+    /* Menu visível quando aberto _____________________________________________________________________________________________________________________________________________________________________________________*/
+    .menu.aberto {display: block;}
 
-    .botoes {
-        flex-direction: column;
-        gap: 5px;
-    }
+    .botoes {flex-direction: column;gap: 5px;}
 
     .botoes button {
         width: 100%;
@@ -797,9 +948,9 @@ body {
     }
 }
 
-/* Telas muito pequenas */
-@media (max-width: 480px) {
+/* Telas muito pequenas _________________________________________________________________________________________________________________________________________________________________________________________________*/
 
+@media (max-width: 480px) {
     .tituloDash h1 {
         font-size: 18px;
     }
@@ -813,19 +964,7 @@ body {
     }
 
     .aba-btn {
-        padding: 8px 10px;
         font-size: 12px;
-    }
-}
-
-@keyframes modalFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
+        padding: 8px 10px;
     }
 }
