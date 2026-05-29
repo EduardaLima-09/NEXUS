@@ -19,15 +19,11 @@
 <body>
 
     <div class="tela">
-
         <div class="dash">
-
             <div class="barra">
-
                 <div class="logo">
                     <img src="../assets/LogoBranca.png" alt="">
                 </div>
-
                 <div class="menu">
                     <div class="titulo">
                         <h1>Menu Principal</h1>
@@ -37,7 +33,6 @@
                         <button id="Cursos" onclick="goCursos()">Cursos</button>
                     </div>
                 </div>
-
                 <div class="sair">
                     <div class="usuario">
                         <div class="nome">
@@ -49,11 +44,9 @@
                     </div>
                     <button onclick="goHome()">Sair</button>
                 </div>
-
             </div>
 
             <div class="conteudo">
-
                 <div class="tituloDash">
                     <div class="texto">
                         <h1>Olá, Professor(a) <span id="nomeUsuario">Usuário</span>!</h1>
@@ -70,20 +63,8 @@
                             <h1 id="kpiBaixo">-</h1>
                             <div class="porcentagem">
                                 <p id="textoMetaBaixo" style="font-size:12px; color:#666;"></p>
-                                <div class="progress-bar-mini" style="
-                                    width: 100%;
-                                    height: 6px;
-                                    background: #e5e7eb;
-                                    border-radius: 4px;
-                                    margin: 4px 0;
-                                ">
-                                    <div id="progressoBaixo" style="
-                                        height: 100%;
-                                        width: 0%;
-                                        border-radius: 4px;
-                                        background: #22c55e;
-                                        transition: width 0.5s;
-                                    "></div>
+                                <div style="width:100%; height:6px; background:#e5e7eb; border-radius:4px; margin:4px 0;">
+                                    <div id="progressoBaixo" style="height:100%; width:0%; border-radius:4px; background:#22c55e; transition:width 0.5s;"></div>
                                 </div>
                                 <span id="percentualBaixo" style="font-size:11px; color:#888;"></span>
                             </div>
@@ -94,20 +75,8 @@
                             <h1 id="kpiAlto">-</h1>
                             <div class="porcentagem">
                                 <p id="textoMetaAlto" style="font-size:12px; color:#666;"></p>
-                                <div class="progress-bar-mini" style="
-                                    width: 100%;
-                                    height: 6px;
-                                    background: #e5e7eb;
-                                    border-radius: 4px;
-                                    margin: 4px 0;
-                                ">
-                                    <div id="progressoAlto" style="
-                                        height: 100%;
-                                        width: 0%;
-                                        border-radius: 4px;
-                                        background: #ef4444;
-                                        transition: width 0.5s;
-                                    "></div>
+                                <div style="width:100%; height:6px; background:#e5e7eb; border-radius:4px; margin:4px 0;">
+                                    <div id="progressoAlto" style="height:100%; width:0%; border-radius:4px; background:#ef4444; transition:width 0.5s;"></div>
                                 </div>
                                 <span id="percentualAlto" style="font-size:11px; color:#888;"></span>
                             </div>
@@ -118,20 +87,8 @@
                             <h1 id="kpiMedio">-</h1>
                             <div class="porcentagem">
                                 <p id="textoMetaMedio" style="font-size:12px; color:#666;"></p>
-                                <div class="progress-bar-mini" style="
-                                    width: 100%;
-                                    height: 6px;
-                                    background: #e5e7eb;
-                                    border-radius: 4px;
-                                    margin: 4px 0;
-                                ">
-                                    <div id="progressoMedio" style="
-                                        height: 100%;
-                                        width: 0%;
-                                        border-radius: 4px;
-                                        background: #f97316;
-                                        transition: width 0.5s;
-                                    "></div>
+                                <div style="width:100%; height:6px; background:#e5e7eb; border-radius:4px; margin:4px 0;">
+                                    <div id="progressoMedio" style="height:100%; width:0%; border-radius:4px; background:#f97316; transition:width 0.5s;"></div>
                                 </div>
                                 <span id="percentualMedio" style="font-size:11px; color:#888;"></span>
                             </div>
@@ -142,7 +99,6 @@
                     <div class="conteudo3">
 
                         <div class="tabela">
-
                             <div class="topo-tabela">
                                 <h1>Lista de Alunos</h1>
                                 <div class="acoes-tabela">
@@ -182,18 +138,15 @@
                                 </thead>
                                 <tbody id="tbodyAlunos"></tbody>
                             </table>
-
                         </div>
 
                         <div class="metade2">
-
                             <div class="graficoDonut">
                                 <h3>Distribuição de Risco</h3>
                                 <div class="chart-container">
                                     <canvas id="mychart1"></canvas>
                                 </div>
                             </div>
-
                         </div>
 
                     </div>
@@ -203,14 +156,13 @@
             </div>
 
         </div>
-
     </div>
 
     <script>
 
         function goAlunos() { window.location.href = "alunos.html"; }
         function goCursos() { window.location.href = "cursos.html"; }
-        function goHome() { sessionStorage.clear(); window.location.href = "../index.html"; }
+        function goHome()   { sessionStorage.clear(); window.location.href = "../index.html"; }
 
         (function carregarCabecalho() {
 
@@ -235,13 +187,7 @@
 
         let todosAlunos  = [];
         let graficoDonut = null;
-
-        // Metas vindas do banco — padrão vazio até carregar
-        let metasRisco = {
-            baixo: null,
-            medio: null,
-            alto:  null
-        };
+        let metasRisco   = { baixo: null, medio: null, alto: null };
 
         async function iniciarPagina() {
 
@@ -271,19 +217,12 @@
 
                 const metas = await resposta.json();
 
-                // Filtra apenas metas de risco (as que aparecem na tela de alunos)
+                metasRisco = { baixo: null, medio: null, alto: null };
+
                 metas.forEach(function (meta) {
-
-                    if (meta.categoria === "Risco Baixo") {
-                        metasRisco.baixo = meta;
-                    }
-                    if (meta.categoria === "Risco Médio") {
-                        metasRisco.medio = meta;
-                    }
-                    if (meta.categoria === "Risco Alto") {
-                        metasRisco.alto = meta;
-                    }
-
+                    if (meta.categoria === "Risco Baixo" && !metasRisco.baixo) metasRisco.baixo = meta;
+                    if (meta.categoria === "Risco Médio" && !metasRisco.medio) metasRisco.medio = meta;
+                    if (meta.categoria === "Risco Alto"  && !metasRisco.alto)  metasRisco.alto  = meta;
                 });
 
             } catch (erro) {
@@ -292,99 +231,133 @@
 
         }
 
-        // Atualiza os cards com progresso em relação à meta
+        // ── PROGRESSO DAS METAS ───────────────────────────────────────────────
+        // qtdBaixo/Alto/Medio = quantidade absoluta de alunos
+        // total = soma dos três
+        // percentual = (qtd / total) * 100
+
         function atualizarProgressoMetas(qtdBaixo, qtdAlto, qtdMedio, total) {
 
-            const percentualBaixo = total > 0 ? (qtdBaixo / total) * 100 : 0;
-            const percentualAlto  = total > 0 ? (qtdAlto  / total) * 100 : 0;
-            const percentualMedio = total > 0 ? (qtdMedio / total) * 100 : 0;
+            const pBaixo = total > 0 ? (qtdBaixo / total) * 100 : 0;
+            const pAlto  = total > 0 ? (qtdAlto  / total) * 100 : 0;
+            const pMedio = total > 0 ? (qtdMedio / total) * 100 : 0;
 
-            // ── RISCO BAIXO ──
+            // ── RISCO BAIXO — queremos ATINGIR pelo menos X% ──────────────────
+
+            const elTextoBaixo      = document.getElementById("textoMetaBaixo");
+            const elBarraBaixo      = document.getElementById("progressoBaixo");
+            const elPercentualBaixo = document.getElementById("percentualBaixo");
+
             if (metasRisco.baixo) {
 
-                const meta     = metasRisco.baixo;
-                const progresso = Math.min((percentualBaixo / meta.porcentagem) * 100, 100);
+                const alvo = Number(metasRisco.baixo.porcentagem);
 
-                document.getElementById("textoMetaBaixo").innerText =
-                    `Meta "${meta.nome}": atingir ${meta.porcentagem}% de alunos em risco baixo`;
+                if (pBaixo >= alvo) {
 
-                document.getElementById("progressoBaixo").style.width =
-                    progresso + "%";
+                    elTextoBaixo.innerText =
+                        `Meta "${metasRisco.baixo.nome}": atingir ${alvo}% ✓ Concluída`;
+                    elBarraBaixo.style.width           = "100%";
+                    elBarraBaixo.style.backgroundColor = "#22c55e";
+                    elPercentualBaixo.innerText =
+                        `${qtdBaixo} alunos (${pBaixo.toFixed(1)}%) · Meta de ${alvo}% atingida!`;
 
-                document.getElementById("progressoBaixo").style.backgroundColor =
-                    progresso >= 100 ? "#22c55e" : progresso >= 50 ? "#f97316" : "#ef4444";
+                } else {
 
-                document.getElementById("percentualBaixo").innerText =
-                    `${percentualBaixo.toFixed(1)}% atual · ${progresso.toFixed(0)}% da meta atingida`;
+                    const progresso = alvo > 0 ? (pBaixo / alvo) * 100 : 0;
+                    elTextoBaixo.innerText =
+                        `Meta "${metasRisco.baixo.nome}": atingir ${alvo}% de alunos em risco baixo`;
+                    elBarraBaixo.style.width           = progresso + "%";
+                    elBarraBaixo.style.backgroundColor = progresso >= 50 ? "#f97316" : "#ef4444";
+                    elPercentualBaixo.innerText =
+                        `${qtdBaixo} alunos (${pBaixo.toFixed(1)}%) · faltam ${(alvo - pBaixo).toFixed(1)}% para bater a meta`;
+
+                }
 
             } else {
 
-                document.getElementById("textoMetaBaixo").innerText =
-                    "Nenhuma meta definida para este indicador";
-
-                document.getElementById("percentualBaixo").innerText =
-                    `${percentualBaixo.toFixed(1)}% atual`;
+                elTextoBaixo.innerText      = "Nenhuma meta definida para risco baixo";
+                elBarraBaixo.style.width    = "0%";
+                elPercentualBaixo.innerText = `${qtdBaixo} alunos (${pBaixo.toFixed(1)}%)`;
 
             }
 
-            // ── RISCO ALTO ──
+            // ── RISCO ALTO — queremos MANTER ABAIXO de X% ────────────────────
+
+            const elTextoAlto      = document.getElementById("textoMetaAlto");
+            const elBarraAlto      = document.getElementById("progressoAlto");
+            const elPercentualAlto = document.getElementById("percentualAlto");
+
             if (metasRisco.alto) {
 
-                const meta      = metasRisco.alto;
-                // Para risco alto a meta é MÁXIMO — quanto menos, melhor
-                const progresso = percentualAlto <= meta.porcentagem
-                    ? 100
-                    : Math.max(0, 100 - ((percentualAlto - meta.porcentagem) * 5));
+                const alvo = Number(metasRisco.alto.porcentagem);
 
-                document.getElementById("textoMetaAlto").innerText =
-                    `Meta "${meta.nome}": manter abaixo de ${meta.porcentagem}% de alunos em risco alto`;
+                if (pAlto <= alvo) {
 
-                document.getElementById("progressoAlto").style.width =
-                    progresso + "%";
+                    elTextoAlto.innerText =
+                        `Meta "${metasRisco.alto.nome}": manter abaixo de ${alvo}% ✓ Concluída`;
+                    elBarraAlto.style.width           = "100%";
+                    elBarraAlto.style.backgroundColor = "#22c55e";
+                    elPercentualAlto.innerText =
+                        `${qtdAlto} alunos (${pAlto.toFixed(1)}%) · Meta de máx. ${alvo}% cumprida!`;
 
-                document.getElementById("progressoAlto").style.backgroundColor =
-                    progresso >= 100 ? "#22c55e" : progresso >= 50 ? "#f97316" : "#ef4444";
+                } else {
 
-                document.getElementById("percentualAlto").innerText =
-                    `${percentualAlto.toFixed(1)}% atual · ${progresso.toFixed(0)}% da meta atingida`;
+                    const excesso        = pAlto - alvo;
+                    const barraProgresso = Math.min(pAlto, 100);
+                    elTextoAlto.innerText =
+                        `Meta "${metasRisco.alto.nome}": manter abaixo de ${alvo}% de alunos em risco alto`;
+                    elBarraAlto.style.width           = barraProgresso + "%";
+                    elBarraAlto.style.backgroundColor = "#ef4444";
+                    elPercentualAlto.innerText =
+                        `${qtdAlto} alunos (${pAlto.toFixed(1)}%) · excede em ${excesso.toFixed(1)}% o limite de ${alvo}%`;
+
+                }
 
             } else {
 
-                document.getElementById("textoMetaAlto").innerText =
-                    "Nenhuma meta definida para este indicador";
-
-                document.getElementById("percentualAlto").innerText =
-                    `${percentualAlto.toFixed(1)}% atual`;
+                elTextoAlto.innerText      = "Nenhuma meta definida para risco alto";
+                elBarraAlto.style.width    = "0%";
+                elPercentualAlto.innerText = `${qtdAlto} alunos (${pAlto.toFixed(1)}%)`;
 
             }
 
-            // ── RISCO MÉDIO ──
+            // ── RISCO MÉDIO — queremos MANTER ABAIXO de X% ───────────────────
+
+            const elTextoMedio      = document.getElementById("textoMetaMedio");
+            const elBarraMedio      = document.getElementById("progressoMedio");
+            const elPercentualMedio = document.getElementById("percentualMedio");
+
             if (metasRisco.medio) {
 
-                const meta      = metasRisco.medio;
-                const progresso = percentualMedio <= meta.porcentagem
-                    ? 100
-                    : Math.max(0, 100 - ((percentualMedio - meta.porcentagem) * 5));
+                const alvo = Number(metasRisco.medio.porcentagem);
 
-                document.getElementById("textoMetaMedio").innerText =
-                    `Meta "${meta.nome}": manter abaixo de ${meta.porcentagem}% de alunos em risco médio`;
+                if (pMedio <= alvo) {
 
-                document.getElementById("progressoMedio").style.width =
-                    progresso + "%";
+                    elTextoMedio.innerText =
+                        `Meta "${metasRisco.medio.nome}": manter abaixo de ${alvo}% ✓ Concluída`;
+                    elBarraMedio.style.width           = "100%";
+                    elBarraMedio.style.backgroundColor = "#22c55e";
+                    elPercentualMedio.innerText =
+                        `${qtdMedio} alunos (${pMedio.toFixed(1)}%) · Meta de máx. ${alvo}% cumprida!`;
 
-                document.getElementById("progressoMedio").style.backgroundColor =
-                    progresso >= 100 ? "#22c55e" : progresso >= 50 ? "#f97316" : "#ef4444";
+                } else {
 
-                document.getElementById("percentualMedio").innerText =
-                    `${percentualMedio.toFixed(1)}% atual · ${progresso.toFixed(0)}% da meta atingida`;
+                    const excesso        = pMedio - alvo;
+                    const barraProgresso = Math.min(pMedio, 100);
+                    elTextoMedio.innerText =
+                        `Meta "${metasRisco.medio.nome}": manter abaixo de ${alvo}% de alunos em risco médio`;
+                    elBarraMedio.style.width           = barraProgresso + "%";
+                    elBarraMedio.style.backgroundColor = "#ef4444";
+                    elPercentualMedio.innerText =
+                        `${qtdMedio} alunos (${pMedio.toFixed(1)}%) · excede em ${excesso.toFixed(1)}% o limite de ${alvo}%`;
+
+                }
 
             } else {
 
-                document.getElementById("textoMetaMedio").innerText =
-                    "Nenhuma meta definida para este indicador";
-
-                document.getElementById("percentualMedio").innerText =
-                    `${percentualMedio.toFixed(1)}% atual`;
+                elTextoMedio.innerText      = "Nenhuma meta definida para risco médio";
+                elBarraMedio.style.width    = "0%";
+                elPercentualMedio.innerText = `${qtdMedio} alunos (${pMedio.toFixed(1)}%)`;
 
             }
 
@@ -407,9 +380,9 @@
 
                 const dados = await resposta.json();
 
-                const baixo = dados.baixo ?? 0;
-                const alto  = dados.alto  ?? 0;
-                const medio = dados.medio ?? 0;
+                const baixo = Number(dados.baixo ?? 0);
+                const alto  = Number(dados.alto  ?? 0);
+                const medio = Number(dados.medio ?? 0);
                 const total = baixo + alto + medio;
 
                 document.getElementById("kpiBaixo").innerText = baixo;
@@ -436,12 +409,12 @@
 
                 if (respostaCursos.ok) {
 
-                    const cursos = await respostaCursos.json();
+                    const cursos      = await respostaCursos.json();
                     const selectCurso = document.getElementById("filtroCurso");
 
                     cursos.forEach(function (curso) {
-                        const option = document.createElement("option");
-                        option.value = curso.nome;
+                        const option       = document.createElement("option");
+                        option.value       = curso.nome;
                         option.textContent = curso.nome;
                         selectCurso.appendChild(option);
                     });
@@ -454,12 +427,12 @@
 
                 if (respostaSemestres.ok) {
 
-                    const semestres = await respostaSemestres.json();
+                    const semestres      = await respostaSemestres.json();
                     const selectSemestre = document.getElementById("filtroSemestre");
 
                     semestres.forEach(function (item) {
-                        const option = document.createElement("option");
-                        option.value = item.semestre;
+                        const option       = document.createElement("option");
+                        option.value       = item.semestre;
                         option.textContent = `${item.semestre}º Semestre`;
                         selectSemestre.appendChild(option);
                     });
@@ -500,12 +473,12 @@
 
         function renderizarTabela(alunos) {
 
-            const tbody = document.getElementById("tbodyAlunos");
+            const tbody     = document.getElementById("tbodyAlunos");
             tbody.innerHTML = "";
 
             if (alunos.length === 0) {
                 tbody.innerHTML =
-                    `<tr><td colspan="6" style="text-align:center; padding: 20px; color: #999;">
+                    `<tr><td colspan="6" style="text-align:center; padding:20px; color:#999;">
                         Nenhum aluno encontrado.
                     </td></tr>`;
                 return;
@@ -523,8 +496,7 @@
                     : aluno.risco === "Médio" ? "#f97316"
                     : "#22c55e";
 
-                const tr = document.createElement("tr");
-
+                const tr     = document.createElement("tr");
                 tr.innerHTML = `
                     <td>${aluno.nomeCompleto}</td>
                     <td>${aluno.curso}</td>
@@ -553,10 +525,10 @@
 
         function renderizarGrafico(alunos) {
 
-            const baixo  = alunos.filter(a => a.risco === "Baixo").length;
-            const medio  = alunos.filter(a => a.risco === "Médio").length;
-            const alto   = alunos.filter(a => a.risco === "Alto").length;
-            const total  = baixo + medio + alto;
+            const baixo = alunos.filter(a => a.risco === "Baixo").length;
+            const medio = alunos.filter(a => a.risco === "Médio").length;
+            const alto  = alunos.filter(a => a.risco === "Alto").length;
+            const total = baixo + medio + alto;
 
             const ctx = document.getElementById("mychart1");
 
@@ -610,18 +582,18 @@
 
         function filtrarTabela() {
 
-            const textoPesquisa  = document.getElementById("pesquisaAluno").value.toLowerCase();
-            const cursoPesquisa  = document.getElementById("filtroCurso").value;
+            const textoPesquisa    = document.getElementById("pesquisaAluno").value.toLowerCase();
+            const cursoPesquisa    = document.getElementById("filtroCurso").value;
             const semestrePesquisa = document.getElementById("filtroSemestre").value;
-            const riscoPesquisa  = document.getElementById("filtroRisco").value;
-            const notaPesquisa   = document.getElementById("filtroNota").value;
+            const riscoPesquisa    = document.getElementById("filtroRisco").value;
+            const notaPesquisa     = document.getElementById("filtroNota").value;
 
             const alunosFiltrados = todosAlunos.filter(function (aluno) {
 
                 const nomeOk     = aluno.nomeCompleto.toLowerCase().includes(textoPesquisa);
-                const cursoOk    = cursoPesquisa === "" || aluno.curso === cursoPesquisa;
+                const cursoOk    = cursoPesquisa    === "" || aluno.curso === cursoPesquisa;
                 const semestreOk = semestrePesquisa === "" || String(aluno.semestre) === String(semestrePesquisa);
-                const riscoOk    = riscoPesquisa === "" || aluno.risco === riscoPesquisa;
+                const riscoOk    = riscoPesquisa    === "" || aluno.risco === riscoPesquisa;
                 const notaOk     =
                     notaPesquisa === ""
                     || (notaPesquisa === "alta"  && aluno.media > 8)

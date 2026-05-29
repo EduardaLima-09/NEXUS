@@ -55,7 +55,6 @@ function listarCursos(fkUniversidade){
 function buscarKpis(fkUniversidade) {
 
     var instrucaoSql = `
-
         SELECT
 
             (
@@ -66,19 +65,19 @@ function buscarKpis(fkUniversidade) {
                 WHERE c.fkUniversidade = ${fkUniversidade}
                 AND ir.score >= 70
                 GROUP BY c.id
-                ORDER BY COUNT(ir.id) DESC
+                ORDER BY COUNT(DISTINCT ir.fkAluno) DESC
                 LIMIT 1
             ) AS cursoMaiorRisco,
 
             (
-                SELECT COUNT(*)
+                SELECT COUNT(DISTINCT ir.fkAluno)
                 FROM Curso c
                 JOIN Historico h ON h.fkCurso = c.id
                 JOIN IndicadorRisco ir ON ir.fkAluno = h.fkAluno
                 WHERE c.fkUniversidade = ${fkUniversidade}
                 AND ir.score >= 70
                 GROUP BY c.id
-                ORDER BY COUNT(ir.id) DESC
+                ORDER BY COUNT(DISTINCT ir.fkAluno) DESC
                 LIMIT 1
             ) AS qtdMaiorRisco,
 
@@ -90,25 +89,32 @@ function buscarKpis(fkUniversidade) {
                 WHERE c.fkUniversidade = ${fkUniversidade}
                 AND ir.score >= 70
                 GROUP BY c.id
-                ORDER BY COUNT(ir.id) ASC
+                ORDER BY COUNT(DISTINCT ir.fkAluno) ASC
                 LIMIT 1
             ) AS cursoMenorRisco,
 
             (
-                SELECT COUNT(*)
+                SELECT COUNT(DISTINCT ir.fkAluno)
                 FROM Curso c
                 JOIN Historico h ON h.fkCurso = c.id
                 JOIN IndicadorRisco ir ON ir.fkAluno = h.fkAluno
                 WHERE c.fkUniversidade = ${fkUniversidade}
                 AND ir.score >= 70
                 GROUP BY c.id
-                ORDER BY COUNT(ir.id) ASC
+                ORDER BY COUNT(DISTINCT ir.fkAluno) ASC
                 LIMIT 1
-            ) AS qtdMenorRisco;
+            ) AS qtdMenorRisco,
 
+            (
+                SELECT COUNT(DISTINCT h2.fkAluno)
+                FROM Historico h2
+                JOIN Curso c2 ON c2.id = h2.fkCurso
+                WHERE c2.fkUniversidade = ${fkUniversidade}
+            ) AS totalAlunos;
     `;
 
     return database.executar(instrucaoSql);
+
 }
 
 function buscarGrafico(fkUniversidade) {
