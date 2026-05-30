@@ -10,15 +10,23 @@ function cadastrar(req, res) {
         return res.status(400).send("Dados inválidos");
     }
 
-    cursosModel.cadastrar(nome, fkUniversidade)
-        .then(function (resultado) {
-            res.status(201).json(resultado);
-        })
-        .catch(function (erro) {
-            console.log(erro);
-            res.status(500).json(erro.sqlMessage);
-        });
+   cursosModel.verificarCursoExistente(nome, fkUniversidade)
+    .then(function(resultado) {
+        if (resultado.length > 0) {
+            return res.status(409).send("Curso já cadastrado.");
+        }
+        return cursosModel.cadastrar(nome, fkUniversidade);
+    })
+    .then(function(resultado) {
 
+        if (!resultado) return;
+
+        res.status(201).json(resultado);
+    })
+    .catch(function(erro) {
+        console.log(erro);
+        res.status(500).json(erro.sqlMessage);
+    });
 }
 
 function editar(req, res) {

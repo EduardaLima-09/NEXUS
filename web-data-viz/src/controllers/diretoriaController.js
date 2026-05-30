@@ -264,7 +264,10 @@ function atualizarCurso(req, res) {
 function deletarCurso(req, res) {
     var id             = req.params.id;
     var fkUniversidade = req.query.fkUniversidade;
-    if (!fkUniversidade) return res.status(400).send("fkUniversidade está undefined!");
+
+    if (!fkUniversidade) {
+        return res.status(400).send("fkUniversidade está undefined!");
+    }
 
     diretoriaModel.deletarCurso(id, fkUniversidade)
         .then(function (resultado) {
@@ -291,5 +294,6 @@ module.exports = {
     listarCursos,
     cadastrarCurso,
     atualizarCurso,
-    deletarCurso
+    deletarCurso,
+    
 };

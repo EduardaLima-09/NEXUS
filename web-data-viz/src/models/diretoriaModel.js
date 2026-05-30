@@ -146,11 +146,22 @@ function atualizarAluno(ra, nome, sobrenome, cpf, sexo, email) {
 }
 
 function deletarAluno(ra) {
-    var instrucaoSql = `
-        DELETE FROM Aluno
-        WHERE RA = '${ra}';
-    `;
-    return database.executar(instrucaoSql);
+    return database.executar(`
+        DELETE FROM Historico
+        WHERE fkAluno = '${ra}';
+    `)
+    .then(() => {
+        return database.executar(`
+            DELETE FROM IndicadorRisco
+            WHERE fkAluno = '${ra}';
+        `);
+    })
+    .then(() => {
+        return database.executar(`
+            DELETE FROM Aluno
+            WHERE RA = '${ra}';
+        `);
+    });
 }
 
 function listarCursos(fkUniversidade) {
@@ -188,12 +199,20 @@ function atualizarCurso(id, nome, modalidade, fkUniversidade) {
 }
 
 function deletarCurso(id, fkUniversidade) {
-    var instrucaoSql = `
-        DELETE FROM Curso
+    return database.executar(`DELETE FROM Meta
+            WHERE fkCurso = '${id}';`
+    )
+    .then(() => {
+        return database.executar(`DELETE FROM Historico
+            WHERE fkCurso = '${id}';`
+        );
+    })
+    .then(()=> {
+        return database.executar(`DELETE FROM Curso
         WHERE id = '${id}'
-          AND fkUniversidade = '${fkUniversidade}';
-    `;
-    return database.executar(instrucaoSql);
+          AND fkUniversidade = '${fkUniversidade}';`
+        );
+    });
 }
 
 module.exports = {

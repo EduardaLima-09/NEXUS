@@ -762,15 +762,27 @@
             else if (abaAtual === "cursos") {
                 tituloModal.innerText = modo === "editar" ? "Editar Curso" : "Adicionar Novo Curso";
                 camposModal.innerHTML = `
-            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Nome do Curso *</label>
-            <select id="nomeCursoInput" required style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
-                <option value="">Selecione o curso</option>
-                <option value="Negócios" ${dados && dados.nome === "Negócios" ? "selected" : ""}>Negócios</option>
-                <option value="Matemática" ${dados && dados.nome === "Matemática" ? "selected" : ""}>Matemática</option>
-                <option value="Engenharia" ${dados && dados.nome === "Engenharia" ? "selected" : ""}>Engenharia</option>
-                <option value="Ciências da Computação" ${dados && dados.nome === "Ciências da Computação" ? "selected" : ""}>Ciências da Computação</option>
-            </select>
-        `;
+            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">
+        Nome do Curso *
+    </label>
+
+    <input
+        type="text"
+        id="nomeCursoInput"
+        list="listaCursos"
+        value="${dados ? dados.nome : ""}"
+        placeholder="Digite o nome do curso"
+        required
+        style="width: 100%; padding: 10px; border-radius: 8px; margin-bottom: 15px;"
+    >
+
+    <datalist id="listaCursos">
+        <option value="Negócios">
+        <option value="Matemática">
+        <option value="Engenharia">
+        <option value="Ciência da Computação">
+    </datalist>
+`;
             }
 
             else if (abaAtual === "metas") {
@@ -1028,15 +1040,25 @@
                     return;
                 }
 
+                const cursoExiste = todosCursos.some(
+                    curso => 
+                        curso.nome.toLowerCase() === nome.toLowerCase() && curso.id !== registroEditandoId
+                    );
+
+                if (cursoExiste) {
+                    showAlert("error", "Erro", "Este curso já está cadastrado.");
+                    return;
+                }
+
                 showLoader();
                 try {
                     if (modoModal === "editar") {
                         const resposta = await fetch(
-                            `/diretoria/cursos/atualizar/${registroEditandoId}?fkUniversidade=${fkUniversidade}`,
+                            `/cursos/editar/${registroEditandoId}?fkUniversidade=${fkUniversidade}`,
                             {
                                 method: "PUT",
                                 headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ nome, modalidade: "-" })
+                                body: JSON.stringify({ nome })
                             }
                         );
                         hideLoader();
@@ -1051,11 +1073,11 @@
                         }
                     } else {
                         const resposta = await fetch(
-                            `/diretoria/cursos/cadastrar?fkUniversidade=${fkUniversidade}`,
+                            `/cursos/cadastrar?fkUniversidade=${fkUniversidade}`,
                             {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ nome, modalidade: "-" })
+                                body: JSON.stringify({ nome })
                             }
                         );
                         hideLoader();
@@ -1433,7 +1455,7 @@
 
         async function deletarMeta(id) {
             try {
-                const resposta = await fetch(`/metas/deletar/${id}`, { method: "DELETE" });
+                const resposta = await fetch(`/metas/excluir/${id}`, { method: "DELETE" });
                 if (resposta.ok) {
                     showAlert("success", "Sucesso!", "Meta excluída com sucesso.", () => {
                         carregarMetas();
@@ -1448,18 +1470,19 @@
         }
 
         async function confirmarExclusao() {
-            if (!itemParaExcluir) return;
-            fecharExcluirModal();
+            if (itemParaExcluir == null) { 
+                return;
+            }
+    
             showLoader();
 
             if (tipoExclusao === "usuario") await deletarUsuario(itemParaExcluir);
-            else if (tipoExclusao === "aluno") await deletarAluno(itemParaExcluir);
+            else if (tipoExclusao === "aluno") await deletarAluno(itemParaExcluir);  
             else if (tipoExclusao === "curso") await deletarCurso(itemParaExcluir);
             else if (tipoExclusao === "meta") await deletarMeta(itemParaExcluir);
 
+            fecharExcluirModal();
             hideLoader();
-            itemParaExcluir = null;
-            tipoExclusao = null;
         }
 
         document.addEventListener("DOMContentLoaded", function () {

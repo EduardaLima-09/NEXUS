@@ -1,9 +1,17 @@
 var database = require("../database/config");
 
-function cadastrar(
-    nome,
-    fkUniversidade
-) {
+function verificarCursoExistente(nome, fkUniversidade) {
+    const instrucaoSql = `
+        SELECT id
+        FROM Curso
+        WHERE nome = '${nome}'
+          AND fkUniversidade = '${fkUniversidade}';
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
+function cadastrar(nome, fkUniversidade) {
     var instrucaoSql = `
         INSERT INTO Curso (nome, fkUniversidade) VALUES ('${nome}', '${fkUniversidade}');
     `;
@@ -219,6 +227,7 @@ function buscarListaCursos(fkUniversidade) {
 }
 
 module.exports = {
+    verificarCursoExistente,
     cadastrar,
     editar,
     excluir,

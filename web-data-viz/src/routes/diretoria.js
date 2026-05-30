@@ -38,4 +38,8 @@ router.delete("/alunos/deletar/:ra", function (req, res) {
     diretoriaController.deletarAluno(req, res);
 });
 
+router.delete("/cursos/deletar/:id", function (req, res) {
+    diretoriaController.deletarCurso(req, res);
+});
+
 module.exports = router;
