@@ -944,7 +944,7 @@
             else if (abaAtual === "alunos") {
                 const nome = document.getElementById("nomeAlunoInput")?.value.trim();
                 const sobrenome = document.getElementById("sobrenomeAlunoInput")?.value.trim();
-                const cpf = document.getElementById("cpfAlunoInput")?.value.trim();
+                const cpf = document.getElementById("cpfAlunoInput")?.value.trim().replace(/\D/g,  '');
                 const sexo = document.getElementById("sexoAlunoInput")?.value;
                 const email = document.getElementById("emailAlunoInput")?.value.trim();
 
