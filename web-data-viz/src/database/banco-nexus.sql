@@ -1,5 +1,3 @@
-DROP DATABASE NEXUS;
-
 CREATE DATABASE NEXUS;
 USE NEXUS;
 
@@ -75,16 +73,19 @@ CREATE TABLE Meta(
 	id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
     categoria VARCHAR(45) NOT NULL,
-    porcentagem INT,
+    porcentagem INT NOT NULL,
     fkCurso INT,
 		FOREIGN KEY (fkCurso) REFERENCES Curso (id),
 	fkUniversidade INT,
 		FOREIGN KEY (fkUniversidade) REFERENCES Universidade (id)
 );
 
-SELECT * FROM usuario;
-SELECT *  FROM aluno;
-SELECT * FROM universidade;
-
-
-SELECT * FROM Meta;
+CREATE TABLE Slack(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    mensagem VARCHAR(250),
+    parametroPorcentagem INT,
+    fkCurso INT,
+		FOREIGN KEY (fkCurso) REFERENCES Curso (id),
+	fkUniversidade INT,
+		FOREIGN KEY (fkUniversidade) REFERENCES Universidade (id)
+);
