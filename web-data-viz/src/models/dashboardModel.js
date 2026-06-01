@@ -8,7 +8,7 @@ function buscarKpis(fkUniversidade) {
 
             SUM(
                 CASE
-                    WHEN ir.score >= 70 THEN 1
+                    WHEN ir.score >= 75 THEN 1
                     ELSE 0
                 END
             ) AS alunosRisco,
@@ -23,7 +23,7 @@ function buscarKpis(fkUniversidade) {
                 GROUP BY c.id
                 ORDER BY SUM(
                     CASE
-                        WHEN ir2.score >= 70 THEN 1
+                        WHEN ir2.score >= 75 THEN 1
                         ELSE 0
                     END
                 ) DESC

@@ -13,7 +13,7 @@ public class LogDAO {
 
     public void salvar(Log log) {
         jdbcTemplate.update(
-                "INSERT INTO Logs(statusLog, mensagem, dataHora) VALUES (?, ?, NOW())",
+                "INSERT INTO Logs(status, mensagem, dataHora) VALUES (?, ?, NOW())",
                 log.getStatus().name(),
                 log.getEspecificacao());
     }

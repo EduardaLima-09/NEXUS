@@ -34,10 +34,6 @@ public class CursoDAO {
                 String msg = "Curso inserido: " + curso.getNome();
                 System.out.println(msg);
 
-                conexaoBD.getJdbcTemplate().update(
-                        "INSERT INTO Logs (mensagem, dataHora) VALUES (?, NOW())",
-                        msg
-                );
             } catch (Exception e) {
                 e.printStackTrace();
             }
