@@ -8,44 +8,44 @@ CORS(app)  # Permite o frontend JS chamar essa API
 TOUR_STEPS = [
     {
         "id": 1,
-        "target": "#kpi-evasao",
-        "titulo": "Taxa de Evasão",
-        "descricao": "Mostra o percentual de alunos que abandonaram a instituição no semestre atual. Um valor menor que o semestre anterior (seta vermelha para baixo) indica melhora.",
+        "target": "#kpi-alunos",
+        "titulo": "Total de Alunos em Risco",
+        "descricao": "Exibe a quantidade total de alunos atualmente vinculados aos cursos da instituição.",
         "posicao": "bottom"
     },
     {
         "id": 2,
         "target": "#kpi-risco",
         "titulo": "Alunos em Risco",
-        "descricao": "Percentual de alunos com alto risco de evasão identificados pelo sistema. Requer atenção quando está acima de 25%.",
+        "descricao": "Mostra o número de alunos classificados com risco acadêmico alto, indicando necessidade de acompanhamento.",
         "posicao": "bottom"
     },
     {
         "id": 3,
-        "target": "#kpi-semestre",
-        "titulo": "Evasões no Semestre",
-        "descricao": "Total de evasões confirmadas no semestre vigente comparado ao anterior. Valor acima de 50% exige intervenção imediata.",
+        "target": "#kpi-curso-risco",
+        "titulo": "Curso com Mais Alunos em Risco",
+        "descricao": "Identifica o curso que possui a maior concentração de alunos em situação de risco acadêmico.",
         "posicao": "bottom"
     },
     {
         "id": 4,
-        "target": "#grafico-evolucao",
-        "titulo": "Evolução da Taxa de Evasão",
-        "descricao": "Gráfico de linha com os últimos 6 semestres. Permite identificar tendências de alta ou queda na evasão ao longo do tempo.",
+        "target": "#grafico-media",
+        "titulo": "Evolução da Média Acadêmica (Último Semestre)",
+        "descricao": "Apresenta a variação da média geral dos alunos ao longo do último semestre, permitindo acompanhar tendências de desempenho.",
         "posicao": "top"
     },
     {
         "id": 5,
-        "target": "#grafico-cursos",
-        "titulo": "Evasão por Curso — Top 5",
-        "descricao": "Ranking horizontal dos 5 cursos com maior número de alunos evadidos. Use para priorizar ações de retenção por curso.",
+        "target": "#graficoMediaCurso",
+        "titulo": "Média de Notas por Curso",
+        "descricao": "Compara a média acadêmica entre os cursos, facilitando a identificação dos melhores e piores desempenhos.",
         "posicao": "top"
     },
     {
         "id": 6,
-        "target": "#graficoPizza",
-        "titulo": "Motivos de Evasão",
-        "descricao": "Gráfico de rosca com os principais motivos: Financeiro (35%), Pessoal (30%), Acadêmico (20%), Trabalho (5%) e Outros (10%).",
+        "target": "#grafico-cursos",
+        "titulo": "Top 5 Cursos com Mais Alunos",
+        "descricao": "Exibe os cinco cursos com maior quantidade de alunos matriculados na instituição.",
         "posicao": "left"
     }
 ]
