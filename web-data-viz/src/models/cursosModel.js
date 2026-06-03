@@ -71,7 +71,7 @@ function buscarKpis(fkUniversidade) {
                 JOIN Historico h ON h.fkCurso = c.id
                 JOIN IndicadorRisco ir ON ir.fkAluno = h.fkAluno
                 WHERE c.fkUniversidade = ${fkUniversidade}
-                AND ir.score >= 70
+                AND ir.score >= 75
                 GROUP BY c.id
                 ORDER BY COUNT(DISTINCT ir.fkAluno) DESC
                 LIMIT 1
@@ -83,7 +83,7 @@ function buscarKpis(fkUniversidade) {
                 JOIN Historico h ON h.fkCurso = c.id
                 JOIN IndicadorRisco ir ON ir.fkAluno = h.fkAluno
                 WHERE c.fkUniversidade = ${fkUniversidade}
-                AND ir.score >= 70
+                AND ir.score >= 75
                 GROUP BY c.id
                 ORDER BY COUNT(DISTINCT ir.fkAluno) DESC
                 LIMIT 1
@@ -95,7 +95,7 @@ function buscarKpis(fkUniversidade) {
                 JOIN Historico h ON h.fkCurso = c.id
                 JOIN IndicadorRisco ir ON ir.fkAluno = h.fkAluno
                 WHERE c.fkUniversidade = ${fkUniversidade}
-                AND ir.score >= 70
+                AND ir.score >= 75
                 GROUP BY c.id
                 ORDER BY COUNT(DISTINCT ir.fkAluno) ASC
                 LIMIT 1
@@ -107,7 +107,7 @@ function buscarKpis(fkUniversidade) {
                 JOIN Historico h ON h.fkCurso = c.id
                 JOIN IndicadorRisco ir ON ir.fkAluno = h.fkAluno
                 WHERE c.fkUniversidade = ${fkUniversidade}
-                AND ir.score >= 70
+                AND ir.score >= 75
                 GROUP BY c.id
                 ORDER BY COUNT(DISTINCT ir.fkAluno) ASC
                 LIMIT 1
@@ -134,7 +134,7 @@ function buscarGrafico(fkUniversidade) {
 
             SUM(
                 CASE
-                    WHEN ir.score >= 70 THEN 1
+                    WHEN ir.score >= 75 THEN 1
                     ELSE 0
                 END
             ) AS alto,
@@ -142,7 +142,7 @@ function buscarGrafico(fkUniversidade) {
             SUM(
                 CASE
                     WHEN ir.score >= 40
-                    AND ir.score < 70 THEN 1
+                    AND ir.score < 75 THEN 1
                     ELSE 0
                 END
             ) AS medio,
