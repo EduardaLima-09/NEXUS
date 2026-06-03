@@ -3,9 +3,6 @@ package sptech.school.service;
 import sptech.school.Aluno;
 import sptech.school.StatusLog;
 import sptech.school.dao.LogDAO;
-import sptech.school.slack.Notificacao;
-import sptech.school.slack.NotificacaoLog;
-import sptech.school.slack.NotificacaoSlack;
 import sptech.school.slack.Notificador;
 
 import java.util.ArrayList;
@@ -36,33 +33,19 @@ public class AlertaEvasao {
             }
         }
 
-        if (!alunosRisco.isEmpty()) {
-            String lista = "";
-
-            for (Aluno aluno : alunosRisco) {
-                lista += "- %s %s | Score: %.2f | Média: %.2f | Frequência: %.2f%%\n"
-                        .formatted(
-                                aluno.getNome(),
-                                aluno.getSobrenome(),
-                                aluno.cacularScore(),
-                                aluno.getMediaGeral(),
-                                aluno.getFrequencia()
-                        );
-            }
-
             String relatorio = """
-                    ALERTA DE EVASÃO
+                    RELATÓRIO DA ANÁLISE:
                     
-                    Total alunos em risco: %d
+                    • Alunos analisados: %d
+                    • Alunos em Alto Risco: %d
+                    • Percentual de Risco: %.2f%%
                     
-                    LISTA:
-                    %s
+                    Consulte a Dashboard para acompanhar os indicadores.
                     """
-                    .formatted(alunosRisco.size(), lista);
+                    .formatted(alunos.size(), alunosRisco.size(), (alunosRisco.size() * 100.0 / alunos.size()));
 
             notificador.slack(relatorio);
 
             System.out.println("Relatório enviado com sucesso!");
-        }
     }
 }
