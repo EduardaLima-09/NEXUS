@@ -3,7 +3,6 @@
 </p>
 
 # NEXUS - Conectando dados, transformando trajetórias
-> Branch: Develop
 
 ---
 
@@ -40,6 +39,7 @@ A falta de integração de dados dificulta a identificação antecipada de padr�
   <img src="https://img.shields.io/badge/JavaScript-012340?style=for-the-badge&logo=javascript&logoColor=white"/>
   <img src="https://img.shields.io/badge/MySQL-012340?style=for-the-badge&logo=mysql&logoColor=white"/>
   <img src="https://img.shields.io/badge/Node.js-012340?style=for-the-badge&logo=node.js&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Python-012340?style=for-the-badge&logo=python&logoColor=white"/>
   <img src="https://img.shields.io/badge/Git-012340?style=for-the-badge&logo=git&logoColor=white"/>
   <img src="https://img.shields.io/badge/GitHub-012340?style=for-the-badge&logo=github&logoColor=white"/>
 </p>
