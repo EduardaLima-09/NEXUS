@@ -118,9 +118,9 @@
                                     </select>
                                     <select id="filtroNota" class="filtro-select" onchange="filtrarTabela()">
                                         <option value="">Nota</option>
-                                        <option value="alta">Acima de 8</option>
-                                        <option value="media">Entre 6 e 8</option>
-                                        <option value="baixa">Abaixo de 6</option>
+                                        <option value="alta">Acima de 80</option>
+                                        <option value="media">Entre 60 e 80</option>
+                                        <option value="baixa">Abaixo de 60</option>
                                     </select>
                                 </div>
                             </div>
@@ -487,8 +487,8 @@
             alunos.forEach(function (aluno) {
 
                 const classNota =
-                    aluno.media >= 8 ? "media-alta"
-                    : aluno.media >= 6 ? "media-media"
+                    aluno.media >= 80 ? "media-alta"
+                    : aluno.media >= 60 ? "media-media"
                     : "media-baixa";
 
                 const corRisco =
@@ -596,9 +596,9 @@
                 const riscoOk    = riscoPesquisa    === "" || aluno.risco === riscoPesquisa;
                 const notaOk     =
                     notaPesquisa === ""
-                    || (notaPesquisa === "alta"  && aluno.media > 8)
-                    || (notaPesquisa === "media" && aluno.media >= 6 && aluno.media <= 8)
-                    || (notaPesquisa === "baixa" && aluno.media < 6);
+                    || (notaPesquisa === "alta"  && aluno.media > 80)
+                    || (notaPesquisa === "media" && aluno.media >= 60 && aluno.media <= 80)
+                    || (notaPesquisa === "baixa" && aluno.media < 60);
 
                 return nomeOk && cursoOk && semestreOk && riscoOk && notaOk;
 

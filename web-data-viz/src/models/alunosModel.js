@@ -4,9 +4,9 @@ function buscarKpisRisco(fkUniversidade) {
 
     var instrucaoSql = `
         SELECT
-            SUM(CASE WHEN ir.score <= 39 THEN 1 ELSE 0 END) AS baixo,
-            SUM(CASE WHEN ir.score BETWEEN 40 AND 74 THEN 1 ELSE 0 END) AS medio,
-            SUM(CASE WHEN ir.score >= 75 THEN 1 ELSE 0 END) AS alto
+            SUM(CASE WHEN ir.score <= 40 THEN 1 ELSE 0 END) AS baixo,
+            SUM(CASE WHEN ir.score BETWEEN 41 AND 69 THEN 1 ELSE 0 END) AS medio,
+            SUM(CASE WHEN ir.score >= 70 THEN 1 ELSE 0 END) AS alto
         FROM Aluno a
         JOIN Historico h ON h.fkAluno = a.RA
         JOIN Curso c ON c.id = h.fkCurso
@@ -30,8 +30,8 @@ function buscarAlunos(fkUniversidade) {
             ROUND(AVG(h.nota), 1) AS media,
             ir.score,
             CASE
-                WHEN ir.score <= 39 THEN 'Baixo'
-                WHEN ir.score BETWEEN 40 AND 74 THEN 'Médio'
+                WHEN ir.score <= 40 THEN 'Baixo'
+                WHEN ir.score BETWEEN 41 AND 69 THEN 'Médio'
                 ELSE 'Alto'
             END AS risco
         FROM Aluno a

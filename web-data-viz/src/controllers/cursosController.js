@@ -131,6 +131,7 @@ function buscarListaCursos(req, res) {
 
     cursosModel.buscarListaCursos(fkUniversidade)
         .then(function (resultado) {
+            console.log(resultado);
             res.status(200).json(resultado);
         })
         .catch(function (erro) {

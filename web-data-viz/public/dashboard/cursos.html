@@ -363,6 +363,7 @@
                 );
 
                 todosCursos = await resposta.json();
+                console.log(todosCursos);
                 renderizarListaCursos(todosCursos);
 
             } catch (erro) {
@@ -386,10 +387,10 @@
                 let corRisco   = "#22c55e";
                 let textoRisco = "Risco Baixo";
 
-                if (curso.emRisco > 30) {
+                if (curso.percentualRisco > 25.0) {
                     corRisco   = "#ef4444";
                     textoRisco = "Risco Elevado";
-                } else if (curso.emRisco > 15) {
+                } else if (curso.percentualRisco > 15.0) {
                     corRisco   = "#f97316";
                     textoRisco = "Risco Moderado";
                 }
@@ -434,6 +435,10 @@
                     </div>
                     <div class="curso-info">
                         <div class="info-row">
+                        <span class="info-label">Total de alunos:</span>
+                        <span class="info-value">${curso.totalAlunos}</span>
+                    </div>
+                        <div class="info-row">
                             <span class="info-label">Média geral:</span>
                             <span class="info-value">${curso.media || 0}</span>
                         </div>
@@ -451,9 +456,9 @@
                         </div>
                         <div class="progresso-risco">
                             <div class="progress-bar-mini">
-                                <div class="progress-mini" style="width:${Math.min(curso.emRisco || 0, 100)}%; background-color:${corRisco}"></div>
+                                <div class="progress-mini" style="width:${Math.min(curso.percentualRisco || 0, 100)}%; background-color:${corRisco}"></div>
                             </div>
-                            <span class="percentual-texto">${curso.emRisco || 0}% dos alunos</span>
+                            <span class="percentual-texto">${curso.percentualRisco || 0}% dos alunos</span>
                         </div>
                         <div style="margin-top:10px; border-top:1px solid #e5e7eb; padding-top:8px;">
                             <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:4px;">

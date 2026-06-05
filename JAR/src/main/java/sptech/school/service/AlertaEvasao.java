@@ -23,7 +23,7 @@ public class AlertaEvasao {
         for (Aluno aluno : alunos) {
             Double score = aluno.cacularScore();
 
-            if (score >= 75) {
+            if (score >= 70) {
                 alunosRisco.add(aluno);
 
                 String alerta = "Aluno %s com alto risco de evasão (%.2f)"
